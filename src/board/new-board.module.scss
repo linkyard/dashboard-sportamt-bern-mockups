@@ -1,0 +1,82 @@
+@use "../variables.module.scss" as *;
+
+.formSection {
+  margin-top: 24px;
+}
+
+.formWrapper {
+  display: flex;
+  gap: 28px;
+}
+
+.formColumn {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 16px;
+}
+
+.fieldInput {
+  width: 100%;
+}
+
+.dateInput {
+  width: 50%;
+}
+
+.uploadSection {
+  margin-top: 24px;
+}
+
+.emptyDropzone {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.uploadIcon {
+  height: 30px;
+  width: 30px;
+  color: $iconColor;
+  margin-bottom: 15px;
+}
+
+.uploadDropzone {
+  border: 2px dashed #c4c4c4;
+  border-radius: 8px;
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fafafa;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.uploadDropzoneActive {
+  border-color: $sportamtGreen;
+  background-color: #f3f9ea;
+}
+
+.uploadHint {
+  margin: 0;
+  color: #666;
+}
+
+.selectedFile {
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .fieldInput {
+    width: 100%;
+  }
+}

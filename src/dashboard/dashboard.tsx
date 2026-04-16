@@ -6,6 +6,7 @@ import {
 } from "material-react-table";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import commonStyles from "../common.module.scss";
 import { NavLink } from "react-router";
 import styles from "./dashboard.module.scss";
 import { type Board, type BoardLabel, dummyBoards } from "./dummyData";
@@ -22,12 +23,12 @@ export const Dashboard = () => {
     () => [
       {
         accessorKey: "name",
-        header: t("dashboard:table.columns.name"),
+        header: t("dashboard:dashboard.table.columns.name"),
         size: 200,
       },
       {
         accessorKey: "bemerkung",
-        header: t("dashboard:table.columns.bemerkung"),
+        header: t("dashboard:dashboard.table.columns.bemerkung"),
         size: 300,
         Cell: ({ row }) => (
           <Box component="span" className={styles.ellipsisText}>
@@ -37,18 +38,18 @@ export const Dashboard = () => {
       },
       {
         accessorKey: "startDate",
-        header: t("dashboard:table.columns.start-date"),
+        header: t("dashboard:dashboard.table.columns.start-date"),
         size: 140,
       },
       {
         accessorKey: "endDate",
-        header: t("dashboard:table.columns.end-date"),
+        header: t("dashboard:dashboard.table.columns.end-date"),
         size: 140,
       },
       {
         accessorFn: (row) => row.labels.join(" "),
         id: "labels",
-        header: t("dashboard:table.columns.labels"),
+        header: t("dashboard:dashboard.table.columns.labels"),
         Cell: ({ row }) => (
           <Box className={styles.labelsCell}>
             {row.original.labels.map((label) => (
@@ -88,12 +89,12 @@ export const Dashboard = () => {
           variant="contained"
           size="small"
         >
-          {t("dashboard:table.create-new-board-button")}
+          {t("dashboard:dashboard.table.create-new-board-button")}
         </Button>
       </Box>
     ),
     muiSearchTextFieldProps: {
-      placeholder: t("dashboard:table.global-search-placeholder"),
+      placeholder: t("dashboard:dashboard.table.global-search-placeholder"),
       size: "small",
       slotProps: {
         htmlInput: {
@@ -114,9 +115,9 @@ export const Dashboard = () => {
     },
   });
   return (
-    <Container maxWidth="xl" className={styles.pageContainer}>
-      <Paper className={styles.pagePaper}>
-        <h2 className={styles.pageTitle}>{t("dashboard:title")}</h2>
+    <Container maxWidth="xl" className={commonStyles.pageContainer}>
+      <Paper className={commonStyles.pagePaper}>
+        <h2 className={commonStyles.pageTitle}>{t("dashboard:dashboard.title")}</h2>
         <MaterialReactTable table={table} />
       </Paper>
     </Container>

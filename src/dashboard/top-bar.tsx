@@ -51,7 +51,7 @@ export const TopBar = () => {
         <Box sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
           <IconButton
             size="large"
-            aria-label={t("dashboard:topbar.board-menu-aria-label")}
+            aria-label={t("dashboard:dashboard.topbar.top-bar-menu-aria-label")}
             aria-controls="menu-appbar-pages"
             aria-haspopup="true"
             onClick={(event) => setNavMenuAnchorEl(event.currentTarget)}
@@ -75,7 +75,7 @@ export const TopBar = () => {
               to="/board-admin"
               className={styles.navButton}
             >
-              {t("dashboard:topbar.board-admin")}
+              {t("dashboard:dashboard.topbar.board-admin")}
             </Button>
             <Button
               key="/new-board"
@@ -84,7 +84,7 @@ export const TopBar = () => {
               to="/new-board"
               className={styles.navButton}
             >
-              {t("dashboard:topbar.new-board")}
+              {t("dashboard:dashboard.topbar.new-board")}
             </Button>
           </Menu>
         </Box>
@@ -101,7 +101,7 @@ export const TopBar = () => {
                 : styles.navButton
             }
           >
-            {t("dashboard:topbar.board-admin")}
+            {t("dashboard:dashboard.topbar.board-admin")}
           </Button>
           <Button
             key="/new-board"
@@ -114,7 +114,7 @@ export const TopBar = () => {
                 : styles.navButton
             }
           >
-            {t("dashboard:topbar.new-board")}
+            {t("dashboard:dashboard.topbar.new-board")}
           </Button>
         </Box>
 
@@ -125,7 +125,7 @@ export const TopBar = () => {
           aria-controls="menu-appbar-user"
           aria-haspopup="true"
           onClick={(event) => setUserMenuAnchorEl(event.currentTarget)}
-          aria-label={t("dashboard:topbar.user-menu-aria-label")}
+          aria-label={t("dashboard:dashboard.topbar.user-menu-aria-label")}
           size="small"
         >
           <FontAwesomeIcon icon={faEllipsisVertical} />
@@ -139,10 +139,10 @@ export const TopBar = () => {
           onClose={() => setUserMenuAnchorEl(null)}
         >
           <MenuItem onClick={() => setUserMenuAnchorEl(null)}>
-            {t("dashboard:topbar.profile")}
+            {t("dashboard:dashboard.topbar.profile")}
           </MenuItem>
           <MenuItem onClick={() => setUserMenuAnchorEl(null)}>
-            {t("dashboard:topbar.logout")}
+            {t("dashboard:dashboard.topbar.logout")}
           </MenuItem>
         </Menu>
       </Toolbar>

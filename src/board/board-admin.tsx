@@ -1,15 +1,13 @@
-import { Container, Paper, Typography } from "@mui/material";
+import { Container, Paper } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import styles from "./dashboard/dashboard.module.scss";
+import commonStyles from "../common.module.scss";
 
 export const BoardAdminPage = () => {
   const { t } = useTranslation("dashboard");
   return (
-    <Container maxWidth="xl" className={styles.pageContainer}>
-      <Paper className={styles.pagePaper}>
-        <Typography variant="h4" component="h1">
-          {t("topbar.board-admin")}
-        </Typography>
+    <Container maxWidth="xl" className={commonStyles.pageContainer}>
+      <Paper className={commonStyles.pagePaper}>
+        <h2 className={commonStyles.pageTitle}>{t("dashboard:board-admin.title")}</h2>
       </Paper>
     </Container>
   );
