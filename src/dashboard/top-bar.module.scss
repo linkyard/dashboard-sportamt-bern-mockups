@@ -1,0 +1,53 @@
+@use "../variables.module.scss" as *;
+
+.topBar {
+  background-color: #000;
+}
+.sportamtLogo {
+  height: 40px;
+  width: auto;
+  display: block;
+  margin-right: 16px;
+  shape-rendering: geometricPrecision;
+  filter: invert(1);
+}
+
+.appTitle {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.appTitleLink:global(.MuiButton-root) {
+  color: inherit;
+  text-transform: uppercase;
+  min-width: auto;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 4px;
+}
+
+.navButtonActive:global(.MuiButton-root),
+.appTitleLinkActive:global(.MuiButton-root) {
+  border-radius: 0;
+  padding-bottom: 4px;
+  border-bottom: 2px solid $sportamtGreen;
+}
+
+.navButton:global(.MuiButton-root) {
+  text-transform: uppercase;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 4px;
+}
+
+.appTitleLink:global(.MuiButton-root):hover,
+.navButton:global(.MuiButton-root):hover {
+  background-color: transparent;
+  border-bottom: 2px solid #9e9e9e;
+}
+
+.spacer {
+  flex-grow: 1;
+}

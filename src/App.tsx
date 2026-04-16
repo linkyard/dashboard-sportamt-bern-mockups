@@ -1,11 +1,7 @@
-import "./App.css";
+import MainView from "./main";
 
 function App() {
-  return (
-    <>
-      <div> Hello World</div>
-    </>
-  );
+  return <MainView />;
 }
 
 export default App;

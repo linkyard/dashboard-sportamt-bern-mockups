@@ -1,0 +1,29 @@
+@use "../variables.module.scss" as *;
+
+.pageContainer {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.pageTitle {
+  width: fit-content;
+  border-bottom: 2px solid $sportamtGreen;
+  font-weight: 500;
+}
+
+.pagePaper {
+  padding: 24px;
+}
+
+.labelsCell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ellipsisText {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

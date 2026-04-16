@@ -1,0 +1,22 @@
+{
+  "title": "Dashboard",
+  "topbar": {
+    "top-bar-menu-aria-label": "Top-bar Menü öffnen",
+    "board-admin": "Board-Admin",
+    "new-board": "Neues Board",
+    "user-menu-aria-label": "Benutzer Menü öffnen",
+    "logout": "Abmelden",
+    "profile": "Profil"
+  },
+  "table": {
+    "global-search-placeholder": "Boards durchsuchen",
+    "create-new-board-button": "Neues Board erstellen",
+    "columns": {
+      "name": "Name",
+      "bemerkung": "Bemerkung",
+      "start-date": "Startdatum",
+      "end-date": "Enddatum",
+      "labels": "Labels"
+    }
+  }
+}
