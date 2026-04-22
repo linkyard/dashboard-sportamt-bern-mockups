@@ -1,0 +1,10 @@
+.detailsGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.labelsRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}

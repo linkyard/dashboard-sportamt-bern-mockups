@@ -1,16 +1,25 @@
 @use "./variables.module.scss" as *;
 
 .pageContainer {
+  height: calc(100vh - 64px);
+  box-sizing: border-box;
   padding-top: 32px;
   padding-bottom: 32px;
 }
 
-.pageTitle {
-  width: fit-content;
-  border-bottom: 2px solid $sportamtGreen;
-  font-weight: 500;
+.pagePaper {
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 24px;
 }
 
-.pagePaper {
-  padding: 24px;
+@media (max-width: 600px) {
+  .pageContainer {
+    height: calc(100vh - 56px);
+  }
+
+  .pagePaper {
+    overflow-y: auto;
+  }
 }

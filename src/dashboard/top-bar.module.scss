@@ -1,53 +1,99 @@
 @use "../variables.module.scss" as *;
 
 .topBar {
-  background-color: #000;
+    background-color: #000;
 }
+
+.topBarToolbar {
+    :global {
+        .MuiToolbar-root {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+}
+
+.topBarContent {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.leftActions {
+    display: flex;
+    align-items: center;
+}
+
 .sportamtLogo {
-  height: 40px;
-  width: auto;
-  display: block;
-  margin-right: 16px;
-  shape-rendering: geometricPrecision;
-  filter: invert(1);
+    height: 40px;
+    width: auto;
+    display: block;
+    margin-right: 16px;
+    shape-rendering: geometricPrecision;
+    filter: invert(1);
 }
 
-.appTitle {
-  margin: 0;
-  text-transform: uppercase;
-  font-size: 0.875rem;
-  font-weight: 500;
+.navButtonActive {
+    :global {
+        .MuiButton-root {
+            border-radius: 0;
+            padding-bottom: 4px;
+            border-bottom: 2px solid $sportamtGreen;
+        }
+    }
 }
 
-.appTitleLink:global(.MuiButton-root) {
-  color: inherit;
-  text-transform: uppercase;
-  min-width: auto;
-  border-radius: 0;
-  border-bottom: 2px solid transparent;
-  padding-bottom: 4px;
+.navButton {
+    :global {
+        .MuiButton-root {
+            color: inherit;
+            text-transform: uppercase;
+            min-width: auto;
+            border-radius: 0;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+
+            &:hover {
+                background-color: transparent;
+                border-bottom: 2px solid #9e9e9e;
+            }
+        }
+    }
 }
 
-.navButtonActive:global(.MuiButton-root),
-.appTitleLinkActive:global(.MuiButton-root) {
-  border-radius: 0;
-  padding-bottom: 4px;
-  border-bottom: 2px solid $sportamtGreen;
+.centerLinks {
+    display: none;
+    align-items: center;
+    gap: 50px;
 }
 
-.navButton:global(.MuiButton-root) {
-  text-transform: uppercase;
-  border-radius: 0;
-  border-bottom: 2px solid transparent;
-  padding-bottom: 4px;
+.mobileNavActions {
+    display: flex;
+    margin-left: 8px;
 }
 
-.appTitleLink:global(.MuiButton-root):hover,
-.navButton:global(.MuiButton-root):hover {
-  background-color: transparent;
-  border-bottom: 2px solid #9e9e9e;
+.desktopNavActions {
+    display: none;
+    gap: 50px;
 }
 
-.spacer {
-  flex-grow: 1;
+@media (min-width: 900px) {
+    .topBarContent {
+        position: relative;
+    }
+
+    .centerLinks {
+        display: flex;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .mobileNavActions {
+        display: none;
+    }
+
+    .desktopNavActions {
+        display: flex;
+    }
 }

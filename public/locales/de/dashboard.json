@@ -23,12 +23,44 @@
   },
   "new-board": {
     "title": "Neues Board",
+    "fields": {
+      "name": "Name",
+      "bemerkung": "Bemerkung",
+      "start-date": "Startdatum",
+      "end-date": "Enddatum",
+      "name-placeholder": "Geben Sie einen Namen ein",
+      "bemerkung-placeholder": "Zusätzliche Informationen oder Beschreibungen..."
+    },
     "upload": {
       "helpertext": "Ziehe eine Datei hierher oder klicke, um eine Datei auszuwählen",
-      "selected-file": "Ausgewählte Datei"
+      "selected-file": "Ausgewählte Datei",
+      "success-created-from-file": "Board wurde erstellt und mit den Daten aus <file>{{fileName}}</file> befüllt."
+    },
+    "anlaesse": {
+      "title": "Anlässe"
     }
   },
   "board-admin": {
-    "title": "Board-Admin"
+    "title": "Board-Admin",
+    "empty": "Kein Board ausgewaehlt.",
+    "fields": {
+      "name": "Name",
+      "bemerkung": "Bemerkung",
+      "start-date": "Startdatum",
+      "end-date": "Enddatum"
+    }
+  },
+  "organisation-admin": {
+    "title": "Organisation-Admin",
+    "empty": "Keine Organisation ausgewaehlt.",
+    "contact-address-title": "Kontaktadresse",
+    "billing-address-title": "Rechnungsadresse",
+    "same-as-contact": "Gleich wie Kontaktadresse",
+    "fields": {
+      "organisation": "Organisation",
+      "contact": "Kontakt",
+      "phone": "Telefon",
+      "address": "Adresse"
+    }
   }
 }

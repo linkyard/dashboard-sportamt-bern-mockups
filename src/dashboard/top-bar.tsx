@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
-  Box,
   Button,
+  Container,
   IconButton,
   Menu,
   MenuItem,
@@ -29,122 +29,131 @@ export const TopBar = () => {
 
   return (
     <AppBar position="static" className={styles.topBar} color="transparent">
-      <Toolbar>
-        <Box
-          component="img"
-          src={sportstadtBernLogo}
-          alt="Sportstadt Bern"
-          className={styles.sportamtLogo}
-        />
+      <Toolbar className={styles.topBarToolbar}>
+        <Container maxWidth="xl" className={styles.topBarContent}>
+          <div className={styles.leftActions}>
+            <img
+              src={sportstadtBernLogo}
+              alt="Sportstadt Bern"
+              className={styles.sportamtLogo}
+            />
+            <div className={styles.mobileNavActions}>
+              <IconButton
+                size="large"
+                aria-label={t("dashboard:dashboard.topbar.top-bar-menu-aria-label")}
+                aria-controls="menu-appbar-pages"
+                aria-haspopup="true"
+                onClick={(event) => setNavMenuAnchorEl(event.currentTarget)}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="sportamt-appbar-pages"
+                anchorEl={navMenuAnchorEl}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                keepMounted
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
+                open={Boolean(navMenuAnchorEl)}
+                onClose={() => setNavMenuAnchorEl(null)}
+              >
+                <MenuItem
+                  key="/"
+                  component={NavLink}
+                  to="/"
+                  selected={pathname === "/"}
+                  onClick={() => setNavMenuAnchorEl(null)}
+                >
+                  {t("common:app-name")}
+                </MenuItem>
+                <MenuItem
+                  key="/board-admin"
+                  component={NavLink}
+                  to="/board-admin"
+                  selected={pathname === "/board-admin"}
+                  onClick={() => setNavMenuAnchorEl(null)}
+                >
+                  {t("dashboard:dashboard.topbar.board-admin")}
+                </MenuItem>
+                <MenuItem
+                  key="/new-board"
+                  component={NavLink}
+                  to="/new-board"
+                  selected={pathname === "/new-board"}
+                  onClick={() => setNavMenuAnchorEl(null)}
+                >
+                  {t("dashboard:dashboard.topbar.new-board")}
+                </MenuItem>
+              </Menu>
+            </div>
+          </div>
 
-        <Button
-          color="inherit"
-          component={NavLink}
-          to="/"
-          className={
-            pathname === "/" ? styles.appTitleLinkActive : styles.appTitleLink
-          }
-        >
-          <h5 className={styles.appTitle}>{t("common:app-name")}</h5>
-        </Button>
+          <div className={styles.centerLinks}>
+            <Button
+              color="inherit"
+              component={NavLink}
+              to="/"
+              className={pathname === "/" ? styles.navButtonActive : styles.navButton}
+            >
+              {t("common:app-name")}
+            </Button>
 
-        <Box sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
+            <div className={styles.desktopNavActions}>
+              <Button
+                key="/board-admin"
+                color="inherit"
+                component={NavLink}
+                to="/board-admin"
+                className={
+                  pathname === "/board-admin"
+                    ? styles.navButtonActive
+                    : styles.navButton
+                }
+              >
+                {t("dashboard:dashboard.topbar.board-admin")}
+              </Button>
+              <Button
+                key="/new-board"
+                color="inherit"
+                component={NavLink}
+                to="/new-board"
+                className={
+                  pathname === "/new-board"
+                    ? styles.navButtonActive
+                    : styles.navButton
+                }
+              >
+                {t("dashboard:dashboard.topbar.new-board")}
+              </Button>
+            </div>
+          </div>
+
           <IconButton
-            size="large"
-            aria-label={t("dashboard:dashboard.topbar.top-bar-menu-aria-label")}
-            aria-controls="menu-appbar-pages"
-            aria-haspopup="true"
-            onClick={(event) => setNavMenuAnchorEl(event.currentTarget)}
             color="inherit"
+            aria-controls="menu-appbar-user"
+            aria-haspopup="true"
+            onClick={(event) => setUserMenuAnchorEl(event.currentTarget)}
+            aria-label={t("dashboard:dashboard.topbar.user-menu-aria-label")}
+            size="small"
           >
-            <MenuIcon />
+            <FontAwesomeIcon icon={faEllipsisVertical} />
           </IconButton>
           <Menu
-            id="sportamt-appbar-pages"
-            anchorEl={navMenuAnchorEl}
-            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-            keepMounted
-            transformOrigin={{ vertical: "top", horizontal: "left" }}
-            open={Boolean(navMenuAnchorEl)}
-            onClose={() => setNavMenuAnchorEl(null)}
+            id="menu-appbar-user"
+            anchorEl={userMenuAnchorEl}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+            open={Boolean(userMenuAnchorEl)}
+            onClose={() => setUserMenuAnchorEl(null)}
           >
-            <Button
-              key="/board-admin"
-              color="inherit"
-              component={NavLink}
-              to="/board-admin"
-              className={styles.navButton}
-            >
-              {t("dashboard:dashboard.topbar.board-admin")}
-            </Button>
-            <Button
-              key="/new-board"
-              color="inherit"
-              component={NavLink}
-              to="/new-board"
-              className={styles.navButton}
-            >
-              {t("dashboard:dashboard.topbar.new-board")}
-            </Button>
+            <MenuItem onClick={() => setUserMenuAnchorEl(null)}>
+              {t("dashboard:dashboard.topbar.profile")}
+            </MenuItem>
+            <MenuItem onClick={() => setUserMenuAnchorEl(null)}>
+              {t("dashboard:dashboard.topbar.logout")}
+            </MenuItem>
           </Menu>
-        </Box>
-
-        <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1 }}>
-          <Button
-            key="/board-admin"
-            color="inherit"
-            component={NavLink}
-            to="/board-admin"
-            className={
-              pathname === "/board-admin"
-                ? styles.navButtonActive
-                : styles.navButton
-            }
-          >
-            {t("dashboard:dashboard.topbar.board-admin")}
-          </Button>
-          <Button
-            key="/new-board"
-            color="inherit"
-            component={NavLink}
-            to="/new-board"
-            className={
-              pathname === "/new-board"
-                ? styles.navButtonActive
-                : styles.navButton
-            }
-          >
-            {t("dashboard:dashboard.topbar.new-board")}
-          </Button>
-        </Box>
-
-        <Box className={styles.spacer} />
-
-        <IconButton
-          color="inherit"
-          aria-controls="menu-appbar-user"
-          aria-haspopup="true"
-          onClick={(event) => setUserMenuAnchorEl(event.currentTarget)}
-          aria-label={t("dashboard:dashboard.topbar.user-menu-aria-label")}
-          size="small"
-        >
-          <FontAwesomeIcon icon={faEllipsisVertical} />
-        </IconButton>
-        <Menu
-          id="menu-appbar-user"
-          anchorEl={userMenuAnchorEl}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          transformOrigin={{ vertical: "top", horizontal: "right" }}
-          open={Boolean(userMenuAnchorEl)}
-          onClose={() => setUserMenuAnchorEl(null)}
-        >
-          <MenuItem onClick={() => setUserMenuAnchorEl(null)}>
-            {t("dashboard:dashboard.topbar.profile")}
-          </MenuItem>
-          <MenuItem onClick={() => setUserMenuAnchorEl(null)}>
-            {t("dashboard:dashboard.topbar.logout")}
-          </MenuItem>
-        </Menu>
+        </Container>
       </Toolbar>
     </AppBar>
   );

@@ -1,9 +1,21 @@
+html,
+body,
+#root {
+    height: 100%;
+}
+
 body {
-  margin: 0;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    margin: 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    overflow: hidden;
 }
 
 .root {
-  min-height: 100vh;
-  background-color: #f8f8f8;
+    min-height: 100vh;
+    background-color: #f8f8f8;
+}
+
+/* Override MUI default input focus border color to the sportamtGreen */
+.MuiInput-root.Mui-focused::after {
+    border-bottom-color: #d7e054 !important;
 }
