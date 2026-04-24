@@ -37,7 +37,7 @@
             "browse-link": "klicken Sie zum Auswählen",
             "file-meta": "XLSX • CSV",
             "selected-file": "Ausgewählte Datei",
-            "success-created-from-file": "Board wurde erstellt und mit den Daten aus <file>{{fileName}}</file> befüllt."
+            "success-message": "Board wurde erstellt und mit den hochgeladenen Daten befüllt."
         }
     },
     "stammdaten": {

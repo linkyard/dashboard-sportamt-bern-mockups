@@ -1,11 +1,9 @@
-import {faFileExcel} from "@fortawesome/free-solid-svg-icons"
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {Alert, Container, Paper} from "@mui/material"
+import {Alert, Container, Paper, Snackbar} from "@mui/material"
 import {DatePicker} from "@mui/x-date-pickers/DatePicker"
 import dayjs, {type Dayjs} from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
-import {useEffect, useRef, useState, type ReactNode} from "react"
-import {Trans, useTranslation} from "react-i18next"
+import {useEffect, useRef, useState} from "react"
+import {useTranslation} from "react-i18next"
 import commonStyles from "../common.module.scss"
 import {FieldLabel} from "../components/field-label"
 import {DetailsTextarea} from "../components/inputs"
@@ -21,13 +19,6 @@ function parseBoardDate(value: string): Dayjs | null {
     const parsed = dayjs(value, "DD.MM.YYYY", true)
     return parsed.isValid() ? parsed : null
 }
-
-const AlertFileName = ({children}: {children?: ReactNode}) => (
-    <span className={styles.alertFileName}>
-        <FontAwesomeIcon icon={faFileExcel} size="xs" className={styles.alertFileIcon} />
-        <strong>{children}</strong>
-    </span>
-)
 
 interface BoardDetailProps {
     board?: Board
@@ -131,24 +122,24 @@ export const BoardDetail: React.FC<BoardDetailProps> = ({board, isNew}) => {
 
                 <PageTitle title={t("board-detail.upload.title")} isSubTitle />
                 {selectedFileName ? (
-                    <>
-                        {showUploadSuccessAlert ? (
-                            <Alert severity="success" sx={{mt: 2}} onClose={() => setShowUploadSuccessAlert(false)}>
-                                <Trans
-                                    t={t}
-                                    i18nKey="board-detail.upload.success-created-from-file"
-                                    values={{fileName: selectedFileName}}
-                                    components={{
-                                        file: <AlertFileName />,
-                                    }}
-                                />
-                            </Alert>
-                        ) : null}
-                        <OrganisationTable selectedFileName={selectedFileName} />
-                    </>
+                    <OrganisationTable selectedFileName={selectedFileName} />
                 ) : (
                     <UploadSection onFilesChange={handleFiles} onLoadTestData={handleLoadTestData} isUploadSuccess={isUploadSuccess} />
                 )}
+
+                <Snackbar
+                    open={showUploadSuccessAlert}
+                    autoHideDuration={8000}
+                    onClose={(_, reason) => {
+                        if (reason === "clickaway") return
+                        setShowUploadSuccessAlert(false)
+                    }}
+                    anchorOrigin={{vertical: "top", horizontal: "right"}}
+                >
+                    <Alert severity="success" onClose={() => setShowUploadSuccessAlert(false)} sx={{width: "100%"}}>
+                        {t("board-detail.upload.success-message")}
+                    </Alert>
+                </Snackbar>
             </Paper>
         </Container>
     )
