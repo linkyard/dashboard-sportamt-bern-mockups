@@ -6,12 +6,7 @@ import {NavLink, useNavigate} from "react-router"
 import commonStyles from "../common.module.scss"
 import {PageTitle} from "../components/page-title"
 import styles from "./dashboard.module.scss"
-import {type Board, type BoardLabel, dummyBoards} from "./dummyData"
-
-const labelDateRanges: Record<BoardLabel, string> = {
-    Wintersaison: "(31.10.2026 - 30.04.2027)",
-    Jahresperiode: "(01.01.2027 - 31.12.2027)",
-}
+import {type Board, boardLabelDateRanges, dummyBoards} from "./dummyData"
 
 export const Dashboard = () => {
     const {t} = useTranslation(["common", "dashboard"])
@@ -47,7 +42,7 @@ export const Dashboard = () => {
                 Cell: ({row}) => (
                     <div className={styles.labelsCell}>
                         {row.original.labels.map((label) => (
-                            <Tooltip key={`${row.original.name}-${label}`} title={`${label} ${labelDateRanges[label]}`} arrow>
+                            <Tooltip key={`${row.original.name}-${label}`} title={`${label} ${boardLabelDateRanges[label]}`} arrow>
                                 <Chip label={label} size="small" />
                             </Tooltip>
                         ))}
@@ -73,17 +68,14 @@ export const Dashboard = () => {
         enableFullScreenToggle: false,
         enableStickyHeader: true,
         muiTableBodyRowProps: ({row}) => ({
-            onClick: () =>
-                navigate("/stammdaten", {
-                    state: {board: row.original},
-                }),
+            onClick: () => navigate(`/board/${row.original.id}`),
             sx: {
                 cursor: "pointer",
             },
         }),
         renderToolbarInternalActions: () => (
             <div className={styles.toolbarActions}>
-                <Button component={NavLink} to="/new-board" variant="contained" size="small">
+                <Button component={NavLink} to="/board" variant="contained" size="small">
                     {t("dashboard:dashboard.table.create-new-board-button")}
                 </Button>
             </div>

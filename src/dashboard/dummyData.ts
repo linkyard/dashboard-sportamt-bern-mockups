@@ -1,4 +1,4 @@
-import type {Anlass, AnlassHistoryEntry, Organisation} from "../board/organisation";
+import type {Anlass, AnlassHistoryEntry, Organisation} from "../board/organisation"
 
 /** Demo organisation ids (slug-style, stable for routing and fixtures). */
 export const DEMO_ORG_ID = {
@@ -6,12 +6,12 @@ export const DEMO_ORG_ID = {
     turnvereinNord: "demo-id-turnverein-nord",
     fcBernOst: "demo-id-fc-bern-ost",
     schwimmclubMitte: "demo-id-schwimmclub-mitte",
-} as const;
+} as const
 
 /** Seed shape before each `anlass.id` is set (`${org.id}-anlass-${index}`). */
 type OrganisationSeed = Omit<Organisation, "anlaesse"> & {
-    anlaesse: Omit<Anlass, "id">[];
-};
+    anlaesse: Omit<Anlass, "id">[]
+}
 
 function organisationWithAnlassIds(seed: OrganisationSeed): Organisation {
     return {
@@ -20,45 +20,53 @@ function organisationWithAnlassIds(seed: OrganisationSeed): Organisation {
             ...anlass,
             id: `${seed.id}-anlass-${index}`,
         })),
-    };
+    }
 }
 
-export type BoardLabel = "Wintersaison" | "Jahresperiode";
+export type BoardLabel = "Wintersaison" | "Jahresperiode"
+
+/** Tooltip text for label chips (aligned with demo board date ranges). */
+export const boardLabelDateRanges: Record<BoardLabel, string> = {
+    Wintersaison: "(31.10.2026 - 30.04.2027)",
+    Jahresperiode: "(01.01.2027 - 31.12.2027)",
+}
 
 export type Board = {
-    name: string;
-    bemerkung: string;
-    startDate: string;
-    endDate: string;
-    labels: BoardLabel[];
-};
+    id: string
+    name: string
+    bemerkung: string
+    startDate: string
+    endDate: string
+    labels: BoardLabel[]
+}
 
 export const dummyBoards: Board[] = [
     {
+        id: "board-1",
         name: "Board 1",
-        bemerkung:
-            "Fokus auf Hallenbelegung in den Wintermonaten mit priorisierten Jugendzeiten.",
+        bemerkung: "Fokus auf Hallenbelegung in den Wintermonaten mit priorisierten Jugendzeiten.",
         startDate: "31.10.2026",
         endDate: "30.04.2027",
         labels: ["Wintersaison"],
     },
     {
+        id: "board-2",
         name: "Board 2",
-        bemerkung:
-            "Jahresplanung mit mehreren Abstimmungen zwischen Vereinen und Schulsport.",
+        bemerkung: "Jahresplanung mit mehreren Abstimmungen zwischen Vereinen und Schulsport.",
         startDate: "01.01.2027",
         endDate: "31.12.2027",
         labels: ["Jahresperiode"],
     },
     {
+        id: "board-3",
         name: "Board 3",
-        bemerkung:
-            "Pilot fuer kombinierte Perioden; beinhaltet Sonderzeiten fuer Feiertage und Turniere.",
+        bemerkung: "Pilot fuer kombinierte Perioden; beinhaltet Sonderzeiten fuer Feiertage und Turniere.",
         startDate: "31.10.2026",
         endDate: "31.12.2027",
         labels: ["Wintersaison", "Jahresperiode"],
     },
     {
+        id: "board-4",
         name: "Board 4",
         bemerkung:
             "Dieses Board enthaelt eine laengere Bemerkung, damit das Ellipsis-Verhalten in der Tabelle sichtbar ist und kein Zeilenumbruch erfolgt.",
@@ -66,7 +74,11 @@ export const dummyBoards: Board[] = [
         endDate: "30.09.2027",
         labels: ["Jahresperiode"],
     },
-];
+]
+
+export function getBoardById(id: string): Board | undefined {
+    return dummyBoards.find((b) => b.id === id)
+}
 
 const demoAnlassCommunicationHistory = (idBase: string): AnlassHistoryEntry[] => [
     {
@@ -81,7 +93,7 @@ const demoAnlassCommunicationHistory = (idBase: string): AnlassHistoryEntry[] =>
         actorName: "Sportamt Bern",
         atLabel: "12. Apr. 2026, 08:00",
     },
-];
+]
 
 const withAnlassHistory = (organisations: Organisation[]): Organisation[] =>
     organisations.map((org) => ({
@@ -93,7 +105,7 @@ const withAnlassHistory = (organisations: Organisation[]): Organisation[] =>
                     ? anlass.history
                     : demoAnlassCommunicationHistory(`${org.id}-${index}-${anlass.name}-${anlass.date ?? anlass.period ?? ""}`),
         })),
-    }));
+    }))
 
 export const dummyOrganisation: Organisation = organisationWithAnlassIds({
     id: DEMO_ORG_ID.linkyardSports,
@@ -107,65 +119,65 @@ export const dummyOrganisation: Organisation = organisationWithAnlassIds({
         phone: "+41 79 512 26 11",
     },
     anlaesse: [
-            {
-                name: "Schwimmen",
-                period: "Sommerperiode (Mai - September)",
-                location: "Freibad Marzili",
-                times: ["Dienstag, 16:30 - 17:30", "Freitag, 11:30 - 12:30"],
-                status: "pending",
-                history: [
-                    {
-                        id: "sw-1",
-                        title: "Erneuerungs mail gesendet",
-                        actorName: "Sportamt Bern",
-                        atLabel: "18. Apr. 2026, 09:14",
-                    },
-                    {
-                        id: "sw-2",
-                        title: "Reminder 1 gesendet - 12.12.12",
-                        actorName: "Sportamt Bern",
-                        atLabel: "12. Apr. 2026, 08:00",
-                    },
-                    {
-                        id: "sw-3",
-                        title: "Kontaktdaten der Organisation aktualisiert",
-                        actorName: "Roman Frey",
-                        atLabel: "3. Apr. 2026, 16:42",
-                    },
-                ],
-            },
-            {
-                name: "Badminton",
-                period: "Jahresperiode (August - Juli)",
-                location: "Turnhalle Marzili",
-                times: ["Donnerstag, 20:00 - 21:00"],
-                status: "pending",
-                history: [
-                    {
-                        id: "bd-1",
-                        title: "Erneuerungs mail gesendet",
-                        actorName: "Sportamt Bern",
-                        atLabel: "10. Apr. 2026, 11:05",
-                    },
-                ],
-            },
-            {
-                name: "Luftakrobatik",
-                period: "Jahresperiode (August - Juli)",
-                location: "Turnhalle Matte",
-                times: ["Mittwoch, 18:30 - 20:00"],
-                status: "confirmed",
-                history: [
-                    {
-                        id: "la-1",
-                        title: "Reservation bestätigt",
-                        actorName: "Sportamt Bern",
-                        atLabel: "28. März 2026, 14:22",
-                    },
-                ],
-            },
-        ],
-});
+        {
+            name: "Schwimmen",
+            period: "Sommerperiode (Mai - September)",
+            location: "Freibad Marzili",
+            times: ["Dienstag, 16:30 - 17:30", "Freitag, 11:30 - 12:30"],
+            status: "pending",
+            history: [
+                {
+                    id: "sw-1",
+                    title: "Erneuerungs mail gesendet",
+                    actorName: "Sportamt Bern",
+                    atLabel: "18. Apr. 2026, 09:14",
+                },
+                {
+                    id: "sw-2",
+                    title: "Reminder 1 gesendet - 12.12.12",
+                    actorName: "Sportamt Bern",
+                    atLabel: "12. Apr. 2026, 08:00",
+                },
+                {
+                    id: "sw-3",
+                    title: "Kontaktdaten der Organisation aktualisiert",
+                    actorName: "Roman Frey",
+                    atLabel: "3. Apr. 2026, 16:42",
+                },
+            ],
+        },
+        {
+            name: "Badminton",
+            period: "Jahresperiode (August - Juli)",
+            location: "Turnhalle Marzili",
+            times: ["Donnerstag, 20:00 - 21:00"],
+            status: "pending",
+            history: [
+                {
+                    id: "bd-1",
+                    title: "Erneuerungs mail gesendet",
+                    actorName: "Sportamt Bern",
+                    atLabel: "10. Apr. 2026, 11:05",
+                },
+            ],
+        },
+        {
+            name: "Luftakrobatik",
+            period: "Jahresperiode (August - Juli)",
+            location: "Turnhalle Matte",
+            times: ["Mittwoch, 18:30 - 20:00"],
+            status: "confirmed",
+            history: [
+                {
+                    id: "la-1",
+                    title: "Reservation bestätigt",
+                    actorName: "Sportamt Bern",
+                    atLabel: "28. März 2026, 14:22",
+                },
+            ],
+        },
+    ],
+})
 
 const dummyOrganisationSeeds: OrganisationSeed[] = [
     {
@@ -330,13 +342,13 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
         ],
     },
-];
+]
 
-export const dummyOrganisations: Organisation[] = withAnlassHistory(dummyOrganisationSeeds.map(organisationWithAnlassIds));
+export const dummyOrganisations: Organisation[] = withAnlassHistory(dummyOrganisationSeeds.map(organisationWithAnlassIds))
 
 /** All demo orgs (table + default Linkyard) for ID lookup until GraphQL replaces this. */
-export const allDummyOrganisations: Organisation[] = [dummyOrganisation, ...dummyOrganisations];
+export const allDummyOrganisations: Organisation[] = [dummyOrganisation, ...dummyOrganisations]
 
 export function getOrganisationById(organisationId: string): Organisation | undefined {
-    return allDummyOrganisations.find((o) => o.id === organisationId);
+    return allDummyOrganisations.find((o) => o.id === organisationId)
 }

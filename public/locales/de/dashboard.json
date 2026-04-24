@@ -10,25 +10,24 @@
         },
         "table": {
             "global-search-placeholder": "Boards durchsuchen",
-            "create-new-board-button": "Neues Board erstellen",
+            "create-new-board-button": "Neues Board",
             "columns": {
                 "name": "Name",
                 "bemerkung": "Bemerkung",
-                "start-date": "Startdatum",
-                "end-date": "Enddatum",
+                "start-date": "Start",
+                "end-date": "End",
                 "labels": "Labels"
             }
         }
     },
-    "new-board": {
+    "board-detail": {
         "title": "Neues Board",
         "fields": {
             "name": "Name",
             "bemerkung": "Bemerkung",
-            "start-date": "Startdatum",
-            "end-date": "Enddatum",
-            "name-placeholder": "Geben Sie einen Namen ein",
-            "bemerkung-placeholder": "Zusätzliche Informationen oder Beschreibungen..."
+            "start-date": "Start",
+            "end-date": "End",
+            "bemerkung-placeholder": "Bemerkung"
         },
         "upload": {
             "title": "Datenupload",
@@ -39,9 +38,6 @@
             "file-meta": "XLSX • CSV",
             "selected-file": "Ausgewählte Datei",
             "success-created-from-file": "Board wurde erstellt und mit den Daten aus <file>{{fileName}}</file> befüllt."
-        },
-        "anlaesse": {
-            "title": "Anlässe"
         }
     },
     "stammdaten": {
@@ -61,6 +57,7 @@
         "billing-address-title": "Rechnungsadresse",
         "same-as-contact": "Gleich wie Kontaktadresse",
         "anlaesse": {
+            "title": "Anlässe",
             "search-placeholder": "Search",
             "status": {
                 "pending": "Reservation Ausstehend",

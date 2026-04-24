@@ -6,7 +6,7 @@ import {PageTitle} from "../components/page-title"
 import {type Board} from "../dashboard/dummyData"
 import styles from "./stammdaten.module.scss"
 
-export const BoardAdminPage = () => {
+export const StammdatenEditor = () => {
     const {t} = useTranslation("dashboard")
     const location = useLocation()
     const state = location.state as {board?: Board} | null

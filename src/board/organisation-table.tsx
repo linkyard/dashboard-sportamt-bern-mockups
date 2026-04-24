@@ -3,7 +3,7 @@ import {useMemo} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
 import {dummyOrganisations} from "../dashboard/dummyData"
-import styles from "./new-board.module.scss"
+import styles from "./board-detail.module.scss"
 import type {Organisation} from "./organisation"
 
 export interface OrganisationTableProps {

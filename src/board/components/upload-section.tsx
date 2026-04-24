@@ -64,9 +64,9 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess}: 
                     <div className={styles.iconCircle}>
                         <FontAwesomeIcon icon={faUpload} size="lg" className={styles.uploadIcon} />
                     </div>
-                    <p className={styles.uploadTitle}>{t("dashboard:new-board.upload.upload-title")}</p>
+                    <p className={styles.uploadTitle}>{t("dashboard:board-detail.upload.upload-title")}</p>
                     <p className={styles.uploadText}>
-                        {t("dashboard:new-board.upload.upload-text")}{" "}
+                        {t("dashboard:board-detail.upload.upload-text")}{" "}
                         <button
                             type="button"
                             className={styles.browseLink}
@@ -75,10 +75,10 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess}: 
                                 fileInputRef.current?.click()
                             }}
                         >
-                            {t("dashboard:new-board.upload.browse-link")}
+                            {t("dashboard:board-detail.upload.browse-link")}
                         </button>
                     </p>
-                    <p className={styles.uploadMeta}>{t("dashboard:new-board.upload.file-meta")}</p>
+                    <p className={styles.uploadMeta}>{t("dashboard:board-detail.upload.file-meta")}</p>
                 </div>
             </div>
             {uploadError ? (

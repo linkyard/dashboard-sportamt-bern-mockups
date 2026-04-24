@@ -7,8 +7,8 @@ import {useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
 import {PageTitle} from "../components/page-title"
-import {AnlassStatusPill} from "./components/anlass-status-pill"
 import styles from "./anlaesse.module.scss"
+import {AnlassStatusPill} from "./components/anlass-status-pill"
 import {type Anlass, type Organisation} from "./organisation"
 
 interface AnlaesseCardListProps {
@@ -44,7 +44,7 @@ export const AnlaesseCardList: React.FC<AnlaesseCardListProps> = ({anlaesse, org
         <div className={styles.container}>
             <div className={styles.headerRow}>
                 <div className={styles.headerTitle}>
-                    <PageTitle title={t("new-board.anlaesse.title")} isSubTitle hasInfoButton />
+                    <PageTitle title={t("organisation-admin.anlaesse.title")} isSubTitle hasInfoButton />
                 </div>
                 <TextField
                     value={query}

@@ -8,8 +8,8 @@ import Box from "@mui/material/Box"
 import Stack from "@mui/material/Stack"
 import {useState} from "react"
 import {useTranslation} from "react-i18next"
-import {DetailsTextarea} from "../../components/inputs"
 import {FieldLabel} from "../../components/field-label"
+import {DetailsTextarea} from "../../components/inputs"
 import type {AnlassHistoryEntry, AnlassStatus} from "../organisation"
 import styles from "./anlass-history-log.module.scss"
 import {AnlassStatusPill} from "./anlass-status-pill"
@@ -59,12 +59,12 @@ export const AnlassHistoryLog = ({title, emptyText, entries, status}: AnlassHist
                     )}
                 </div>
                 <div className={styles.commentSection}>
-                    <FieldLabel htmlFor="anlass-history-comment">{t("new-board.fields.bemerkung")}</FieldLabel>
+                    <FieldLabel htmlFor="anlass-history-comment">{t("board-detail.fields.bemerkung")}</FieldLabel>
                     <DetailsTextarea
                         id="anlass-history-comment"
                         value={comment}
                         onChange={(event) => setComment(event.target.value)}
-                        placeholder={t("new-board.fields.bemerkung-placeholder")}
+                        placeholder={t("board-detail.fields.bemerkung-placeholder")}
                     />
                 </div>
             </div>

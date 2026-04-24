@@ -1,10 +1,10 @@
 import {Navigate, Route, Routes, useParams} from "react-router"
 import {AnlassDetail} from "../board/anlass-detail"
-import {NewBoard} from "../board/new-board"
+import {BoardDetail} from "../board/board-detail"
 import {OrganisationAdminPage} from "../board/organisation-admin"
-import {BoardAdminPage} from "../board/stammdaten"
+import {StammdatenEditor} from "../board/stammdaten"
 import {Dashboard} from "../dashboard/dashboard"
-import {getOrganisationById} from "../dashboard/dummyData"
+import {getBoardById, getOrganisationById} from "../dashboard/dummyData"
 
 const OrganisationAdminRoute = () => {
     const {organisationId} = useParams<{organisationId: string}>()
@@ -21,15 +21,27 @@ const AnlassDetailRoute = () => {
     return <AnlassDetail anlass={anlass} organisation={organisation} />
 }
 
+const BoardDetailRoute = () => {
+    const {boardId} = useParams<{boardId: string}>()
+    const board = boardId ? getBoardById(boardId) : undefined
+
+    if (boardId && !board) {
+        return <Navigate to="/" replace />
+    }
+
+    return <BoardDetail key={board?.id ?? "new"} board={board} isNew={!boardId} />
+}
+
 export function Router() {
     return (
         <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/stammdaten" element={<BoardAdminPage />} />
+            <Route path="/stammdaten" element={<StammdatenEditor />} />
             <Route path="/organisation-admin" element={<Navigate to="/" replace />} />
             <Route path="/organisation-admin/:organisationId/anlass/:anlassId" element={<AnlassDetailRoute />} />
             <Route path="/organisation-admin/:organisationId" element={<OrganisationAdminRoute />} />
-            <Route path="/new-board" element={<NewBoard />} />
+            <Route path="/board" element={<BoardDetailRoute />} />
+            <Route path="/board/:boardId" element={<BoardDetailRoute />} />
         </Routes>
     )
 }
