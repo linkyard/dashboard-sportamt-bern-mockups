@@ -5,8 +5,14 @@ import {useTranslation} from "react-i18next"
 import {NavLink, useNavigate} from "react-router"
 import commonStyles from "../common.module.scss"
 import {PageTitle} from "../components/page-title"
+import {formatDateSwiss} from "../util/date"
 import styles from "./dashboard.module.scss"
-import {type Board, boardLabelDateRanges, dummyBoards} from "./dummyData"
+import {type Board, boardLabelDateRanges, type BoardStatus, dummyBoards} from "./dummyData"
+
+const boardStatusChipClass: Record<BoardStatus, string> = {
+    erstellt: styles.statusChipErstellt,
+    versandBereit: styles.statusChipVersandBereit,
+}
 
 export const Dashboard = () => {
     const {t} = useTranslation(["common", "dashboard"])
@@ -18,6 +24,7 @@ export const Dashboard = () => {
                 accessorKey: "name",
                 header: t("dashboard:dashboard.table.columns.name"),
                 size: 200,
+                sortDescFirst: false,
             },
             {
                 accessorKey: "bemerkung",
@@ -28,12 +35,46 @@ export const Dashboard = () => {
             {
                 accessorKey: "startDate",
                 header: t("dashboard:dashboard.table.columns.start-date"),
-                size: 140,
+                size: 100,
+                Cell: ({row}) => formatDateSwiss(row.original.startDate),
             },
             {
                 accessorKey: "endDate",
                 header: t("dashboard:dashboard.table.columns.end-date"),
-                size: 140,
+                size: 100,
+                Cell: ({row}) => formatDateSwiss(row.original.endDate),
+            },
+            {
+                accessorKey: "status",
+                header: t("dashboard:dashboard.table.columns.status"),
+                size: 150,
+                Cell: ({row}) => {
+                    const key = row.original.status
+                    return (
+                        <Chip
+                            label={t(`dashboard:dashboard.table.status.${key}`)}
+                            size="small"
+                            className={boardStatusChipClass[key]}
+                        />
+                    )
+                },
+            },
+            {
+                id: "anlaesseBestaetigt",
+                accessorFn: (row) => `${row.anlaesseConfirmed} / ${row.anlaesseTotal}`,
+                header: t("dashboard:dashboard.table.columns.bestaetigt"),
+                size: 120,
+                Cell: ({row}) => {
+                    const c = row.original.anlaesseConfirmed
+                    const n = row.original.anlaesseTotal
+                    const label = t("dashboard:dashboard.table.anlaesse-fraction", {confirmed: c, total: n})
+                    const detail = t("dashboard:dashboard.table.anlaesse-fraction-detail", {confirmed: c, total: n})
+                    return (
+                        <Tooltip title={detail} arrow>
+                            <span className={styles.bestaetigtFraction}>{label}</span>
+                        </Tooltip>
+                    )
+                },
             },
             {
                 accessorFn: (row) => row.labels.join(" "),
@@ -57,7 +98,15 @@ export const Dashboard = () => {
         columns,
         data: dummyBoards,
         layoutMode: "grid-no-grow",
-        initialState: {showGlobalFilter: true},
+        initialState: {
+            showGlobalFilter: true,
+            sorting: [
+                {id: "startDate", desc: true},
+                {id: "endDate", desc: true},
+                {id: "name", desc: false},
+            ],
+        },
+        enablePagination: false,
         enableGlobalFilter: true,
         globalFilterFn: "contains",
         enableColumnActions: false,

@@ -19,6 +19,7 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
             {
                 accessorKey: "organisation",
                 header: "Organisation",
+                sortDescFirst: false,
             },
             {
                 accessorFn: (row) => `${row.contact.contactPerson} ${row.contact.phone} ${row.contact.street} ${row.contact.city}`,
@@ -43,6 +44,7 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
 
     const organisationsTable = useMaterialReactTable({
         columns: organisationColumns,
+        enablePagination: false,
         data: dummyOrganisations,
         enableColumnActions: false,
         enableGlobalFilter: true,
@@ -59,7 +61,10 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
                 cursor: "pointer",
             },
         }),
-        initialState: {showGlobalFilter: true},
+        initialState: {
+            showGlobalFilter: true,
+            sorting: [{id: "organisation", desc: false}],
+        },
         positionGlobalFilter: "right",
         muiTableHeadCellProps: {
             sx: {

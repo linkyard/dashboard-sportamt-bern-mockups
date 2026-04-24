@@ -1,7 +1,6 @@
 import {Alert, Container, Paper, Snackbar} from "@mui/material"
 import {DatePicker} from "@mui/x-date-pickers/DatePicker"
 import dayjs, {type Dayjs} from "dayjs"
-import customParseFormat from "dayjs/plugin/customParseFormat"
 import {useEffect, useRef, useState} from "react"
 import {useTranslation} from "react-i18next"
 import commonStyles from "../common.module.scss"
@@ -9,16 +8,10 @@ import {FieldLabel} from "../components/field-label"
 import {DetailsTextarea} from "../components/inputs"
 import {PageTitle} from "../components/page-title"
 import {type Board} from "../dashboard/dummyData"
+import {parseIsoToDayjs} from "../util/date"
 import styles from "./board-detail.module.scss"
 import {UploadSection} from "./components/upload-section"
 import {OrganisationTable} from "./organisation-table"
-
-dayjs.extend(customParseFormat)
-
-function parseBoardDate(value: string): Dayjs | null {
-    const parsed = dayjs(value, "DD.MM.YYYY", true)
-    return parsed.isValid() ? parsed : null
-}
 
 interface BoardDetailProps {
     board?: Board
@@ -29,8 +22,8 @@ export const BoardDetail: React.FC<BoardDetailProps> = ({board, isNew}) => {
     const {t} = useTranslation("dashboard")
     const [name, setName] = useState(() => board?.name ?? "")
     const [bemerkung, setBemerkung] = useState(() => board?.bemerkung ?? "")
-    const [startDate, setStartDate] = useState<Dayjs | null>(() => (board ? parseBoardDate(board.startDate) : null))
-    const [endDate, setEndDate] = useState<Dayjs | null>(() => (board ? parseBoardDate(board.endDate) : null))
+    const [startDate, setStartDate] = useState<Dayjs | null>(() => (board ? parseIsoToDayjs(board.startDate) : null))
+    const [endDate, setEndDate] = useState<Dayjs | null>(() => (board ? parseIsoToDayjs(board.endDate) : null))
     const [selectedFileName, setSelectedFileName] = useState<string | null>(null)
     const [showUploadSuccessAlert, setShowUploadSuccessAlert] = useState(false)
     const [isUploadSuccess, setIsUploadSuccess] = useState(false)

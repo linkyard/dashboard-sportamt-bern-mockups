@@ -31,12 +31,19 @@ export const boardLabelDateRanges: Record<BoardLabel, string> = {
     Jahresperiode: "(01.01.2027 - 31.12.2027)",
 }
 
+export type BoardStatus = "erstellt" | "versandBereit"
+
+/** `startDate` / `endDate`: ISO date strings (GraphQL / DB `Date` → TypeScript). */
 export type Board = {
     id: string
     name: string
     bemerkung: string
     startDate: string
     endDate: string
+    status: BoardStatus
+    /** Anlässe bestätigt / total (Anzeige: „20 Anlässe von 134“). */
+    anlaesseConfirmed: number
+    anlaesseTotal: number
     labels: BoardLabel[]
 }
 
@@ -45,24 +52,33 @@ export const dummyBoards: Board[] = [
         id: "board-1",
         name: "Board 1",
         bemerkung: "Fokus auf Hallenbelegung in den Wintermonaten mit priorisierten Jugendzeiten.",
-        startDate: "31.10.2026",
-        endDate: "30.04.2027",
+        startDate: "2026-10-31",
+        endDate: "2027-04-30",
+        status: "erstellt",
+        anlaesseConfirmed: 20,
+        anlaesseTotal: 134,
         labels: ["Wintersaison"],
     },
     {
         id: "board-2",
         name: "Board 2",
         bemerkung: "Jahresplanung mit mehreren Abstimmungen zwischen Vereinen und Schulsport.",
-        startDate: "01.01.2027",
-        endDate: "31.12.2027",
+        startDate: "2027-01-01",
+        endDate: "2027-12-31",
+        status: "versandBereit",
+        anlaesseConfirmed: 134,
+        anlaesseTotal: 134,
         labels: ["Jahresperiode"],
     },
     {
         id: "board-3",
         name: "Board 3",
         bemerkung: "Pilot fuer kombinierte Perioden; beinhaltet Sonderzeiten fuer Feiertage und Turniere.",
-        startDate: "31.10.2026",
-        endDate: "31.12.2027",
+        startDate: "2026-10-31",
+        endDate: "2027-12-31",
+        status: "erstellt",
+        anlaesseConfirmed: 0,
+        anlaesseTotal: 89,
         labels: ["Wintersaison", "Jahresperiode"],
     },
     {
@@ -70,8 +86,11 @@ export const dummyBoards: Board[] = [
         name: "Board 4",
         bemerkung:
             "Dieses Board enthaelt eine laengere Bemerkung, damit das Ellipsis-Verhalten in der Tabelle sichtbar ist und kein Zeilenumbruch erfolgt.",
-        startDate: "01.02.2027",
-        endDate: "30.09.2027",
+        startDate: "2027-02-01",
+        endDate: "2027-09-30",
+        status: "versandBereit",
+        anlaesseConfirmed: 12,
+        anlaesseTotal: 12,
         labels: ["Jahresperiode"],
     },
 ]

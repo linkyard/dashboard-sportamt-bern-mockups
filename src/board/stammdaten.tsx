@@ -4,6 +4,7 @@ import {useLocation} from "react-router"
 import commonStyles from "../common.module.scss"
 import {PageTitle} from "../components/page-title"
 import {type Board} from "../dashboard/dummyData"
+import {formatDateSwiss} from "../util/date"
 import styles from "./stammdaten.module.scss"
 
 export const StammdatenEditor = () => {
@@ -25,10 +26,10 @@ export const StammdatenEditor = () => {
                             <strong>{t("dashboard:stammdaten.fields.bemerkung")}:</strong> {board.bemerkung}
                         </p>
                         <p>
-                            <strong>{t("dashboard:stammdaten.fields.start-date")}:</strong> {board.startDate}
+                            <strong>{t("dashboard:stammdaten.fields.start-date")}:</strong> {formatDateSwiss(board.startDate)}
                         </p>
                         <p>
-                            <strong>{t("dashboard:stammdaten.fields.end-date")}:</strong> {board.endDate}
+                            <strong>{t("dashboard:stammdaten.fields.end-date")}:</strong> {formatDateSwiss(board.endDate)}
                         </p>
                         <div className={styles.labelsRow}>
                             {board.labels.map((label) => (

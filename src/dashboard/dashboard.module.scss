@@ -6,14 +6,30 @@
 }
 
 .ellipsisText {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .toolbarActions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bestaetigtFraction {
+    font-variant-numeric: tabular-nums;
+}
+
+:global(.MuiChip-root.MuiChip-filled).statusChipErstellt {
+    font-weight: 500;
+    background-color: #2f7d57;
+    color: #fff;
+}
+
+:global(.MuiChip-root.MuiChip-filled).statusChipVersandBereit {
+    font-weight: 500;
+    background-color: #d9781c;
+    color: #fff;
 }

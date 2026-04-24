@@ -16,8 +16,16 @@
                 "bemerkung": "Bemerkung",
                 "start-date": "Start",
                 "end-date": "End",
+                "status": "Status",
+                "bestaetigt": "Bestätigt",
                 "labels": "Labels"
-            }
+            },
+            "status": {
+                "erstellt": "Erstellt",
+                "versandBereit": "Versand bereit"
+            },
+            "anlaesse-fraction": "{{confirmed}} / {{total}}",
+            "anlaesse-fraction-detail": "{{confirmed}} von {{total}} Anlässen bestätigt"
         }
     },
     "board-detail": {
