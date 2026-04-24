@@ -1,0 +1,16 @@
+@use "../variables.module.scss" as *;
+
+.root {
+    margin: 0 0 16px;
+}
+
+.current {
+    // Last crumb
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.separator {
+    color: $sportamtGreen;
+}

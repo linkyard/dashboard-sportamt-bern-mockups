@@ -1,9 +1,8 @@
-import {Button, Chip, Container, Paper, Tooltip} from "@mui/material"
+import {Button, Chip, Tooltip} from "@mui/material"
 import {MaterialReactTable, type MRT_ColumnDef, useMaterialReactTable} from "material-react-table"
 import {useMemo} from "react"
 import {useTranslation} from "react-i18next"
 import {NavLink, useNavigate} from "react-router"
-import commonStyles from "../common.module.scss"
 import {PageTitle} from "../components/page-title"
 import {formatDateSwiss} from "../util/date"
 import styles from "./dashboard.module.scss"
@@ -172,11 +171,9 @@ export const Dashboard = () => {
         },
     })
     return (
-        <Container maxWidth="xl" className={commonStyles.pageContainer}>
-            <Paper className={commonStyles.pagePaper}>
-                <PageTitle title={t("dashboard:dashboard.title")} />
-                <MaterialReactTable table={table} />
-            </Paper>
-        </Container>
+        <>
+            <PageTitle title={t("dashboard:dashboard.title")} />
+            <MaterialReactTable table={table} />
+        </>
     )
 }

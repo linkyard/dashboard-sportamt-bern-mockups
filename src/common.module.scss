@@ -1,22 +1,24 @@
 @use "./variables.module.scss" as *;
 
 .pageContainer {
-  height: calc(100vh - 64px);
-  box-sizing: border-box;
-  padding-top: 32px;
-  padding-bottom: 32px;
+    height: calc(100vh - 64px);
+    box-sizing: border-box;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    box-shadow: none;
 }
 
 .pagePaper {
-  height: 100%;
-  overflow: auto;
-  box-sizing: border-box;
-  padding: 24px;
-  -webkit-overflow-scrolling: touch;
+    height: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 24px;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: none;
 }
 
 @media (max-width: 600px) {
-  .pageContainer {
-    height: calc(100vh - 56px);
-  }
+    .pageContainer {
+        height: calc(100vh - 56px);
+    }
 }

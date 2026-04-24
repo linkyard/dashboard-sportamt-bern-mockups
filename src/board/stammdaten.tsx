@@ -1,7 +1,6 @@
-import {Chip, Container, Paper} from "@mui/material"
+import {Chip} from "@mui/material"
 import {useTranslation} from "react-i18next"
 import {useLocation} from "react-router"
-import commonStyles from "../common.module.scss"
 import {PageTitle} from "../components/page-title"
 import {type Board} from "../dashboard/dummyData"
 import {formatDateSwiss} from "../util/date"
@@ -14,9 +13,8 @@ export const StammdatenEditor = () => {
     const board = state?.board
 
     return (
-        <Container maxWidth="xl" className={commonStyles.pageContainer}>
-            <Paper className={commonStyles.pagePaper}>
-                <PageTitle title={t("dashboard:stammdaten.title")} />
+        <>
+            <PageTitle title={t("dashboard:stammdaten.title")} />
                 {board ? (
                     <div className={styles.detailsGrid}>
                         <p>
@@ -40,7 +38,6 @@ export const StammdatenEditor = () => {
                 ) : (
                     <p>{t("dashboard:stammdaten.empty")}</p>
                 )}
-            </Paper>
-        </Container>
+        </>
     )
 }

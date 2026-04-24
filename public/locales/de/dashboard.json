@@ -60,6 +60,8 @@
     },
     "organisation-admin": {
         "title": "Organisation-Admin",
+        "breadcrumbs-aria": "Hierarchie",
+        "breadcrumb-board-fallback": "Board",
         "empty": "Keine Organisation ausgewaehlt.",
         "contact-address-title": "Kontaktadresse",
         "billing-address-title": "Rechnungsadresse",
@@ -73,6 +75,7 @@
             }
         },
         "anlass-detail": {
+            "breadcrumbs-aria": "Hierarchie",
             "fallback-title": "Anlass",
             "empty": "Kein Anlass ausgewählt.",
             "breadcrumb-fallback": "Organisation",

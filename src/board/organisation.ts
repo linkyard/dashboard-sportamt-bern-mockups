@@ -9,6 +9,7 @@ export type ContactAddress = {
 
 export type Organisation = {
     id: string
+    boardId?: string
     organisation: string
     contact: ContactAddress
     billingContact?: ContactAddress

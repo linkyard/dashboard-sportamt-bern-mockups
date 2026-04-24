@@ -128,6 +128,7 @@ const withAnlassHistory = (organisations: Organisation[]): Organisation[] =>
 
 export const dummyOrganisation: Organisation = organisationWithAnlassIds({
     id: DEMO_ORG_ID.linkyardSports,
+    boardId: "board-1",
     organisation: "Linkyard Sports",
     contact: {
         organisationName: "Linkyard Sports",
@@ -201,6 +202,7 @@ export const dummyOrganisation: Organisation = organisationWithAnlassIds({
 const dummyOrganisationSeeds: OrganisationSeed[] = [
     {
         id: DEMO_ORG_ID.turnvereinNord,
+        boardId: "board-1",
         organisation: "Turnverein Nord",
         contact: {
             organisationName: "Turnverein Nord",
@@ -250,6 +252,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
     },
     {
         id: DEMO_ORG_ID.fcBernOst,
+        boardId: "board-1",
         organisation: "FC Bern Ost",
         contact: {
             organisationName: "FC Bern Ost",
@@ -314,6 +317,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
     },
     {
         id: DEMO_ORG_ID.schwimmclubMitte,
+        boardId: "board-1",
         organisation: "Schwimmclub Mitte",
         contact: {
             organisationName: "Schwimmclub Mitte",

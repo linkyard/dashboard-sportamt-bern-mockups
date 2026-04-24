@@ -1,9 +1,9 @@
-import {Alert, Container, Paper, Snackbar} from "@mui/material"
+import {Alert, Snackbar} from "@mui/material"
 import {DatePicker} from "@mui/x-date-pickers/DatePicker"
 import dayjs, {type Dayjs} from "dayjs"
 import {useEffect, useRef, useState} from "react"
 import {useTranslation} from "react-i18next"
-import commonStyles from "../common.module.scss"
+import {AppBreadcrumbs} from "../components/breadcrumbs"
 import {FieldLabel} from "../components/field-label"
 import {DetailsTextarea} from "../components/inputs"
 import {PageTitle} from "../components/page-title"
@@ -62,78 +62,77 @@ export const BoardDetail: React.FC<BoardDetailProps> = ({board, isNew}) => {
     }
 
     return (
-        <Container maxWidth="xl" className={commonStyles.pageContainer}>
-            <Paper className={commonStyles.pagePaper}>
-                <PageTitle title={isNew ? t("dashboard:board-detail.title") : name} editable onTitleChange={setName} />
+        <>
+            <AppBreadcrumbs variant="board-detail" boardName={name} isNew={isNew} />
+            <PageTitle title={isNew ? t("dashboard:board-detail.title") : name} editable onTitleChange={setName} />
 
-                <div className={styles.formSection}>
-                    <div className={styles.detailsCard}>
-                        <div className={styles.topRow}>
-                            <div className={styles.fieldGroup}>
-                                <FieldLabel htmlFor="board-detail-start-date">{t("board-detail.fields.start-date")}</FieldLabel>
-                                <DatePicker
-                                    value={startDate}
-                                    onChange={(date) => setStartDate(date ? dayjs(date) : null)}
-                                    slotProps={{
-                                        textField: {
-                                            id: "board-detail-start-date",
-                                            className: styles.dateInput,
-                                            size: "small",
-                                            slotProps: {htmlInput: {placeholder: "mm/dd/yyyy"}},
-                                        },
-                                    }}
-                                />
-                            </div>
-                            <div className={styles.fieldGroup}>
-                                <FieldLabel htmlFor="board-detail-end-date">{t("board-detail.fields.end-date")}</FieldLabel>
-                                <DatePicker
-                                    value={endDate}
-                                    onChange={(date) => setEndDate(date ? dayjs(date) : null)}
-                                    slotProps={{
-                                        textField: {
-                                            id: "board-detail-end-date",
-                                            className: styles.dateInput,
-                                            size: "small",
-                                            slotProps: {htmlInput: {placeholder: "mm/dd/yyyy"}},
-                                        },
-                                    }}
-                                />
-                            </div>
+            <div className={styles.formSection}>
+                <div className={styles.detailsCard}>
+                    <div className={styles.topRow}>
+                        <div className={styles.fieldGroup}>
+                            <FieldLabel htmlFor="board-detail-start-date">{t("board-detail.fields.start-date")}</FieldLabel>
+                            <DatePicker
+                                value={startDate}
+                                onChange={(date) => setStartDate(date ? dayjs(date) : null)}
+                                slotProps={{
+                                    textField: {
+                                        id: "board-detail-start-date",
+                                        className: styles.dateInput,
+                                        size: "small",
+                                        slotProps: {htmlInput: {placeholder: "mm/dd/yyyy"}},
+                                    },
+                                }}
+                            />
                         </div>
-
-                        <div className={`${styles.fieldGroup} ${styles.comment}`}>
-                            <FieldLabel htmlFor="board-detail-bemerkung">{t("board-detail.fields.bemerkung")}</FieldLabel>
-                            <DetailsTextarea
-                                id="board-detail-bemerkung"
-                                value={bemerkung}
-                                onChange={(event) => setBemerkung(event.target.value)}
-                                placeholder={t("board-detail.fields.bemerkung-placeholder")}
+                        <div className={styles.fieldGroup}>
+                            <FieldLabel htmlFor="board-detail-end-date">{t("board-detail.fields.end-date")}</FieldLabel>
+                            <DatePicker
+                                value={endDate}
+                                onChange={(date) => setEndDate(date ? dayjs(date) : null)}
+                                slotProps={{
+                                    textField: {
+                                        id: "board-detail-end-date",
+                                        className: styles.dateInput,
+                                        size: "small",
+                                        slotProps: {htmlInput: {placeholder: "mm/dd/yyyy"}},
+                                    },
+                                }}
                             />
                         </div>
                     </div>
+
+                    <div className={`${styles.fieldGroup} ${styles.comment}`}>
+                        <FieldLabel htmlFor="board-detail-bemerkung">{t("board-detail.fields.bemerkung")}</FieldLabel>
+                        <DetailsTextarea
+                            id="board-detail-bemerkung"
+                            value={bemerkung}
+                            onChange={(event) => setBemerkung(event.target.value)}
+                            placeholder={t("board-detail.fields.bemerkung-placeholder")}
+                        />
+                    </div>
                 </div>
+            </div>
 
-                <PageTitle title={t("board-detail.upload.title")} isSubTitle />
-                {selectedFileName ? (
-                    <OrganisationTable selectedFileName={selectedFileName} />
-                ) : (
-                    <UploadSection onFilesChange={handleFiles} onLoadTestData={handleLoadTestData} isUploadSuccess={isUploadSuccess} />
-                )}
+            <PageTitle title={t("board-detail.upload.title")} isSubTitle />
+            {selectedFileName ? (
+                <OrganisationTable selectedFileName={selectedFileName} />
+            ) : (
+                <UploadSection onFilesChange={handleFiles} onLoadTestData={handleLoadTestData} isUploadSuccess={isUploadSuccess} />
+            )}
 
-                <Snackbar
-                    open={showUploadSuccessAlert}
-                    autoHideDuration={8000}
-                    onClose={(_, reason) => {
-                        if (reason === "clickaway") return
-                        setShowUploadSuccessAlert(false)
-                    }}
-                    anchorOrigin={{vertical: "top", horizontal: "right"}}
-                >
-                    <Alert severity="success" onClose={() => setShowUploadSuccessAlert(false)} sx={{width: "100%"}}>
-                        {t("board-detail.upload.success-message")}
-                    </Alert>
-                </Snackbar>
-            </Paper>
-        </Container>
+            <Snackbar
+                open={showUploadSuccessAlert}
+                autoHideDuration={8000}
+                onClose={(_, reason) => {
+                    if (reason === "clickaway") return
+                    setShowUploadSuccessAlert(false)
+                }}
+                anchorOrigin={{vertical: "top", horizontal: "right"}}
+            >
+                <Alert severity="success" onClose={() => setShowUploadSuccessAlert(false)} sx={{width: "100%"}}>
+                    {t("board-detail.upload.success-message")}
+                </Alert>
+            </Snackbar>
+        </>
     )
 }
