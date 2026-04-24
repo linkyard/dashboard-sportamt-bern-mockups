@@ -1,8 +1,8 @@
 import {Navigate, Route, Routes, useParams} from "react-router"
 import {AnlassDetail} from "../board/anlass-detail"
-import {BoardAdminPage} from "../board/board-admin"
 import {NewBoard} from "../board/new-board"
 import {OrganisationAdminPage} from "../board/organisation-admin"
+import {BoardAdminPage} from "../board/stammdaten"
 import {Dashboard} from "../dashboard/dashboard"
 import {getOrganisationById} from "../dashboard/dummyData"
 
@@ -25,7 +25,7 @@ export function Router() {
     return (
         <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/board-admin" element={<BoardAdminPage />} />
+            <Route path="/stammdaten" element={<BoardAdminPage />} />
             <Route path="/organisation-admin" element={<Navigate to="/" replace />} />
             <Route path="/organisation-admin/:organisationId/anlass/:anlassId" element={<AnlassDetailRoute />} />
             <Route path="/organisation-admin/:organisationId" element={<OrganisationAdminRoute />} />

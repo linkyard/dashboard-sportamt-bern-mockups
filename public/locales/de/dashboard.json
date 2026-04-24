@@ -3,8 +3,7 @@
         "title": "Dashboard",
         "topbar": {
             "top-bar-menu-aria-label": "Top-bar Menü öffnen",
-            "board-admin": "Board-Admin",
-            "new-board": "Neues Board",
+            "stammdaten": "Stammdaten",
             "user-menu-aria-label": "Benutzer Menü öffnen",
             "logout": "Abmelden",
             "profile": "Profil"
@@ -45,8 +44,8 @@
             "title": "Anlässe"
         }
     },
-    "board-admin": {
-        "title": "Board-Admin",
+    "stammdaten": {
+        "title": "Stammdaten",
         "empty": "Kein Board ausgewaehlt.",
         "fields": {
             "name": "Name",

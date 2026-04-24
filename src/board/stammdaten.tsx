@@ -4,7 +4,7 @@ import {useLocation} from "react-router"
 import commonStyles from "../common.module.scss"
 import {PageTitle} from "../components/page-title"
 import {type Board} from "../dashboard/dummyData"
-import styles from "./board-admin.module.scss"
+import styles from "./stammdaten.module.scss"
 
 export const BoardAdminPage = () => {
     const {t} = useTranslation("dashboard")
@@ -15,20 +15,20 @@ export const BoardAdminPage = () => {
     return (
         <Container maxWidth="xl" className={commonStyles.pageContainer}>
             <Paper className={commonStyles.pagePaper}>
-                <PageTitle title={t("dashboard:board-admin.title")} />
+                <PageTitle title={t("dashboard:stammdaten.title")} />
                 {board ? (
                     <div className={styles.detailsGrid}>
                         <p>
-                            <strong>{t("dashboard:board-admin.fields.name")}:</strong> {board.name}
+                            <strong>{t("dashboard:stammdaten.fields.name")}:</strong> {board.name}
                         </p>
                         <p>
-                            <strong>{t("dashboard:board-admin.fields.bemerkung")}:</strong> {board.bemerkung}
+                            <strong>{t("dashboard:stammdaten.fields.bemerkung")}:</strong> {board.bemerkung}
                         </p>
                         <p>
-                            <strong>{t("dashboard:board-admin.fields.start-date")}:</strong> {board.startDate}
+                            <strong>{t("dashboard:stammdaten.fields.start-date")}:</strong> {board.startDate}
                         </p>
                         <p>
-                            <strong>{t("dashboard:board-admin.fields.end-date")}:</strong> {board.endDate}
+                            <strong>{t("dashboard:stammdaten.fields.end-date")}:</strong> {board.endDate}
                         </p>
                         <div className={styles.labelsRow}>
                             {board.labels.map((label) => (
@@ -37,7 +37,7 @@ export const BoardAdminPage = () => {
                         </div>
                     </div>
                 ) : (
-                    <p>{t("dashboard:board-admin.empty")}</p>
+                    <p>{t("dashboard:stammdaten.empty")}</p>
                 )}
             </Paper>
         </Container>

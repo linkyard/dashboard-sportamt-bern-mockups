@@ -74,7 +74,7 @@ export const Dashboard = () => {
         enableStickyHeader: true,
         muiTableBodyRowProps: ({row}) => ({
             onClick: () =>
-                navigate("/board-admin", {
+                navigate("/stammdaten", {
                     state: {board: row.original},
                 }),
             sx: {
