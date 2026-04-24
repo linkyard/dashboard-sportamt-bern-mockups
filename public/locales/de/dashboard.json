@@ -43,7 +43,7 @@
             "upload-title": "Excel-Datei hochladen",
             "upload-text": "Ziehen Sie I-Web hierher oder",
             "browse-link": "klicken Sie zum Auswählen",
-            "file-meta": "XLSX • CSV",
+            "file-meta": "XLS",
             "selected-file": "Ausgewählte Datei",
             "success-message": "Board wurde erstellt und mit den hochgeladenen Daten befüllt."
         }

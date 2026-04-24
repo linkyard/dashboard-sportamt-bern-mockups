@@ -22,7 +22,7 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess}: 
         if (!fileList?.length) return
         const file = fileList[0]
         if (!file.name.toLowerCase().endsWith(".xlsx")) {
-            setUploadError("Unsupported file type. Please upload an Excel file (.xlsx).")
+            setUploadError("Unsupported file type. Please upload an Excel file (.xls).")
             return
         }
         setUploadError(null)
@@ -34,12 +34,12 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess}: 
         if (!draggedItem || draggedItem.kind !== "file") return null
         const fileName = draggedItem.getAsFile()?.name
         if (!fileName) return null
-        return fileName.toLowerCase().endsWith(".xlsx")
+        return fileName.toLowerCase().endsWith(".xls")
     }
 
     return (
         <div className={styles.uploadSection}>
-            <input ref={fileInputRef} type="file" accept=".xlsx" hidden onChange={(event) => handleFileList(event.target.files)} />
+            <input ref={fileInputRef} type="file" accept=".xls" hidden onChange={(event) => handleFileList(event.target.files)} />
             <div
                 className={`${styles.uploadDropzone} ${isDragging && !isDragInvalid ? styles.uploadDropzoneActive : ""} ${isDragInvalid ? styles.uploadDropzoneInvalid : ""} ${isUploadSuccess ? styles.uploadDropzoneSuccess : ""}`}
                 onClick={() => fileInputRef.current?.click()}
