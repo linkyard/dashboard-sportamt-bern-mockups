@@ -1,0 +1,24 @@
+.detailsInput {
+    width: 100%;
+
+    :global {
+        .MuiInputBase-root {
+            background-color: #f3f3f3;
+            border-radius: 5px;
+        }
+
+        .MuiOutlinedInput-notchedOutline {
+            border: 0;
+        }
+    }
+}
+
+.commentInput {
+    :global {
+        .MuiInputBase-root {
+            align-items: flex-start;
+            padding-top: 8.5px;
+            padding-bottom: 8.5px;
+        }
+    }
+}

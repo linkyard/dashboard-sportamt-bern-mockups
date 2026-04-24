@@ -1,7 +1,8 @@
 .labelsCell {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 8px;
 }
 
 .ellipsisText {

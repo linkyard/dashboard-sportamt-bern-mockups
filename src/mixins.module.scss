@@ -1,0 +1,5 @@
+@mixin field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}

@@ -3,7 +3,7 @@
     border-radius: 8px;
     background: #f5f5f5;
     padding: 16px 18px;
-    min-height: 220px;
+    min-height: 180px;
 }
 
 .editButton {
@@ -25,7 +25,7 @@
 
 .contactContent {
     display: grid;
-    gap: 10px;
+    gap: 5px;
 }
 
 .infoRow {
@@ -45,8 +45,8 @@
 }
 
 .rowIcon {
-    margin-top: 2px;
     color: #111;
+    font-size: 0.9rem;
 }
 
 .inputRow {

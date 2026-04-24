@@ -61,8 +61,24 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess}: 
                 }}
             >
                 <div className={styles.emptyDropzone}>
-                    <FontAwesomeIcon icon={faUpload} size="lg" className={styles.uploadIcon} />
-                    <p className={styles.uploadHint}>{t("dashboard:new-board.upload.helpertext")}</p>
+                    <div className={styles.iconCircle}>
+                        <FontAwesomeIcon icon={faUpload} size="lg" className={styles.uploadIcon} />
+                    </div>
+                    <p className={styles.uploadTitle}>{t("dashboard:new-board.upload.upload-title")}</p>
+                    <p className={styles.uploadText}>
+                        {t("dashboard:new-board.upload.upload-text")}{" "}
+                        <button
+                            type="button"
+                            className={styles.browseLink}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                fileInputRef.current?.click()
+                            }}
+                        >
+                            {t("dashboard:new-board.upload.browse-link")}
+                        </button>
+                    </p>
+                    <p className={styles.uploadMeta}>{t("dashboard:new-board.upload.file-meta")}</p>
                 </div>
             </div>
             {uploadError ? (

@@ -100,6 +100,22 @@ export const Dashboard = () => {
                 },
             },
         },
+        muiTableHeadCellProps: {
+            sx: {
+                py: 0.75,
+                "& .Mui-TableHeadCell-Content, & .MuiTableSortLabel-root, & .MuiTableSortLabel-root .MuiTableSortLabel-icon": {
+                    letterSpacing: "0.09em",
+                    textTransform: "uppercase",
+                    fontWeight: 700,
+                    fontSize: "0.8rem",
+                },
+            },
+        },
+        muiTableBodyCellProps: {
+            sx: {
+                py: 0.75,
+            },
+        },
         muiTablePaperProps: {
             elevation: 0,
             sx: {

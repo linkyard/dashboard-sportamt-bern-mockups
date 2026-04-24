@@ -10,13 +10,33 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    gap: 10px;
+    text-align: center;
+}
+
+.iconCircle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #e7ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
 }
 
 .uploadIcon {
-    height: 30px;
-    width: 30px;
-    color: $iconColor;
-    margin-bottom: 15px;
+    height: 28px;
+    width: 28px;
+    color: #4f5b66;
+}
+
+.uploadTitle {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #2f3941;
 }
 
 .uploadDropzone {
@@ -90,7 +110,28 @@
     }
 }
 
-.uploadHint {
+.uploadText {
     margin: 0;
-    color: #666;
+    color: #5f6770;
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+.browseLink {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    color: #4f5b66;
+    text-decoration: underline;
+    cursor: pointer;
+    font: inherit;
+}
+
+.uploadMeta {
+    margin: 8px 0 0;
+    color: #a1a9b0;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
 }

@@ -1,0 +1,36 @@
+@use "../../variables.module.scss" as *;
+
+.statusPill {
+    border-radius: 999px;
+    padding: 8px 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    min-width: 200px;
+}
+
+/* Outlined theme (matches Anlässe cards) */
+.statuspending {
+    border: 2px solid #e5bc6a;
+    background: transparent;
+    color: #222;
+
+    svg {
+        color: #e5bc6a;
+    }
+}
+
+.statusconfirmed {
+    border: 2px solid $sportamtGreen;
+    background: transparent;
+    color: #222;
+
+    svg {
+        color: $sportamtGreen;
+    }
+}

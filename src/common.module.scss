@@ -9,17 +9,14 @@
 
 .pagePaper {
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
   box-sizing: border-box;
   padding: 24px;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 600px) {
   .pageContainer {
     height: calc(100vh - 56px);
-  }
-
-  .pagePaper {
-    overflow-y: auto;
   }
 }

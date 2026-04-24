@@ -1,4 +1,9 @@
 @use "../variables.module.scss" as *;
+@use "../mixins.module.scss" as *;
+
+.fieldGroup {
+    @include field-group;
+}
 
 .formSection {
     margin-top: 24px;
@@ -15,37 +20,23 @@
     gap: 20px;
 }
 
-.fieldGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.detailsInput,
 .dateInput {
     width: 100%;
-}
 
-.detailsInput,
-.dateInput {
     :global {
         .MuiInputBase-root {
             background-color: #f3f3f3;
-            border-radius: 10px;
+            border-radius: 5px;
         }
 
         .MuiOutlinedInput-notchedOutline {
             border: 0;
         }
-    }
-}
 
-.dateInput {
-    :global {
         .MuiPickersOutlinedInput-root,
         .MuiOutlinedInput-root {
             background-color: #f3f3f3 !important;
-            border-radius: 10px !important;
+            border-radius: 5px !important;
         }
 
         .MuiPickersOutlinedInput-root fieldset,
@@ -69,16 +60,6 @@
 
 .comment {
     margin-top: 16px;
-}
-
-.commentInput {
-    :global {
-        .MuiInputBase-root {
-            align-items: flex-start;
-            padding-top: 8.5px;
-            padding-bottom: 8.5px;
-        }
-    }
 }
 
 .alertFileName {
@@ -118,8 +99,33 @@
 .anlassRow {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
     border-bottom: 1px solid #e8e8e8;
     padding-bottom: 6px;
+}
+
+.anlassDetail {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.anlassName {
+    font-weight: 600;
+}
+
+.anlassMeta {
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.anlassStatus {
+    flex-shrink: 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #333;
 }
 
 @media (max-width: 900px) {
