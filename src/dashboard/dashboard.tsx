@@ -1,5 +1,6 @@
 import {Button, Chip, Tooltip} from "@mui/material"
 import {MaterialReactTable, type MRT_ColumnDef, useMaterialReactTable} from "material-react-table"
+import {MRT_Localization_DE} from "material-react-table/locales/de"
 import {useMemo} from "react"
 import {useTranslation} from "react-i18next"
 import {NavLink, useNavigate} from "react-router"
@@ -49,13 +50,7 @@ export const Dashboard = () => {
                 size: 150,
                 Cell: ({row}) => {
                     const key = row.original.status
-                    return (
-                        <Chip
-                            label={t(`dashboard:dashboard.table.status.${key}`)}
-                            size="small"
-                            className={boardStatusChipClass[key]}
-                        />
-                    )
+                    return <Chip label={t(`dashboard:dashboard.table.status.${key}`)} size="small" className={boardStatusChipClass[key]} />
                 },
             },
             {
@@ -96,6 +91,7 @@ export const Dashboard = () => {
     const table = useMaterialReactTable({
         columns,
         data: dummyBoards,
+        localization: {...MRT_Localization_DE, language: "de-CH"},
         layoutMode: "grid-no-grow",
         initialState: {
             showGlobalFilter: true,
@@ -143,11 +139,14 @@ export const Dashboard = () => {
         muiTableHeadCellProps: {
             sx: {
                 py: 0.75,
-                "& .Mui-TableHeadCell-Content, & .MuiTableSortLabel-root, & .MuiTableSortLabel-root .MuiTableSortLabel-icon": {
+                "& .Mui-TableHeadCell-Content": {
                     letterSpacing: "0.09em",
                     textTransform: "uppercase",
                     fontWeight: 700,
                     fontSize: "0.8rem",
+                },
+                "& .MuiTableSortLabel-root, & .MuiTableSortLabel-root .MuiTableSortLabel-icon": {
+                    fontSize: "1rem",
                 },
             },
         },

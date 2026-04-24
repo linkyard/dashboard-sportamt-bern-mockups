@@ -46,6 +46,15 @@
             "file-meta": "XLS",
             "selected-file": "Ausgewählte Datei",
             "success-message": "Board wurde erstellt und mit den hochgeladenen Daten befüllt."
+        },
+        "organisation-table": {
+            "columns": {
+                "organisation": "Organisation",
+                "contact": "Kontakt",
+                "phone": "Telefon",
+                "address": "Adresse",
+                "anlaesse-count": "Anlässe"
+            }
         }
     },
     "stammdaten": {

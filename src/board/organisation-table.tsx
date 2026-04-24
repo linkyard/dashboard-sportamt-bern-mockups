@@ -1,4 +1,5 @@
 import {MaterialReactTable, type MRT_ColumnDef, useMaterialReactTable} from "material-react-table"
+import {MRT_Localization_DE} from "material-react-table/locales/de"
 import {useMemo} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
@@ -18,13 +19,13 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
         () => [
             {
                 accessorKey: "organisation",
-                header: "Organisation",
+                header: t("board-detail.organisation-table.columns.organisation") as string,
                 sortDescFirst: false,
             },
             {
                 accessorFn: (row) => `${row.contact.contactPerson} ${row.contact.phone} ${row.contact.street} ${row.contact.city}`,
                 id: "contact",
-                header: "Contact",
+                header: t("board-detail.organisation-table.columns.contact") as string,
                 Cell: ({row}) => (
                     <div>
                         <div>{row.original.contact.contactPerson}</div>
@@ -36,14 +37,15 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
             {
                 accessorFn: (row) => row.anlaesse.length,
                 id: "anlaesseCount",
-                header: "# of Anlaesse",
+                header: t("board-detail.organisation-table.columns.anlaesse-count") as string,
             },
         ],
-        []
+        [t]
     )
 
     const organisationsTable = useMaterialReactTable({
         columns: organisationColumns,
+        localization: {...MRT_Localization_DE, language: "de-CH"},
         enablePagination: false,
         data: dummyOrganisations,
         enableColumnActions: false,
@@ -69,11 +71,14 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
         muiTableHeadCellProps: {
             sx: {
                 py: 0.75,
-                "& .Mui-TableHeadCell-Content, & .MuiTableSortLabel-root, & .MuiTableSortLabel-root .MuiTableSortLabel-icon": {
+                "& .Mui-TableHeadCell-Content": {
                     letterSpacing: "0.09em",
                     textTransform: "uppercase",
                     fontWeight: 700,
                     fontSize: "0.8rem",
+                },
+                "& .MuiTableSortLabel-root, & .MuiTableSortLabel-root .MuiTableSortLabel-icon": {
+                    fontSize: "1rem",
                 },
             },
         },

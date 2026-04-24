@@ -58,7 +58,7 @@ export const BoardDetail: React.FC<BoardDetailProps> = ({board, isNew}) => {
     }
 
     const handleLoadTestData = () => {
-        handleUploadSuccess("test-organisations.xlsx")
+        handleUploadSuccess("test-organisations.xls")
     }
 
     return (
