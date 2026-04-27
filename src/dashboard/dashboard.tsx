@@ -1,10 +1,16 @@
 import {Button, Chip, Tooltip} from "@mui/material"
-import {MaterialReactTable, type MRT_ColumnDef, useMaterialReactTable} from "material-react-table"
+import {MaterialReactTable, type MRT_ColumnDef, MRT_GlobalFilterTextField, useMaterialReactTable} from "material-react-table"
 import {MRT_Localization_DE} from "material-react-table/locales/de"
 import {useMemo} from "react"
 import {useTranslation} from "react-i18next"
 import {NavLink, useNavigate} from "react-router"
 import {PageTitle} from "../components/page-title"
+import {
+    mrtSharedMrtTheme,
+    mrtSharedTableBodyCellSx,
+    mrtSharedTableHeadCellSx,
+    mrtSharedTablePaperProps,
+} from "../lib/material-react-table-styles"
 import {formatDateSwiss} from "../util/date"
 import styles from "./dashboard.module.scss"
 import {type Board, boardLabelDateRanges, type BoardStatus, dummyBoards} from "./dummyData"
@@ -91,9 +97,12 @@ export const Dashboard = () => {
     const table = useMaterialReactTable({
         columns,
         data: dummyBoards,
+        mrtTheme: mrtSharedMrtTheme,
         localization: {...MRT_Localization_DE, language: "de-CH"},
-        layoutMode: "grid-no-grow",
+        layoutMode: "grid",
+        defaultColumn: {minSize: 60},
         initialState: {
+            density: "comfortable",
             showGlobalFilter: true,
             sorting: [
                 {id: "startDate", desc: true},
@@ -110,20 +119,14 @@ export const Dashboard = () => {
         enableColumnResizing: true,
         enableHiding: false,
         enableFullScreenToggle: false,
-        enableStickyHeader: true,
+        enableTopToolbar: false,
+        enableBottomToolbar: false,
         muiTableBodyRowProps: ({row}) => ({
             onClick: () => navigate(`/board/${row.original.id}`),
             sx: {
                 cursor: "pointer",
             },
         }),
-        renderToolbarInternalActions: () => (
-            <div className={styles.toolbarActions}>
-                <Button component={NavLink} to="/board" variant="contained" size="small">
-                    {t("dashboard:dashboard.table.create-new-board-button")}
-                </Button>
-            </div>
-        ),
         muiSearchTextFieldProps: {
             placeholder: t("dashboard:dashboard.table.global-search-placeholder"),
             size: "small",
@@ -136,42 +139,39 @@ export const Dashboard = () => {
                 },
             },
         },
-        muiTableHeadCellProps: {
-            sx: {
-                py: 0.75,
-                "& .Mui-TableHeadCell-Content": {
-                    letterSpacing: "0.09em",
-                    textTransform: "uppercase",
-                    fontWeight: 700,
-                    fontSize: "0.8rem",
-                },
-                "& .MuiTableSortLabel-root, & .MuiTableSortLabel-root .MuiTableSortLabel-icon": {
-                    fontSize: "1rem",
-                },
-            },
+
+        muiTableHeadCellProps: () => {
+            return {
+                sx: (theme) => ({
+                    ...mrtSharedTableHeadCellSx(theme),
+                }),
+            }
         },
         muiTableBodyCellProps: {
-            sx: {
-                py: 0.75,
-            },
+            sx: mrtSharedTableBodyCellSx,
         },
-        muiTablePaperProps: {
-            elevation: 0,
-            sx: {
-                border: "1px solid",
-                borderColor: "divider",
-                borderRadius: 2,
-            },
-        },
+        muiTablePaperProps: mrtSharedTablePaperProps,
         muiTableContainerProps: {
             sx: {
                 maxHeight: {xs: "none", sm: "calc(100vh - 300px)"},
+                overflowX: "auto",
+                overflowY: {xs: "visible", sm: "auto"},
             },
         },
     })
     return (
         <>
             <PageTitle title={t("dashboard:dashboard.title")} />
+            <div className={styles.tableToolbar}>
+                <div className={styles.tableToolbarSearch}>
+                    <MRT_GlobalFilterTextField table={table} fullWidth />
+                </div>
+                <div className={styles.toolbarActions}>
+                    <Button component={NavLink} to="/board" variant="contained" size="small">
+                        {t("dashboard:dashboard.table.create-new-board-button")}
+                    </Button>
+                </div>
+            </div>
             <MaterialReactTable table={table} />
         </>
     )

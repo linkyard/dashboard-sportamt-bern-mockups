@@ -1,9 +1,15 @@
-import {MaterialReactTable, type MRT_ColumnDef, useMaterialReactTable} from "material-react-table"
+import {MaterialReactTable, type MRT_ColumnDef, MRT_GlobalFilterTextField, useMaterialReactTable} from "material-react-table"
 import {MRT_Localization_DE} from "material-react-table/locales/de"
 import {useMemo} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
 import {allDummyOrganisations} from "../dashboard/dummyData"
+import {
+    mrtSharedMrtTheme,
+    mrtSharedTableBodyCellSx,
+    mrtSharedTableHeadCellSx,
+    mrtSharedTablePaperProps,
+} from "../lib/material-react-table-styles"
 import styles from "./board-detail.module.scss"
 import {AnlassInlineRow} from "./components/anlass-inline-row"
 import type {Organisation} from "./organisation"
@@ -52,7 +58,7 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
             {
                 accessorFn: (row) => row.anlaesse.length,
                 id: "anlaesseCount",
-                header: t("board-detail.organisation-table.columns.anlaesse-count") as string,
+                header: t("dashboard:board-detail.organisation-table.columns.anlaesse-count") as string,
                 grow: true,
                 minSize: 80,
                 size: 120,
@@ -63,6 +69,7 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
 
     const organisationsTable = useMaterialReactTable({
         columns: organisationColumns,
+        mrtTheme: mrtSharedMrtTheme,
         layoutMode: "grid",
         defaultColumn: {
             grow: false,
@@ -73,11 +80,14 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
         data: allDummyOrganisations,
         enableColumnActions: false,
         enableGlobalFilter: true,
+        globalFilterFn: "contains",
         enableSorting: true,
         enableColumnFilters: false,
         enableDensityToggle: false,
         enableHiding: false,
         enableFullScreenToggle: false,
+        enableTopToolbar: false,
+        enableBottomToolbar: false,
         enableExpanding: true,
         enableExpandAll: false,
         muiTableBodyRowProps: ({row}) => ({
@@ -94,32 +104,39 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
                 minSize: 50,
                 header: "",
                 Header: () => "",
+                muiTableHeadCellProps: {
+                    sx: (theme) => ({
+                        ...mrtSharedTableHeadCellSx(theme),
+                        pl: mrtSharedDisplayColumnHeadPaddingX,
+                        pr: mrtSharedDisplayColumnHeadPaddingX,
+                    }),
+                },
             },
         },
         initialState: {
+            density: "comfortable",
             showGlobalFilter: true,
             sorting: [{id: "organisation", desc: false}],
         },
-        positionGlobalFilter: "right",
-        muiTableHeadCellProps: {
-            sx: {
-                py: 0.75,
-                "& .Mui-TableHeadCell-Content": {
-                    letterSpacing: "0.09em",
-                    textTransform: "uppercase",
-                    fontWeight: 700,
-                    fontSize: "0.8rem",
-                },
-                "& .MuiTableSortLabel-root, & .MuiTableSortLabel-root .MuiTableSortLabel-icon": {
-                    fontSize: "1rem",
+        muiSearchTextFieldProps: {
+            placeholder: t("board-detail.organisation-table.global-search-placeholder"),
+            size: "small",
+            slotProps: {
+                htmlInput: {
+                    style: {
+                        paddingTop: "4px",
+                        paddingBottom: "4px",
+                    },
                 },
             },
+        },
+        muiTableHeadCellProps: {
+            sx: mrtSharedTableHeadCellSx,
         },
         muiTableBodyCellProps: {
-            sx: {
-                py: 0.75,
-            },
+            sx: mrtSharedTableBodyCellSx,
         },
+        muiTablePaperProps: mrtSharedTablePaperProps,
         muiTableContainerProps: {
             sx: {
                 maxHeight: {xs: "none", sm: "calc(100vh - 575px)"},
@@ -136,10 +153,15 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
         ),
     })
     return (
-        <div className={styles.uploadSection}>
+        <>
+            <div className={styles.tableToolbar}>
+                <div className={styles.tableToolbarSearch}>
+                    <MRT_GlobalFilterTextField table={organisationsTable} fullWidth />
+                </div>
+            </div>
             <div className={styles.organisationsTableWrapper}>
                 <MaterialReactTable table={organisationsTable} />
             </div>
-        </div>
+        </>
     )
 }

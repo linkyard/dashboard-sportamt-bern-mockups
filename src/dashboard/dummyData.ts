@@ -8,6 +8,33 @@ import {
     faVolleyball,
 } from "@fortawesome/free-solid-svg-icons"
 import type {Anlass, AnlassHistoryEntry, Organisation} from "../board/organisation"
+import type {LocationRowData, ObjektRowData} from "../stammdaten/locations/locations-types"
+
+const demoObjekt = (id: string, name: string): ObjektRowData => ({
+    id,
+    rowKind: "objekt",
+    name,
+})
+
+const demoLocation = (id: string, name: string, subRows: ObjektRowData[]): LocationRowData => ({
+    id,
+    rowKind: "location",
+    name,
+    subRows,
+})
+
+/** Demo Standorte / Objekte for Stammdaten (global master data, not scoped to a board). */
+export const stammdatenSeedLocations: LocationRowData[] = [
+    demoLocation("st-loc-b1-1", "Turnhalle Wankdorf", [
+        demoObjekt("st-obj-b1-1", "Hauptsaal"),
+        demoObjekt("st-obj-b1-2", "Nebenraum A"),
+        demoObjekt("st-obj-b1-3", "Kraftraum"),
+    ]),
+    demoLocation("st-loc-b1-2", "Sportanlage Breitenrain", [
+        demoObjekt("st-obj-b1-4", "Kunstrasenplatz"),
+        demoObjekt("st-obj-b1-5", "Naturrasen"),
+    ]),
+]
 
 /** Demo organisation ids (slug-style, stable for routing and fixtures). */
 export const DEMO_ORG_ID = {
@@ -34,7 +61,6 @@ function organisationWithAnlassIds(seed: OrganisationSeed): Organisation {
 
 export type BoardLabel = "Wintersaison" | "Jahresperiode"
 
-/** Tooltip text for label chips (aligned with demo board date ranges). */
 export const boardLabelDateRanges: Record<BoardLabel, string> = {
     Wintersaison: "(31.10.2026 - 30.04.2027)",
     Jahresperiode: "(01.01.2027 - 31.12.2027)",
@@ -42,7 +68,6 @@ export const boardLabelDateRanges: Record<BoardLabel, string> = {
 
 export type BoardStatus = "erstellt" | "versandBereit"
 
-/** `startDate` / `endDate`: ISO date strings (GraphQL / DB `Date` → TypeScript). */
 export type Board = {
     id: string
     name: string
@@ -50,7 +75,6 @@ export type Board = {
     startDate: string
     endDate: string
     status: BoardStatus
-    /** Anlässe bestätigt / total (Anzeige: „20 Anlässe von 134“). */
     anlaesseConfirmed: number
     anlaesseTotal: number
     labels: BoardLabel[]

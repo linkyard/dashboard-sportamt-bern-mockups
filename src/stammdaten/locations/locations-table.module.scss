@@ -1,0 +1,53 @@
+.tableToolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+}
+
+.ellipsis {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 320px;
+}
+
+.rowActions {
+    flex-wrap: nowrap;
+    width: 100%;
+    min-width: 102px;
+    gap: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    svg {
+        font-size: 15px;
+    }
+}
+
+.rowActionsAddWrapper {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.dialogContent {
+    padding-top: 8px;
+}
+
+.objekteSectionTitle {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.objektDraftCard {
+    padding: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.02);
+}

@@ -90,5 +90,6 @@
 /* Same horizontal inset as TimelineContent (padding-left: 16px after the dot column). */
 .commentSection {
     @include field-group;
+    @include field-group-outlined-controls;
     padding-left: 16px;
 }

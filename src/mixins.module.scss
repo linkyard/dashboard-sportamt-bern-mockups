@@ -3,3 +3,17 @@
     flex-direction: column;
     gap: 6px;
 }
+
+/** Outlined MUI fields inside a field-group wrapper (label + control). Pair with `@include field-group`. */
+@mixin field-group-outlined-controls {
+    :global {
+        .MuiOutlinedInput-notchedOutline {
+            border: 1px solid #e0e0e0 !important;
+        }
+
+        .MuiPickersOutlinedInput-root fieldset,
+        .MuiOutlinedInput-root fieldset {
+            border: 1px solid #e0e0e0 !important;
+        }
+    }
+}

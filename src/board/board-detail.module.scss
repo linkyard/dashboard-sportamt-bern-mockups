@@ -3,6 +3,7 @@
 
 .fieldGroup {
     @include field-group;
+    @include field-group-outlined-controls;
 }
 
 .formSection {
@@ -29,19 +30,10 @@
             border-radius: 5px;
         }
 
-        .MuiOutlinedInput-notchedOutline {
-            border: 0;
-        }
-
         .MuiPickersOutlinedInput-root,
         .MuiOutlinedInput-root {
             background-color: #f3f3f3 !important;
             border-radius: 5px !important;
-        }
-
-        .MuiPickersOutlinedInput-root fieldset,
-        .MuiOutlinedInput-root fieldset {
-            border: 0 !important;
         }
 
         .MuiInputBase-input {
@@ -70,9 +62,24 @@
     margin-top: 16px;
 }
 
-.organisationsTableWrapper {
+.tableToolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
     margin-top: 12px;
-    border: 1px solid #e0e0e0;
+    margin-bottom: 12px;
+}
+
+.tableToolbarSearch {
+    flex: 1 1 220px;
+    max-width: fit-content;
+    min-width: 0;
+}
+
+.organisationsTableWrapper {
+    margin-top: 0;
     border-radius: 8px;
     overflow: hidden;
 }
@@ -82,7 +89,6 @@
 }
 
 .anlaesseList {
-    padding: 8px 16px 10px;
     background-color: #fafafa;
     display: flex;
     flex-direction: column;

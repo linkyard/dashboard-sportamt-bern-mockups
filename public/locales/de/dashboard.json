@@ -31,7 +31,6 @@
     "board-detail": {
         "title": "Neues Board",
         "fields": {
-            "name": "Name",
             "bemerkung": "Bemerkung",
             "start-date": "Start",
             "end-date": "End",
@@ -48,28 +47,55 @@
             "success-message": "Board wurde erstellt und mit den hochgeladenen Daten befüllt."
         },
         "organisation-table": {
+            "global-search-placeholder": "Durchsuchen",
             "columns": {
                 "organisation": "Organisation",
                 "contact": "Kontakt",
-                "phone": "Telefon",
-                "address": "Adresse",
                 "anlaesse-count": "Anlässe"
             }
         }
     },
     "stammdaten": {
         "title": "Stammdaten",
-        "empty": "Kein Board ausgewaehlt.",
-        "fields": {
-            "name": "Name",
-            "bemerkung": "Bemerkung",
-            "start-date": "Startdatum",
-            "end-date": "Enddatum"
+        "tabs-aria-label": "Stammdaten-Bereiche",
+        "tabs": {
+            "objekte": "Objekte",
+            "vereine": "Vereine",
+            "ferien-und-feiertage": "Ferien & Feiertage"
+        },
+        "objekte-table": {
+            "add-location": "Standort hinzufügen",
+            "add-objekt": "Objekt hinzufügen",
+            "add-objekt-short": "+ Objekt",
+            "add-another-objekt": "Weiteres Objekt",
+            "remove-objekt-draft": "Dieses Objekt entfernen",
+            "objekte-section": "Objekte (mindestens eines erforderlich)",
+            "objekt-name-label": "Objektname",
+            "columns": {
+                "name": "Name",
+                "objekteCount": "Objekte"
+            },
+            "cancel": "Abbrechen",
+            "save": "Speichern",
+            "edit": "Bearbeiten",
+            "delete": "Löschen",
+            "objekte-count": "{{count}} Objekte",
+            "create-location-title": "Standort anlegen",
+            "edit-location-title": "Standort bearbeiten",
+            "create-objekt-title": "Objekt anlegen",
+            "edit-objekt-title": "Objekt bearbeiten",
+            "delete-location-title": "Standort löschen?",
+            "delete-objekt-title": "Objekt löschen?",
+            "delete-location-body": "Der Standort und alle zugehörigen Objekte werden entfernt.",
+            "delete-objekt-body": "Dieses Objekt wird unwiderruflich gelöscht.",
+            "validation-location-name": "Bitte einen Standortnamen angeben.",
+            "validation-min-one-objekt": "Mindestens ein Objekt ist erforderlich.",
+            "validation-objekt-name": "Bitte für jedes Objekt einen Namen angeben.",
+            "last-objekt-error": "Das letzte Objekt eines Standorts kann nicht gelöscht werden."
         }
     },
     "organisation-admin": {
         "title": "Organisation-Admin",
-        "breadcrumbs-aria": "Hierarchie",
         "breadcrumb-board-fallback": "Board",
         "empty": "Keine Organisation ausgewaehlt.",
         "contact-address-title": "Kontaktadresse",
@@ -93,19 +119,12 @@
             }
         },
         "anlass-detail": {
-            "breadcrumbs-aria": "Hierarchie",
             "fallback-title": "Anlass",
             "empty": "Kein Anlass ausgewählt.",
             "breadcrumb-fallback": "Organisation",
             "back-aria-label": "Zurück zur Organisationsverwaltung",
             "history-title": "Verlaufsprotokoll",
             "history-empty": "Noch keine Einträge im Verlauf."
-        },
-        "fields": {
-            "organisation": "Organisation",
-            "contact": "Kontakt",
-            "phone": "Telefon",
-            "address": "Adresse"
         }
     }
 }
