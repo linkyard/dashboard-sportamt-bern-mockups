@@ -2,6 +2,7 @@ import {faCalendar, faClock} from "@fortawesome/free-regular-svg-icons"
 import {faLocationDot} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {useNavigate} from "react-router"
+import {SHOW_SPORT_ICONS} from "../../config/show-sport-icons"
 import type {Anlass} from "../organisation"
 import styles from "./anlass-inline-row.module.scss"
 import {AnlassStatusPill} from "./anlass-status-pill"
@@ -30,9 +31,11 @@ export const AnlassInlineRow = ({anlass, organisationId}: AnlassInlineRowProps) 
             }}
         >
             <div className={styles.nameCol}>
-                <span className={styles.sportIconWrap} aria-hidden>
-                    <FontAwesomeIcon icon={anlass.sportIcon} className={styles.sportIcon} />
-                </span>
+                {SHOW_SPORT_ICONS ? (
+                    <span className={styles.sportIconWrap} aria-hidden>
+                        <FontAwesomeIcon icon={anlass.sportIcon} className={styles.sportIcon} />
+                    </span>
+                ) : null}
                 <span className={styles.nameText}>{anlass.name}</span>
             </div>
 
