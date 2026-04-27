@@ -1,152 +1,152 @@
-import {faBuilding, faEnvelope, faLocationDot, faPhone, faUser} from "@fortawesome/free-solid-svg-icons"
+import {faAddressCard, faEnvelope, faPhone} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {TextField} from "@mui/material"
+import {TextField, type TextFieldProps} from "@mui/material"
 import {useState} from "react"
+import {useTranslation} from "react-i18next"
 import {EditButton} from "../../components/edit-button"
 import type {ContactAddress} from "../organisation"
 import styles from "./contact-box.module.scss"
 
-export const ContactDetails = ({title, contact, emptyText}: {title: string; contact?: ContactAddress; emptyText?: string}) => {
-    const [isEditing, setIsEditing] = useState(false)
-    const [draft, setDraft] = useState<ContactAddress>(
-        contact ?? {
-            organisationName: "",
-            contactPerson: "",
-            street: "",
-            city: "",
-            email: "",
-            phone: "",
-        }
+const emptyContact = (): ContactAddress => ({
+    organisationName: "",
+    contactPerson: "",
+    street: "",
+    postalCode: "",
+    city: "",
+    email: "",
+    phone: "",
+})
+
+type ContactInputProps = TextFieldProps & {fieldKey: string}
+
+const ContactInput: React.FC<ContactInputProps> = ({value, onChange, fieldKey, slotProps: userSlotProps, ...props}) => {
+    const {t} = useTranslation("dashboard")
+    const fieldLabel = t(`organisation-admin.contact-box.${fieldKey}`)
+
+    return (
+        <TextField
+            {...props}
+            variant="standard"
+            size="small"
+            value={value}
+            onChange={onChange}
+            placeholder={fieldLabel}
+            slotProps={{
+                ...userSlotProps,
+                input: {disableUnderline: true as const, ...userSlotProps?.input},
+                htmlInput: {"aria-label": fieldLabel, ...userSlotProps?.htmlInput},
+            }}
+        />
     )
+}
+
+type ContactDetailsProps = {
+    title: string
+    contact?: ContactAddress
+    sameAsContactAddress?: boolean
+}
+
+export const ContactDetails = ({title, contact, sameAsContactAddress = false}: ContactDetailsProps) => {
+    const {t} = useTranslation("dashboard")
+    const [isEditing, setIsEditing] = useState(false)
+    const [draft, setDraft] = useState<ContactAddress>(contact ?? emptyContact())
 
     return (
         <article className={styles.contactCard}>
             <span className={styles.editButton}>
-                <EditButton onClick={() => setIsEditing((prev) => !prev)} />
+                <EditButton
+                    onClick={() => {
+                        setIsEditing((prev) => {
+                            const next = !prev
+                            if (next) setDraft(contact ?? emptyContact())
+                            return next
+                        })
+                    }}
+                />
             </span>
             <h3 className={styles.cardTitle}>{title}</h3>
-            {isEditing ? (
+            {sameAsContactAddress && (
                 <div className={styles.contactContent}>
-                    <label className={styles.inputRow}>
-                        <FontAwesomeIcon icon={faBuilding} className={styles.rowIcon} />
-                        <TextField
-                            variant="standard"
-                            size="small"
-                            className={styles.inputField}
-                            value={draft.organisationName}
-                            onChange={(event) =>
-                                setDraft((prev) => ({
-                                    ...prev,
-                                    organisationName: event.target.value,
-                                }))
-                            }
-                        />
-                    </label>
-                    <label className={styles.inputRow}>
-                        <FontAwesomeIcon icon={faUser} className={styles.rowIcon} />
-                        <TextField
-                            variant="standard"
-                            size="small"
-                            className={styles.inputField}
-                            value={draft.contactPerson}
-                            onChange={(event) =>
-                                setDraft((prev) => ({
-                                    ...prev,
-                                    contactPerson: event.target.value,
-                                }))
-                            }
-                        />
-                    </label>
-                    <label className={styles.inputRow}>
-                        <FontAwesomeIcon icon={faLocationDot} className={styles.rowIcon} />
-                        <TextField
-                            variant="standard"
-                            size="small"
-                            className={styles.inputField}
-                            value={draft.street}
-                            onChange={(event) =>
-                                setDraft((prev) => ({
-                                    ...prev,
-                                    street: event.target.value,
-                                }))
-                            }
-                        />
-                    </label>
-                    {/* <label className={styles.inputRow}>
-                        <span className={styles.rowIcon} />
-                        <TextField
-                            variant="standard"
-                            size="small"
-                            className={styles.inputField}
-                            value={draft.city}
-                            onChange={(event) =>
-                                setDraft((prev) => ({
-                                    ...prev,
-                                    city: event.target.value,
-                                }))
-                            }
-                        />
-                    </label> */}
-                    <label className={styles.inputRow}>
-                        <FontAwesomeIcon icon={faEnvelope} className={styles.rowIcon} />
-                        <TextField
-                            variant="standard"
-                            size="small"
-                            className={styles.inputField}
-                            value={draft.email}
-                            onChange={(event) =>
-                                setDraft((prev) => ({
-                                    ...prev,
-                                    email: event.target.value,
-                                }))
-                            }
-                        />
-                    </label>
-                    <label className={styles.inputRow}>
-                        <FontAwesomeIcon icon={faPhone} className={styles.rowIcon} />
-                        <TextField
-                            variant="standard"
-                            size="small"
-                            className={styles.inputField}
-                            value={draft.phone}
-                            onChange={(event) =>
-                                setDraft((prev) => ({
-                                    ...prev,
-                                    phone: event.target.value,
-                                }))
-                            }
-                        />
-                    </label>
+                    <p className={styles.sameAsContactText}>{t("organisation-admin.same-as-contact")}</p>
                 </div>
-            ) : contact ? (
+            )}
+            {contact && !isEditing && (
                 <div className={styles.contactContent}>
-                    <p className={styles.infoRow}>
-                        <FontAwesomeIcon icon={faBuilding} className={styles.rowIcon} />
-                        <span>{contact.organisationName}</span>
-                    </p>
-                    <p className={styles.infoRow}>
-                        <FontAwesomeIcon icon={faUser} className={styles.rowIcon} />
-                        <span>{contact.contactPerson}</span>
-                    </p>
-                    <p className={styles.infoRow}>
-                        <FontAwesomeIcon icon={faLocationDot} className={styles.rowIcon} />
-                        <span>{contact.street}</span>
-                    </p>
-                    {/* <p className={styles.infoRow}>
-                        <span className={styles.rowIcon} />
-                        <span>{contact.city}</span>
-                    </p> */}
-                    <p className={styles.infoRow}>
+                    <div className={styles.addressGroup}>
+                        <FontAwesomeIcon icon={faAddressCard} className={styles.addressGroupIcon} aria-hidden />
+                        <div className={styles.addressStack}>
+                            <p>{contact.organisationName}</p>
+                            <p>{contact.contactPerson}</p>
+                            <p>{contact.street}</p>
+                            <p>{[contact.postalCode, contact.city].filter(Boolean).join(" ")}</p>
+                        </div>
+                    </div>
+                    <p className={styles.infoRowWithIcon}>
                         <FontAwesomeIcon icon={faEnvelope} className={styles.rowIcon} />
                         <span>{contact.email}</span>
                     </p>
-                    <p className={styles.infoRow}>
+                    <p className={styles.infoRowWithIcon}>
                         <FontAwesomeIcon icon={faPhone} className={styles.rowIcon} />
                         <span>{contact.phone}</span>
                     </p>
                 </div>
-            ) : (
-                <p>{emptyText}</p>
+            )}
+            {isEditing && (
+                <div className={styles.contactContent}>
+                    <div className={styles.addressGroup}>
+                        <FontAwesomeIcon icon={faAddressCard} className={styles.addressGroupIcon} />
+                        <div className={styles.addressStack}>
+                            <ContactInput
+                                fieldKey="organisation"
+                                value={draft.organisationName}
+                                onChange={(event) => setDraft((prev) => ({...prev, organisationName: event.target.value}))}
+                            />
+                            <ContactInput
+                                fieldKey="contactPerson"
+                                value={draft.contactPerson}
+                                onChange={(event) => setDraft((prev) => ({...prev, contactPerson: event.target.value}))}
+                            />
+                            <ContactInput
+                                fieldKey="street"
+                                value={draft.street}
+                                onChange={(event) => setDraft((prev) => ({...prev, street: event.target.value}))}
+                            />
+                            <div className={styles.postalCityRow}>
+                                <ContactInput
+                                    className={styles.postalField}
+                                    fieldKey="postalCode"
+                                    value={draft.postalCode}
+                                    onChange={(event) => setDraft((prev) => ({...prev, postalCode: event.target.value}))}
+                                    slotProps={{htmlInput: {inputMode: "text"}}}
+                                />
+                                <ContactInput
+                                    className={styles.cityField}
+                                    fieldKey="city"
+                                    value={draft.city}
+                                    onChange={(event) => setDraft((prev) => ({...prev, city: event.target.value}))}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <label className={styles.infoRowWithIcon}>
+                        <FontAwesomeIcon icon={faEnvelope} className={styles.rowIcon} />
+                        <ContactInput
+                            fieldKey="email"
+                            type="email"
+                            value={draft.email}
+                            onChange={(event) => setDraft((prev) => ({...prev, email: event.target.value}))}
+                        />
+                    </label>
+                    <label className={`${styles.infoRowWithIcon} ${styles.phoneRow}`}>
+                        <FontAwesomeIcon icon={faPhone} className={styles.rowIcon} />
+                        <ContactInput
+                            fieldKey="phone"
+                            value={draft.phone}
+                            onChange={(event) => setDraft((prev) => ({...prev, phone: event.target.value}))}
+                        />
+                    </label>
+                </div>
             )}
         </article>
     )

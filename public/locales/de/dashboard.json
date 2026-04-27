@@ -38,7 +38,7 @@
             "bemerkung-placeholder": "Bemerkung"
         },
         "upload": {
-            "title": "Datenupload",
+            "title": "Organisationen",
             "helpertext": "Ziehe eine Datei hierher oder klicke, um eine Datei auszuwählen",
             "upload-title": "Excel-Datei hochladen",
             "upload-text": "Ziehen Sie I-Web hierher oder",
@@ -74,13 +74,22 @@
         "empty": "Keine Organisation ausgewaehlt.",
         "contact-address-title": "Kontaktadresse",
         "billing-address-title": "Rechnungsadresse",
-        "same-as-contact": "Gleich wie Kontaktadresse",
+        "same-as-contact": "Gleich wie die Kontaktadresse",
+        "contact-box": {
+            "organisation": "Organisation",
+            "contactPerson": "Name der Kontaktperson",
+            "street": "Strasse",
+            "postalCode": "PLZ",
+            "city": "Ort",
+            "email": "E-Mail",
+            "phone": "Telefon"
+        },
         "anlaesse": {
             "title": "Anlässe",
             "search-placeholder": "Search",
             "status": {
-                "pending": "Reservation Ausstehend",
-                "confirmed": "Reservation Bestätigt"
+                "pending": "Ausstehend",
+                "confirmed": "Bestätigt"
             }
         },
         "anlass-detail": {
