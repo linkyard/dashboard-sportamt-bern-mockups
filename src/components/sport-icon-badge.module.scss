@@ -1,0 +1,32 @@
+@use "../variables.module.scss" as *;
+
+.badge {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f2ef;
+    color: #2a332c;
+    box-sizing: border-box;
+}
+
+.icon {
+    font-size: 1.28rem !important;
+}
+
+//--- Sportamt-color version ---
+//.badge {
+//    flex-shrink: 0;
+//    width: 48px;
+//    height: 48px;
+//    border-radius: 12px;
+//    display: inline-flex;
+//    align-items: center;
+//    justify-content: center;
+//    background: #f0f2ef;
+//    color: color.mix($sportamtGreen, #1e2822, 38%);
+//    border: 1px solid color-mix(in srgb, $sportamtGreen 45%, rgba(38, 50, 59, 0.1));
+//    box-sizing: border-box;

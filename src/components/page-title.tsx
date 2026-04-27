@@ -13,7 +13,13 @@ interface PageTitleProps {
     hasInfoButton?: boolean
 }
 
-export const PageTitle = ({title, editable = false, onTitleChange, isSubTitle = false, hasInfoButton = false}: PageTitleProps) => {
+export const PageTitle = ({
+    title,
+    editable = false,
+    onTitleChange,
+    isSubTitle = false,
+    hasInfoButton = false,
+}: PageTitleProps) => {
     const [isEditing, setIsEditing] = useState(false)
     const [draftTitle, setDraftTitle] = useState(title)
 

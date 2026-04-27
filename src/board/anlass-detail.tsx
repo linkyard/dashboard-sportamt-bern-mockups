@@ -3,6 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {useTranslation} from "react-i18next"
 import {AppBreadcrumbs} from "../components/breadcrumbs"
 import {PageTitle} from "../components/page-title"
+import {SportIconBadge} from "../components/sport-icon-badge"
 import styles from "./anlass-detail.module.scss"
 import {AnlassHistoryLog} from "./components/anlass-history-log"
 import {resolveAnlassFromOrganisation, type Anlass, type Organisation} from "./organisation"
@@ -20,11 +21,16 @@ export const AnlassDetail: React.FC<AnlassDetailProps> = ({anlass, organisation}
         ? `${anlassForDisplay.name} - ${anlassForDisplay.location ?? "-"}`
         : t("dashboard:organisation-admin.anlass-detail.fallback-title")
 
-    const periodLabel = anlassForDisplay ? (anlassForDisplay.period ?? anlassForDisplay.date ?? "—") : null
+    const periodLabel = anlassForDisplay ? (anlassForDisplay.period ?? "—") : null
 
     return (
         <>
-            <AppBreadcrumbs variant="anlass-detail" organisation={organisation} anlass={anlass} />
+            <div className={styles.topBar}>
+                <div className={styles.breadcrumbsWrapper}>
+                    <AppBreadcrumbs variant="anlass-detail" organisation={organisation} anlass={anlass} />
+                </div>
+                {anlassForDisplay ? <SportIconBadge icon={anlassForDisplay.sportIcon} className={styles.topBarBadge} /> : null}
+            </div>
             <PageTitle title={title} />
             {periodLabel ? (
                 <div className={styles.periodRow}>

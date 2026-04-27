@@ -1,3 +1,5 @@
+import type {IconProp} from "@fortawesome/fontawesome-svg-core"
+
 export type ContactAddress = {
     organisationName: string
     contactPerson: string
@@ -29,6 +31,7 @@ export type AnlassHistoryEntry = {
 export type Anlass = {
     id: string
     name: string
+    sportIcon: IconProp
     period?: string
     location?: string
     times?: string[]

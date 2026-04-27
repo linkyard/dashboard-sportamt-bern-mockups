@@ -3,7 +3,7 @@ import {MRT_Localization_DE} from "material-react-table/locales/de"
 import {useMemo} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
-import {dummyOrganisations} from "../dashboard/dummyData"
+import {allDummyOrganisations} from "../dashboard/dummyData"
 import styles from "./board-detail.module.scss"
 import {AnlassInlineRow} from "./components/anlass-inline-row"
 import type {Organisation} from "./organisation"
@@ -70,7 +70,7 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
         },
         localization: {...MRT_Localization_DE, language: "de-CH"},
         enablePagination: false,
-        data: dummyOrganisations,
+        data: allDummyOrganisations,
         enableColumnActions: false,
         enableGlobalFilter: true,
         enableSorting: true,

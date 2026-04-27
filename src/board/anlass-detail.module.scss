@@ -1,3 +1,19 @@
+.topBar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.breadcrumbsWrapper {
+    flex: 1;
+    min-width: 0;
+}
+
+.topBarBadge {
+    flex-shrink: 0;
+}
+
 .periodRow {
     display: flex;
     align-items: center;

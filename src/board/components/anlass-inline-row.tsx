@@ -13,7 +13,7 @@ type AnlassInlineRowProps = {
 
 export const AnlassInlineRow = ({anlass, organisationId}: AnlassInlineRowProps) => {
     const navigate = useNavigate()
-    const dates = anlass.times.filter(Boolean).join(" · ")
+    const dates = (anlass.times ?? []).filter(Boolean).join(" · ")
 
     const openAnlass = () => {
         navigate(`/organisation-admin/${organisationId}/anlass/${anlass.id}`)
@@ -29,7 +29,12 @@ export const AnlassInlineRow = ({anlass, organisationId}: AnlassInlineRowProps) 
                 openAnlass()
             }}
         >
-            <div className={styles.nameCol}>{anlass.name}</div>
+            <div className={styles.nameCol}>
+                <span className={styles.sportIconWrap} aria-hidden>
+                    <FontAwesomeIcon icon={anlass.sportIcon} className={styles.sportIcon} />
+                </span>
+                <span className={styles.nameText}>{anlass.name}</span>
+            </div>
 
             <div className={styles.cell}>
                 <span className={styles.iconWrapper}>

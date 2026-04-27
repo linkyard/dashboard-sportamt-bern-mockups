@@ -1,3 +1,12 @@
+import {
+    faChildReaching,
+    faDumbbell,
+    faFeather,
+    faFutbol,
+    faParachuteBox,
+    faPersonSwimming,
+    faVolleyball,
+} from "@fortawesome/free-solid-svg-icons"
 import type {Anlass, AnlassHistoryEntry, Organisation} from "../board/organisation"
 
 /** Demo organisation ids (slug-style, stable for routing and fixtures). */
@@ -122,7 +131,7 @@ const withAnlassHistory = (organisations: Organisation[]): Organisation[] =>
             history:
                 anlass.history != null && anlass.history.length > 0
                     ? anlass.history
-                    : demoAnlassCommunicationHistory(`${org.id}-${index}-${anlass.name}-${anlass.date ?? anlass.period ?? ""}`),
+                    : demoAnlassCommunicationHistory(`${org.id}-${index}-${anlass.name}-${anlass.period ?? ""}`),
         })),
     }))
 
@@ -142,6 +151,7 @@ export const dummyOrganisation: Organisation = organisationWithAnlassIds({
     anlaesse: [
         {
             name: "Schwimmen",
+            sportIcon: faPersonSwimming,
             period: "Sommerperiode (Mai - September)",
             location: "Freibad Marzili",
             times: ["Dienstag, 16:30 - 17:30", "Freitag, 11:30 - 12:30"],
@@ -169,6 +179,7 @@ export const dummyOrganisation: Organisation = organisationWithAnlassIds({
         },
         {
             name: "Badminton",
+            sportIcon: faFeather,
             period: "Jahresperiode (August - Juli)",
             location: "Turnhalle Marzili",
             times: ["Donnerstag, 20:00 - 21:00"],
@@ -184,6 +195,7 @@ export const dummyOrganisation: Organisation = organisationWithAnlassIds({
         },
         {
             name: "Luftakrobatik",
+            sportIcon: faParachuteBox,
             period: "Jahresperiode (August - Juli)",
             location: "Turnhalle Matte",
             times: ["Mittwoch, 18:30 - 20:00"],
@@ -217,6 +229,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
         anlaesse: [
             {
                 name: "Turnen",
+                sportIcon: faChildReaching,
                 period: "Winterperiode (31.10.2026 - 30.04.2027)",
                 location: "Turnhalle Breitenrain",
                 times: ["Montag, 18:00 - 19:30"],
@@ -224,6 +237,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Turnen",
+                sportIcon: faChildReaching,
                 period: "Jahresperiode (01.01.2027 - 31.12.2027)",
                 location: "Turnhalle Breitenrain",
                 times: ["Samstag, 09:30 - 12:00"],
@@ -231,6 +245,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Geräteturnen",
+                sportIcon: faDumbbell,
                 period: "Sommerperiode (01.05.2026 - 30.09.2026)",
                 location: "Turnhalle Wankdorf",
                 times: ["Sonntag, 08:00 - 17:00"],
@@ -238,6 +253,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Turnen",
+                sportIcon: faChildReaching,
                 period: "Übergangsperiode (Sept. - Okt. 2026)",
                 location: "Turnhalle Breitenrain",
                 times: ["Mittwoch, 15:00 - 16:00", "Mittwoch, 16:15 - 17:15"],
@@ -245,6 +261,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Turnen",
+                sportIcon: faChildReaching,
                 period: "Winterperiode (31.10.2026 - 30.04.2027)",
                 location: "Gemeindesaal Breitenrain",
                 times: ["Freitag, 18:30 - 23:00"],
@@ -268,6 +285,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
         anlaesse: [
             {
                 name: "Fussball",
+                sportIcon: faFutbol,
                 period: "Jahresperiode (01.01.2027 - 31.12.2027)",
                 location: "Sportplatz Murifeld",
                 times: ["Samstag, 10:00 - 16:00"],
@@ -275,6 +293,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Fussball",
+                sportIcon: faFutbol,
                 period: "Winterperiode (31.10.2026 - 30.04.2027)",
                 location: "Sportplatz Murifeld",
                 times: ["Samstag, 09:00 - 15:30"],
@@ -282,6 +301,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Fussball",
+                sportIcon: faFutbol,
                 period: "Übergangsperiode (Sept. - Okt. 2026)",
                 location: "Sportplatz Murifeld",
                 times: ["Freitag, 19:30 - 21:00"],
@@ -289,6 +309,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Fussball",
+                sportIcon: faFutbol,
                 period: "Sommerperiode (01.05.2026 - 30.09.2026)",
                 location: "Sportplatz Murifeld",
                 times: ["Dienstag, 19:00 - 21:00", "Donnerstag, 19:00 - 21:00"],
@@ -296,6 +317,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Fussball",
+                sportIcon: faFutbol,
                 period: "Jahresperiode (01.01.2027 - 31.12.2027)",
                 location: "Stadion Wankdorf",
                 times: ["Samstag, 14:00 - 17:30"],
@@ -303,6 +325,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Fussball",
+                sportIcon: faFutbol,
                 period: "Winterperiode (31.10.2026 - 30.04.2027)",
                 location: "Sportplatz Murifeld",
                 times: ["Sonntag, 10:00 - 14:00"],
@@ -326,6 +349,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
         anlaesse: [
             {
                 name: "Schwimmen",
+                sportIcon: faPersonSwimming,
                 period: "Winterperiode (31.10.2026 - 30.04.2027)",
                 location: "Schwimmbad Aarebad",
                 times: ["Samstag, 08:00 - 13:00"],
@@ -333,6 +357,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Schwimmen",
+                sportIcon: faPersonSwimming,
                 period: "Jahresperiode (01.01.2027 - 31.12.2027)",
                 location: "Schwimmbad Aarebad",
                 times: ["Dienstag, 17:00 - 18:00", "Donnerstag, 17:00 - 18:00"],
@@ -340,6 +365,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Schwimmen",
+                sportIcon: faPersonSwimming,
                 period: "Sommerperiode (01.05.2026 - 30.09.2026)",
                 location: "Freibad Marzili",
                 times: ["Sonntag, 10:00 - 12:00"],
@@ -347,6 +373,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Schwimmen",
+                sportIcon: faPersonSwimming,
                 period: "Übergangsperiode (Sept. - Okt. 2026)",
                 location: "Schwimmbad Aarebad",
                 times: ["Samstag, 07:30 - 16:00"],
@@ -354,6 +381,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             },
             {
                 name: "Wasserball",
+                sportIcon: faVolleyball,
                 period: "Winterperiode (31.10.2026 - 30.04.2027)",
                 location: "Hallenbad City",
                 times: ["Sonntag, 18:00 - 20:00"],

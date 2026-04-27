@@ -7,6 +7,7 @@ import {useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
 import {PageTitle} from "../components/page-title"
+import {SportIconBadge} from "../components/sport-icon-badge"
 import styles from "./anlaesse.module.scss"
 import {AnlassStatusPill} from "./components/anlass-status-pill"
 import {type Anlass, type Organisation} from "./organisation"
@@ -30,7 +31,6 @@ export const AnlaesseCardList: React.FC<AnlaesseCardListProps> = ({anlaesse, org
                 anlass.period ?? "",
                 anlass.location ?? "",
                 (anlass.times ?? []).join(" "),
-                anlass.date ?? "",
                 anlass.status ? t(`organisation-admin.anlaesse.status.${anlass.status}`) : "",
             ]
                 .join(" ")
@@ -97,30 +97,36 @@ const AnlaessCard: React.FC<AnlaessCardProps> = ({anlass, organisation}) => {
                 }
             }}
         >
-            <div className={styles.cardLeft}>
-                <h3 className={styles.title}>{anlass.name}</h3>
+            <SportIconBadge icon={anlass.sportIcon} className={styles.sportBadge} />
 
-                <div className={styles.infoRow}>
-                    <FontAwesomeIcon icon={faCalendar} size="xs" className={styles.infoIcon} />
-                    <span>{anlass.period ?? anlass.date ?? "-"}</span>
-                </div>
+            <h3 className={styles.title}>{anlass.name}</h3>
 
-                <div className={styles.infoRow}>
-                    <FontAwesomeIcon icon={faLocationDot} size="xs" className={styles.infoIcon} />
-                    <span>{anlass.location ?? "-"}</span>
-                </div>
+            <div className={`${styles.infoRow} ${styles.periodRow}`}>
+                <span className={styles.infoIconCell}>
+                    <FontAwesomeIcon icon={faCalendar} className={styles.infoIcon} />
+                </span>
+                <span>{anlass.period ?? "-"}</span>
             </div>
 
-            <div className={styles.cardCenter}>
+            <div className={`${styles.infoRow} ${styles.locationRow}`}>
+                <span className={styles.infoIconCell}>
+                    <FontAwesomeIcon icon={faLocationDot} className={styles.infoIcon} />
+                </span>
+                <span>{anlass.location ?? "-"}</span>
+            </div>
+
+            <div className={styles.timesColumn}>
                 {(anlass.times ?? []).map((time) => (
                     <div key={`${anlass.name}-${time}`} className={styles.infoRow}>
-                        <FontAwesomeIcon icon={faClock} size="xs" className={styles.infoIcon} />
+                        <span className={styles.infoIconCell}>
+                            <FontAwesomeIcon icon={faClock} className={styles.infoIcon} />
+                        </span>
                         <span>{time}</span>
                     </div>
                 ))}
             </div>
 
-            <div className={styles.cardRight}>
+            <div className={styles.statusCell}>
                 <AnlassStatusPill status={anlass.status} />
             </div>
         </article>
