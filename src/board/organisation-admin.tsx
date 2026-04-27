@@ -37,7 +37,7 @@ export const OrganisationAdminPage: React.FC<OrganisationAdminPageProps> = ({org
                     <ContactDetails
                         title={t("dashboard:organisation-admin.billing-address-title")}
                         contact={organisation.billingContact}
-                        sameAsContactAddress={organisation.billingContact == null}
+                        billingAddressMode
                     />
                 </div>
             </div>

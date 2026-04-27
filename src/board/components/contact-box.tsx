@@ -1,9 +1,10 @@
-import {faAddressCard, faEnvelope, faPhone} from "@fortawesome/free-solid-svg-icons"
+import {faAddressCard, faArrowRotateLeft, faEnvelope, faPhone} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {TextField, type TextFieldProps} from "@mui/material"
+import {IconButton, TextField, Tooltip, type TextFieldProps} from "@mui/material"
 import {useState} from "react"
 import {useTranslation} from "react-i18next"
 import {EditButton} from "../../components/edit-button"
+import editButtonStyles from "../../components/edit-button.module.scss"
 import type {ContactAddress} from "../organisation"
 import styles from "./contact-box.module.scss"
 
@@ -43,29 +44,51 @@ const ContactInput: React.FC<ContactInputProps> = ({value, onChange, fieldKey, s
 type ContactDetailsProps = {
     title: string
     contact?: ContactAddress
-    sameAsContactAddress?: boolean
+    /**
+     * Rechnungsadresse: revert control while editing, and “same as contact” when `contact` is absent.
+     */
+    billingAddressMode?: boolean
 }
 
-export const ContactDetails = ({title, contact, sameAsContactAddress = false}: ContactDetailsProps) => {
+export const ContactDetails = ({title, contact, billingAddressMode = false}: ContactDetailsProps) => {
     const {t} = useTranslation("dashboard")
+    const isBilling = billingAddressMode
     const [isEditing, setIsEditing] = useState(false)
     const [draft, setDraft] = useState<ContactAddress>(contact ?? emptyContact())
+
+    const toggleEdit = () => {
+        setIsEditing((prev) => {
+            const next = !prev
+            if (next) setDraft(contact ?? emptyContact())
+            return next
+        })
+    }
+
+    const handleBillingRevert = () => {
+        setIsEditing(false)
+        setDraft(contact ?? emptyContact())
+    }
 
     return (
         <article className={styles.contactCard}>
             <span className={styles.editButton}>
-                <EditButton
-                    onClick={() => {
-                        setIsEditing((prev) => {
-                            const next = !prev
-                            if (next) setDraft(contact ?? emptyContact())
-                            return next
-                        })
-                    }}
-                />
+                {isBilling && isEditing ? (
+                    <Tooltip title={t("organisation-admin.same-as-contact")}>
+                        <IconButton
+                            className={editButtonStyles.editButton}
+                            onClick={handleBillingRevert}
+                            size="small"
+                            aria-label={t("organisation-admin.same-as-contact")}
+                        >
+                            <FontAwesomeIcon icon={faArrowRotateLeft} className={editButtonStyles.editIcon} />
+                        </IconButton>
+                    </Tooltip>
+                ) : (
+                    <EditButton onClick={toggleEdit} />
+                )}
             </span>
             <h3 className={styles.cardTitle}>{title}</h3>
-            {sameAsContactAddress && (
+            {!isEditing && isBilling && !contact && (
                 <div className={styles.contactContent}>
                     <p className={styles.sameAsContactText}>{t("organisation-admin.same-as-contact")}</p>
                 </div>
