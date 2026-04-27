@@ -46,7 +46,7 @@
 
 .cards {
     flex: 1;
-    min-height: clamp(420px, 55vh, 720px);
+    min-height: 0;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -142,5 +142,17 @@
 
     .cardRight {
         justify-self: start;
+    }
+}
+
+// Match organisation-admin: short/narrow screens use outer Paper scroll instead of on the .cards
+@media (max-width: 900px), (max-height: 640px) {
+    .container {
+        flex: 0 1 auto;
+    }
+
+    .cards {
+        flex: none;
+        overflow: visible;
     }
 }

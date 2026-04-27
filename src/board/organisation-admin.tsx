@@ -25,7 +25,7 @@ export const OrganisationAdminPage: React.FC<OrganisationAdminPageProps> = ({org
     const title = organisation.organisation ? organisation.organisation : t("dashboard:organisation-admin.title")
 
     return (
-        <>
+        <div className={styles.orgAdminPage}>
             <AppBreadcrumbs variant="organisation-admin" organisation={organisation} />
             <div className={styles.paperTop}>
                 <PageTitle title={title} editable />
@@ -44,6 +44,6 @@ export const OrganisationAdminPage: React.FC<OrganisationAdminPageProps> = ({org
             <div className={styles.anlaesseSection}>
                 <AnlaesseCardList anlaesse={organisation.anlaesse} organisation={organisation} />
             </div>
-        </>
+        </div>
     )
 }
