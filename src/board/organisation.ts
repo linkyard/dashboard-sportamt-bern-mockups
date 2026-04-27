@@ -2,6 +2,7 @@ export type ContactAddress = {
     organisationName: string
     contactPerson: string
     street: string
+    postalCode: string
     city: string
     email: string
     phone: string
@@ -28,7 +29,6 @@ export type AnlassHistoryEntry = {
 export type Anlass = {
     id: string
     name: string
-    date?: string
     period?: string
     location?: string
     times?: string[]

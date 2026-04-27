@@ -11,9 +11,11 @@ const statusVariantByValue: Record<string, string> = {
 
 type AnlassStatusPillProps = {
     status?: AnlassStatus
+    /** Single-line / table contexts */
+    compact?: boolean
 }
 
-export const AnlassStatusPill = ({status}: AnlassStatusPillProps) => {
+export const AnlassStatusPill = ({status, compact}: AnlassStatusPillProps) => {
     const {t} = useTranslation("dashboard")
     const statusValue = status ?? "pending"
     const statusVariant = statusVariantByValue[statusValue] ?? "pending"
@@ -21,7 +23,7 @@ export const AnlassStatusPill = ({status}: AnlassStatusPillProps) => {
 
     return (
         <div
-            className={`${styles.statusPill} ${styles[`status${statusVariant}`]}`}
+            className={`${compact ? styles.statusPillCompact : styles.statusPill} ${styles[`status${statusVariant}`]}`}
             role="status"
             aria-label={statusLabel}
         >

@@ -5,32 +5,48 @@
     padding: 8px 16px;
     display: inline-flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 10px;
     font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     white-space: nowrap;
-    min-width: 200px;
+    min-width: 120px;
 }
 
-/* Outlined theme (matches Anlässe cards) */
+.statusPillCompact {
+    padding: 2px 9px;
+    gap: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    border-width: 1px;
+    border-radius: 10px;
+    min-width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+        margin-left: 5px;
+    }
+}
+
 .statuspending {
-    border: 2px solid #e5bc6a;
-    background: transparent;
-    color: #222;
+    background-color: $anlassStatusPendingBg;
+    color: $anlassStatusPendingFg;
+    border: 1px solid $anlassStatusPendingBorder;
 
     svg {
-        color: #e5bc6a;
+        color: $anlassStatusPendingFg;
     }
 }
 
 .statusconfirmed {
-    border: 2px solid $sportamtGreen;
-    background: transparent;
-    color: #222;
+    background-color: $anlassStatusConfirmedBg;
+    color: $anlassStatusConfirmedFg;
+    border: 1px solid $anlassStatusConfirmedBorder;
 
     svg {
-        color: $sportamtGreen;
+        color: $anlassStatusConfirmedFg;
     }
 }

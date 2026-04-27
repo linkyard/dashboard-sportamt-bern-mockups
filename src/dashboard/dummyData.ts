@@ -133,8 +133,9 @@ export const dummyOrganisation: Organisation = organisationWithAnlassIds({
     contact: {
         organisationName: "Linkyard Sports",
         contactPerson: "Roman Frey",
-        street: "Junkerngasse 39, 3011 Bern",
-        city: "",
+        street: "Junkerngasse 39",
+        postalCode: "3011",
+        city: "Bern",
         email: "roman.frey@linkyard.ch",
         phone: "+41 79 512 26 11",
     },
@@ -209,8 +210,9 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             contactPerson: "Mara Keller",
             phone: "+41 31 555 10 11",
             email: "mara.keller@tvnord.ch",
-            street: "Breitenrainstrasse 20, 3013 Bern",
-            city: "",
+            street: "Breitenrainstrasse 20",
+            postalCode: "3013",
+            city: "Bern",
         },
         anlaesse: [
             {
@@ -259,16 +261,9 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             contactPerson: "Jonas Wyss",
             phone: "+41 31 555 21 34",
             email: "jonas.wyss@fc-bern-ost.ch",
-            street: "Murifeldweg 8, 3006 Bern",
-            city: "",
-        },
-        billingContact: {
-            organisationName: "FC Bern Ost",
-            contactPerson: "Buchhaltung FC Bern Ost",
-            phone: "+41 31 555 21 40",
-            email: "rechnung@fc-bern-ost.ch",
-            street: "Murifeldweg 10, 3006 Bern",
-            city: "",
+            street: "Murifeldweg 8",
+            postalCode: "3006",
+            city: "Bern",
         },
         anlaesse: [
             {
@@ -324,8 +319,9 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             contactPerson: "Lea Gerber",
             phone: "+41 31 555 44 90",
             email: "lea.gerber@sc-mitte.ch",
-            street: "Aareweg 2, 3011 Bern",
-            city: "",
+            street: "Aareweg 2",
+            postalCode: "3011",
+            city: "Bern",
         },
         anlaesse: [
             {

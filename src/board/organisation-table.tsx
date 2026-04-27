@@ -5,6 +5,7 @@ import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
 import {dummyOrganisations} from "../dashboard/dummyData"
 import styles from "./board-detail.module.scss"
+import {AnlassInlineRow} from "./components/anlass-inline-row"
 import type {Organisation} from "./organisation"
 
 export interface OrganisationTableProps {
@@ -21,23 +22,40 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
                 accessorKey: "organisation",
                 header: t("board-detail.organisation-table.columns.organisation") as string,
                 sortDescFirst: false,
+                grow: false,
+                size: 350,
+                maxSize: 350,
+                minSize: 350,
             },
             {
-                accessorFn: (row) => `${row.contact.contactPerson} ${row.contact.phone} ${row.contact.street} ${row.contact.city}`,
+                accessorFn: (row) =>
+                    `${row.contact.contactPerson} ${row.contact.phone} ${row.contact.street} ${row.contact.postalCode} ${row.contact.city}`,
                 id: "contact",
                 header: t("board-detail.organisation-table.columns.contact") as string,
-                Cell: ({row}) => (
-                    <div>
-                        <div>{row.original.contact.contactPerson}</div>
-                        <div>{row.original.contact.phone}</div>
-                        <div>{`${row.original.contact.street}, ${row.original.contact.city}`}</div>
-                    </div>
-                ),
+                grow: false,
+                Cell: ({row}) => {
+                    const {contactPerson, phone, street, postalCode, city} = row.original.contact
+                    const plzOrt = [postalCode, city].filter(Boolean).join(" ")
+                    return (
+                        <div>
+                            <div>{contactPerson}</div>
+                            <div>{phone}</div>
+                            <div>{street}</div>
+                            {plzOrt ? <div>{plzOrt}</div> : null}
+                        </div>
+                    )
+                },
+                size: 300,
+                maxSize: 300,
+                minSize: 300,
             },
             {
                 accessorFn: (row) => row.anlaesse.length,
                 id: "anlaesseCount",
                 header: t("board-detail.organisation-table.columns.anlaesse-count") as string,
+                grow: true,
+                minSize: 80,
+                size: 120,
             },
         ],
         [t]
@@ -45,6 +63,11 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
 
     const organisationsTable = useMaterialReactTable({
         columns: organisationColumns,
+        layoutMode: "grid",
+        defaultColumn: {
+            grow: false,
+            minSize: 0,
+        },
         localization: {...MRT_Localization_DE, language: "de-CH"},
         enablePagination: false,
         data: dummyOrganisations,
@@ -63,6 +86,16 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
                 cursor: "pointer",
             },
         }),
+        displayColumnDefOptions: {
+            "mrt-row-expand": {
+                grow: false,
+                size: 50,
+                maxSize: 50,
+                minSize: 50,
+                header: "",
+                Header: () => "",
+            },
+        },
         initialState: {
             showGlobalFilter: true,
             sorting: [{id: "organisation", desc: false}],
@@ -89,45 +122,16 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
         },
         muiTableContainerProps: {
             sx: {
-                overflow: "hidden",
-                "& table": {
-                    tableLayout: "fixed",
-                    width: "100%",
-                },
-                "& thead": {
-                    display: "table",
-                    width: "100%",
-                    tableLayout: "fixed",
-                },
-                "& tbody": {
-                    display: "block",
-                    maxHeight: {xs: "none", sm: "calc(100vh - 575px)"},
-                    overflowY: {xs: "visible", sm: "auto"},
-                },
-                "& tbody tr": {
-                    display: "table",
-                    width: "100%",
-                    tableLayout: "fixed",
-                },
+                maxHeight: {xs: "none", sm: "calc(100vh - 575px)"},
+                overflowX: "auto",
+                overflowY: {xs: "visible", sm: "auto"},
             },
         },
         renderDetailPanel: ({row}) => (
             <div className={styles.anlaesseList}>
-                {row.original.anlaesse.map((anlass) => {
-                    const statusKey = anlass.status ?? "pending"
-                    return (
-                        <div key={anlass.id} className={styles.anlassRow}>
-                            <div className={styles.anlassDetail}>
-                                <span className={styles.anlassName}>{anlass.name}</span>
-                                <span className={styles.anlassMeta}>{[anlass.period, anlass.location].filter(Boolean).join(" · ")}</span>
-                                {(anlass.times?.length ?? 0) > 0 ? (
-                                    <span className={styles.anlassMeta}>{anlass.times!.join(" · ")}</span>
-                                ) : null}
-                            </div>
-                            <span className={styles.anlassStatus}>{t(`organisation-admin.anlaesse.status.${statusKey}`)}</span>
-                        </div>
-                    )
-                })}
+                {row.original.anlaesse.map((anlass) => (
+                    <AnlassInlineRow key={anlass.id} anlass={anlass} organisationId={row.original.id} />
+                ))}
             </div>
         ),
     })

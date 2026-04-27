@@ -82,43 +82,11 @@
 }
 
 .anlaesseList {
-    padding: 12px 20px 16px;
+    padding: 8px 16px 10px;
     background-color: #fafafa;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-}
-
-.anlassRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-    border-bottom: 1px solid #e8e8e8;
-    padding-bottom: 6px;
-}
-
-.anlassDetail {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-}
-
-.anlassName {
-    font-weight: 600;
-}
-
-.anlassMeta {
-    font-size: 0.875rem;
-    color: #555;
-}
-
-.anlassStatus {
-    flex-shrink: 0;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: #333;
+    gap: 0;
 }
 
 @media (max-width: 900px) {
