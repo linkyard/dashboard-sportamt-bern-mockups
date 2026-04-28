@@ -15,6 +15,7 @@ export type AppBreadcrumbsProps =
     | {variant: "board-detail"; boardName: string; isNew: boolean}
     | {variant: "organisation-admin"; organisation: Organisation}
     | {variant: "anlass-detail"; organisation: Organisation | undefined; anlass: Anlass | undefined}
+    | {variant: "ferien-editor"; holidayName: string}
 
 function dashboardAndBoard(organisation: Organisation | undefined, t: TFunction<"dashboard">): Crumb[] {
     const id = organisation?.boardId
@@ -95,6 +96,19 @@ export const AppBreadcrumbs: React.FC<AppBreadcrumbsProps> = (props) => {
                             label: organisation?.organisation || t("dashboard:organisation-admin.anlass-detail.breadcrumb-fallback"),
                         },
                         {label: anlassName},
+                    ]}
+                />
+            )
+        }
+        case "ferien-editor": {
+            const {holidayName} = props
+            return (
+                <BreadcrumbsList
+                    items={[
+                        {to: "/stammdaten/ferien-und-feiertage", label: t("dashboard:stammdaten.tabs.ferien-und-feiertage")},
+                        {
+                            label: holidayName.trim() ? holidayName : t("dashboard:stammdaten.ferien-editor.breadcrumb-current"),
+                        },
                     ]}
                 />
             )

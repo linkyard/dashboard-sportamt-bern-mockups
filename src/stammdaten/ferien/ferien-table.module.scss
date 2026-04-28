@@ -1,0 +1,54 @@
+.tableToolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.toolbarYear {
+    flex-shrink: 0;
+    min-width: 120px;
+}
+
+.toolbarActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.ellipsis {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 320px;
+}
+
+.rowActions {
+    flex-wrap: nowrap;
+    width: 100%;
+    min-width: 72px;
+    gap: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    svg {
+        font-size: 15px;
+    }
+}
+
+.closedObjekteCell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.dialogContent {
+    padding-top: 8px;
+}

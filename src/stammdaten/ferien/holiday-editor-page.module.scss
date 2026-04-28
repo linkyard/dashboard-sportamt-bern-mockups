@@ -1,0 +1,414 @@
+@use "../../variables.module.scss" as *;
+@use "../../mixins.module.scss" as *;
+
+.page {
+    position: relative;
+    padding: 0 0 48px;
+}
+
+/* Dev/demo only: layout toggle — fixed so it stays out of the main flow. */
+.presentationDemoCorner {
+    position: fixed;
+    z-index: 5;
+    right: max(12px, env(safe-area-inset-right, 0px));
+    bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    max-width: calc(100vw - 32px);
+    border-radius: 6px;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(6px);
+
+    :global {
+        .MuiToggleButton-root {
+            font-size: 0.7rem;
+            line-height: 1.2;
+            padding: 4px 8px;
+            min-width: 0;
+            text-transform: none;
+        }
+
+        .MuiToggleButtonGroup-root {
+            flex-wrap: nowrap;
+        }
+    }
+}
+
+/* Same look as board-detail date row; kept local so this page does not import board styles. */
+.formSection {
+    margin-top: 24px;
+}
+
+.detailsCard {
+    border-radius: 12px;
+    padding: 20px 0;
+}
+
+.fieldGroup {
+    @include field-group;
+    @include field-group-outlined-controls;
+}
+
+.dateRangeRow {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 180px));
+    gap: 20px;
+}
+
+.dateInput {
+    width: 100%;
+    max-width: 180px;
+
+    :global {
+        .MuiInputBase-root {
+            background-color: #f3f3f3;
+            border-radius: 5px;
+        }
+
+        .MuiPickersOutlinedInput-root,
+        .MuiOutlinedInput-root {
+            background-color: #f3f3f3 !important;
+            border-radius: 5px !important;
+        }
+
+        .MuiInputBase-input {
+            padding: 14px 12px;
+        }
+
+        .MuiPickersInputBase-input {
+            padding: 14px 12px !important;
+        }
+
+        .MuiSvgIcon-root {
+            color: #666;
+        }
+    }
+}
+
+.controlsRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.controlsSearch {
+    flex: 0 1 280px;
+    min-width: 200px;
+    max-width: 320px;
+}
+
+.layout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.weeksCard {
+    flex: 0 0 260px;
+    width: 100%;
+    max-width: 320px;
+    padding: 0;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    overflow: hidden;
+}
+
+.weeksHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.weeksHeaderActive {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.weekRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+/* Match `mrtSharedTablePaperProps` + head/body cell look from material-react-table-styles */
+.mainCard {
+    flex: 1 1 400px;
+    min-width: 0;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background: #f8f8f8;
+    overflow: hidden;
+}
+
+.tableHeader {
+    display: grid;
+    grid-template-columns: 1fr 112px;
+    gap: 8px;
+    align-items: center;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    background: #f5f5f5;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.closedHead {
+    text-align: right;
+}
+
+.locationRow {
+    display: grid;
+    grid-template-columns: 1fr 112px;
+    gap: 8px;
+    align-items: center;
+    padding: 6px 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    background: #f8f8f8;
+    font-size: 0.875rem;
+}
+
+.objektRow {
+    display: grid;
+    grid-template-columns: 1fr 112px;
+    gap: 8px;
+    align-items: center;
+    padding: 6px 16px 6px 40px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    background: #f8f8f8;
+    font-size: 0.875rem;
+}
+
+.locationNameCell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.objektNameCell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.objektIconWrap {
+    flex-shrink: 0;
+    width: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.objektSportIcon {
+    font-size: 14px;
+    color: $iconColor;
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.closedCell {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.checkAccent {
+    :global(.MuiSvgIcon-root) {
+        color: rgba(0, 0, 0, 0.28);
+    }
+
+    &:global(.Mui-checked .MuiSvgIcon-root),
+    &:global(.MuiCheckbox-indeterminate .MuiSvgIcon-root) {
+        color: $sportamtGreen;
+    }
+}
+
+@media (max-width: 900px) {
+    .dateRangeRow {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Week-columns grid layout (alternate holiday editor presentation). */
+.weekColumnsCard {
+    margin-top: 16px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    overflow: visible;
+}
+
+.weekGridScroll {
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* CSS Grid matrix: fixed min widths per week column (table layout was collapsing week columns). */
+.weekMatrix {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    min-width: 100%;
+    box-sizing: border-box;
+    font-size: 0.875rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.weekMatrixRow {
+    display: grid;
+    align-items: stretch;
+    min-height: 48px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.weekMatrixHeaderRow {
+    background: #f8f9fa;
+    font-weight: 600;
+    min-height: auto;
+}
+
+.weekMatrixFirstCell {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    min-width: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    background: inherit;
+}
+
+.weekMatrixWeekHead {
+    text-align: center;
+    padding: 10px 8px;
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+    background: #f8f9fa;
+}
+
+.weekMatrixWeekCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
+    min-width: 0;
+}
+
+.weekMatrixLocRow {
+    background: #fafafa;
+}
+
+.weekMatrixObjRow {
+    background: #fff;
+}
+
+.weekMatrixObjLabel {
+    justify-content: flex-start;
+    gap: 10px;
+    padding-left: 40px !important;
+}
+
+.weekGridMuted {
+    opacity: 0.45;
+}
+
+.weekGridMutedTd {
+    opacity: 0.45;
+    background: #fafafa;
+}
+
+.weekGridWeekHeadInner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-height: 4.25rem;
+}
+
+.weekGridWeekTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.weekGridWeekSub {
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.55);
+}
+
+.weekGridLocationHead {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-bottom: 4px;
+}
+
+.weekGridLocationHeadTitle {
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.weekGridMasterHint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+}
+
+.weekGridLocName {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+    font-weight: 600;
+}
+
+.weekGridObjName {
+    font-weight: 400;
+}
+
+.weekGridObjSpacer {
+    display: inline-block;
+    width: 1rem;
+}
+

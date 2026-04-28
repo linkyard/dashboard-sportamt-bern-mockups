@@ -8,13 +8,15 @@ import {
     faVolleyball,
 } from "@fortawesome/free-solid-svg-icons"
 import type {Anlass, AnlassHistoryEntry, Organisation} from "../board/organisation"
+import type {HolidayRowData} from "../stammdaten/ferien/ferien-types"
 import type {LocationRowData, ObjektRowData} from "../stammdaten/locations/locations-types"
 import type {TrainerRowData, VereinRowData} from "../stammdaten/vereine/vereine-types"
 
-const demoObjekt = (id: string, name: string): ObjektRowData => ({
+const demoObjekt = (id: string, name: string, sportIcon?: ObjektRowData["sportIcon"]): ObjektRowData => ({
     id,
     rowKind: "objekt",
     name,
+    ...(sportIcon ? {sportIcon} : {}),
 })
 
 const demoLocation = (id: string, name: string, subRows: ObjektRowData[]): LocationRowData => ({
@@ -24,16 +26,90 @@ const demoLocation = (id: string, name: string, subRows: ObjektRowData[]): Locat
     subRows,
 })
 
+/** Demo Ferien & Feiertage for Stammdaten (static mock data until GraphQL exists). */
 /** Demo Standorte / Objekte for Stammdaten (global master data, not scoped to a board). */
+export const stammdatenSeedHolidays: HolidayRowData[] = [
+    {
+        id: "st-ferien-1",
+        name: "Sommerferien",
+        startDate: "2026-07-06",
+        endDate: "2026-08-09",
+        closedObjekteCount: 0,
+    },
+    {
+        id: "st-ferien-2",
+        name: "Herbstferien",
+        startDate: "2026-10-05",
+        endDate: "2026-10-16",
+        closedObjekteCount: 0,
+    },
+    {
+        id: "st-ferien-3",
+        name: "Winterferien",
+        startDate: "2026-12-21",
+        endDate: "2027-01-02",
+        closedObjekteCount: 0,
+    },
+    {
+        id: "st-ferien-4",
+        name: "Sportferien",
+        startDate: "2026-02-02",
+        endDate: "2026-02-13",
+        closedObjekteCount: 0,
+    },
+    {
+        id: "st-ferien-5",
+        name: "Frühlingsferien",
+        startDate: "2026-04-06",
+        endDate: "2026-04-17",
+        closedObjekteCount: 0,
+    },
+    {
+        id: "st-ferien-6",
+        name: "Pfingstferien",
+        startDate: "2026-05-18",
+        endDate: "2026-05-29",
+        closedObjekteCount: 0,
+    },
+    {
+        id: "st-ferien-7",
+        name: "Osterferien",
+        startDate: "2027-04-05",
+        endDate: "2027-04-16",
+        closedObjekteCount: 0,
+    },
+    {
+        id: "st-ferien-8",
+        name: "Sommerferien",
+        startDate: "2027-07-12",
+        endDate: "2027-08-15",
+        closedObjekteCount: 0,
+    },
+    {
+        id: "st-ferien-9",
+        name: "Herbstferien",
+        startDate: "2027-10-04",
+        endDate: "2027-10-15",
+        closedObjekteCount: 0,
+    },
+    {
+        id: "st-ferien-10",
+        name: "Sportferien",
+        startDate: "2028-01-31",
+        endDate: "2028-02-11",
+        closedObjekteCount: 0,
+    },
+]
+
 export const stammdatenSeedLocations: LocationRowData[] = [
     demoLocation("st-loc-b1-1", "Turnhalle Wankdorf", [
-        demoObjekt("st-obj-b1-1", "Hauptsaal"),
-        demoObjekt("st-obj-b1-2", "Nebenraum A"),
-        demoObjekt("st-obj-b1-3", "Kraftraum"),
+        demoObjekt("st-obj-b1-1", "Hauptsaal", faVolleyball),
+        demoObjekt("st-obj-b1-2", "Nebenraum A", faFeather),
+        demoObjekt("st-obj-b1-3", "Kraftraum", faDumbbell),
     ]),
     demoLocation("st-loc-b1-2", "Sportanlage Breitenrain", [
-        demoObjekt("st-obj-b1-4", "Kunstrasenplatz"),
-        demoObjekt("st-obj-b1-5", "Naturrasen"),
+        demoObjekt("st-obj-b1-4", "Kunstrasenplatz", faFutbol),
+        demoObjekt("st-obj-b1-5", "Naturrasen", faFutbol),
     ]),
 ]
 
