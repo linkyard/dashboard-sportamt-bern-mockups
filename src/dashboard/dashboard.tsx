@@ -1,3 +1,6 @@
+import type {IconDefinition} from "@fortawesome/fontawesome-svg-core"
+import {faCheck, faPaperPlane} from "@fortawesome/free-solid-svg-icons"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import SearchIcon from "@mui/icons-material/Search"
 import {Button, Chip, InputAdornment, Tooltip} from "@mui/material"
 import {MaterialReactTable, type MRT_ColumnDef, MRT_GlobalFilterTextField, useMaterialReactTable} from "material-react-table"
@@ -16,9 +19,14 @@ import {formatDateSwiss} from "../util/date"
 import styles from "./dashboard.module.scss"
 import {type Board, boardLabelDateRanges, type BoardStatus, dummyBoards} from "./dummyData"
 
-const boardStatusChipClass: Record<BoardStatus, string> = {
-    erstellt: styles.statusChipErstellt,
-    versandBereit: styles.statusChipVersandBereit,
+const boardStatusIcon: Record<BoardStatus, IconDefinition> = {
+    erstellt: faCheck,
+    versandBereit: faPaperPlane,
+}
+
+const boardStatusPillClass: Record<BoardStatus, string> = {
+    erstellt: styles.boardStatusErstellt,
+    versandBereit: styles.boardStatusVersandBereit,
 }
 
 export const Dashboard = () => {
@@ -57,7 +65,18 @@ export const Dashboard = () => {
                 size: 150,
                 Cell: ({row}) => {
                     const key = row.original.status
-                    return <Chip label={t(`dashboard:dashboard.table.status.${key}`)} size="small" className={boardStatusChipClass[key]} />
+                    return (
+                        <div
+                            className={`${styles.boardStatusPill} ${boardStatusPillClass[key]}`}
+                            role="status"
+                            aria-label={t(`dashboard:dashboard.table.status.${key}`)}
+                        >
+                            <span>{t(`dashboard:dashboard.table.status.${key}`)}</span>
+                            <span className={styles.boardStatusIconDisc} aria-hidden>
+                                <FontAwesomeIcon icon={boardStatusIcon[key]} />
+                            </span>
+                        </div>
+                    )
                 },
             },
             {

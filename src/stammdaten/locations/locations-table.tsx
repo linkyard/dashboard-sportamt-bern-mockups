@@ -5,15 +5,15 @@ import {
     type MRT_ColumnDef,
     MRT_ExpandButton,
     type MRT_Row,
-    MRT_TableBodyRowGrabHandle,
-    type MRT_TableInstance,
     MaterialReactTable,
     useMaterialReactTable,
 } from "material-react-table"
 import {MRT_Localization_DE} from "material-react-table/locales/de"
-import {useCallback, useMemo, useRef, useState} from "react"
+import {useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
+import {SHOW_SPORT_ICONS} from "../../config/show-sport-icons"
 import {
+    mrtNestedRowRailSx,
     mrtSharedHeaderPaddingX,
     mrtSharedMrtTheme,
     mrtSharedTableBodyCellSx,
@@ -41,27 +41,15 @@ function filterLocationsForSearch(locations: LocationRowData[], query: string): 
         .filter((row): row is LocationRowData => row != null)
 }
 
-function StammdatenNameCell({
-    row,
-    table,
-    ellipsisClassName,
-}: {
-    row: MRT_Row<StammdatenObjekteRow>
-    table: MRT_TableInstance<StammdatenObjekteRow>
-    ellipsisClassName: string
-}) {
-    const rowTrRef = useRef<HTMLTableRowElement | null>(null)
-
+function StammdatenNameCell({row}: {row: MRT_Row<StammdatenObjekteRow>}) {
     return (
-        <Box
-            ref={(el: HTMLDivElement | null) => {
-                const tr = el?.closest("tr")
-                rowTrRef.current = tr instanceof HTMLTableRowElement ? tr : null
-            }}
-            sx={{display: "flex", alignItems: "center", gap: 0.5, minWidth: 0, width: "100%"}}
-        >
-            {row.original.rowKind === "objekt" ? <MRT_TableBodyRowGrabHandle row={row} rowRef={rowTrRef} table={table} /> : null}
-            <span className={ellipsisClassName}>{row.original.name}</span>
+        <Box sx={{display: "flex", alignItems: "center", gap: 0.5, minWidth: 0, width: "100%"}}>
+            {row.original.rowKind === "objekt" && SHOW_SPORT_ICONS && row.original.sportIcon ? (
+                <span className={styles.sportIconWrap} aria-hidden>
+                    <FontAwesomeIcon icon={row.original.sportIcon} className={styles.sportIcon} />
+                </span>
+            ) : null}
+            <span className={styles.nameCellText}>{row.original.name}</span>
         </Box>
     )
 }
@@ -98,7 +86,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                 maxSize: 200,
                 muiTableHeadCellProps: {align: "left"},
                 muiTableBodyCellProps: {align: "left"},
-                Cell: ({row, table}) => <StammdatenNameCell row={row} table={table} ellipsisClassName={styles.ellipsis} />,
+                Cell: ({row}) => <StammdatenNameCell row={row} />,
             },
             {
                 id: "objekteCount",
@@ -194,7 +182,12 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                         pr: mrtSharedHeaderPaddingX,
                     }),
                 },
-                muiTableBodyCellProps: {sx: mrtSharedTableBodyCellSx},
+                muiTableBodyCellProps: ({row}) => ({
+                    sx: (theme) => ({
+                        ...mrtSharedTableBodyCellSx(theme),
+                        ...mrtNestedRowRailSx(theme, row.depth),
+                    }),
+                }),
                 Cell: ({row, staticRowIndex, table}) =>
                     row.original.rowKind === "location" ? (
                         <MRT_ExpandButton row={row} staticRowIndex={staticRowIndex} table={table} />
@@ -224,6 +217,19 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
             },
         },
         muiRowDragHandleProps: ({table}) => ({
+            size: "small",
+            sx: (theme) => ({
+                color: theme.palette.grey[400],
+                opacity: 0.55,
+                padding: theme.spacing(0.25),
+                "&:hover": {
+                    color: theme.palette.grey[600],
+                    opacity: 1,
+                },
+                "& .MuiSvgIcon-root": {
+                    fontSize: "1.05rem",
+                },
+            }),
             onDragEnd: () => {
                 const {draggingRow, hoveredRow} = table.getState()
                 if (!draggingRow?.original || !hoveredRow?.original) {
