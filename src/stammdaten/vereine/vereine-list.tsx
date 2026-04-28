@@ -1,48 +1,156 @@
-import {faPenToSquare, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons"
+import {faPenToSquare, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import SearchIcon from "@mui/icons-material/Search"
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    IconButton,
-    InputAdornment,
-    Paper,
-    Snackbar,
-    Stack,
-    TextField,
-    Tooltip,
-} from "@mui/material"
-import {useCallback, useState} from "react"
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, TextField, Tooltip} from "@mui/material"
+import {type MRT_ColumnDef, MaterialReactTable, useMaterialReactTable} from "material-react-table"
+import {MRT_Localization_DE} from "material-react-table/locales/de"
+import {useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
-import {CreateVereinDialog, EditVereinDialog, TrainerDialog} from "./verein-list-dialogs"
-import styles from "./vereine-list.module.scss"
-import {type TrainerRowData, type VereinRowData} from "./vereine-types"
+import {useNavigate} from "react-router"
+import {stammdatenSeedVereine} from "../../dashboard/dummyData"
+import {
+    mrtSharedHeaderPaddingX,
+    mrtSharedMrtTheme,
+    mrtSharedTableBodyCellSx,
+    mrtSharedTableHeadCellSx,
+    mrtSharedTablePaperProps,
+} from "../../lib/material-react-table-styles"
+import {CreateVereinDialog} from "./verein-list-dialogs"
+import styles from "./vereine-table.module.scss"
+import type {VereinRowData} from "./vereine-types"
 
-export interface VereineCardsListProps {
-    initialVereine: VereinRowData[]
+function filterVereineForSearch(vereine: VereinRowData[], query: string): VereinRowData[] {
+    const q = query.trim().toLowerCase()
+    if (!q) {
+        return vereine
+    }
+    return vereine.filter((v) => {
+        if (v.name.toLowerCase().includes(q)) {
+            return true
+        }
+        if (v.contact.contactPerson.toLowerCase().includes(q)) {
+            return true
+        }
+        return v.subRows.some(
+            (t) =>
+                `${t.firstName} ${t.lastName}`.toLowerCase().includes(q) ||
+                t.phone.toLowerCase().includes(q) ||
+                t.email.toLowerCase().includes(q)
+        )
+    })
 }
 
-export const VereineCardsList = ({initialVereine}: VereineCardsListProps) => {
+export const VereineTable: React.FC = () => {
     const {t} = useTranslation("dashboard")
-    const [vereine, setVereine] = useState<VereinRowData[]>(() => structuredClone(initialVereine))
+    const navigate = useNavigate()
+    const [vereine, setVereine] = useState<VereinRowData[]>(() => structuredClone(stammdatenSeedVereine))
     const [snackbar, setSnackbar] = useState<string | null>(null)
-
-    const [vereinDialog, setVereinDialog] = useState<null | {mode: "create" | "edit"; verein?: VereinRowData}>(null)
-    const [trainerDialog, setTrainerDialog] = useState<null | {mode: "create" | "edit"; vereinId: string; trainer?: TrainerRowData}>(null)
-    const [deleteTarget, setDeleteTarget] = useState<null | {kind: "verein"; id: string} | {kind: "trainer"; id: string; vereinId: string}>(
-        null
-    )
+    const [vereinDialog, setVereinDialog] = useState<null | {mode: "create"}>(null)
+    const [deleteVereinId, setDeleteVereinId] = useState<string | null>(null)
     const [createVereinDialogKey, setCreateVereinDialogKey] = useState(0)
+    const [searchQuery, setSearchQuery] = useState("")
 
     const showError = useCallback((message: string) => setSnackbar(message), [])
+
+    const tableData = useMemo(() => filterVereineForSearch(vereine, searchQuery), [vereine, searchQuery])
+
+    const columns = useMemo<MRT_ColumnDef<VereinRowData>[]>(
+        () => [
+            {
+                accessorKey: "name",
+                header: t("stammdaten.vereine-table.columns.name"),
+                grow: true,
+                size: 200,
+                minSize: 160,
+                muiTableHeadCellProps: {align: "left"},
+                muiTableBodyCellProps: {align: "left"},
+                Cell: ({row}) => <span className={styles.ellipsis}>{row.original.name}</span>,
+            },
+            {
+                id: "contactPerson",
+                accessorFn: (row) => row.contact.contactPerson.trim(),
+                header: t("stammdaten.vereine-table.columns.contact-person"),
+                grow: true,
+                size: 180,
+                minSize: 140,
+                muiTableHeadCellProps: {align: "left"},
+                muiTableBodyCellProps: {align: "left"},
+                Cell: ({row}) => <span className={styles.ellipsis}>{row.original.contact.contactPerson.trim()}</span>,
+            },
+        ],
+        [t]
+    )
+
+    const table = useMaterialReactTable({
+        columns,
+        data: tableData,
+        mrtTheme: mrtSharedMrtTheme,
+        getRowId: (row) => row.id,
+        localization: {...MRT_Localization_DE, language: "de-CH"},
+        layoutMode: "grid",
+        defaultColumn: {minSize: 60},
+        initialState: {
+            density: "comfortable",
+        },
+        enableExpanding: false,
+        enableSorting: false,
+        enablePagination: false,
+        enableGlobalFilter: false,
+        enableColumnActions: false,
+        enableColumnFilters: false,
+        enableDensityToggle: false,
+        enableHiding: false,
+        enableFullScreenToggle: false,
+        enableStickyHeader: true,
+        enableTopToolbar: false,
+        enableBottomToolbar: false,
+        enableRowDragging: false,
+        enableRowOrdering: false,
+        positionToolbarAlertBanner: "none",
+        positionGlobalFilter: "none",
+        enableRowActions: true,
+        positionActionsColumn: "last",
+        displayColumnDefOptions: {
+            "mrt-row-actions": {
+                size: 88,
+                maxSize: 88,
+                minSize: 88,
+                grow: false,
+                muiTableHeadCellProps: {
+                    align: "right",
+                    sx: (theme) => ({
+                        ...mrtSharedTableHeadCellSx(theme),
+                        pl: mrtSharedHeaderPaddingX,
+                        pr: mrtSharedHeaderPaddingX,
+                        textAlign: "right",
+                    }),
+                },
+                muiTableBodyCellProps: {
+                    align: "right",
+                    sx: (theme) => ({
+                        ...mrtSharedTableBodyCellSx(theme),
+                        verticalAlign: "middle",
+                    }),
+                },
+            },
+        },
+        muiTablePaperProps: mrtSharedTablePaperProps,
+        muiTableContainerProps: {
+            sx: {maxHeight: "min(70vh, 560px)"},
+            "aria-label": t("stammdaten.vereine-table.list-aria-label"),
+        },
+        muiTableHeadCellProps: {
+            sx: mrtSharedTableHeadCellSx,
+        },
+        muiTableBodyCellProps: {
+            sx: mrtSharedTableBodyCellSx,
+        },
+        muiTableBodyRowProps: {
+            hover: true,
+        },
+        renderRowActions: ({row}) => (
+            <VereineTableActions onEdit={() => navigate(`/stammdaten/vereine/${row.original.id}/edit`)} onDelete={() => setDeleteVereinId(row.original.id)} />
+        ),
+    })
 
     return (
         <>
@@ -50,19 +158,13 @@ export const VereineCardsList = ({initialVereine}: VereineCardsListProps) => {
                 <div className={styles.tableToolbarSearch}>
                     <TextField
                         size="small"
-                        disabled
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder={t("common:actions.search")}
+                        aria-label={t("common:actions.search")}
                         fullWidth
                         slotProps={{
-                            input: {
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <SearchIcon fontSize="small" color="action" aria-hidden />
-                                    </InputAdornment>
-                                ),
-                            },
                             htmlInput: {
-                                "aria-label": t("common:actions.search"),
                                 style: {
                                     paddingTop: "4px",
                                     paddingBottom: "4px",
@@ -85,122 +187,11 @@ export const VereineCardsList = ({initialVereine}: VereineCardsListProps) => {
                     </Button>
                 </div>
             </div>
-
-            <Stack
-                component="section"
-                spacing={1.5}
-                className={styles.vereinList}
-                aria-label={t("stammdaten.vereine-table.list-aria-label")}
-            >
-                {vereine.length === 0 ? <p className={styles.emptyState}>{t("stammdaten.vereine-table.empty-vereine")}</p> : null}
-                {vereine.map((verein) => {
-                    const trainers = verein.subRows
-                    return (
-                    <Paper key={verein.id} variant="outlined" elevation={0} className={styles.vereinPaper}>
-                        <Accordion defaultExpanded disableGutters className={styles.vereinAccordion}>
-                            <AccordionSummary expandIcon={<ExpandMoreIcon fontSize="small" />} className={styles.accordionSummary}>
-                                <Box className={styles.accordionSummaryInner}>
-                                    <span className={styles.vereinTitle}>{verein.name}</span>
-                                    <span className={styles.trainerCount}>
-                                        {t("stammdaten.vereine-table.trainers-count-label", {count: trainers.length})}
-                                    </span>
-                                    <Box className={styles.headerActions} onClick={(e) => e.stopPropagation()}>
-                                        <Tooltip title={t("stammdaten.vereine-table.add-trainer")}>
-                                            <IconButton
-                                                component="span"
-                                                size="small"
-                                                aria-label={t("stammdaten.vereine-table.add-trainer")}
-                                                onClick={() => setTrainerDialog({mode: "create", vereinId: verein.id})}
-                                            >
-                                                <FontAwesomeIcon icon={faPlus} />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title={t("stammdaten.vereine-table.edit")}>
-                                            <IconButton
-                                                component="span"
-                                                size="small"
-                                                aria-label={t("stammdaten.vereine-table.edit")}
-                                                onClick={() => {
-                                                    const full = vereine.find((v) => v.id === verein.id) ?? verein
-                                                    setVereinDialog({mode: "edit", verein: full})
-                                                }}
-                                            >
-                                                <FontAwesomeIcon icon={faPenToSquare} />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title={t("stammdaten.vereine-table.delete")}>
-                                            <IconButton
-                                                component="span"
-                                                size="small"
-                                                aria-label={t("stammdaten.vereine-table.delete")}
-                                                onClick={() => setDeleteTarget({kind: "verein", id: verein.id})}
-                                            >
-                                                <FontAwesomeIcon icon={faTrash} />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </Box>
-                                </Box>
-                            </AccordionSummary>
-                            <AccordionDetails className={styles.accordionDetails}>
-                                <p className={styles.trainersSectionLabel}>{t("stammdaten.vereine-table.trainers-section")}</p>
-                                {trainers.length === 0 ? (
-                                    <p className={styles.noTrainers}>{t("stammdaten.vereine-table.no-trainers")}</p>
-                                ) : (
-                                    <Stack spacing={1} className={styles.trainerStack}>
-                                        {trainers.map((tr) => (
-                                            <Paper key={tr.id} elevation={0} className={styles.trainerCard}>
-                                                <Box className={styles.trainerCardMain}>
-                                                    <p className={styles.trainerName}>
-                                                        {tr.firstName} {tr.lastName}
-                                                    </p>
-                                                    <div className={styles.trainerContact}>
-                                                        {tr.phone ? <p className={styles.trainerContactLine}>{tr.phone}</p> : null}
-                                                        {tr.email ? (
-                                                            <p className={`${styles.trainerContactLine} ${styles.trainerEmail}`}>
-                                                                {tr.email}
-                                                            </p>
-                                                        ) : null}
-                                                        {!tr.phone && !tr.email ? (
-                                                            <p className={`${styles.trainerContactLine} ${styles.trainerNoContact}`}>
-                                                                {t("stammdaten.vereine-table.trainer-no-contact")}
-                                                            </p>
-                                                        ) : null}
-                                                    </div>
-                                                </Box>
-                                                <Box className={styles.trainerCardActions}>
-                                                    <Tooltip title={t("stammdaten.vereine-table.edit")}>
-                                                        <IconButton
-                                                            size="small"
-                                                            aria-label={t("stammdaten.vereine-table.edit")}
-                                                            onClick={() =>
-                                                                setTrainerDialog({mode: "edit", vereinId: verein.id, trainer: tr})
-                                                            }
-                                                        >
-                                                            <FontAwesomeIcon icon={faPenToSquare} />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                    <Tooltip title={t("stammdaten.vereine-table.delete")}>
-                                                        <IconButton
-                                                            size="small"
-                                                            aria-label={t("stammdaten.vereine-table.delete")}
-                                                            onClick={() =>
-                                                                setDeleteTarget({kind: "trainer", id: tr.id, vereinId: verein.id})
-                                                            }
-                                                        >
-                                                            <FontAwesomeIcon icon={faTrash} />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                </Box>
-                                            </Paper>
-                                        ))}
-                                    </Stack>
-                                )}
-                            </AccordionDetails>
-                        </Accordion>
-                    </Paper>
-                    )
-                })}
-            </Stack>
+            {vereine.length > 0 && tableData.length === 0 && searchQuery.trim() ? (
+                <p className={styles.vereineSearchEmpty}>{t("common:no-search-results")}</p>
+            ) : (
+                <MaterialReactTable table={table} />
+            )}
 
             {vereinDialog?.mode === "create" ? (
                 <CreateVereinDialog
@@ -215,75 +206,18 @@ export const VereineCardsList = ({initialVereine}: VereineCardsListProps) => {
                 />
             ) : null}
 
-            {vereinDialog?.mode === "edit" && vereinDialog.verein ? (
-                <EditVereinDialog
-                    key={vereinDialog.verein.id}
-                    open
-                    verein={vereinDialog.verein}
-                    onClose={() => setVereinDialog(null)}
-                    onSave={(updated) => {
-                        setVereine((prev) => prev.map((v) => (v.id === updated.id ? updated : v)))
-                        setVereinDialog(null)
-                    }}
-                    onValidationError={showError}
-                />
-            ) : null}
-
-            {trainerDialog ? (
-                <TrainerDialog
-                    key={trainerDialog.mode === "edit" && trainerDialog.trainer ? trainerDialog.trainer.id : "new-trainer"}
-                    open
-                    mode={trainerDialog.mode}
-                    trainer={trainerDialog.trainer}
-                    onClose={() => setTrainerDialog(null)}
-                    onSave={(tr) => {
-                        if (trainerDialog.mode === "create") {
-                            setVereine((prev) =>
-                                prev.map((v) => (v.id === trainerDialog.vereinId ? {...v, subRows: [...v.subRows, tr]} : v))
-                            )
-                        } else {
-                            setVereine((prev) =>
-                                prev.map((v) =>
-                                    v.id === trainerDialog.vereinId ? {...v, subRows: v.subRows.map((s) => (s.id === tr.id ? tr : s))} : v
-                                )
-                            )
-                        }
-                        setTrainerDialog(null)
-                    }}
-                    onValidationError={showError}
-                />
-            ) : null}
-
-            {deleteTarget ? (
-                <Dialog open onClose={() => setDeleteTarget(null)}>
-                    <DialogTitle>
-                        {deleteTarget.kind === "verein"
-                            ? t("stammdaten.vereine-table.delete-verein-title")
-                            : t("stammdaten.vereine-table.delete-trainer-title")}
-                    </DialogTitle>
-                    <DialogContent>
-                        {deleteTarget.kind === "verein"
-                            ? t("stammdaten.vereine-table.delete-verein-body")
-                            : t("stammdaten.vereine-table.delete-trainer-body")}
-                    </DialogContent>
+            {deleteVereinId ? (
+                <Dialog open onClose={() => setDeleteVereinId(null)}>
+                    <DialogTitle>{t("stammdaten.vereine-table.delete-verein-title")}</DialogTitle>
+                    <DialogContent>{t("stammdaten.vereine-table.delete-verein-body")}</DialogContent>
                     <DialogActions>
-                        <Button onClick={() => setDeleteTarget(null)}>{t("stammdaten.vereine-table.cancel")}</Button>
+                        <Button onClick={() => setDeleteVereinId(null)}>{t("stammdaten.vereine-table.cancel")}</Button>
                         <Button
                             color="error"
                             variant="contained"
                             onClick={() => {
-                                if (deleteTarget.kind === "verein") {
-                                    setVereine((prev) => prev.filter((v) => v.id !== deleteTarget.id))
-                                } else {
-                                    setVereine((prev) =>
-                                        prev.map((v) =>
-                                            v.id === deleteTarget.vereinId
-                                                ? {...v, subRows: v.subRows.filter((s) => s.id !== deleteTarget.id)}
-                                                : v
-                                        )
-                                    )
-                                }
-                                setDeleteTarget(null)
+                                setVereine((prev) => prev.filter((v) => v.id !== deleteVereinId))
+                                setDeleteVereinId(null)
                             }}
                         >
                             {t("stammdaten.vereine-table.delete")}
@@ -294,5 +228,29 @@ export const VereineCardsList = ({initialVereine}: VereineCardsListProps) => {
 
             <Snackbar open={Boolean(snackbar)} autoHideDuration={5000} onClose={() => setSnackbar(null)} message={snackbar} />
         </>
+    )
+}
+
+interface VereineTableActionsProps {
+    onEdit: () => void
+    onDelete: () => void
+}
+
+function VereineTableActions({onEdit, onDelete}: VereineTableActionsProps) {
+    const {t} = useTranslation("dashboard")
+
+    return (
+        <Box className={styles.rowActions}>
+            <Tooltip title={t("stammdaten.vereine-table.edit")}>
+                <IconButton size="small" aria-label={t("stammdaten.vereine-table.edit")} onClick={onEdit}>
+                    <FontAwesomeIcon icon={faPenToSquare} />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title={t("stammdaten.vereine-table.delete")}>
+                <IconButton size="small" aria-label={t("stammdaten.vereine-table.delete")} onClick={onDelete}>
+                    <FontAwesomeIcon icon={faTrash} />
+                </IconButton>
+            </Tooltip>
+        </Box>
     )
 }

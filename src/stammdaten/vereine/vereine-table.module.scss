@@ -1,0 +1,87 @@
+.tableToolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.tableToolbarSearch {
+    flex: 1 1 220px;
+    max-width: fit-content;
+    min-width: 0;
+}
+
+.toolbarActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.vereineSearchEmpty {
+    padding: 16px 0;
+}
+
+.ellipsis {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 320px;
+}
+
+.rowActions {
+    flex-wrap: nowrap;
+    width: 100%;
+    min-width: 102px;
+    gap: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    svg {
+        font-size: 15px;
+    }
+}
+
+.rowActionsAddWrapper {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.trainersSection {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    margin-top: 28px;
+    padding-right: 4px;
+}
+
+.trainersToolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.trainersHeading {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.trainersEmpty {
+    margin: 0;
+    padding: 12px 0;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 0.875rem;
+}

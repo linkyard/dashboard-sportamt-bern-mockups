@@ -2,11 +2,11 @@ import {Tab, Tabs} from "@mui/material"
 import {useTranslation} from "react-i18next"
 import {Navigate, useNavigate, useParams} from "react-router"
 import {PageTitle} from "../components/page-title"
-import {stammdatenSeedLocations, stammdatenSeedVereine} from "../dashboard/dummyData"
+import {stammdatenSeedLocations} from "../dashboard/dummyData"
 import {FerienTable} from "./ferien/ferien-table"
 import {LocationsTable} from "./locations/locations-table"
 import styles from "./stammdaten.module.scss"
-import {VereineCardsList} from "./vereine/vereine-list"
+import {VereineTable} from "./vereine/vereine-list"
 
 type StammdatenTabId = "objekte" | "vereine" | "ferien-und-feiertage"
 
@@ -57,7 +57,7 @@ export const StammdatenEditor = () => {
                     {tabId === "objekte" ? (
                         <LocationsTable key="stammdaten-objekte" initialLocations={stammdatenSeedLocations} />
                     ) : tabId === "vereine" ? (
-                        <VereineCardsList key="stammdaten-vereine" initialVereine={stammdatenSeedVereine} />
+                        <VereineTable key="stammdaten-vereine" />
                     ) : tabId === "ferien-und-feiertage" ? (
                         <FerienTable key="stammdaten-ferien" />
                     ) : null}

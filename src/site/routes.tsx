@@ -10,6 +10,7 @@ import {OrganisationAdminPage} from "../board/organisation-admin"
 import {Dashboard} from "../dashboard/dashboard"
 import {HolidayEditorPage} from "../stammdaten/ferien/holiday-editor-page"
 import {StammdatenEditor} from "../stammdaten/stammdaten"
+import {VereinEditorPage} from "../stammdaten/vereine/verein-editor-page"
 import {PageLayout} from "./layout"
 
 function NotFound() {
@@ -36,8 +37,9 @@ export function RouteIndex() {
                 <Route index element={<Dashboard />} />
                 <Route path="/stammdaten" element={<Outlet />}>
                     <Route index element={<Navigate to="/stammdaten/objekte" replace />} />
-                    <Route path="/stammdaten/ferien-und-feiertage/holiday/:holidayId/edit" element={<HolidayEditorPage />} />
-                    <Route path="/stammdaten/:tabId" element={<StammdatenEditor />} />
+                    <Route path="vereine/:vereinId/edit" element={<VereinEditorPage />} />
+                    <Route path="ferien-und-feiertage/holiday/:holidayId/edit" element={<HolidayEditorPage />} />
+                    <Route path=":tabId" element={<StammdatenEditor />} />
                 </Route>
                 <Route path="/organisation-admin" element={<Navigate to="/" replace />} />
                 <Route path="/organisation-admin/:organisationId/anlass/:anlassId" element={<AnlassDetail />} />

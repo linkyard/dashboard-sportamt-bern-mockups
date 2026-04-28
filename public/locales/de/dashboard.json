@@ -29,6 +29,7 @@
     },
     "board-detail": {
         "title": "Neues Board",
+        "save-to-enable-upload": "Speichern Sie zuerst, um Organisationen hochzuladen.",
         "fields": {
             "bemerkung": "Bemerkung",
             "start-date": "Start",
@@ -96,17 +97,17 @@
             "add-trainer": "Trainer hinzufügen",
             "list-aria-label": "Liste der Vereine",
             "trainers-section": "Trainer",
-            "trainers-count-label": "{{count}} Trainer",
-            "no-trainers": "Noch keine Trainer. Nutzen Sie das Plus oben, um einen Trainer hinzuzufügen.",
+            "no-trainers": "Noch keine Trainer. Verwenden Sie «Trainer hinzufügen», um einen Eintrag anzulegen.",
             "trainer-no-contact": "Keine Telefonnummer oder E-Mail hinterlegt.",
             "empty-vereine": "Noch keine Vereine angelegt.",
             "columns": {
+                "name": "Name",
                 "verein-name": "Verein",
+                "contact-person": "Kontakt",
                 "first-name": "Vorname",
                 "last-name": "Nachname",
                 "phone": "Telefon",
-                "email": "E-Mail",
-                "trainers-count": "Trainer"
+                "email": "E-Mail"
             },
             "cancel": "Abbrechen",
             "save": "Speichern",
@@ -122,6 +123,10 @@
             "delete-trainer-body": "Dieser Trainer wird unwiderruflich gelöscht.",
             "validation-verein-name": "Bitte einen Vereinsnamen angeben.",
             "validation-trainer-name": "Bitte Vorname und Nachname angeben."
+        },
+        "vereine-editor": {
+            "breadcrumb-current": "Verein bearbeiten",
+            "trainers-list-aria": "Trainer dieses Vereins"
         },
         "ferien-table": {
             "year-label": "Jahr",
