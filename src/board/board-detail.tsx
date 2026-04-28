@@ -1,4 +1,4 @@
-import {Alert, Snackbar} from "@mui/material"
+import {Alert, Button, Snackbar} from "@mui/material"
 import {DatePicker} from "@mui/x-date-pickers/DatePicker"
 import dayjs, {type Dayjs} from "dayjs"
 import {useEffect, useRef, useState} from "react"
@@ -31,7 +31,7 @@ interface BoardDetailContentProps {
 }
 
 const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) => {
-    const {t} = useTranslation("dashboard")
+    const {t} = useTranslation(["dashboard", "common"])
     const [name, setName] = useState(() => board?.name ?? "")
     const [bemerkung, setBemerkung] = useState(() => board?.bemerkung ?? "")
     const [startDate, setStartDate] = useState<Dayjs | null>(() => (board ? parseIsoToDayjs(board.startDate) : null))
@@ -39,7 +39,13 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
     const [selectedFileName, setSelectedFileName] = useState<string | null>(() => (isNew || !board ? null : "test-organisations.xls"))
     const [showUploadSuccessAlert, setShowUploadSuccessAlert] = useState(false)
     const [isUploadSuccess, setIsUploadSuccess] = useState(false)
+    const [newBoardSaved, setNewBoardSaved] = useState(false)
     const uploadAnimationTimeoutRef = useRef<number | null>(null)
+
+    const uploadEnabled = !isNew || newBoardSaved
+    const uploadLocked = isNew && !newBoardSaved && !selectedFileName
+
+    const canSaveNewBoard = name.trim().length > 0 && startDate != null && endDate != null
 
     useEffect(() => {
         return () => {
@@ -65,18 +71,19 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
     }
 
     const handleFiles = (fileList: FileList | null) => {
-        if (!fileList?.length) return
+        if (!uploadEnabled || !fileList?.length) return
         handleUploadSuccess(fileList[0].name)
     }
 
     const handleLoadTestData = () => {
+        if (!uploadEnabled) return
         handleUploadSuccess("test-organisations.xls")
     }
 
     return (
         <>
             <AppBreadcrumbs variant="board-detail" boardName={name} isNew={isNew} />
-            <PageTitle title={isNew ? t("dashboard:board-detail.title") : name} editable onTitleChange={setName} />
+            <PageTitle title={name} editable onTitleChange={setName} />
 
             <div className={styles.formSection}>
                 <div className={styles.detailsCard}>
@@ -122,12 +129,32 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
                             placeholder={t("board-detail.fields.bemerkung-placeholder")}
                         />
                     </div>
+
+                    {isNew ? (
+                        <div className={styles.newBoardSaveRow}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                disabled={newBoardSaved || !canSaveNewBoard}
+                                onClick={() => setNewBoardSaved(true)}
+                            >
+                                {t("common:actions.save")}
+                            </Button>
+                        </div>
+                    ) : null}
                 </div>
             </div>
 
             <PageTitle title={t("board-detail.upload.title")} isSubTitle />
+            {uploadLocked ? <p className={styles.uploadLockHint}>{t("board-detail.save-to-enable-upload")}</p> : null}
             {selectedFileName ? (
                 <OrganisationTable selectedFileName={selectedFileName} />
+            ) : uploadLocked ? (
+                <div className={styles.uploadLockWrap} inert>
+                    <UploadSection onFilesChange={handleFiles} onLoadTestData={handleLoadTestData} isUploadSuccess={isUploadSuccess} />
+                    <div className={styles.uploadLockOverlay} aria-hidden />
+                </div>
             ) : (
                 <UploadSection onFilesChange={handleFiles} onLoadTestData={handleLoadTestData} isUploadSuccess={isUploadSuccess} />
             )}

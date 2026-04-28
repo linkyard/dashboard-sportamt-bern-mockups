@@ -44,9 +44,6 @@ const ContactInput: React.FC<ContactInputProps> = ({value, onChange, fieldKey, s
 type ContactDetailsProps = {
     title: string
     contact?: ContactAddress
-    /**
-     * Rechnungsadresse: revert control while editing, and “same as contact” when `contact` is absent.
-     */
     billingAddressMode?: boolean
 }
 

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
 import { allDummyOrganisations } from "../dashboard/dummyData"
 import {
+    mrtDetailPanelRailSx,
     mrtSharedHeaderPaddingX,
     mrtSharedMrtTheme,
     mrtSharedTableBodyCellSx,
@@ -93,10 +94,16 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
         enableBottomToolbar: false,
         enableExpanding: true,
         enableExpandAll: false,
-        muiTableBodyRowProps: ({row}) => ({
-            onClick: () => navigate(`/organisation-admin/${row.original.id}`),
+        muiDetailPanelProps: {
+            sx: (theme) => ({
+                ...mrtDetailPanelRailSx(theme),
+            }),
+        },
+        muiTableBodyRowProps: ({row, isDetailPanel}) => ({
+            onClick: isDetailPanel ? undefined : () => navigate(`/organisation-admin/${row.original.id}`),
+            hover: !isDetailPanel,
             sx: {
-                cursor: "pointer",
+                ...(!isDetailPanel ? {cursor: "pointer"} : {}),
             },
         }),
         displayColumnDefOptions: {

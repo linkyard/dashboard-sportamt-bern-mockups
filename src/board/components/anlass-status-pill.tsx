@@ -1,4 +1,4 @@
-import {faCheckCircle, faClock as faClockSolid} from "@fortawesome/free-solid-svg-icons"
+import {faCheckCircle, faClock} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {useTranslation} from "react-i18next"
 import type {AnlassStatus} from "../organisation"
@@ -28,11 +28,9 @@ export const AnlassStatusPill = ({status, compact}: AnlassStatusPillProps) => {
             aria-label={statusLabel}
         >
             <span>{statusLabel}</span>
-            {statusValue === "confirmed" ? (
-                <FontAwesomeIcon icon={faCheckCircle} size="sm" />
-            ) : (
-                <FontAwesomeIcon icon={faClockSolid} size="sm" />
-            )}
+            <span className={styles.iconDisc} aria-hidden>
+                {statusValue === "confirmed" ? <FontAwesomeIcon icon={faCheckCircle} /> : <FontAwesomeIcon icon={faClock} />}
+            </span>
         </div>
     )
 }

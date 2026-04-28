@@ -1,6 +1,11 @@
 import type {PaperProps} from "@mui/material"
-import type {Theme} from "@mui/material/styles"
+import {alpha, type Theme} from "@mui/material/styles"
 import type {MRT_Theme} from "material-react-table"
+
+/** Brand accent — keep in sync with `src/variables.module.scss` `$sportamtGreen`. */
+const SPORTAMT_GREEN = "#d7e054"
+/** Rail opacity — lower = softer on grey table backgrounds. */
+const NESTED_RAIL_COLOR = alpha(SPORTAMT_GREEN, 0.5)
 
 export const mrtSharedMrtTheme: Partial<MRT_Theme> = {
     baseBackgroundColor: "#f8f8f8",
@@ -37,6 +42,23 @@ export function mrtSharedTableBodyCellSx(theme: Theme) {
         borderBottom: `1px solid ${theme.palette.divider}`,
         py: 0.75,
         fontSize: "0.875rem",
+    }
+}
+
+/** Nested tree rows: inset accent rail (option 2) — hierarchy cue without changing row fill. */
+export function mrtNestedRowRailSx(_theme: Theme, depth: number) {
+    if (depth > 0) {
+        return {
+            boxShadow: `inset 3px 0 0 ${NESTED_RAIL_COLOR}`,
+        }
+    }
+    return {}
+}
+
+/** Detail-panel cell (full-width): same rail as nested rows. */
+export function mrtDetailPanelRailSx(_theme: Theme) {
+    return {
+        boxShadow: `inset 3px 0 0 ${NESTED_RAIL_COLOR}`,
     }
 }
 

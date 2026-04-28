@@ -6,6 +6,34 @@
     @include field-group-outlined-controls;
 }
 
+.newBoardSaveRow {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.uploadLockHint {
+    margin: 8px 0 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: rgba(38, 50, 59, 0.65);
+}
+
+.uploadLockWrap {
+    position: relative;
+}
+
+.uploadLockOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: grayscale(35%);
+    pointer-events: auto;
+    cursor: not-allowed;
+}
+
 .formSection {
     margin-top: 24px;
 }
