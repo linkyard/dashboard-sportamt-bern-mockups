@@ -15,14 +15,15 @@
     padding: 20px 0px;
 }
 
-.topRow {
+.dateRangeRow {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 180px));
     gap: 20px;
 }
 
 .dateInput {
     width: 100%;
+    max-width: 180px;
 
     :global {
         .MuiInputBase-root {
@@ -96,7 +97,7 @@
 }
 
 @media (max-width: 900px) {
-    .topRow {
+    .dateRangeRow {
         grid-template-columns: 1fr;
     }
 }

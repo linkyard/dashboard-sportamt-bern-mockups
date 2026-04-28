@@ -1,4 +1,5 @@
-import {Button, Chip, Tooltip} from "@mui/material"
+import SearchIcon from "@mui/icons-material/Search"
+import {Button, Chip, InputAdornment, Tooltip} from "@mui/material"
 import {MaterialReactTable, type MRT_ColumnDef, MRT_GlobalFilterTextField, useMaterialReactTable} from "material-react-table"
 import {MRT_Localization_DE} from "material-react-table/locales/de"
 import {useMemo} from "react"
@@ -131,6 +132,13 @@ export const Dashboard = () => {
             placeholder: t("common:actions.search"),
             size: "small",
             slotProps: {
+                input: {
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <SearchIcon fontSize="small" color="action" aria-hidden />
+                        </InputAdornment>
+                    ),
+                },
                 htmlInput: {
                     "aria-label": t("common:actions.search"),
                     style: {

@@ -24,7 +24,7 @@ export const BoardDetail: React.FC<BoardDetailProps> = ({board, isNew}) => {
     const [bemerkung, setBemerkung] = useState(() => board?.bemerkung ?? "")
     const [startDate, setStartDate] = useState<Dayjs | null>(() => (board ? parseIsoToDayjs(board.startDate) : null))
     const [endDate, setEndDate] = useState<Dayjs | null>(() => (board ? parseIsoToDayjs(board.endDate) : null))
-    const [selectedFileName, setSelectedFileName] = useState<string | null>(null)
+    const [selectedFileName, setSelectedFileName] = useState<string | null>(() => (isNew || !board ? null : "test-organisations.xls"))
     const [showUploadSuccessAlert, setShowUploadSuccessAlert] = useState(false)
     const [isUploadSuccess, setIsUploadSuccess] = useState(false)
     const uploadAnimationTimeoutRef = useRef<number | null>(null)
@@ -68,7 +68,7 @@ export const BoardDetail: React.FC<BoardDetailProps> = ({board, isNew}) => {
 
             <div className={styles.formSection}>
                 <div className={styles.detailsCard}>
-                    <div className={styles.topRow}>
+                    <div className={styles.dateRangeRow}>
                         <div className={styles.fieldGroup}>
                             <FieldLabel htmlFor="board-detail-start-date">{t("board-detail.fields.start-date")}</FieldLabel>
                             <DatePicker
