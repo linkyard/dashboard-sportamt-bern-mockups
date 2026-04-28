@@ -1,18 +1,6 @@
 import {faPenToSquare, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    IconButton,
-    Snackbar,
-    TextField,
-    Tooltip,
-    Typography,
-} from "@mui/material"
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, TextField, Tooltip} from "@mui/material"
 import {
     type MRT_ColumnDef,
     MRT_ExpandButton,
@@ -319,9 +307,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                 </div>
             </div>
             {locations.length > 0 && tableData.length === 0 && searchQuery.trim() ? (
-                <Typography variant="body2" color="text.secondary" className={styles.objekteSearchEmpty}>
-                    {t("common:no-search-results")}
-                </Typography>
+                <p className={styles.objekteSearchEmpty}>{t("common:no-search-results")}</p>
             ) : (
                 <MaterialReactTable table={table} />
             )}
