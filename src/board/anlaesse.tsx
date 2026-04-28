@@ -49,7 +49,8 @@ export const AnlaesseCardList: React.FC<AnlaesseCardListProps> = ({anlaesse, org
                 <TextField
                     value={query}
                     onChange={(event) => setQuery(event.target.value)}
-                    placeholder={t("organisation-admin.anlaesse.search-placeholder")}
+                    placeholder={t("common:actions.search")}
+                    aria-label={t("common:actions.search")}
                     className={styles.searchInput}
                     size="small"
                     slotProps={{

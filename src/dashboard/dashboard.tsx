@@ -128,10 +128,11 @@ export const Dashboard = () => {
             },
         }),
         muiSearchTextFieldProps: {
-            placeholder: t("dashboard:dashboard.table.global-search-placeholder"),
+            placeholder: t("common:actions.search"),
             size: "small",
             slotProps: {
                 htmlInput: {
+                    "aria-label": t("common:actions.search"),
                     style: {
                         paddingTop: "4px",
                         paddingBottom: "4px",
@@ -140,13 +141,11 @@ export const Dashboard = () => {
             },
         },
 
-        muiTableHeadCellProps: () => {
-            return {
-                sx: (theme) => ({
-                    ...mrtSharedTableHeadCellSx(theme),
-                }),
-            }
-        },
+        muiTableHeadCellProps: () => ({
+            sx: (theme) => ({
+                ...mrtSharedTableHeadCellSx(theme),
+            }),
+        }),
         muiTableBodyCellProps: {
             sx: mrtSharedTableBodyCellSx,
         },

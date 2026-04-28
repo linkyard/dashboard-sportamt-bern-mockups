@@ -1,18 +1,19 @@
-import {MaterialReactTable, type MRT_ColumnDef, MRT_GlobalFilterTextField, useMaterialReactTable} from "material-react-table"
-import {MRT_Localization_DE} from "material-react-table/locales/de"
-import {useMemo} from "react"
-import {useTranslation} from "react-i18next"
-import {useNavigate} from "react-router"
-import {allDummyOrganisations} from "../dashboard/dummyData"
+import { MaterialReactTable, type MRT_ColumnDef, MRT_GlobalFilterTextField, useMaterialReactTable } from "material-react-table"
+import { MRT_Localization_DE } from "material-react-table/locales/de"
+import { useMemo } from "react"
+import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router"
+import { allDummyOrganisations } from "../dashboard/dummyData"
 import {
+    mrtSharedHeaderPaddingX,
     mrtSharedMrtTheme,
     mrtSharedTableBodyCellSx,
     mrtSharedTableHeadCellSx,
     mrtSharedTablePaperProps,
 } from "../lib/material-react-table-styles"
 import styles from "./board-detail.module.scss"
-import {AnlassInlineRow} from "./components/anlass-inline-row"
-import type {Organisation} from "./organisation"
+import { AnlassInlineRow } from "./components/anlass-inline-row"
+import type { Organisation } from "./organisation"
 
 export interface OrganisationTableProps {
     selectedFileName: string
@@ -107,8 +108,8 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
                 muiTableHeadCellProps: {
                     sx: (theme) => ({
                         ...mrtSharedTableHeadCellSx(theme),
-                        pl: mrtSharedDisplayColumnHeadPaddingX,
-                        pr: mrtSharedDisplayColumnHeadPaddingX,
+                        pl: mrtSharedHeaderPaddingX,
+                        pr: mrtSharedHeaderPaddingX,
                     }),
                 },
             },
@@ -119,10 +120,11 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
             sorting: [{id: "organisation", desc: false}],
         },
         muiSearchTextFieldProps: {
-            placeholder: t("board-detail.organisation-table.global-search-placeholder"),
+            placeholder: t("common:actions.search"),
             size: "small",
             slotProps: {
                 htmlInput: {
+                    "aria-label": t("common:actions.search"),
                     style: {
                         paddingTop: "4px",
                         paddingBottom: "4px",

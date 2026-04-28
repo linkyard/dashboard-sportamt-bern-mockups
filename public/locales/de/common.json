@@ -1,9 +1,11 @@
 {
-  "app-name": "Dashboard",
-  "actions": {
-    "edit": "Bearbeiten",
-    "delete": "Löschen",
-    "save": "Speichern",
-    "cancel": "Abbrechen"
-  }
+    "app-name": "Dashboard",
+    "no-search-results": "Keine Treffer für diese Suche.",
+    "actions": {
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "save": "Speichern",
+        "cancel": "Abbrechen",
+        "search": "durchsuchen…"
+    }
 }

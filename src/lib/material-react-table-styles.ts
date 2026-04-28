@@ -6,6 +6,7 @@ export const mrtSharedMrtTheme: Partial<MRT_Theme> = {
     baseBackgroundColor: "#f8f8f8",
 }
 
+//Note: Needed separately for header and body cells to avoid visual inconsistency
 export const mrtSharedHeaderPaddingX = "0.75rem" as const
 
 export function mrtSharedTableHeadCellSx(theme: Theme) {
