@@ -121,7 +121,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                     align: "right",
                     sx: {textAlign: "right", fontVariantNumeric: "tabular-nums"},
                 },
-                Cell: ({row}) => (row.original.rowKind === "location" ? row.original.subRows.length : "—"),
+                Cell: ({row}) => (row.original.rowKind === "location" ? row.original.subRows.length : ""),
             },
         ],
         [t]

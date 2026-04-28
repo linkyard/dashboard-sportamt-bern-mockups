@@ -1,7 +1,10 @@
+import type {IconDefinition} from "@fortawesome/fontawesome-svg-core"
+
 export interface ObjektRowData {
     id: string
     rowKind: "objekt"
     name: string
+    sportIcon?: IconDefinition
 }
 
 export interface LocationRowData {
