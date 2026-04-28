@@ -9,7 +9,6 @@
             "profile": "Profil"
         },
         "table": {
-            "global-search-placeholder": "Boards durchsuchen",
             "create-new-board-button": "Neues Board",
             "columns": {
                 "name": "Name",
@@ -47,7 +46,6 @@
             "success-message": "Board wurde erstellt und mit den hochgeladenen Daten befüllt."
         },
         "organisation-table": {
-            "global-search-placeholder": "Durchsuchen",
             "columns": {
                 "organisation": "Organisation",
                 "contact": "Kontakt",
@@ -92,6 +90,38 @@
             "validation-min-one-objekt": "Mindestens ein Objekt ist erforderlich.",
             "validation-objekt-name": "Bitte für jedes Objekt einen Namen angeben.",
             "last-objekt-error": "Das letzte Objekt eines Standorts kann nicht gelöscht werden."
+        },
+        "vereine-table": {
+            "add-verein": "Verein hinzufügen",
+            "add-trainer": "Trainer hinzufügen",
+            "list-aria-label": "Liste der Vereine",
+            "trainers-section": "Trainer",
+            "trainers-count-label": "{{count}} Trainer",
+            "no-trainers": "Noch keine Trainer. Nutzen Sie das Plus oben, um einen Trainer hinzuzufügen.",
+            "trainer-no-contact": "Keine Telefonnummer oder E-Mail hinterlegt.",
+            "empty-vereine": "Noch keine Vereine angelegt.",
+            "columns": {
+                "verein-name": "Verein",
+                "first-name": "Vorname",
+                "last-name": "Nachname",
+                "phone": "Telefon",
+                "email": "E-Mail",
+                "trainers-count": "Trainer"
+            },
+            "cancel": "Abbrechen",
+            "save": "Speichern",
+            "edit": "Bearbeiten",
+            "delete": "Löschen",
+            "create-verein-title": "Verein anlegen",
+            "edit-verein-title": "Verein bearbeiten",
+            "create-trainer-title": "Trainer anlegen",
+            "edit-trainer-title": "Trainer bearbeiten",
+            "delete-verein-title": "Verein löschen?",
+            "delete-trainer-title": "Trainer löschen?",
+            "delete-verein-body": "Der Verein und alle zugehörigen Trainer werden entfernt.",
+            "delete-trainer-body": "Dieser Trainer wird unwiderruflich gelöscht.",
+            "validation-verein-name": "Bitte einen Vereinsnamen angeben.",
+            "validation-trainer-name": "Bitte Vorname und Nachname angeben."
         }
     },
     "organisation-admin": {
@@ -112,7 +142,6 @@
         },
         "anlaesse": {
             "title": "Anlässe",
-            "search-placeholder": "Search",
             "status": {
                 "pending": "Ausstehend",
                 "confirmed": "Bestätigt"

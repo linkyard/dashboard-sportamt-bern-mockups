@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import type {Anlass, AnlassHistoryEntry, Organisation} from "../board/organisation"
 import type {LocationRowData, ObjektRowData} from "../stammdaten/locations/locations-types"
+import type {TrainerRowData, VereinRowData} from "../stammdaten/vereine/vereine-types"
 
 const demoObjekt = (id: string, name: string): ObjektRowData => ({
     id,
@@ -34,6 +35,61 @@ export const stammdatenSeedLocations: LocationRowData[] = [
         demoObjekt("st-obj-b1-4", "Kunstrasenplatz"),
         demoObjekt("st-obj-b1-5", "Naturrasen"),
     ]),
+]
+
+const demoTrainer = (id: string, firstName: string, lastName: string, phone: string, email: string): TrainerRowData => ({
+    id,
+    rowKind: "trainer",
+    firstName,
+    lastName,
+    phone,
+    email,
+})
+
+/** Demo Vereine / Trainer for Stammdaten (global master data). */
+export const stammdatenSeedVereine: VereinRowData[] = [
+    {
+        id: "st-verein-1",
+        rowKind: "verein",
+        name: "Turnverein Nord",
+        contact: {
+            organisationName: "Turnverein Nord",
+            contactPerson: "Claudia Steiner",
+            street: "Lorrainestrasse 50",
+            postalCode: "3013",
+            city: "Bern",
+            email: "sekretariat@turnverein-nord.example",
+            phone: "+41 31 333 44 55",
+        },
+        subRows: [
+            demoTrainer("st-tr-1", "Anna", "Meier", "+41 79 111 22 33", "anna.meier@example.ch"),
+            demoTrainer("st-tr-2", "Jonas", "Keller", "+41 78 444 55 66", "jonas.keller@example.ch"),
+        ],
+    },
+    {
+        id: "st-verein-2",
+        rowKind: "verein",
+        name: "FC Bern Ost",
+        contact: {
+            organisationName: "FC Bern Ost",
+            contactPerson: "Marc Gerber",
+            street: "Schlossstrasse 23",
+            postalCode: "3008",
+            city: "Bern",
+            email: "info@fcbern-ost.example",
+            phone: "+41 31 222 11 00",
+        },
+        billingContact: {
+            organisationName: "FC Bern Ost Rechnungen",
+            contactPerson: "Buchhaltung",
+            street: "Postfach 88",
+            postalCode: "3000",
+            city: "Bern 1",
+            email: "rechnungen@fcbern-ost.example",
+            phone: "+41 31 222 11 09",
+        },
+        subRows: [demoTrainer("st-tr-3", "Sandra", "Frei", "+41 77 888 99 00", "sandra.frei@example.ch")],
+    },
 ]
 
 /** Demo organisation ids (slug-style, stable for routing and fixtures). */
