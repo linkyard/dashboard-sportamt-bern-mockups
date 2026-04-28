@@ -1,6 +1,18 @@
 import {faPenToSquare, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, Tooltip} from "@mui/material"
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    Snackbar,
+    TextField,
+    Tooltip,
+    Typography,
+} from "@mui/material"
 import {
     type MRT_ColumnDef,
     MRT_ExpandButton,
@@ -24,6 +36,22 @@ import {CreateLocationDialog, EditLocationDialog, ObjektDialog} from "./location
 import {moveObjektRelativeToHover, moveObjektToLocationEnd} from "./locations"
 import styles from "./locations-table.module.scss"
 import {type LocationRowData, type ObjektRowData, type StammdatenObjekteRow} from "./locations-types"
+
+function filterLocationsForSearch(locations: LocationRowData[], query: string): LocationRowData[] {
+    const q = query.trim().toLowerCase()
+    if (!q) {
+        return locations
+    }
+    return locations
+        .map((loc) => {
+            if (loc.name.toLowerCase().includes(q)) {
+                return loc
+            }
+            const subRows = loc.subRows.filter((o) => o.name.toLowerCase().includes(q))
+            return subRows.length ? {...loc, subRows} : null
+        })
+        .filter((row): row is LocationRowData => row != null)
+}
 
 function StammdatenNameCell({
     row,
@@ -65,8 +93,11 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
         null | {kind: "location"; id: string} | {kind: "objekt"; id: string; locationId: string}
     >(null)
     const [createLocationDialogKey, setCreateLocationDialogKey] = useState(0)
+    const [searchQuery, setSearchQuery] = useState("")
 
     const showError = useCallback((message: string) => setSnackbar(message), [])
+
+    const tableData = useMemo(() => filterLocationsForSearch(locations, searchQuery), [locations, searchQuery])
 
     const columns = useMemo<MRT_ColumnDef<StammdatenObjekteRow>[]>(
         () => [
@@ -110,7 +141,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
 
     const table = useMaterialReactTable({
         columns,
-        data: locations,
+        data: tableData,
         mrtTheme: mrtSharedMrtTheme,
         getRowId: (row) => row.id,
         getSubRows: (row) => (row.rowKind === "location" ? row.subRows : undefined),
@@ -255,19 +286,45 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
     return (
         <>
             <div className={styles.tableToolbar}>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={() => {
-                        setCreateLocationDialogKey((k) => k + 1)
-                        setLocationDialog({mode: "create"})
-                    }}
-                >
-                    {t("stammdaten.objekte-table.add-location")}
-                </Button>
+                <div className={styles.tableToolbarSearch}>
+                    <TextField
+                        size="small"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder={t("common:actions.search")}
+                        aria-label={t("common:actions.search")}
+                        fullWidth
+                        slotProps={{
+                            htmlInput: {
+                                style: {
+                                    paddingTop: "4px",
+                                    paddingBottom: "4px",
+                                },
+                            },
+                        }}
+                    />
+                </div>
+                <div className={styles.toolbarActions}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        onClick={() => {
+                            setCreateLocationDialogKey((k) => k + 1)
+                            setLocationDialog({mode: "create"})
+                        }}
+                    >
+                        {t("stammdaten.objekte-table.add-location")}
+                    </Button>
+                </div>
             </div>
-            <MaterialReactTable table={table} />
+            {locations.length > 0 && tableData.length === 0 && searchQuery.trim() ? (
+                <Typography variant="body2" color="text.secondary" className={styles.objekteSearchEmpty}>
+                    {t("common:no-search-results")}
+                </Typography>
+            ) : (
+                <MaterialReactTable table={table} />
+            )}
 
             {locationDialog?.mode === "create" ? (
                 <CreateLocationDialog
@@ -412,7 +469,8 @@ function LocationTableActions({row, locations, setLocationDialog, setObjektDialo
                     onClick={() => {
                         const r = row.original
                         if (r.rowKind === "location") {
-                            setLocationDialog({mode: "edit", location: r})
+                            const fullLocation = locations.find((l) => l.id === r.id) ?? r
+                            setLocationDialog({mode: "edit", location: fullLocation})
                         } else {
                             const parentId = findParentLocationId(locations, r.id)
                             if (parentId) {

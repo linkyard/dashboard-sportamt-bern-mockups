@@ -1,7 +1,27 @@
 .tableToolbar {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: flex-end;
+    gap: 12px;
     margin-bottom: 12px;
+}
+
+.tableToolbarSearch {
+    flex: 1 1 220px;
+    max-width: fit-content;
+    min-width: 0;
+}
+
+.toolbarActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.objekteSearchEmpty {
+    padding: 16px 0;
 }
 
 .ellipsis {
