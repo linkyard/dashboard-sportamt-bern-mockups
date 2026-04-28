@@ -3,22 +3,34 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker"
 import dayjs, {type Dayjs} from "dayjs"
 import {useEffect, useRef, useState} from "react"
 import {useTranslation} from "react-i18next"
+import {Navigate, useParams} from "react-router"
 import {AppBreadcrumbs} from "../components/breadcrumbs"
 import {FieldLabel} from "../components/field-label"
 import {DetailsTextarea} from "../components/inputs"
 import {PageTitle} from "../components/page-title"
-import {type Board} from "../dashboard/dummyData"
+import {getBoardById, type Board} from "../dashboard/dummyData"
 import {parseIsoToDayjs} from "../util/date"
 import styles from "./board-detail.module.scss"
 import {UploadSection} from "./components/upload-section"
 import {OrganisationTable} from "./organisation-table"
 
-interface BoardDetailProps {
+export const BoardDetail: React.FC = () => {
+    const {boardId} = useParams<{boardId: string | undefined}>()
+    const board = boardId ? getBoardById(boardId) : undefined
+
+    if (boardId && !board) {
+        return <Navigate to="/" replace />
+    }
+
+    return <BoardDetailContent key={board?.id ?? "new"} board={board} isNew={!boardId} />
+}
+
+interface BoardDetailContentProps {
     board?: Board
     isNew: boolean
 }
 
-export const BoardDetail: React.FC<BoardDetailProps> = ({board, isNew}) => {
+const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) => {
     const {t} = useTranslation("dashboard")
     const [name, setName] = useState(() => board?.name ?? "")
     const [bemerkung, setBemerkung] = useState(() => board?.bemerkung ?? "")

@@ -1,16 +1,15 @@
 import {useTranslation} from "react-i18next"
+import {useParams} from "react-router"
+import {getOrganisationById} from "../dashboard/dummyData"
 import {AppBreadcrumbs} from "../components/breadcrumbs"
 import {PageTitle} from "../components/page-title"
 import AnlaesseCardList from "./anlaesse"
 import {ContactDetails} from "./components/contact-box"
-import type {Organisation} from "./organisation"
 import styles from "./organisation-admin.module.scss"
 
-interface OrganisationAdminPageProps {
-    organisation?: Organisation
-}
-
-export const OrganisationAdminPage: React.FC<OrganisationAdminPageProps> = ({organisation}) => {
+export const OrganisationAdminPage: React.FC = () => {
+    const {organisationId} = useParams<{organisationId: string}>()
+    const organisation = organisationId ? getOrganisationById(organisationId) : undefined
     const {t} = useTranslation("dashboard")
 
     if (!organisation) {

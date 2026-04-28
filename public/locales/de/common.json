@@ -1,5 +1,8 @@
 {
     "app-name": "Dashboard",
+    "routing": {
+        "not-found": "Seite nicht gefunden"
+    },
     "no-search-results": "Keine Treffer für diese Suche.",
     "actions": {
         "edit": "Bearbeiten",

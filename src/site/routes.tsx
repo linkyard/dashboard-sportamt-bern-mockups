@@ -1,48 +1,51 @@
-import {Navigate, Route, Routes, useParams} from "react-router"
+import {Box} from "@mui/material"
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs"
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider"
+import "dayjs/locale/de-ch"
+import {useTranslation} from "react-i18next"
+import {Navigate, Outlet, Route, Routes} from "react-router"
 import {AnlassDetail} from "../board/anlass-detail"
 import {BoardDetail} from "../board/board-detail"
 import {OrganisationAdminPage} from "../board/organisation-admin"
 import {Dashboard} from "../dashboard/dashboard"
-import {getBoardById, getOrganisationById} from "../dashboard/dummyData"
+import {HolidayEditorPage} from "../stammdaten/ferien/holiday-editor-page"
 import {StammdatenEditor} from "../stammdaten/stammdaten"
+import {PageLayout} from "./layout"
 
-const OrganisationAdminRoute = () => {
-    const {organisationId} = useParams<{organisationId: string}>()
-    const organisation = organisationId ? getOrganisationById(organisationId) : undefined
-
-    return <OrganisationAdminPage organisation={organisation} />
+function NotFound() {
+    const {t} = useTranslation("common")
+    return (
+        <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100%", py: 4}}>{t("routing.not-found")}</Box>
+    )
 }
 
-const AnlassDetailRoute = () => {
-    const {organisationId, anlassId} = useParams<{organisationId: string; anlassId: string}>()
-    const organisation = organisationId ? getOrganisationById(organisationId) : undefined
-    const anlass = organisation && anlassId ? organisation.anlaesse.find((a) => a.id === anlassId) : undefined
-
-    return <AnlassDetail anlass={anlass} organisation={organisation} />
+export function AppRoot() {
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de-ch">
+            <div className="root">
+                <RouteIndex />
+            </div>
+        </LocalizationProvider>
+    )
 }
 
-const BoardDetailRoute = () => {
-    const {boardId} = useParams<{boardId: string}>()
-    const board = boardId ? getBoardById(boardId) : undefined
-
-    if (boardId && !board) {
-        return <Navigate to="/" replace />
-    }
-
-    return <BoardDetail key={board?.id ?? "new"} board={board} isNew={!boardId} />
-}
-
-export function Router() {
+export function RouteIndex() {
     return (
         <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/stammdaten" element={<Navigate to="/stammdaten/objekte" replace />} />
-            <Route path="/stammdaten/:tabId" element={<StammdatenEditor />} />
-            <Route path="/organisation-admin" element={<Navigate to="/" replace />} />
-            <Route path="/organisation-admin/:organisationId/anlass/:anlassId" element={<AnlassDetailRoute />} />
-            <Route path="/organisation-admin/:organisationId" element={<OrganisationAdminRoute />} />
-            <Route path="/board" element={<BoardDetailRoute />} />
-            <Route path="/board/:boardId" element={<BoardDetailRoute />} />
+            <Route path="/" element={<PageLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="/stammdaten" element={<Outlet />}>
+                    <Route index element={<Navigate to="/stammdaten/objekte" replace />} />
+                    <Route path="/stammdaten/ferien-und-feiertage/holiday/:holidayId/edit" element={<HolidayEditorPage />} />
+                    <Route path="/stammdaten/:tabId" element={<StammdatenEditor />} />
+                </Route>
+                <Route path="/organisation-admin" element={<Navigate to="/" replace />} />
+                <Route path="/organisation-admin/:organisationId/anlass/:anlassId" element={<AnlassDetail />} />
+                <Route path="/organisation-admin/:organisationId" element={<OrganisationAdminPage />} />
+                <Route path="/board" element={<BoardDetail />} />
+                <Route path="/board/:boardId" element={<BoardDetail />} />
+                <Route path="/*" element={<NotFound />} />
+            </Route>
         </Routes>
     )
 }
