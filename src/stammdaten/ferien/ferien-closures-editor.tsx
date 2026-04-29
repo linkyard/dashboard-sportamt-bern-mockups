@@ -20,9 +20,9 @@ import {
     setWeekIncludedWithColumnCascade,
     splitIntoFerienwochen,
 } from "./ferien-closure"
+import {FerienClosuresEditorWeekColumnGrid} from "./ferien-closures-editor-table"
+import styles from "./ferien-closures-editor.module.scss"
 import type {HolidayClosureState, HolidayRowData} from "./ferien-types"
-import {HolidayEditorWeekColumnGrid} from "./holiday-editor-layouts"
-import styles from "./holiday-editor-page.module.scss"
 
 const LOCATIONS = stammdatenSeedLocations
 
@@ -231,7 +231,7 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
                 </div>
             </div>
 
-            <HolidayEditorWeekColumnGrid {...layoutProps} />
+            <FerienClosuresEditorWeekColumnGrid {...layoutProps} />
         </div>
     )
 }

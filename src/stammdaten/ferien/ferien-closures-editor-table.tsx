@@ -6,13 +6,13 @@ import {type Dispatch, type SetStateAction, useMemo} from "react"
 import {SHOW_SPORT_ICONS} from "../../config/show-sport-icons"
 import type {LocationRowData, ObjektRowData} from "../locations/locations-types"
 import {aggregateLocationWeekForObjects, formatDeShort, toggleLocationWeekCascade, toggleObjectWeekClosure} from "./ferien-closure"
+import styles from "./ferien-closures-editor.module.scss"
 import type {HolidayClosureState} from "./ferien-types"
-import styles from "./holiday-editor-page.module.scss"
 
 type WeekMeta = {id: string; startDate: string; endDate: string}
 
 /** Location × Ferien weeks as table columns (presentation alternative). */
-export function HolidayEditorWeekColumnGrid({
+export function FerienClosuresEditorWeekColumnGrid({
     t,
     weekMetas,
     closure,
