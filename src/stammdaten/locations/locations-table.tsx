@@ -14,7 +14,6 @@ import {
 import {MRT_Localization_DE} from "material-react-table/locales/de"
 import {type ReactNode, useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
-import {SHOW_SPORT_ICONS} from "../../config/show-sport-icons"
 import {
     mrtNestedRowRailSx,
     mrtSharedHeaderPaddingX,
@@ -53,7 +52,7 @@ function StammdatenNameCell({
 }) {
     return (
         <Box sx={{display: "flex", alignItems: "center", gap: 0.5, minWidth: 0, width: "100%"}}>
-            {row.original.rowKind === "objekt" && SHOW_SPORT_ICONS && row.original.sportIcon ? (
+            {row.original.rowKind === "objekt" && row.original.sportIcon ? (
                 <span className={styles.sportIconWrap} aria-hidden>
                     <FontAwesomeIcon icon={row.original.sportIcon} className={styles.sportIcon} />
                 </span>

@@ -3,7 +3,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import {Checkbox, IconButton, Paper} from "@mui/material"
 import type {TFunction} from "i18next"
 import {type Dispatch, type SetStateAction, useMemo} from "react"
-import {SHOW_SPORT_ICONS} from "../../config/show-sport-icons"
 import type {LocationRowData, ObjektRowData} from "../locations/locations-types"
 import {aggregateLocationWeekForObjects, formatDeShort, toggleLocationWeekCascade, toggleObjectWeekClosure} from "./ferien-closure"
 import styles from "./ferien-closures-editor.module.scss"
@@ -183,7 +182,7 @@ export function FerienClosuresEditorWeekColumnGrid({
                                   <div key={obj.id} className={`${styles.tableRow} ${styles.rowObjekt}`} style={gridStyle} role="row">
                                       <div className={`${styles.firstCell} ${styles.objektFirstCell}`} role="rowheader">
                                           <span className={styles.objektIconWrap}>
-                                              {SHOW_SPORT_ICONS && obj.sportIcon ? (
+                                              {obj.sportIcon ? (
                                                   <FontAwesomeIcon icon={obj.sportIcon} className={styles.objektSportIcon} aria-hidden />
                                               ) : (
                                                   <span className={styles.iconSpacer} aria-hidden />
