@@ -1,16 +1,18 @@
 import {faPenToSquare, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, TextField, Tooltip} from "@mui/material"
+import SearchIcon from "@mui/icons-material/Search"
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, InputAdornment, Snackbar, Tooltip} from "@mui/material"
 import {
     type MRT_ColumnDef,
     MRT_ExpandButton,
+    MRT_GlobalFilterTextField,
     type MRT_Row,
     MRT_TableBodyRowGrabHandle,
     MaterialReactTable,
     useMaterialReactTable,
 } from "material-react-table"
 import {MRT_Localization_DE} from "material-react-table/locales/de"
-import {useCallback, useMemo, useState} from "react"
+import {type ReactNode, useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {SHOW_SPORT_ICONS} from "../../config/show-sport-icons"
 import {
@@ -42,7 +44,13 @@ function filterLocationsForSearch(locations: LocationRowData[], query: string): 
         .filter((row): row is LocationRowData => row != null)
 }
 
-function StammdatenNameCell({row}: {row: MRT_Row<StammdatenObjekteRow>}) {
+function StammdatenNameCell({
+    row,
+    renderedCellValue,
+}: {
+    row: MRT_Row<StammdatenObjekteRow>
+    renderedCellValue: ReactNode
+}) {
     return (
         <Box sx={{display: "flex", alignItems: "center", gap: 0.5, minWidth: 0, width: "100%"}}>
             {row.original.rowKind === "objekt" && SHOW_SPORT_ICONS && row.original.sportIcon ? (
@@ -50,7 +58,7 @@ function StammdatenNameCell({row}: {row: MRT_Row<StammdatenObjekteRow>}) {
                     <FontAwesomeIcon icon={row.original.sportIcon} className={styles.sportIcon} />
                 </span>
             ) : null}
-            <span className={styles.nameCellText}>{row.original.name}</span>
+            <span className={styles.nameCellText}>{renderedCellValue}</span>
         </Box>
     )
 }
@@ -87,7 +95,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                 maxSize: 200,
                 muiTableHeadCellProps: {align: "left"},
                 muiTableBodyCellProps: {align: "left"},
-                Cell: ({row}) => <StammdatenNameCell row={row} />,
+                Cell: ({row, renderedCellValue}) => <StammdatenNameCell row={row} renderedCellValue={renderedCellValue} />,
             },
             {
                 id: "objekteCount",
@@ -110,7 +118,8 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                     align: "right",
                     sx: {textAlign: "right", fontVariantNumeric: "tabular-nums"},
                 },
-                Cell: ({row}) => (row.original.rowKind === "location" ? row.original.subRows.length : ""),
+                Cell: ({row, renderedCellValue}) =>
+                    row.original.rowKind === "location" ? <span>{renderedCellValue}</span> : "",
             },
         ],
         [t]
@@ -128,6 +137,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
         initialState: {
             density: "comfortable",
             expanded: true,
+            showGlobalFilter: true,
         },
         enableExpanding: true,
         enableExpandAll: true,
@@ -143,7 +153,9 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
         muiExpandButtonProps: {size: "small"},
         enableSorting: false,
         enablePagination: false,
-        enableGlobalFilter: false,
+        manualFiltering: true,
+        enableGlobalFilter: true,
+        globalFilterFn: "contains",
         enableColumnActions: false,
         enableColumnFilters: false,
         enableDensityToggle: false,
@@ -156,6 +168,33 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
         enableRowOrdering: false,
         positionToolbarAlertBanner: "none",
         positionGlobalFilter: "none",
+        state: {globalFilter: searchQuery},
+        onGlobalFilterChange: (updater) => {
+            setSearchQuery((prev) => {
+                const resolved = typeof updater === "function" ? updater(prev) : updater
+                return resolved ?? ""
+            })
+        },
+        muiSearchTextFieldProps: {
+            placeholder: t("common:actions.search"),
+            size: "small",
+            slotProps: {
+                input: {
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <SearchIcon fontSize="small" color="action" aria-hidden />
+                        </InputAdornment>
+                    ),
+                },
+                htmlInput: {
+                    "aria-label": t("common:actions.search"),
+                    style: {
+                        paddingTop: "4px",
+                        paddingBottom: "4px",
+                    },
+                },
+            },
+        },
         enableRowActions: true,
         positionActionsColumn: "last",
         displayColumnDefOptions: {
@@ -285,22 +324,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
         <>
             <div className={styles.tableToolbar}>
                 <div className={styles.tableToolbarSearch}>
-                    <TextField
-                        size="small"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder={t("common:actions.search")}
-                        aria-label={t("common:actions.search")}
-                        fullWidth
-                        slotProps={{
-                            htmlInput: {
-                                style: {
-                                    paddingTop: "4px",
-                                    paddingBottom: "4px",
-                                },
-                            },
-                        }}
-                    />
+                    <MRT_GlobalFilterTextField table={table} fullWidth />
                 </div>
                 <div className={styles.toolbarActions}>
                     <Button

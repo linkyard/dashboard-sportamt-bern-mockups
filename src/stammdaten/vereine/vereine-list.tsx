@@ -1,7 +1,8 @@
 import {faPenToSquare, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, TextField, Tooltip} from "@mui/material"
-import {type MRT_ColumnDef, MaterialReactTable, useMaterialReactTable} from "material-react-table"
+import SearchIcon from "@mui/icons-material/Search"
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, InputAdornment, Snackbar, Tooltip} from "@mui/material"
+import {type MRT_ColumnDef, MRT_GlobalFilterTextField, MaterialReactTable, useMaterialReactTable} from "material-react-table"
 import {MRT_Localization_DE} from "material-react-table/locales/de"
 import {useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
@@ -63,7 +64,7 @@ export const VereineTable: React.FC = () => {
                 minSize: 160,
                 muiTableHeadCellProps: {align: "left"},
                 muiTableBodyCellProps: {align: "left"},
-                Cell: ({row}) => <span className={styles.ellipsis}>{row.original.name}</span>,
+                Cell: ({renderedCellValue}) => <span className={styles.ellipsis}>{renderedCellValue}</span>,
             },
             {
                 id: "contactPerson",
@@ -74,7 +75,7 @@ export const VereineTable: React.FC = () => {
                 minSize: 140,
                 muiTableHeadCellProps: {align: "left"},
                 muiTableBodyCellProps: {align: "left"},
-                Cell: ({row}) => <span className={styles.ellipsis}>{row.original.contact.contactPerson.trim()}</span>,
+                Cell: ({renderedCellValue}) => <span className={styles.ellipsis}>{renderedCellValue}</span>,
             },
         ],
         [t]
@@ -90,11 +91,14 @@ export const VereineTable: React.FC = () => {
         defaultColumn: {minSize: 60},
         initialState: {
             density: "comfortable",
+            showGlobalFilter: true,
         },
         enableExpanding: false,
         enableSorting: false,
         enablePagination: false,
-        enableGlobalFilter: false,
+        manualFiltering: true,
+        enableGlobalFilter: true,
+        globalFilterFn: "contains",
         enableColumnActions: false,
         enableColumnFilters: false,
         enableDensityToggle: false,
@@ -107,6 +111,33 @@ export const VereineTable: React.FC = () => {
         enableRowOrdering: false,
         positionToolbarAlertBanner: "none",
         positionGlobalFilter: "none",
+        state: {globalFilter: searchQuery},
+        onGlobalFilterChange: (updater) => {
+            setSearchQuery((prev) => {
+                const resolved = typeof updater === "function" ? updater(prev) : updater
+                return resolved ?? ""
+            })
+        },
+        muiSearchTextFieldProps: {
+            placeholder: t("common:actions.search"),
+            size: "small",
+            slotProps: {
+                input: {
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <SearchIcon fontSize="small" color="action" aria-hidden />
+                        </InputAdornment>
+                    ),
+                },
+                htmlInput: {
+                    "aria-label": t("common:actions.search"),
+                    style: {
+                        paddingTop: "4px",
+                        paddingBottom: "4px",
+                    },
+                },
+            },
+        },
         enableRowActions: true,
         positionActionsColumn: "last",
         displayColumnDefOptions: {
@@ -148,7 +179,10 @@ export const VereineTable: React.FC = () => {
             hover: true,
         },
         renderRowActions: ({row}) => (
-            <VereineTableActions onEdit={() => navigate(`/stammdaten/vereine/${row.original.id}/edit`)} onDelete={() => setDeleteVereinId(row.original.id)} />
+            <VereineTableActions
+                onEdit={() => navigate(`/stammdaten/vereine/${row.original.id}/edit`)}
+                onDelete={() => setDeleteVereinId(row.original.id)}
+            />
         ),
     })
 
@@ -156,22 +190,7 @@ export const VereineTable: React.FC = () => {
         <>
             <div className={styles.tableToolbar}>
                 <div className={styles.tableToolbarSearch}>
-                    <TextField
-                        size="small"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder={t("common:actions.search")}
-                        aria-label={t("common:actions.search")}
-                        fullWidth
-                        slotProps={{
-                            htmlInput: {
-                                style: {
-                                    paddingTop: "4px",
-                                    paddingBottom: "4px",
-                                },
-                            },
-                        }}
-                    />
+                    <MRT_GlobalFilterTextField table={table} fullWidth />
                 </div>
                 <div className={styles.toolbarActions}>
                     <Button
