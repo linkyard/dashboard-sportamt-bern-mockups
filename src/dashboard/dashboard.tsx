@@ -1,4 +1,3 @@
-import type {IconDefinition} from "@fortawesome/fontawesome-svg-core"
 import {faCheck, faPaperPlane} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import SearchIcon from "@mui/icons-material/Search"
@@ -17,16 +16,27 @@ import {
 } from "../lib/material-react-table-styles"
 import {formatDateSwiss} from "../util/date"
 import styles from "./dashboard.module.scss"
-import {type Board, boardLabelDateRanges, type BoardStatus, dummyBoards} from "./dummyData"
+import {type Board, type BoardStatus, boardLabelDateRanges, dummyBoards} from "./dummyData"
 
-const boardStatusIcon: Record<BoardStatus, IconDefinition> = {
+const dashboardBoardStatusIcons = {
     erstellt: faCheck,
     versandBereit: faPaperPlane,
-}
+} as const
 
-const boardStatusPillClass: Record<BoardStatus, string> = {
-    erstellt: styles.boardStatusErstellt,
-    versandBereit: styles.boardStatusVersandBereit,
+const DashboardBoardStatusPill = ({status}: {status: BoardStatus}) => {
+    const {t} = useTranslation(["dashboard"])
+    const label = t(`dashboard:dashboard.table.status.${status}`)
+    const variantClass =
+        status === "erstellt" ? styles.dashboardBoardStatusErstellt : styles.dashboardBoardStatusVersandBereit
+
+    return (
+        <div className={`${styles.dashboardBoardStatusPill} ${variantClass}`} role="status" aria-label={label}>
+            <span>{label}</span>
+            <span className={styles.dashboardBoardStatusIconDisc} aria-hidden>
+                <FontAwesomeIcon icon={dashboardBoardStatusIcons[status]} />
+            </span>
+        </div>
+    )
 }
 
 export const Dashboard = () => {
@@ -63,21 +73,7 @@ export const Dashboard = () => {
                 accessorKey: "status",
                 header: t("dashboard:dashboard.table.columns.status"),
                 size: 150,
-                Cell: ({row}) => {
-                    const key = row.original.status
-                    return (
-                        <div
-                            className={`${styles.boardStatusPill} ${boardStatusPillClass[key]}`}
-                            role="status"
-                            aria-label={t(`dashboard:dashboard.table.status.${key}`)}
-                        >
-                            <span>{t(`dashboard:dashboard.table.status.${key}`)}</span>
-                            <span className={styles.boardStatusIconDisc} aria-hidden>
-                                <FontAwesomeIcon icon={boardStatusIcon[key]} />
-                            </span>
-                        </div>
-                    )
-                },
+                Cell: ({row}) => <DashboardBoardStatusPill status={row.original.status} />,
             },
             {
                 id: "anlaesseBestaetigt",

@@ -1,5 +1,52 @@
 @use "../variables.module.scss" as *;
 
+.dashboardBoardStatusPill {
+    border-radius: 999px;
+    padding: 2px 6px 2px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    background-color: #fff;
+    border: 2px solid;
+    color: #222;
+}
+
+.dashboardBoardStatusIconDisc {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #fff;
+    font-size: 0.55rem;
+
+    svg {
+        margin-top: 1px;
+    }
+}
+
+.dashboardBoardStatusErstellt {
+    border-color: $sportamtGreen;
+
+    .dashboardBoardStatusIconDisc {
+        background-color: $sportamtGreen;
+    }
+}
+
+.dashboardBoardStatusVersandBereit {
+    border-color: $statusPillOrange;
+
+    .dashboardBoardStatusIconDisc {
+        background-color: $statusPillOrange;
+    }
+}
+
 .tableToolbar {
     display: flex;
     flex-wrap: wrap;
@@ -37,50 +84,4 @@
 
 .bestaetigtFraction {
     font-variant-numeric: tabular-nums;
-}
-
-.boardStatusPill {
-    border-radius: 999px;
-    padding: 2px 6px 2px 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-    background-color: #fff;
-    border: 2px solid;
-    color: #222;
-}
-
-.boardStatusIconDisc {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    color: #fff;
-    font-size: 0.55rem;
-    svg {
-        margin-top: 1px;
-    }
-}
-
-.boardStatusErstellt {
-    border-color: $sportamtGreen;
-
-    .boardStatusIconDisc {
-        background-color: $sportamtGreen;
-    }
-}
-
-.boardStatusVersandBereit {
-    border-color: $statusPillOrange;
-
-    .boardStatusIconDisc {
-        background-color: $statusPillOrange;
-    }
 }
