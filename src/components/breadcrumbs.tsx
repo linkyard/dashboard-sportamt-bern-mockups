@@ -106,7 +106,7 @@ export const AppBreadcrumbs: React.FC<AppBreadcrumbsProps> = (props) => {
             return (
                 <BreadcrumbsList
                     items={[
-                        {to: "/stammdaten/ferien-und-feiertage", label: t("dashboard:stammdaten.tabs.ferien-und-feiertage")},
+                        {to: "/stammdaten/ferien", label: t("dashboard:stammdaten.tabs.ferien")},
                         {
                             label: holidayName.trim() ? holidayName : t("dashboard:stammdaten.ferien-editor.breadcrumb-current"),
                         },

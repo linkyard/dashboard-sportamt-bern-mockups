@@ -20,8 +20,8 @@
                 "labels": "Labels"
             },
             "status": {
-                "erstellt": "Erstellt",
-                "versandBereit": "Versand bereit"
+                "erstellt": "Versendet",
+                "versandBereit": "Versandbereit"
             },
             "anlaesse-fraction": "{{confirmed}} / {{total}}",
             "anlaesse-fraction-detail": "{{confirmed}} von {{total}} Anlässen bestätigt"
@@ -29,6 +29,7 @@
     },
     "board-detail": {
         "title": "Neues Board",
+        "status-erstellt": "Erstellt",
         "save-to-enable-upload": "Speichern Sie zuerst, um Organisationen hochzuladen.",
         "fields": {
             "bemerkung": "Bemerkung",
@@ -59,8 +60,8 @@
         "tabs-aria-label": "Stammdaten-Bereiche",
         "tabs": {
             "objekte": "Objekte",
-            "vereine": "Vereine",
-            "ferien-und-feiertage": "Ferien & Feiertage"
+            "vereine": "Organisationen",
+            "ferien": "Ferien"
         },
         "objekte-table": {
             "add-location": "Standort hinzufügen",
@@ -93,16 +94,16 @@
             "last-objekt-error": "Das letzte Objekt eines Standorts kann nicht gelöscht werden."
         },
         "vereine-table": {
-            "add-verein": "Verein hinzufügen",
+            "add-verein": "Organisation hinzufügen",
             "add-trainer": "Trainer hinzufügen",
             "list-aria-label": "Liste der Vereine",
             "trainers-section": "Trainer",
             "no-trainers": "Noch keine Trainer. Verwenden Sie «Trainer hinzufügen», um einen Eintrag anzulegen.",
             "trainer-no-contact": "Keine Telefonnummer oder E-Mail hinterlegt.",
-            "empty-vereine": "Noch keine Vereine angelegt.",
+            "empty-vereine": "Noch keine Organisationen angelegt.",
             "columns": {
                 "name": "Name",
-                "verein-name": "Verein",
+                "verein-name": "Organisation",
                 "contact-person": "Kontakt",
                 "first-name": "Vorname",
                 "last-name": "Nachname",
@@ -113,20 +114,20 @@
             "save": "Speichern",
             "edit": "Bearbeiten",
             "delete": "Löschen",
-            "create-verein-title": "Verein anlegen",
-            "edit-verein-title": "Verein bearbeiten",
+            "create-verein-title": "Organisation anlegen",
+            "edit-verein-title": "Organisation bearbeiten",
             "create-trainer-title": "Trainer anlegen",
             "edit-trainer-title": "Trainer bearbeiten",
-            "delete-verein-title": "Verein löschen?",
+            "delete-verein-title": "Organisation löschen?",
             "delete-trainer-title": "Trainer löschen?",
-            "delete-verein-body": "Der Verein und alle zugehörigen Trainer werden entfernt.",
+            "delete-verein-body": "Der Organisation und alle zugehörigen Trainer werden entfernt.",
             "delete-trainer-body": "Dieser Trainer wird unwiderruflich gelöscht.",
             "validation-verein-name": "Bitte einen Vereinsnamen angeben.",
             "validation-trainer-name": "Bitte Vorname und Nachname angeben."
         },
         "vereine-editor": {
-            "breadcrumb-current": "Verein bearbeiten",
-            "trainers-list-aria": "Trainer dieses Vereins"
+            "breadcrumb-current": "Organisation bearbeiten",
+            "trainers-list-aria": "Trainer dieses Organisation"
         },
         "ferien-table": {
             "year-label": "Jahr",
@@ -143,10 +144,10 @@
             "save": "Speichern",
             "edit": "Bearbeiten",
             "delete": "Löschen",
-            "create-title": "Ferien / Feiertag anlegen",
-            "edit-title": "Ferien / Feiertag bearbeiten",
+            "create-title": "Ferien anlegen",
+            "edit-title": "Ferien bearbeiten",
             "delete-title": "Eintrag löschen?",
-            "delete-body": "Dieser Ferien- oder Feiertagseintrag wird unwiderruflich entfernt.",
+            "delete-body": "Dieser Ferieneintrag wird unwiderruflich entfernt.",
             "validation-name": "Bitte einen Namen angeben.",
             "validation-start": "Bitte ein gültiges Startdatum angeben.",
             "validation-end": "Bitte ein gültiges Enddatum angeben.",
@@ -163,8 +164,8 @@
             "cell-location-week-aria": "{{location}} für Zeitraum {{range}}",
             "cell-objekt-week-aria": "{{objekt}} für Zeitraum {{range}}",
             "breadcrumb-current": "Bearbeiten",
-            "name-placeholder": "Name der Ferien / Feiertage",
-            "name-aria": "Name der Ferien oder Feiertage",
+            "name-placeholder": "Name der Ferien",
+            "name-aria": "Name der Ferien",
             "start-label": "Start",
             "end-label": "Ende",
             "weeks-master": "Ferienwochen",

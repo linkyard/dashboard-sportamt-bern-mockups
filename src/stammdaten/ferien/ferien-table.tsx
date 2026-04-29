@@ -57,9 +57,7 @@ export const FerienTable = () => {
     const holidays = useMemo(() => stammdatenSeedHolidays.map((h) => ensureHolidayClosure(h, stammdatenSeedLocations)), [])
 
     const tableData = useMemo(() => {
-        return [...holidays]
-            .filter((h) => holidayOverlapsYear(h, selectedYear))
-            .sort((a, b) => a.startDate.localeCompare(b.startDate))
+        return [...holidays].filter((h) => holidayOverlapsYear(h, selectedYear)).sort((a, b) => a.startDate.localeCompare(b.startDate))
     }, [holidays, selectedYear])
 
     const columns = useMemo<MRT_ColumnDef<HolidayRowData>[]>(
@@ -193,7 +191,7 @@ export const FerienTable = () => {
                     <IconButton
                         size="small"
                         aria-label={t("stammdaten.ferien-table.edit")}
-                        onClick={() => navigate(`/stammdaten/ferien-und-feiertage/holiday/${row.original.id}/edit`)}
+                        onClick={() => navigate(`/stammdaten/ferien/holiday/${row.original.id}/edit`)}
                     >
                         <FontAwesomeIcon icon={faPenToSquare} />
                     </IconButton>

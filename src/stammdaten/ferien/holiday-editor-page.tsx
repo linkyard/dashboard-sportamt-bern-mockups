@@ -1,7 +1,7 @@
 import SearchIcon from "@mui/icons-material/Search"
+import {InputAdornment, TextField, ToggleButton, ToggleButtonGroup, Tooltip} from "@mui/material"
 import {DatePicker} from "@mui/x-date-pickers/DatePicker"
 import dayjs, {type Dayjs} from "dayjs"
-import {InputAdornment, TextField, ToggleButton, ToggleButtonGroup, Tooltip} from "@mui/material"
 import {useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {Navigate, useParams} from "react-router"
@@ -34,7 +34,7 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
     const [search, setSearch] = useState("")
     const [expandedLocIds, setExpandedLocIds] = useState<Set<string>>(() => new Set(LOCATIONS.map((l) => l.id)))
     const [holiday, setHoliday] = useState(() => structuredClone(initialHoliday))
-    const [presentation, setPresentation] = useState<PresentationMode>("classic")
+    const [presentation, setPresentation] = useState<PresentationMode>("week-columns")
 
     const patchHoliday = useCallback((updater: (h: HolidayRowData) => HolidayRowData) => {
         setHoliday((prev) => updater(prev))
@@ -179,7 +179,9 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
                 <div className={`${styles.detailsCard} ${styles.controlsRow}`}>
                     <div className={styles.dateRangeRow}>
                         <div className={styles.fieldGroup}>
-                            <FieldLabel htmlFor="ferien-editor-start-date">{t("dashboard:stammdaten.ferien-editor.start-label")}</FieldLabel>
+                            <FieldLabel htmlFor="ferien-editor-start-date">
+                                {t("dashboard:stammdaten.ferien-editor.start-label")}
+                            </FieldLabel>
                             <DatePicker
                                 value={parseIsoToDayjs(holiday.startDate)}
                                 onChange={(date) => onDatePickerChange("startDate", date ? dayjs(date) : null)}
@@ -232,9 +234,7 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
                 </div>
             </div>
 
-            {presentation === "classic" ?
-                <HolidayEditorClassicView {...layoutProps} />
-            :   <HolidayEditorWeekColumnGrid {...layoutProps} />}
+            {presentation === "classic" ? <HolidayEditorClassicView {...layoutProps} /> : <HolidayEditorWeekColumnGrid {...layoutProps} />}
 
             <Tooltip title={t("dashboard:stammdaten.ferien-editor.presentation-toggle-label")} placement="left" enterDelay={300}>
                 <div className={styles.presentationDemoCorner}>
@@ -271,7 +271,7 @@ export const HolidayEditorPage = () => {
     }, [holidayId])
 
     if (!holidayId || !fromSeed) {
-        return <Navigate to="/stammdaten/ferien-und-feiertage" replace />
+        return <Navigate to="/stammdaten/ferien" replace />
     }
 
     return <HolidayEditorMockBody key={holidayId} initialHoliday={fromSeed} />

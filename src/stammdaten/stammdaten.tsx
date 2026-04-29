@@ -8,9 +8,9 @@ import {LocationsTable} from "./locations/locations-table"
 import styles from "./stammdaten.module.scss"
 import {VereineTable} from "./vereine/vereine-list"
 
-type StammdatenTabId = "objekte" | "vereine" | "ferien-und-feiertage"
+type StammdatenTabId = "objekte" | "vereine" | "ferien"
 
-const STAMMDATEN_TAB_IDS: StammdatenTabId[] = ["objekte", "vereine", "ferien-und-feiertage"]
+const STAMMDATEN_TAB_IDS: StammdatenTabId[] = ["objekte", "vereine", "ferien"]
 
 function isStammdatenTabId(value: string): value is StammdatenTabId {
     return STAMMDATEN_TAB_IDS.includes(value as StammdatenTabId)
@@ -58,7 +58,7 @@ export const StammdatenEditor = () => {
                         <LocationsTable key="stammdaten-objekte" initialLocations={stammdatenSeedLocations} />
                     ) : tabId === "vereine" ? (
                         <VereineTable key="stammdaten-vereine" />
-                    ) : tabId === "ferien-und-feiertage" ? (
+                    ) : tabId === "ferien" ? (
                         <FerienTable key="stammdaten-ferien" />
                     ) : null}
                 </div>
