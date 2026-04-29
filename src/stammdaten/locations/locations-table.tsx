@@ -5,6 +5,7 @@ import {
     type MRT_ColumnDef,
     MRT_ExpandButton,
     type MRT_Row,
+    MRT_TableBodyRowGrabHandle,
     MaterialReactTable,
     useMaterialReactTable,
 } from "material-react-table"
@@ -127,9 +128,6 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
         initialState: {
             density: "comfortable",
             expanded: true,
-            columnVisibility: {
-                "mrt-row-drag": false,
-            },
         },
         enableExpanding: true,
         enableExpandAll: true,
@@ -155,27 +153,19 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
         enableTopToolbar: false,
         enableBottomToolbar: false,
         enableRowDragging: false,
-        enableRowOrdering: true,
+        enableRowOrdering: false,
         positionToolbarAlertBanner: "none",
         positionGlobalFilter: "none",
         enableRowActions: true,
         positionActionsColumn: "last",
         displayColumnDefOptions: {
-            // only Objekt rows use a handle in the name cell.
-            "mrt-row-drag": {
-                header: "",
-                size: 0,
-                minSize: 0,
-                maxSize: 0,
-                grow: false,
-                Cell: () => null,
-            },
             "mrt-row-expand": {
                 size: 40,
                 grow: false,
                 maxSize: 40,
                 minSize: 40,
                 muiTableHeadCellProps: {
+                    align: "center",
                     sx: (theme) => ({
                         ...mrtSharedTableHeadCellSx(theme),
                         pl: mrtSharedHeaderPaddingX,
@@ -183,14 +173,20 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                     }),
                 },
                 muiTableBodyCellProps: ({row}) => ({
+                    align: "center",
                     sx: (theme) => ({
                         ...mrtSharedTableBodyCellSx(theme),
                         ...mrtNestedRowRailSx(theme, row.depth),
+                        verticalAlign: "middle",
                     }),
                 }),
-                Cell: ({row, staticRowIndex, table}) =>
+                Cell: ({row, rowRef, staticRowIndex, table}) =>
                     row.original.rowKind === "location" ? (
                         <MRT_ExpandButton row={row} staticRowIndex={staticRowIndex} table={table} />
+                    ) : row.original.rowKind === "objekt" && rowRef ? (
+                        <Box sx={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center"}}>
+                            <MRT_TableBodyRowGrabHandle row={row} rowRef={rowRef} table={table} />
+                        </Box>
                     ) : null,
             },
             "mrt-row-actions": {
@@ -257,8 +253,16 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
         muiTableBodyCellProps: {
             sx: mrtSharedTableBodyCellSx,
         },
-        muiTableBodyRowProps: ({row}) => ({
+        muiTableBodyRowProps: ({row, table}) => ({
             hover: true,
+            onDragEnter: () => {
+                if (table.getState().draggingRow) {
+                    table.setHoveredRow(row)
+                }
+            },
+            onDragOver: (e) => {
+                e.preventDefault()
+            },
             ...(row.original.rowKind === "location"
                 ? {
                       // Standorte are drop targets only — not part of the drag preview styling.
