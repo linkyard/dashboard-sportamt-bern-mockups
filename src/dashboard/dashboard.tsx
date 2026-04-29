@@ -1,22 +1,15 @@
 import {faCheck, faPaperPlane} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import SearchIcon from "@mui/icons-material/Search"
-import {Button, Chip, InputAdornment, Tooltip} from "@mui/material"
-import {MaterialReactTable, type MRT_ColumnDef, MRT_GlobalFilterTextField, useMaterialReactTable} from "material-react-table"
-import {MRT_Localization_DE} from "material-react-table/locales/de"
+import {Button, Chip, Tooltip} from "@mui/material"
+import {type MRT_ColumnDef} from "material-react-table"
 import {useMemo} from "react"
 import {useTranslation} from "react-i18next"
 import {NavLink, useNavigate} from "react-router"
 import {PageTitle} from "../components/page-title"
-import {
-    mrtSharedMrtTheme,
-    mrtSharedTableBodyCellSx,
-    mrtSharedTableHeadCellSx,
-    mrtSharedTablePaperProps,
-} from "../lib/material-react-table-styles"
+import {SportamtMaterialReactTableBase} from "../lib/material-react-table-base"
 import {formatDateSwiss} from "../util/date"
 import styles from "./dashboard.module.scss"
-import {type Board, type BoardStatus, boardLabelDateRanges, dummyBoards} from "./dummyData"
+import {type Board, boardLabelDateRanges, type BoardStatus, dummyBoards} from "./dummyData"
 
 const dashboardBoardStatusIcons = {
     erstellt: faCheck,
@@ -26,8 +19,7 @@ const dashboardBoardStatusIcons = {
 const DashboardBoardStatusPill = ({status}: {status: BoardStatus}) => {
     const {t} = useTranslation(["dashboard"])
     const label = t(`dashboard:dashboard.table.status.${status}`)
-    const variantClass =
-        status === "erstellt" ? styles.dashboardBoardStatusErstellt : styles.dashboardBoardStatusVersandBereit
+    const variantClass = status === "erstellt" ? styles.dashboardBoardStatusErstellt : styles.dashboardBoardStatusVersandBereit
 
     return (
         <div className={`${styles.dashboardBoardStatusPill} ${variantClass}`} role="status" aria-label={label}>
@@ -110,91 +102,44 @@ export const Dashboard = () => {
         [t]
     )
 
-    const table = useMaterialReactTable({
-        columns,
-        data: dummyBoards,
-        mrtTheme: mrtSharedMrtTheme,
-        localization: {...MRT_Localization_DE, language: "de-CH"},
-        layoutMode: "grid",
-        defaultColumn: {minSize: 60},
-        initialState: {
-            density: "comfortable",
-            showGlobalFilter: true,
-            sorting: [
-                {id: "startDate", desc: true},
-                {id: "endDate", desc: true},
-                {id: "name", desc: false},
-            ],
-        },
-        enablePagination: false,
-        enableGlobalFilter: true,
-        globalFilterFn: "contains",
-        enableColumnActions: false,
-        enableColumnFilters: false,
-        enableDensityToggle: false,
-        enableColumnResizing: true,
-        enableHiding: false,
-        enableFullScreenToggle: false,
-        enableTopToolbar: false,
-        enableBottomToolbar: false,
-        muiTableBodyRowProps: ({row}) => ({
-            onClick: () => navigate(`/board/${row.original.id}`),
-            sx: {
-                cursor: "pointer",
-            },
-        }),
-        muiSearchTextFieldProps: {
-            placeholder: t("common:actions.search"),
-            size: "small",
-            slotProps: {
-                input: {
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon fontSize="small" color="action" aria-hidden />
-                        </InputAdornment>
-                    ),
-                },
-                htmlInput: {
-                    "aria-label": t("common:actions.search"),
-                    style: {
-                        paddingTop: "4px",
-                        paddingBottom: "4px",
-                    },
-                },
-            },
-        },
-
-        muiTableHeadCellProps: () => ({
-            sx: (theme) => ({
-                ...mrtSharedTableHeadCellSx(theme),
-            }),
-        }),
-        muiTableBodyCellProps: {
-            sx: mrtSharedTableBodyCellSx,
-        },
-        muiTablePaperProps: mrtSharedTablePaperProps,
-        muiTableContainerProps: {
-            sx: {
-                maxHeight: {xs: "none", sm: "calc(100vh - 300px)"},
-                overflowX: "auto",
-                overflowY: {xs: "visible", sm: "auto"},
-            },
-        },
-    })
     return (
         <>
             <PageTitle title={t("dashboard:dashboard.title")} />
-            <div className={styles.tableToolbar}>
-                <div className={styles.tableToolbarSearch}>
-                    <MRT_GlobalFilterTextField table={table} fullWidth />
-                </div>
-                <div className={styles.toolbarActions}>
+
+            <SportamtMaterialReactTableBase
+                columns={columns}
+                data={dummyBoards}
+                options={{
+                    initialState: {
+                        density: "comfortable",
+                        showGlobalFilter: true,
+                        sorting: [
+                            {id: "startDate", desc: true},
+                            {id: "endDate", desc: true},
+                            {id: "name", desc: false},
+                        ],
+                    },
+                    enableColumnResizing: true,
+                    muiTableBodyRowProps: ({row}) => ({
+                        onClick: () => navigate(`/board/${row.original.id}`),
+                        sx: {
+                            cursor: "pointer",
+                        },
+                    }),
+                    muiTableContainerProps: {
+                        sx: {
+                            maxHeight: {xs: "none", sm: "calc(100vh - 300px)"},
+                            overflowX: "auto",
+                            overflowY: {xs: "visible", sm: "auto"},
+                        },
+                    },
+                }}
+                toolbarActionButtons={
                     <Button component={NavLink} to="/board" variant="contained" size="small">
                         {t("dashboard:dashboard.table.create-new-board-button")}
                     </Button>
-                </div>
-            </div>
-            <MaterialReactTable table={table} />
+                }
+            />
         </>
     )
 }

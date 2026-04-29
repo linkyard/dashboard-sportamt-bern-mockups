@@ -1,0 +1,75 @@
+$tableSurface: #f8f8f8;
+$tableOutline: #e0e0e0;
+$headBackground: #f5f5f5;
+$cellDivider: rgba(0, 0, 0, 0.12);
+$textPrimary: rgba(0, 0, 0, 0.87);
+/// Sportamt Green rail — at 50% opacity.
+$nestedRail: rgba(215, 224, 84, 0.5);
+
+.tableToolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.tableToolbarSearch {
+    flex: 1 1 220px;
+    max-width: fit-content;
+    min-width: 0;
+}
+
+.toolbarActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.tablePaper {
+    background-color: $tableSurface;
+    border: 1px solid $tableOutline;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.headCell {
+    background-color: $headBackground;
+    color: $textPrimary;
+    border-bottom: 1px solid $cellDivider;
+    padding: 6px 16px;
+
+    :global(.Mui-TableHeadCell-Content) {
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 0.8rem;
+    }
+
+    :global(.MuiTableSortLabel-root),
+    :global(.MuiTableSortLabel-root .MuiTableSortLabel-icon) {
+        font-size: 1rem;
+    }
+}
+
+.bodyCell {
+    border-bottom: 1px solid $cellDivider;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-size: 0.875rem;
+}
+
+.treeColumnPadding {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.nestedRowRail {
+    box-shadow: inset 3px 0 0 $nestedRail;
+}
+
+.detailPanelRail {
+    box-shadow: inset 3px 0 0 $nestedRail;
+}
