@@ -1,3 +1,5 @@
+import {faCheck} from "@fortawesome/free-solid-svg-icons"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {Alert, Button, Snackbar} from "@mui/material"
 import {DatePicker} from "@mui/x-date-pickers/DatePicker"
 import dayjs, {type Dayjs} from "dayjs"
@@ -82,41 +84,60 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
 
     return (
         <>
-            <AppBreadcrumbs variant="board-detail" boardName={name} isNew={isNew} />
-            <PageTitle title={name} editable onTitleChange={setName} />
+            <div className={styles.boardHeaderRow}>
+                <div className={styles.boardHeaderMain}>
+                    <AppBreadcrumbs variant="board-detail" boardName={name} isNew={isNew} />
+                    <PageTitle
+                        title={name}
+                        editable
+                        onTitleChange={setName}
+                        placeholder={isNew ? t("dashboard:board-detail.title") : undefined}
+                    />
+                </div>
+            </div>
 
             <div className={styles.formSection}>
                 <div className={styles.detailsCard}>
                     <div className={styles.dateRangeRow}>
-                        <div className={styles.fieldGroup}>
-                            <FieldLabel htmlFor="board-detail-start-date">{t("board-detail.fields.start-date")}</FieldLabel>
-                            <DatePicker
-                                value={startDate}
-                                onChange={(date) => setStartDate(date ? dayjs(date) : null)}
-                                slotProps={{
-                                    textField: {
-                                        id: "board-detail-start-date",
-                                        className: styles.dateInput,
-                                        size: "small",
-                                        slotProps: {htmlInput: {placeholder: "mm/dd/yyyy"}},
-                                    },
-                                }}
-                            />
+                        <div className={styles.dateRangePickers}>
+                            <div className={styles.fieldGroup}>
+                                <FieldLabel htmlFor="board-detail-start-date">{t("board-detail.fields.start-date")}</FieldLabel>
+                                <DatePicker
+                                    value={startDate}
+                                    onChange={(date) => setStartDate(date ? dayjs(date) : null)}
+                                    slotProps={{
+                                        textField: {
+                                            id: "board-detail-start-date",
+                                            className: styles.dateInput,
+                                            size: "small",
+                                            slotProps: {htmlInput: {placeholder: "mm/dd/yyyy"}},
+                                        },
+                                    }}
+                                />
+                            </div>
+                            <div className={styles.fieldGroup}>
+                                <FieldLabel htmlFor="board-detail-end-date">{t("board-detail.fields.end-date")}</FieldLabel>
+                                <DatePicker
+                                    value={endDate}
+                                    onChange={(date) => setEndDate(date ? dayjs(date) : null)}
+                                    slotProps={{
+                                        textField: {
+                                            id: "board-detail-end-date",
+                                            className: styles.dateInput,
+                                            size: "small",
+                                            slotProps: {htmlInput: {placeholder: "mm/dd/yyyy"}},
+                                        },
+                                    }}
+                                />
+                            </div>
                         </div>
-                        <div className={styles.fieldGroup}>
-                            <FieldLabel htmlFor="board-detail-end-date">{t("board-detail.fields.end-date")}</FieldLabel>
-                            <DatePicker
-                                value={endDate}
-                                onChange={(date) => setEndDate(date ? dayjs(date) : null)}
-                                slotProps={{
-                                    textField: {
-                                        id: "board-detail-end-date",
-                                        className: styles.dateInput,
-                                        size: "small",
-                                        slotProps: {htmlInput: {placeholder: "mm/dd/yyyy"}},
-                                    },
-                                }}
-                            />
+                        <div className={styles.dateRangePill}>
+                            <div className={styles.boardDetailStatusPill} role="status" aria-label={t("dashboard:board-detail.status-erstellt")}>
+                                <span>{t("dashboard:board-detail.status-erstellt")}</span>
+                                <span className={styles.boardDetailStatusIconDisc} aria-hidden>
+                                    <FontAwesomeIcon icon={faCheck} />
+                                </span>
+                            </div>
                         </div>
                     </div>
 
