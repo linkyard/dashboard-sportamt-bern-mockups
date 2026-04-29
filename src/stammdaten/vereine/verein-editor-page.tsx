@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, Tooltip} from "@mui/material"
 import {type MRT_ColumnDef, MaterialReactTable, useMaterialReactTable} from "material-react-table"
 import {MRT_Localization_DE} from "material-react-table/locales/de"
-import {useCallback, useEffect, useMemo, useState} from "react"
+import {useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {Navigate, useParams} from "react-router"
 import {ContactDetails} from "../../board/components/contact-box"
@@ -22,25 +22,20 @@ import {TrainerDialog} from "./verein-list-dialogs"
 import tableStyles from "./vereine-table.module.scss"
 import type {TrainerRowData, VereinRowData} from "./vereine-types"
 
-export const VereinEditorPage: React.FC = () => {
-    const {vereinId} = useParams<{vereinId: string}>()
+type VereinEditorBodyProps = {
+    initialVerein: VereinRowData
+}
+
+/** Session-only edits; `key={vereinId}` on the parent remounts when the route id changes. */
+function VereinEditorBody({initialVerein}: VereinEditorBodyProps) {
     const {t} = useTranslation(["dashboard", "common"])
-    const [verein, setVerein] = useState<VereinRowData | null>(null)
+    const [verein, setVerein] = useState(initialVerein)
     const [snackbar, setSnackbar] = useState<string | null>(null)
     const [trainerDialog, setTrainerDialog] = useState<null | {mode: "create" | "edit"; trainer?: TrainerRowData}>(null)
     const [deleteTrainerId, setDeleteTrainerId] = useState<string | null>(null)
 
-    useEffect(() => {
-        if (!vereinId) {
-            setVerein(null)
-            return
-        }
-        const raw = stammdatenSeedVereine.find((v) => v.id === vereinId)
-        setVerein(raw ? structuredClone(raw) : null)
-    }, [vereinId])
-
     const patchVerein = useCallback((recipe: (v: VereinRowData) => VereinRowData) => {
-        setVerein((prev) => (prev ? recipe(prev) : prev))
+        setVerein((prev) => recipe(prev))
     }, [])
 
     const showError = useCallback((message: string) => setSnackbar(message), [])
@@ -77,7 +72,7 @@ export const VereinEditorPage: React.FC = () => {
 
     const trainerTable = useMaterialReactTable({
         columns: trainerColumns,
-        data: verein?.subRows ?? [],
+        data: verein.subRows,
         mrtTheme: mrtSharedMrtTheme,
         getRowId: (row) => row.id,
         localization: {...MRT_Localization_DE, language: "de-CH"},
@@ -153,10 +148,6 @@ export const VereinEditorPage: React.FC = () => {
         ),
     })
 
-    if (!vereinId || !verein) {
-        return <Navigate to="/stammdaten/vereine" replace />
-    }
-
     return (
         <div className={orgStyles.orgAdminPage}>
             <AppBreadcrumbs variant="verein-editor" vereinName={verein.name} />
@@ -228,4 +219,22 @@ export const VereinEditorPage: React.FC = () => {
             <Snackbar open={Boolean(snackbar)} autoHideDuration={5000} onClose={() => setSnackbar(null)} message={snackbar} />
         </div>
     )
+}
+
+export const VereinEditorPage: React.FC = () => {
+    const {vereinId} = useParams<{vereinId: string}>()
+
+    const initialVerein = useMemo((): VereinRowData | null => {
+        if (!vereinId) {
+            return null
+        }
+        const raw = stammdatenSeedVereine.find((v) => v.id === vereinId)
+        return raw ? structuredClone(raw) : null
+    }, [vereinId])
+
+    if (!vereinId || !initialVerein) {
+        return <Navigate to="/stammdaten/vereine" replace />
+    }
+
+    return <VereinEditorBody key={vereinId} initialVerein={initialVerein} />
 }
