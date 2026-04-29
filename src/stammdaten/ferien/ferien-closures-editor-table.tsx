@@ -46,7 +46,7 @@ export function FerienClosuresEditorWeekColumnGrid({
         if (weekMetas.length === 0) {
             return "minmax(220px, 1.4fr)"
         }
-        return `minmax(220px, 1.4fr) ${weekMetas.map(() => "minmax(96px, 1fr)").join(" ")}`
+        return `minmax(220px, 1.4fr) ${weekMetas.map(() => "minmax(72px, 1fr)").join(" ")}`
     }, [weekMetas])
 
     const gridStyle = useMemo(() => ({gridTemplateColumns}), [gridTemplateColumns])
@@ -81,10 +81,9 @@ export function FerienClosuresEditorWeekColumnGrid({
                             </div>
                         </div>
                         {weekMetas.map((w, wi) => {
-                            const inactive = closure.weekIncluded[w.id] === false
                             const weekHdr = weekColumnHeaderAgg[w.id] ?? {checked: false, indeterminate: false}
                             return (
-                                <div key={w.id} className={`${styles.weekHead} ${inactive ? styles.inactive : ""}`} role="columnheader">
+                                <div key={w.id} className={styles.weekHead} role="columnheader">
                                     <div className={styles.weekHeadInner}>
                                         <Checkbox
                                             size="small"
