@@ -1,5 +1,5 @@
 import SearchIcon from "@mui/icons-material/Search"
-import {InputAdornment, TextField, ToggleButton, ToggleButtonGroup, Tooltip} from "@mui/material"
+import {InputAdornment, TextField} from "@mui/material"
 import {DatePicker} from "@mui/x-date-pickers/DatePicker"
 import dayjs, {type Dayjs} from "dayjs"
 import {useCallback, useMemo, useState} from "react"
@@ -21,12 +21,10 @@ import {
     splitIntoFerienwochen,
 } from "./ferien-closure"
 import type {HolidayClosureState, HolidayRowData} from "./ferien-types"
-import {HolidayEditorClassicView, HolidayEditorWeekColumnGrid} from "./holiday-editor-layouts"
+import {HolidayEditorWeekColumnGrid} from "./holiday-editor-layouts"
 import styles from "./holiday-editor-page.module.scss"
 
 const LOCATIONS = stammdatenSeedLocations
-
-type PresentationMode = "classic" | "week-columns"
 
 /** Ephemeral editor state keyed by holiday — resets when `holidayId` changes; not persisted. */
 function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData}) {
@@ -34,7 +32,6 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
     const [search, setSearch] = useState("")
     const [expandedLocIds, setExpandedLocIds] = useState<Set<string>>(() => new Set(LOCATIONS.map((l) => l.id)))
     const [holiday, setHoliday] = useState(() => structuredClone(initialHoliday))
-    const [presentation, setPresentation] = useState<PresentationMode>("week-columns")
 
     const patchHoliday = useCallback((updater: (h: HolidayRowData) => HolidayRowData) => {
         setHoliday((prev) => updater(prev))
@@ -234,27 +231,7 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
                 </div>
             </div>
 
-            {presentation === "classic" ? <HolidayEditorClassicView {...layoutProps} /> : <HolidayEditorWeekColumnGrid {...layoutProps} />}
-
-            <Tooltip title={t("dashboard:stammdaten.ferien-editor.presentation-toggle-label")} placement="left" enterDelay={300}>
-                <div className={styles.presentationDemoCorner}>
-                    <ToggleButtonGroup
-                        size="small"
-                        color="standard"
-                        exclusive
-                        value={presentation}
-                        onChange={(_, v) => {
-                            if (v) {
-                                setPresentation(v)
-                            }
-                        }}
-                        aria-label={t("dashboard:stammdaten.ferien-editor.presentation-toggle-label")}
-                    >
-                        <ToggleButton value="classic">{t("dashboard:stammdaten.ferien-editor.presentation-classic")}</ToggleButton>
-                        <ToggleButton value="week-columns">{t("dashboard:stammdaten.ferien-editor.presentation-columns")}</ToggleButton>
-                    </ToggleButtonGroup>
-                </div>
-            </Tooltip>
+            <HolidayEditorWeekColumnGrid {...layoutProps} />
         </div>
     )
 }
