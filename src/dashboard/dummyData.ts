@@ -111,6 +111,26 @@ export const stammdatenSeedLocations: LocationRowData[] = [
         demoObjekt("st-obj-b1-4", "Kunstrasenplatz", faFutbol),
         demoObjekt("st-obj-b1-5", "Naturrasen", faFutbol),
     ]),
+    demoLocation("st-loc-b1-3", "Stadtbad Bern", [
+        demoObjekt("st-obj-b1-6", "25 m Sportbecken", faPersonSwimming),
+        demoObjekt("st-obj-b1-7", "Kinderplanschbereich", faChildReaching),
+        demoObjekt("st-obj-b1-8", "Sauna & Wellness", faFeather),
+    ]),
+    demoLocation("st-loc-b1-4", "Sporthalle Bümpliz", [
+        demoObjekt("st-obj-b1-9", "Mehrzweckhalle", faVolleyball),
+        demoObjekt("st-obj-b1-10", "Parkett Training", faDumbbell),
+        demoObjekt("st-obj-b1-11", "Gruppefitness-Raum", faChildReaching),
+    ]),
+    demoLocation("st-loc-b1-5", "Leichtathletik Matte", [
+        demoObjekt("st-obj-b1-12", "400 m Runde", faFeather),
+        demoObjekt("st-obj-b1-13", "Weitsprunganlage", faVolleyball),
+        demoObjekt("st-obj-b1-14", "Wurfzentrum", faDumbbell),
+    ]),
+    demoLocation("st-loc-b1-6", "Kunsteisbahn Allmend", [
+        demoObjekt("st-obj-b1-15", "Hockeyfeld", faFutbol),
+        demoObjekt("st-obj-b1-16", "Öffentliches Eislaufen", faPersonSwimming),
+        demoObjekt("st-obj-b1-17", "Kursraum Schotte", faDumbbell),
+    ]),
 ]
 
 const demoTrainer = (id: string, firstName: string, lastName: string, phone: string, email: string): TrainerRowData => ({
@@ -165,6 +185,82 @@ export const stammdatenSeedVereine: VereinRowData[] = [
             phone: "+41 31 222 11 09",
         },
         subRows: [demoTrainer("st-tr-3", "Sandra", "Frei", "+41 77 888 99 00", "sandra.frei@example.ch")],
+    },
+    {
+        id: "st-verein-3",
+        rowKind: "verein",
+        name: "Schwimmclub Mitte",
+        contact: {
+            organisationName: "Schwimmclub Mitte",
+            contactPerson: "Elena Favre",
+            street: "Schützenmattweg 39",
+            postalCode: "3014",
+            city: "Bern",
+            email: "info@schwimmclub-mitte.example",
+            phone: "+41 31 351 12 34",
+        },
+        subRows: [
+            demoTrainer("st-tr-4", "Lukas", "Hunziker", "+41 79 201 30 40", "lukas.hunziker@example.ch"),
+            demoTrainer("st-tr-5", "Nina", "Baumgartner", "+41 78 912 45 67", "nina.baumgartner@example.ch"),
+            demoTrainer("st-tr-6", "Felix", "Roth", "+41 76 334 55 66", "felix.roth@example.ch"),
+        ],
+    },
+    {
+        id: "st-verein-4",
+        rowKind: "verein",
+        name: "TV Länggasse",
+        contact: {
+            organisationName: "Turnverein Länggasse",
+            contactPerson: "Simon Wyss",
+            street: "Laubeggstrasse 77",
+            postalCode: "3013",
+            city: "Bern",
+            email: "sekretariat@tv-laenggasse.example",
+            phone: "+41 31 982 10 20",
+        },
+        subRows: [demoTrainer("st-tr-7", "Corinne", "Stalder", "+41 79 445 77 88", "corinne.stalder@example.ch")],
+    },
+    {
+        id: "st-verein-5",
+        rowKind: "verein",
+        name: "HV Region Bern",
+        contact: {
+            organisationName: "Handballverein Region Bern",
+            contactPerson: "Patrick Zahnd",
+            street: "Brückfeldstrasse 16",
+            postalCode: "3013",
+            city: "Bern",
+            email: "vorstand@hv-regionbern.example",
+            phone: "+41 31 388 90 11",
+        },
+        billingContact: {
+            organisationName: "HV Region Bern – Rechnungswesen",
+            contactPerson: "Ruth Steffen",
+            street: "Brückfeldstrasse 16",
+            postalCode: "3013",
+            city: "Bern",
+            email: "rechnungen@hv-regionbern.example",
+            phone: "+41 31 388 90 12",
+        },
+        subRows: [
+            demoTrainer("st-tr-8", "Michael", "Aebi", "+41 78 556 12 13", "michael.aebi@example.ch"),
+            demoTrainer("st-tr-9", "Laura", "Kuhn", "+41 77 667 23 24", "laura.kuhn@example.ch"),
+        ],
+    },
+    {
+        id: "st-verein-6",
+        rowKind: "verein",
+        name: "Berner Leichtathletik Club",
+        contact: {
+            organisationName: "Berner Leichtathletik Club",
+            contactPerson: "Thomas Gerber",
+            street: "Mingerstrasse 110",
+            postalCode: "3030",
+            city: "Bern",
+            email: "kontakt@blc-athletics.example",
+            phone: "+41 31 971 44 55",
+        },
+        subRows: [],
     },
 ]
 
