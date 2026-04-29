@@ -5,12 +5,24 @@ import {useEffect, useState} from "react"
 import {EditButton} from "./edit-button"
 import styles from "./page-title.module.scss"
 
+function getPageTitleHeadingClassName(isSubTitle: boolean, usePlaceholderAppearance: boolean): string {
+    if (isSubTitle) {
+        return usePlaceholderAppearance
+            ? `${styles.pageTitle} ${styles.subTitle} ${styles.placeholderTitle}`
+            : `${styles.pageTitle} ${styles.subTitle}`
+    }
+
+    return usePlaceholderAppearance ? `${styles.pageTitle} ${styles.placeholderTitle}` : styles.pageTitle
+}
+
 interface PageTitleProps {
     title: string
     editable?: boolean
     onTitleChange?: (value: string) => void
     isSubTitle?: boolean
     hasInfoButton?: boolean
+    /** Shown when `title` is empty (e.g. new entity); also used as the TextField hint while editing. */
+    placeholder?: string
 }
 
 export const PageTitle = ({
@@ -19,6 +31,7 @@ export const PageTitle = ({
     onTitleChange,
     isSubTitle = false,
     hasInfoButton = false,
+    placeholder,
 }: PageTitleProps) => {
     const [isEditing, setIsEditing] = useState(false)
     const [draftTitle, setDraftTitle] = useState(title)
@@ -34,7 +47,9 @@ export const PageTitle = ({
 
     const titleContent = (value: string) => (
         <>
-            <h2 className={isSubTitle ? `${styles.pageTitle} ${styles.subTitle}` : styles.pageTitle}>{value}</h2>
+            <h2 className={getPageTitleHeadingClassName(isSubTitle, !value.trim() && !!placeholder)}>
+                {value.trim() ? value : (placeholder ?? "")}
+            </h2>
             {hasInfoButton ? (
                 <Tooltip title="hier angezeigte Informationen">
                     <span>
@@ -58,6 +73,7 @@ export const PageTitle = ({
                     className={`${styles.titleInput} ${isSubTitle ? styles.subTitleInput : ""}`}
                     value={draftTitle}
                     onChange={(event) => handleTitleChange(event.target.value)}
+                    placeholder={placeholder}
                 />
             ) : (
                 titleContent(draftTitle)
