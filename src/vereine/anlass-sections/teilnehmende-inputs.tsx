@@ -3,7 +3,7 @@ import {useTranslation} from "react-i18next"
 import {FieldLabel} from "../../components/field-label"
 import {DetailsTextInput} from "../../components/inputs"
 import {PageTitle} from "../../components/page-title"
-import styles from "../verein-public-anlass-page.module.scss"
+import styles from "../verein-public-anlass-editor.module.scss"
 
 export const TeilnehmendeInputs: React.FC = () => {
     const {t} = useTranslation("dashboard")

@@ -12,9 +12,9 @@ import {SportIconBadge} from "../components/sport-icon-badge"
 import {UploadSection} from "../components/upload-section"
 import {getOrganisationForPublicVereinPage} from "../dashboard/dummyData"
 import {TeilnehmendeInputs} from "./anlass-sections/teilnehmende-inputs"
-import styles from "./verein-public-anlass-page.module.scss"
+import styles from "./verein-public-anlass-editor.module.scss"
 
-export const VereinPublicAnlassPage: React.FC = () => {
+export const VereinPublicAnlassEditor: React.FC = () => {
     const {organisationId, anlassId} = useParams<{organisationId: string; anlassId: string}>()
     const organisation = getOrganisationForPublicVereinPage(organisationId)
     const anlassClicked = organisation && anlassId ? organisation.anlaesse.find((a) => a.id === anlassId) : undefined
@@ -81,7 +81,6 @@ export const VereinPublicAnlassPage: React.FC = () => {
                     </Button>
                 </div>
             </div>
-
             <TeilnehmendeInputs />
 
             <section className={styles.sectionCard}>
