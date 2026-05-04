@@ -248,7 +248,7 @@ export const HolidayEditorPage = () => {
     }, [holidayId])
 
     if (!holidayId || !fromSeed) {
-        return <Navigate to="/stammdaten/ferien" replace />
+        return <Navigate to="/admin/stammdaten/ferien" replace />
     }
 
     return <HolidayEditorMockBody key={holidayId} initialHoliday={fromSeed} />

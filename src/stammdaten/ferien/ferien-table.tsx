@@ -161,7 +161,7 @@ export const FerienTable = () => {
                         <IconButton
                             size="small"
                             aria-label={t("stammdaten.ferien-table.edit")}
-                            onClick={() => navigate(`/stammdaten/ferien/holiday/${row.original.id}/edit`)}
+                            onClick={() => navigate(`/admin/stammdaten/ferien/holiday/${row.original.id}/edit`)}
                         >
                             <FontAwesomeIcon icon={faPenToSquare} />
                         </IconButton>

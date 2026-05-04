@@ -127,7 +127,7 @@ export const VereineTable: React.FC = () => {
             },
             renderRowActions: ({row}) => (
                 <VereineTableActions
-                    onEdit={() => navigate(`/stammdaten/vereine/${row.original.id}/edit`)}
+                    onEdit={() => navigate(`/admin/stammdaten/vereine/${row.original.id}/edit`)}
                     onDelete={() => setDeleteVereinId(row.original.id)}
                 />
             ),

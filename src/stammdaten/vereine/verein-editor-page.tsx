@@ -218,7 +218,7 @@ export const VereinEditorPage: React.FC = () => {
     }, [vereinId])
 
     if (!vereinId || !initialVerein) {
-        return <Navigate to="/stammdaten/vereine" replace />
+        return <Navigate to="/admin/stammdaten/vereine" replace />
     }
 
     return <VereinEditorBody key={vereinId} initialVerein={initialVerein} />

@@ -11,7 +11,7 @@ import styles from "./top-bar.module.scss"
 export const TopBar = () => {
     const {t} = useTranslation(["common", "dashboard"])
     const {pathname} = useLocation()
-    const isStammdatenRoute = pathname === "/stammdaten" || pathname.startsWith("/stammdaten/")
+    const isStammdatenRoute = pathname === "/admin/stammdaten" || pathname.startsWith("/admin/stammdaten/")
 
     const [navMenuAnchorEl, setNavMenuAnchorEl] = useState<null | HTMLElement>(null)
     const [userMenuAnchorEl, setUserMenuAnchorEl] = useState<null | HTMLElement>(null)
@@ -52,9 +52,9 @@ export const TopBar = () => {
                                     {t("common:app-name")}
                                 </MenuItem>
                                 <MenuItem
-                                    key="/stammdaten"
+                                    key="/admin/stammdaten"
                                     component={NavLink}
-                                    to="/stammdaten"
+                                    to="/admin/stammdaten"
                                     selected={isStammdatenRoute}
                                     onClick={() => setNavMenuAnchorEl(null)}
                                 >
@@ -76,10 +76,10 @@ export const TopBar = () => {
 
                         <div className={styles.desktopNavActions}>
                             <Button
-                                key="/stammdaten"
+                                key="/admin/stammdaten"
                                 color="inherit"
                                 component={NavLink}
-                                to="/stammdaten"
+                                to="/admin/stammdaten"
                                 className={isStammdatenRoute ? styles.navButtonActive : styles.navButton}
                             >
                                 {t("dashboard:dashboard.topbar.stammdaten")}

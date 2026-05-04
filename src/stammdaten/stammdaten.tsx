@@ -22,7 +22,7 @@ export const StammdatenEditor = () => {
     const {tabId} = useParams<{tabId: string}>()
 
     if (!tabId || !isStammdatenTabId(tabId)) {
-        return <Navigate to="/stammdaten/objekte" replace />
+        return <Navigate to="/admin/stammdaten/objekte" replace />
     }
 
     const activeTab = tabId
@@ -32,7 +32,7 @@ export const StammdatenEditor = () => {
             <PageTitle title={t("dashboard:stammdaten.title")} />
             <Tabs
                 value={activeTab}
-                onChange={(_, newValue) => navigate(`/stammdaten/${newValue}`)}
+                onChange={(_, newValue) => navigate(`/admin/stammdaten/${newValue}`)}
                 aria-label={t("dashboard:stammdaten.tabs-aria-label")}
                 className={styles.tabsRoot}
             >

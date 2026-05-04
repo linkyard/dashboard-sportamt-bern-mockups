@@ -106,7 +106,7 @@ export const AppBreadcrumbs: React.FC<AppBreadcrumbsProps> = (props) => {
             return (
                 <BreadcrumbsList
                     items={[
-                        {to: "/stammdaten/ferien", label: t("dashboard:stammdaten.tabs.ferien")},
+                        {to: "/admin/stammdaten/ferien", label: t("dashboard:stammdaten.tabs.ferien")},
                         {
                             label: holidayName.trim() ? holidayName : t("dashboard:stammdaten.ferien-editor.breadcrumb-current"),
                         },
@@ -119,7 +119,7 @@ export const AppBreadcrumbs: React.FC<AppBreadcrumbsProps> = (props) => {
             return (
                 <BreadcrumbsList
                     items={[
-                        {to: "/stammdaten/vereine", label: t("dashboard:stammdaten.tabs.vereine")},
+                        {to: "/admin/stammdaten/vereine", label: t("dashboard:stammdaten.tabs.vereine")},
                         {
                             label: vereinName.trim() ? vereinName : t("dashboard:stammdaten.vereine-editor.breadcrumb-current"),
                         },
