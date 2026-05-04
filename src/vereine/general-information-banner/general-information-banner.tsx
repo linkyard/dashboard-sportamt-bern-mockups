@@ -17,6 +17,12 @@ export function GeneralInformationBanner() {
             className={styles.alert}
             severity="info"
             variant="outlined"
+            sx={{
+                padding: "16px",
+                borderColor: "#d0d0d0",
+                "&.MuiAlert-outlined": {borderColor: "#d0d0d0"},
+                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08)",
+            }}
             onClose={() => setOpen(false)}
             icon={<FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} />}
             slotProps={{
