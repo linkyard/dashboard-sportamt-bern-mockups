@@ -1,7 +1,11 @@
-@use "../../variables.module.scss" as *;
+@use "../variables.module.scss" as *;
 
 .uploadSection {
     margin-top: 24px;
+}
+
+.uploadSectionFlush {
+    margin-top: 0;
 }
 
 .emptyDropzone {

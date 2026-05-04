@@ -86,7 +86,8 @@
     }
 }
 
-.sportBadge {
+// Grid cell that wraps `SportIconBadge` on an Anlass card.
+.sportBadgeCell {
     grid-column: 1;
     grid-row: 1 / -1;
     align-self: center;
@@ -180,7 +181,7 @@
         row-gap: 10px;
     }
 
-    .sportBadge {
+    .sportBadgeCell {
         grid-column: auto;
         grid-row: auto;
         justify-self: center;

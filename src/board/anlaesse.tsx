@@ -112,7 +112,9 @@ const AnlaessCard: React.FC<AnlaessCardProps> = ({anlass, organisation, anlassDe
                 }
             }}
         >
-            <SportIconBadge icon={anlass.sportIcon} className={styles.sportBadge} />
+            <span className={styles.sportBadgeCell}>
+                <SportIconBadge icon={anlass.sportIcon} />
+            </span>
 
             <h3 className={styles.title}>{anlass.name}</h3>
 

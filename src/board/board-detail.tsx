@@ -13,7 +13,7 @@ import {PageTitle} from "../components/page-title"
 import {getBoardById, type Board} from "../dashboard/dummyData"
 import {parseIsoToDayjs} from "../util/date"
 import styles from "./board-detail.module.scss"
-import {UploadSection} from "./components/upload-section"
+import {UploadSection} from "../components/upload-section"
 import {OrganisationTable} from "./organisation-table"
 
 export const BoardDetail: React.FC = () => {

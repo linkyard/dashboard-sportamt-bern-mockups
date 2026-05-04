@@ -4,12 +4,11 @@ import styles from "./sport-icon-badge.module.scss"
 
 type SportIconBadgeProps = {
     icon: IconProp
-    className?: string
 }
 
-export const SportIconBadge = ({icon, className}: SportIconBadgeProps) => {
+export const SportIconBadge = ({icon}: SportIconBadgeProps) => {
     return (
-        <span className={[styles.badge, className].filter(Boolean).join(" ")} aria-hidden>
+        <span className={styles.badge} aria-hidden>
             <FontAwesomeIcon icon={icon} className={styles.icon} />
         </span>
     )

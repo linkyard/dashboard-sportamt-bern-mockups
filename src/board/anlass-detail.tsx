@@ -29,7 +29,7 @@ export const AnlassDetail: React.FC = () => {
                 <div className={styles.breadcrumbsWrapper}>
                     <AppBreadcrumbs variant="anlass-detail" organisation={organisation} anlass={anlass} />
                 </div>
-                {anlassForDisplay ? <SportIconBadge icon={anlassForDisplay.sportIcon} className={styles.topBarBadge} /> : null}
+                {anlassForDisplay ? <SportIconBadge icon={anlassForDisplay.sportIcon} /> : null}
             </div>
             <PageTitle title={title} />
             {periodLabel ? (

@@ -1,0 +1,85 @@
+@use "../mixins.module.scss" as *;
+
+.titleBand {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 24px;
+    margin-bottom: 8px;
+}
+
+.titleBandMain {
+    flex: 1;
+    min-width: min(100%, 280px);
+}
+
+.periodRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    color: #757575;
+}
+
+.periodIcon {
+    color: #757575;
+    font-size: 0.9rem;
+}
+
+.titleBandActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.sectionCard {
+    margin-top: 24px;
+    padding: 20px 22px;
+    border-radius: 12px;
+    background: #fff;
+    // border: 1px solid #e8eaec;
+    // box-shadow:
+    //     0 1px 3px rgba(0, 0, 0, 0.06),
+    //     0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.sectionHeading {
+    margin-bottom: 16px;
+}
+
+.teilnehmerFields {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+@media (max-width: 900px) {
+    .teilnehmerFields {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .teilnehmerFields {
+        grid-template-columns: 1fr;
+    }
+}
+
+.fieldGroup {
+    @include field-group;
+    @include field-group-outlined-controls;
+    min-width: 0;
+    width: 100%;
+}
+
+.countInput {
+    width: 100%;
+
+    :global(.MuiInputBase-input) {
+        text-align: right;
+    }
+}

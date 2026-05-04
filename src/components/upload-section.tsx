@@ -3,15 +3,20 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {Alert, Button} from "@mui/material"
 import {useRef, useState} from "react"
 import {useTranslation} from "react-i18next"
+
 import styles from "./upload-section.module.scss"
 
 interface UploadSectionProps {
     onFilesChange: (fileList: FileList | null) => void
-    onLoadTestData: () => void
+    onLoadTestData?: () => void
     isUploadSuccess: boolean
+    /** Omits default top margin when the block sits below a section heading inside a card. */
+    flushTop?: boolean
+    /** Merged onto the root wrapper. */
+    className?: string
 }
 
-export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess}: UploadSectionProps) => {
+export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, flushTop, className}: UploadSectionProps) => {
     const {t} = useTranslation("dashboard")
     const [isDragging, setIsDragging] = useState(false)
     const [isDragInvalid, setIsDragInvalid] = useState(false)
@@ -21,7 +26,7 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess}: 
     const handleFileList = (fileList: FileList | null) => {
         if (!fileList?.length) return
         const file = fileList[0]
-        if (!file.name.toLowerCase().endsWith(".xlsx")) {
+        if (!file.name.toLowerCase().endsWith(".xls")) {
             setUploadError("Unsupported file type. Please upload an Excel file (.xls).")
             return
         }
@@ -38,7 +43,7 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess}: 
     }
 
     return (
-        <div className={styles.uploadSection}>
+        <div className={[styles.uploadSection, flushTop && styles.uploadSectionFlush, className].filter(Boolean).join(" ")}>
             <input ref={fileInputRef} type="file" accept=".xls" hidden onChange={(event) => handleFileList(event.target.files)} />
             <div
                 className={`${styles.uploadDropzone} ${isDragging && !isDragInvalid ? styles.uploadDropzoneActive : ""} ${isDragInvalid ? styles.uploadDropzoneInvalid : ""} ${isUploadSuccess ? styles.uploadDropzoneSuccess : ""}`}
@@ -86,9 +91,11 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess}: 
                     {uploadError}
                 </Alert>
             ) : null}
-            <Button onClick={onLoadTestData} size="small" variant="text" sx={{mt: 1}}>
-                Load test file
-            </Button>
+            {onLoadTestData ? (
+                <Button onClick={onLoadTestData} size="small" variant="text" sx={{mt: 1}}>
+                    Load test file
+                </Button>
+            ) : null}
         </div>
     )
 }

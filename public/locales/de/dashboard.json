@@ -222,7 +222,20 @@
         "not-found-body": "Diese Seite existiert nicht oder der Vereinsname ist unbekannt.",
         "fallback-title": "Verein",
         "anlass": {
-            "not-found-title": "Anlass"
+            "not-found-title": "Anlass",
+            "not-found-body": "Dieser Anlass oder Verein wurde nicht gefunden.",
+            "actions": {
+                "cancel-reservation": "Reservation Stornieren",
+                "confirm-reservation": "Reservation Bestätigen"
+            },
+            "teilnehmende-title": "Teilnehmende",
+            "teilnehmerliste-title": "Teilnehmerliste",
+            "teilnehmende-fields": {
+                "total-persons": "Total Anzahl Personen",
+                "male": "Anzahl männliche Teilnehmende",
+                "female": "Anzahl weibliche Teilnehmende",
+                "under-20": "Anzahl Teilnehmende unter 20-jährig"
+            }
         }
     }
 }
