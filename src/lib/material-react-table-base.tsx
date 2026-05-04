@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components -- module shares `mrtSharedMrtTheme` with other `useMaterialReactTable` call sites */
 import SearchIcon from "@mui/icons-material/Search"
 import {InputAdornment} from "@mui/material"
 import {
@@ -6,6 +5,7 @@ import {
     MRT_GlobalFilterTextField,
     useMaterialReactTable,
     type MRT_ColumnDef,
+    type MRT_RowData,
     type MRT_TableOptions,
     type MRT_Theme,
 } from "material-react-table"
@@ -14,12 +14,11 @@ import {useMemo, type ReactElement, type ReactNode} from "react"
 import {useTranslation} from "react-i18next"
 import mrt from "./material-react-table-styles.module.scss"
 
-/** MRT expects `Partial<MRT_Theme>` — not something SCSS can supply. Aligns with `.tablePaper` background. */
-export const mrtSharedMrtTheme: Partial<MRT_Theme> = {
+const sportamtMrtTheme: Partial<MRT_Theme> = {
     baseBackgroundColor: "#f8f8f8",
 }
 
-interface Props<R> {
+interface Props<R extends MRT_RowData> {
     data: R[]
     columns: MRT_ColumnDef<R>[]
     options?: Partial<MRT_TableOptions<R>>
@@ -29,7 +28,7 @@ interface Props<R> {
     disableSearch?: boolean
 }
 
-export function SportamtMaterialReactTableBase<R>({
+export function SportamtMaterialReactTableBase<R extends MRT_RowData>({
     data: tableData,
     columns,
     options,
@@ -38,6 +37,13 @@ export function SportamtMaterialReactTableBase<R>({
     disableSearch,
 }: Props<R>): ReactElement {
     const {t} = useTranslation(["common"])
+
+    const {
+        muiTableBodyRowProps: callerRowOpts,
+        muiTableBodyCellProps: callerCellOpts,
+        displayColumnDefOptions: callerDisplayColumns,
+        ...callerRestOpts
+    } = options ?? {}
 
     const muiSearchTextFieldProps = useMemo(
         (): MRT_TableOptions<R>["muiSearchTextFieldProps"] =>
@@ -67,9 +73,7 @@ export function SportamtMaterialReactTableBase<R>({
     const table = useMaterialReactTable({
         columns,
         data: tableData,
-        mrtTheme: {
-            baseBackgroundColor: "#f8f8f8",
-        },
+        mrtTheme: sportamtMrtTheme,
         localization: {...MRT_Localization_DE, language: "de-CH"},
         layoutMode: "grid",
         defaultColumn: {minSize: 60},
@@ -83,15 +87,23 @@ export function SportamtMaterialReactTableBase<R>({
         enableBottomToolbar: false,
         enableGlobalFilter: true,
         globalFilterFn: "contains",
-        muiSearchTextFieldProps: muiSearchTextFieldProps,
+        muiSearchTextFieldProps,
         muiTablePaperProps: {elevation: 0, className: mrt.tablePaper},
-        muiTableHeadCellProps: {
-            className: mrt.headCell,
+        muiTableHeadCellProps: {className: mrt.headCell},
+        ...callerRestOpts,
+        displayColumnDefOptions: {
+            ...callerDisplayColumns,
+            "mrt-row-expand": {...callerDisplayColumns?.["mrt-row-expand"], header: ""},
         },
-        muiTableBodyCellProps: {
-            className: mrt.bodyCell,
+        muiTableBodyCellProps: (args) => {
+            const base = typeof callerCellOpts === "function" ? callerCellOpts(args) : callerCellOpts
+            const mergedClassName = `${mrt.bodyCell}${base?.className ? ` ${base.className}` : ""}`
+            return {...(base ?? {}), className: mergedClassName || undefined}
         },
-        ...options,
+        muiTableBodyRowProps: (args) => ({
+            ...(typeof callerRowOpts === "function" ? callerRowOpts(args) : (callerRowOpts ?? {})),
+            ...(args.row.depth > 0 || args.isDetailPanel ? {"data-sportamt-mrt-inner": ""} : {}),
+        }),
     })
 
     return (

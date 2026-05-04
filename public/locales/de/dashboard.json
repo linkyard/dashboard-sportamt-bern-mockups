@@ -235,6 +235,19 @@
                 "male": "Anzahl männliche Teilnehmende",
                 "female": "Anzahl weibliche Teilnehmende",
                 "under-20": "Anzahl Teilnehmende unter 20-jährig"
+            },
+            "ferien": {
+                "title": "Ferien",
+                "empty-year": "Für {{year}} sind keine Ferien hinterlegt.",
+                "week-label": "Woche {{n}}",
+                "columns": {
+                    "name": "Ferien",
+                    "von": "Von",
+                    "bis": "Bis",
+                    "benutzung": "Benützung"
+                },
+                "benutzung-ferien-aria": "Benützung für {{name}} (alle Wochen)",
+                "benutzung-week-aria": "Benützung {{name}}"
             }
         }
     }

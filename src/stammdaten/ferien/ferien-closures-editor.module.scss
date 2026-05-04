@@ -93,17 +93,6 @@ $nestedRowRailColor: color.change($sportamtGreen, $alpha: 0.5);
     white-space: nowrap;
 }
 
-.checkAccent {
-    :global(.MuiSvgIcon-root) {
-        color: rgba(0, 0, 0, 0.28);
-    }
-
-    &:global(.Mui-checked .MuiSvgIcon-root),
-    &:global(.MuiCheckbox-indeterminate .MuiSvgIcon-root) {
-        color: $sportamtGreen;
-    }
-}
-
 @media (max-width: 900px) {
     .dateRangeRow {
         grid-template-columns: 1fr;

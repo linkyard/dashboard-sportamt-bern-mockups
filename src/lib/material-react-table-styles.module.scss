@@ -5,6 +5,7 @@ $cellDivider: rgba(0, 0, 0, 0.12);
 $textPrimary: rgba(0, 0, 0, 0.87);
 /// Sportamt Green rail — at 50% opacity.
 $nestedRail: rgba(215, 224, 84, 0.5);
+$nestedRowBackground: #fff;
 
 .tableToolbar {
     display: flex;
@@ -33,6 +34,10 @@ $nestedRail: rgba(215, 224, 84, 0.5);
     border: 1px solid $tableOutline;
     border-radius: 8px;
     overflow: hidden;
+    :global(tbody tr[data-sportamt-mrt-inner]),
+    :global(tbody tr[data-sportamt-mrt-inner] .MuiTableCell-root) {
+        background-color: $nestedRowBackground !important;
+    }
 }
 
 .headCell {
@@ -72,4 +77,5 @@ $nestedRail: rgba(215, 224, 84, 0.5);
 
 .detailPanelRail {
     box-shadow: inset 3px 0 0 $nestedRail;
+    background-color: $nestedRowBackground !important;
 }

@@ -69,7 +69,6 @@ export function FerienClosuresEditorWeekColumnGrid({
                                 <span className={styles.allWeeksHint}>
                                     <Checkbox
                                         size="small"
-                                        className={styles.checkAccent}
                                         checked={allWeeksIncluded}
                                         indeterminate={masterWeekIndeterminate}
                                         onChange={toggleAllWeeksIncluded}
@@ -86,7 +85,6 @@ export function FerienClosuresEditorWeekColumnGrid({
                                     <div className={styles.weekHeadInner}>
                                         <Checkbox
                                             size="small"
-                                            className={styles.checkAccent}
                                             checked={weekHdr.checked}
                                             indeterminate={weekHdr.indeterminate}
                                             onChange={() => toggleOneWeek(w.id)}
@@ -157,7 +155,6 @@ export function FerienClosuresEditorWeekColumnGrid({
                                         <div key={w.id} className={`${styles.weekCell} ${inactive ? styles.inactiveCell : ""}`} role="cell">
                                             <Checkbox
                                                 size="small"
-                                                className={styles.checkAccent}
                                                 checked={!inactive && locWeekAgg.checked}
                                                 indeterminate={!inactive && locWeekAgg.indeterminate}
                                                 disabled={inactive}
@@ -202,7 +199,6 @@ export function FerienClosuresEditorWeekColumnGrid({
                                               >
                                                   <Checkbox
                                                       size="small"
-                                                      className={styles.checkAccent}
                                                       checked={!inactive && checked}
                                                       disabled={inactive}
                                                       onChange={() => applyMutation((c) => toggleObjectWeekClosure(c, obj.id, w.id))}

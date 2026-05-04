@@ -1,7 +1,9 @@
 @use "../../variables.module.scss" as *;
+@use "../../lib/material-react-table-styles.module.scss" as *;
 
 .row {
     display: grid;
+    background-color: $nestedRowBackground;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 12.5rem;
     align-items: center;
     column-gap: 14px;

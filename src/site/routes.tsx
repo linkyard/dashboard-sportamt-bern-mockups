@@ -1,4 +1,5 @@
 import {Box} from "@mui/material"
+import {ThemeProvider} from "@mui/material/styles"
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs"
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider"
 import "dayjs/locale/de-ch"
@@ -13,6 +14,7 @@ import {StammdatenEditor} from "../stammdaten/stammdaten"
 import {VereinEditorPage} from "../stammdaten/vereine/verein-editor-page"
 import {VereinPublicAnlassEditor} from "../vereine/verein-public-anlass-editor"
 import {VereinPublicPage} from "../vereine/verein-public-page"
+import {appTheme} from "../theme/app-theme"
 import {PageLayout} from "./layout"
 
 function NotFound() {
@@ -24,11 +26,13 @@ function NotFound() {
 
 export function AppRoot() {
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de-ch">
-            <div className="root">
-                <RouteIndex />
-            </div>
-        </LocalizationProvider>
+        <ThemeProvider theme={appTheme}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de-ch">
+                <div className="root">
+                    <RouteIndex />
+                </div>
+            </LocalizationProvider>
+        </ThemeProvider>
     )
 }
 
