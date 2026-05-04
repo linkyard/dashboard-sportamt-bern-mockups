@@ -1,8 +1,7 @@
 import {faPenToSquare, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, Tooltip} from "@mui/material"
-import {type MRT_ColumnDef, MaterialReactTable, useMaterialReactTable} from "material-react-table"
-import {MRT_Localization_DE} from "material-react-table/locales/de"
+import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {Navigate, useParams} from "react-router"
@@ -11,13 +10,8 @@ import orgStyles from "../../board/organisation-admin.module.scss"
 import {AppBreadcrumbs} from "../../components/breadcrumbs"
 import {PageTitle} from "../../components/page-title"
 import {stammdatenSeedVereine} from "../../dashboard/dummyData"
-import {
-    mrtSharedHeaderPaddingX,
-    mrtSharedMrtTheme,
-    mrtSharedTableBodyCellSx,
-    mrtSharedTableHeadCellSx,
-    mrtSharedTablePaperProps,
-} from "../../lib/material-react-table-styles"
+import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
+import mrt from "../../lib/material-react-table-styles.module.scss"
 import {TrainerDialog} from "./verein-list-dialogs"
 import tableStyles from "./vereine-table.module.scss"
 import type {TrainerRowData, VereinRowData} from "./vereine-types"
@@ -70,83 +64,65 @@ function VereinEditorBody({initialVerein}: VereinEditorBodyProps) {
         [t]
     )
 
-    const trainerTable = useMaterialReactTable({
-        columns: trainerColumns,
-        data: verein.subRows,
-        mrtTheme: mrtSharedMrtTheme,
-        getRowId: (row) => row.id,
-        localization: {...MRT_Localization_DE, language: "de-CH"},
-        layoutMode: "grid",
-        defaultColumn: {minSize: 80},
-        initialState: {density: "comfortable"},
-        enableSorting: false,
-        enablePagination: false,
-        enableGlobalFilter: false,
-        enableColumnActions: false,
-        enableColumnFilters: false,
-        enableDensityToggle: false,
-        enableHiding: false,
-        enableFullScreenToggle: false,
-        enableStickyHeader: true,
-        enableTopToolbar: false,
-        enableBottomToolbar: false,
-        enableRowActions: true,
-        positionActionsColumn: "last",
-        displayColumnDefOptions: {
-            "mrt-row-actions": {
-                size: 88,
-                maxSize: 88,
-                minSize: 88,
-                grow: false,
-                muiTableHeadCellProps: {
-                    align: "right",
-                    sx: (theme) => ({
-                        ...mrtSharedTableHeadCellSx(theme),
-                        pl: mrtSharedHeaderPaddingX,
-                        pr: mrtSharedHeaderPaddingX,
-                        textAlign: "right",
-                    }),
-                },
-                muiTableBodyCellProps: {
-                    align: "right",
-                    sx: (theme) => ({
-                        ...mrtSharedTableBodyCellSx(theme),
-                        verticalAlign: "middle",
-                    }),
+    const trainerTableOptions = useMemo((): Partial<MRT_TableOptions<TrainerRowData>> => {
+        return {
+            getRowId: (row) => row.id,
+            defaultColumn: {minSize: 80},
+            initialState: {density: "comfortable"},
+            enableSorting: false,
+            enableGlobalFilter: false,
+            enableStickyHeader: true,
+            positionToolbarAlertBanner: "none",
+            positionGlobalFilter: "none",
+            enableRowActions: true,
+            positionActionsColumn: "last",
+            displayColumnDefOptions: {
+                "mrt-row-actions": {
+                    size: 88,
+                    maxSize: 88,
+                    minSize: 88,
+                    grow: false,
+                    muiTableHeadCellProps: {
+                        align: "right",
+                        className: `${mrt.headCell} ${mrt.treeColumnPadding}`,
+                        sx: {textAlign: "right"},
+                    },
+                    muiTableBodyCellProps: {
+                        align: "right",
+                        className: mrt.bodyCell,
+                        sx: {verticalAlign: "middle"},
+                    },
                 },
             },
-        },
-        muiTablePaperProps: mrtSharedTablePaperProps,
-        muiTableContainerProps: {
-            sx: {maxHeight: "min(50vh, 420px)"},
-            "aria-label": t("dashboard:stammdaten.vereine-editor.trainers-list-aria"),
-        },
-        muiTableHeadCellProps: {sx: mrtSharedTableHeadCellSx},
-        muiTableBodyCellProps: {sx: mrtSharedTableBodyCellSx},
-        muiTableBodyRowProps: {hover: true},
-        renderRowActions: ({row}) => (
-            <Box className={tableStyles.rowActions}>
-                <Tooltip title={t("dashboard:stammdaten.vereine-table.edit")}>
-                    <IconButton
-                        size="small"
-                        aria-label={t("dashboard:stammdaten.vereine-table.edit")}
-                        onClick={() => setTrainerDialog({mode: "edit", trainer: row.original})}
-                    >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={t("dashboard:stammdaten.vereine-table.delete")}>
-                    <IconButton
-                        size="small"
-                        aria-label={t("dashboard:stammdaten.vereine-table.delete")}
-                        onClick={() => setDeleteTrainerId(row.original.id)}
-                    >
-                        <FontAwesomeIcon icon={faTrash} />
-                    </IconButton>
-                </Tooltip>
-            </Box>
-        ),
-    })
+            muiTableContainerProps: {
+                sx: {maxHeight: "min(50vh, 420px)"},
+                "aria-label": t("dashboard:stammdaten.vereine-editor.trainers-list-aria"),
+            },
+            muiTableBodyRowProps: {hover: true},
+            renderRowActions: ({row}) => (
+                <Box className={tableStyles.rowActions}>
+                    <Tooltip title={t("dashboard:stammdaten.vereine-table.edit")}>
+                        <IconButton
+                            size="small"
+                            aria-label={t("dashboard:stammdaten.vereine-table.edit")}
+                            onClick={() => setTrainerDialog({mode: "edit", trainer: row.original})}
+                        >
+                            <FontAwesomeIcon icon={faPenToSquare} />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={t("dashboard:stammdaten.vereine-table.delete")}>
+                        <IconButton
+                            size="small"
+                            aria-label={t("dashboard:stammdaten.vereine-table.delete")}
+                            onClick={() => setDeleteTrainerId(row.original.id)}
+                        >
+                            <FontAwesomeIcon icon={faTrash} />
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+            ),
+        }
+    }, [t])
 
     return (
         <div className={orgStyles.orgAdminPage}>
@@ -164,17 +140,26 @@ function VereinEditorBody({initialVerein}: VereinEditorBodyProps) {
             </div>
 
             <div className={tableStyles.trainersSection}>
-                <div className={tableStyles.trainersToolbar}>
-                    <h2 className={tableStyles.trainersHeading}>{t("dashboard:stammdaten.vereine-table.trainers-section")}</h2>
-                    <Button variant="contained" color="primary" size="small" startIcon={<FontAwesomeIcon icon={faPlus} />} onClick={() => setTrainerDialog({mode: "create"})}>
-                        {t("dashboard:stammdaten.vereine-table.add-trainer")}
-                    </Button>
-                </div>
-                {verein.subRows.length === 0 ? (
-                    <p className={tableStyles.trainersEmpty}>{t("dashboard:stammdaten.vereine-table.no-trainers")}</p>
-                ) : (
-                    <MaterialReactTable table={trainerTable} />
-                )}
+                <SportamtMaterialReactTableBase
+                    disableSearch
+                    toolbarStart={
+                        <h2 className={tableStyles.trainersHeading}>{t("dashboard:stammdaten.vereine-table.trainers-section")}</h2>
+                    }
+                    toolbarActionButtons={
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            startIcon={<FontAwesomeIcon icon={faPlus} />}
+                            onClick={() => setTrainerDialog({mode: "create"})}
+                        >
+                            {t("dashboard:stammdaten.vereine-table.add-trainer")}
+                        </Button>
+                    }
+                    columns={trainerColumns}
+                    data={verein.subRows}
+                    options={trainerTableOptions}
+                />
             </div>
 
             {trainerDialog ? (

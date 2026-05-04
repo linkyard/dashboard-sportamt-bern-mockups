@@ -23,10 +23,20 @@ interface Props<R> {
     data: R[]
     columns: MRT_ColumnDef<R>[]
     options?: Partial<MRT_TableOptions<R>>
+    toolbarStart?: ReactNode
     toolbarActionButtons?: ReactNode
+    /** When true, omits the global filter field */
+    disableSearch?: boolean
 }
 
-export function SportamtMaterialReactTableBase<R>({data: tableData, columns, options, toolbarActionButtons}: Props<R>): ReactElement {
+export function SportamtMaterialReactTableBase<R>({
+    data: tableData,
+    columns,
+    options,
+    toolbarStart,
+    toolbarActionButtons,
+    disableSearch,
+}: Props<R>): ReactElement {
     const {t} = useTranslation(["common"])
 
     const muiSearchTextFieldProps = useMemo(
@@ -86,9 +96,11 @@ export function SportamtMaterialReactTableBase<R>({data: tableData, columns, opt
 
     return (
         <>
-            <div className={mrt.tableToolbar}>
+            <div className={mrt.tableToolbar} style={toolbarStart ? {justifyContent: "space-between"} : {justifyContent: "flex-end"}}>
+                {toolbarStart}
+
                 <div className={mrt.tableToolbarSearch}>
-                    <MRT_GlobalFilterTextField table={table} fullWidth />
+                    {!disableSearch ? <MRT_GlobalFilterTextField table={table} fullWidth /> : null}
                 </div>
                 {toolbarActionButtons ? <div className={mrt.toolbarActions}>{toolbarActionButtons}</div> : null}
             </div>

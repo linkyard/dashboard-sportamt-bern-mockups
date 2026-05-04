@@ -1,27 +1,17 @@
 import {faPenToSquare, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import SearchIcon from "@mui/icons-material/Search"
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, InputAdornment, Snackbar, Tooltip} from "@mui/material"
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, Tooltip} from "@mui/material"
 import {
     type MRT_ColumnDef,
     MRT_ExpandButton,
-    MRT_GlobalFilterTextField,
     type MRT_Row,
     MRT_TableBodyRowGrabHandle,
-    MaterialReactTable,
-    useMaterialReactTable,
+    type MRT_TableOptions,
 } from "material-react-table"
-import {MRT_Localization_DE} from "material-react-table/locales/de"
 import {type ReactNode, useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
-import {
-    mrtNestedRowRailSx,
-    mrtSharedHeaderPaddingX,
-    mrtSharedMrtTheme,
-    mrtSharedTableBodyCellSx,
-    mrtSharedTableHeadCellSx,
-    mrtSharedTablePaperProps,
-} from "../../lib/material-react-table-styles"
+import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
+import mrt from "../../lib/material-react-table-styles.module.scss"
 import {CreateLocationDialog, EditLocationDialog, ObjektDialog} from "./location-table-dialogs"
 import {moveObjektRelativeToHover, moveObjektToLocationEnd} from "./locations"
 import styles from "./locations-table.module.scss"
@@ -107,11 +97,11 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                 enableSorting: false,
                 muiTableHeadCellProps: {
                     align: "right",
-                    sx: (theme) => ({
-                        ...mrtSharedTableHeadCellSx(theme),
+                    className: mrt.headCell,
+                    sx: {
                         textAlign: "right",
                         whiteSpace: "nowrap",
-                    }),
+                    },
                 },
                 muiTableBodyCellProps: {
                     align: "right",
@@ -124,208 +114,161 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
         [t]
     )
 
-    const table = useMaterialReactTable({
-        columns,
-        data: tableData,
-        mrtTheme: mrtSharedMrtTheme,
-        getRowId: (row) => row.id,
-        getSubRows: (row) => (row.rowKind === "location" ? row.subRows : undefined),
-        localization: {...MRT_Localization_DE, language: "de-CH"},
-        layoutMode: "grid",
-        defaultColumn: {minSize: 60},
-        initialState: {
-            density: "comfortable",
-            expanded: true,
-            showGlobalFilter: true,
-        },
-        enableExpanding: true,
-        enableExpandAll: true,
-        muiExpandAllButtonProps: {
-            size: "small",
-            sx: {
-                width: "1.5rem",
-                height: "1.5rem",
-                mt: 0,
-                "& .MuiSvgIcon-root": {fontSize: "1.125rem"},
+    const showNoSearchResults = locations.length > 0 && tableData.length === 0 && Boolean(searchQuery.trim())
+
+    const locationsTableOptions = useMemo((): Partial<MRT_TableOptions<StammdatenObjekteRow>> => {
+        return {
+            getRowId: (row) => row.id,
+            getSubRows: (row) => (row.rowKind === "location" ? row.subRows : undefined),
+            initialState: {
+                density: "comfortable",
+                expanded: true,
+                showGlobalFilter: true,
             },
-        },
-        muiExpandButtonProps: {size: "small"},
-        enableSorting: false,
-        enablePagination: false,
-        manualFiltering: true,
-        enableGlobalFilter: true,
-        globalFilterFn: "contains",
-        enableColumnActions: false,
-        enableColumnFilters: false,
-        enableDensityToggle: false,
-        enableHiding: false,
-        enableFullScreenToggle: false,
-        enableStickyHeader: true,
-        enableTopToolbar: false,
-        enableBottomToolbar: false,
-        enableRowDragging: false,
-        enableRowOrdering: false,
-        positionToolbarAlertBanner: "none",
-        positionGlobalFilter: "none",
-        state: {globalFilter: searchQuery},
-        onGlobalFilterChange: (updater) => {
-            setSearchQuery((prev) => {
-                const resolved = typeof updater === "function" ? updater(prev) : updater
-                return resolved ?? ""
-            })
-        },
-        muiSearchTextFieldProps: {
-            placeholder: t("common:actions.search"),
-            size: "small",
-            slotProps: {
-                input: {
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon fontSize="small" color="action" aria-hidden />
-                        </InputAdornment>
-                    ),
+            enableExpanding: true,
+            enableExpandAll: true,
+            muiExpandAllButtonProps: {
+                size: "small",
+                sx: {
+                    width: "1.5rem",
+                    height: "1.5rem",
+                    mt: 0,
+                    "& .MuiSvgIcon-root": {fontSize: "1.125rem"},
                 },
-                htmlInput: {
-                    "aria-label": t("common:actions.search"),
-                    style: {
-                        paddingTop: "4px",
-                        paddingBottom: "4px",
+            },
+            muiExpandButtonProps: {size: "small"},
+            enableSorting: false,
+            manualFiltering: true,
+            enableStickyHeader: true,
+            enableRowDragging: false,
+            enableRowOrdering: false,
+            positionToolbarAlertBanner: "none",
+            positionGlobalFilter: "none",
+            state: {globalFilter: searchQuery},
+            onGlobalFilterChange: (updater) => {
+                setSearchQuery((prev) => {
+                    const resolved = typeof updater === "function" ? updater(prev) : updater
+                    return resolved ?? ""
+                })
+            },
+            enableRowActions: true,
+            positionActionsColumn: "last",
+            displayColumnDefOptions: {
+                "mrt-row-expand": {
+                    size: 40,
+                    grow: false,
+                    maxSize: 40,
+                    minSize: 40,
+                    muiTableHeadCellProps: {
+                        align: "center",
+                        className: `${mrt.headCell} ${mrt.treeColumnPadding}`,
+                    },
+                    muiTableBodyCellProps: ({row}) => ({
+                        align: "center",
+                        className: `${mrt.bodyCell}${row.depth > 0 ? ` ${mrt.nestedRowRail}` : ""}`,
+                        sx: {verticalAlign: "middle"},
+                    }),
+                    Cell: ({row, rowRef, staticRowIndex, table}) =>
+                        row.original.rowKind === "location" ? (
+                            <MRT_ExpandButton row={row} staticRowIndex={staticRowIndex} table={table} />
+                        ) : row.original.rowKind === "objekt" && rowRef ? (
+                            <Box sx={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center"}}>
+                                <MRT_TableBodyRowGrabHandle row={row} rowRef={rowRef} table={table} />
+                            </Box>
+                        ) : null,
+                },
+                "mrt-row-actions": {
+                    size: 112,
+                    maxSize: 112,
+                    minSize: 112,
+                    grow: false,
+                    muiTableHeadCellProps: {
+                        align: "right",
+                        className: `${mrt.headCell} ${mrt.treeColumnPadding}`,
+                        sx: {textAlign: "right"},
+                    },
+                    muiTableBodyCellProps: {
+                        align: "right",
+                        className: mrt.bodyCell,
+                        sx: {verticalAlign: "middle"},
                     },
                 },
             },
-        },
-        enableRowActions: true,
-        positionActionsColumn: "last",
-        displayColumnDefOptions: {
-            "mrt-row-expand": {
-                size: 40,
-                grow: false,
-                maxSize: 40,
-                minSize: 40,
-                muiTableHeadCellProps: {
-                    align: "center",
-                    sx: (theme) => ({
-                        ...mrtSharedTableHeadCellSx(theme),
-                        pl: mrtSharedHeaderPaddingX,
-                        pr: mrtSharedHeaderPaddingX,
-                    }),
-                },
-                muiTableBodyCellProps: ({row}) => ({
-                    align: "center",
-                    sx: (theme) => ({
-                        ...mrtSharedTableBodyCellSx(theme),
-                        ...mrtNestedRowRailSx(theme, row.depth),
-                        verticalAlign: "middle",
-                    }),
+            muiRowDragHandleProps: ({table}) => ({
+                size: "small",
+                sx: (theme) => ({
+                    color: theme.palette.grey[400],
+                    opacity: 0.55,
+                    padding: theme.spacing(0.25),
+                    "&:hover": {
+                        color: theme.palette.grey[600],
+                        opacity: 1,
+                    },
+                    "& .MuiSvgIcon-root": {
+                        fontSize: "1.05rem",
+                    },
                 }),
-                Cell: ({row, rowRef, staticRowIndex, table}) =>
-                    row.original.rowKind === "location" ? (
-                        <MRT_ExpandButton row={row} staticRowIndex={staticRowIndex} table={table} />
-                    ) : row.original.rowKind === "objekt" && rowRef ? (
-                        <Box sx={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center"}}>
-                            <MRT_TableBodyRowGrabHandle row={row} rowRef={rowRef} table={table} />
-                        </Box>
-                    ) : null,
-            },
-            "mrt-row-actions": {
-                size: 112,
-                maxSize: 112,
-                minSize: 112,
-                grow: false,
-                muiTableHeadCellProps: {
-                    align: "right",
-                    sx: (theme) => ({
-                        ...mrtSharedTableHeadCellSx(theme),
-                        pl: mrtSharedHeaderPaddingX,
-                        pr: mrtSharedHeaderPaddingX,
-                        textAlign: "right",
-                    }),
-                },
-                muiTableBodyCellProps: {
-                    align: "right",
-                    sx: (theme) => ({
-                        ...mrtSharedTableBodyCellSx(theme),
-                        verticalAlign: "middle",
-                    }),
-                },
-            },
-        },
-        muiRowDragHandleProps: ({table}) => ({
-            size: "small",
-            sx: (theme) => ({
-                color: theme.palette.grey[400],
-                opacity: 0.55,
-                padding: theme.spacing(0.25),
-                "&:hover": {
-                    color: theme.palette.grey[600],
-                    opacity: 1,
-                },
-                "& .MuiSvgIcon-root": {
-                    fontSize: "1.05rem",
+                onDragEnd: () => {
+                    const {draggingRow, hoveredRow} = table.getState()
+                    if (!draggingRow?.original || !hoveredRow?.original) {
+                        return
+                    }
+                    const drag = draggingRow.original
+                    const hover = hoveredRow.original
+                    if (drag.rowKind !== "objekt") {
+                        return
+                    }
+                    if (hover.rowKind === "location") {
+                        setLocations((prev) => moveObjektToLocationEnd(prev, drag.id, hover.id))
+                    } else {
+                        setLocations((prev) => moveObjektRelativeToHover(prev, drag.id, hover.id))
+                    }
                 },
             }),
-            onDragEnd: () => {
-                const {draggingRow, hoveredRow} = table.getState()
-                if (!draggingRow?.original || !hoveredRow?.original) {
-                    return
-                }
-                const drag = draggingRow.original
-                const hover = hoveredRow.original
-                if (drag.rowKind !== "objekt") {
-                    return
-                }
-                if (hover.rowKind === "location") {
-                    setLocations((prev) => moveObjektToLocationEnd(prev, drag.id, hover.id))
-                } else {
-                    setLocations((prev) => moveObjektRelativeToHover(prev, drag.id, hover.id))
-                }
+            muiTableContainerProps: {
+                sx: {maxHeight: "min(70vh, 560px)"},
             },
-        }),
-        muiTablePaperProps: mrtSharedTablePaperProps,
-        muiTableContainerProps: {
-            sx: {maxHeight: "min(70vh, 560px)"},
-        },
-        muiTableHeadCellProps: {
-            sx: mrtSharedTableHeadCellSx,
-        },
-        muiTableBodyCellProps: {
-            sx: mrtSharedTableBodyCellSx,
-        },
-        muiTableBodyRowProps: ({row, table}) => ({
-            hover: true,
-            onDragEnter: () => {
-                if (table.getState().draggingRow) {
-                    table.setHoveredRow(row)
-                }
-            },
-            onDragOver: (e) => {
-                e.preventDefault()
-            },
-            ...(row.original.rowKind === "location"
+            muiTableBodyRowProps: ({row, table}) => ({
+                hover: true,
+                onDragEnter: () => {
+                    if (table.getState().draggingRow) {
+                        table.setHoveredRow(row)
+                    }
+                },
+                onDragOver: (e) => {
+                    e.preventDefault()
+                },
+                ...(row.original.rowKind === "location"
+                    ? {
+                          // Standorte are drop targets only — not part of the drag preview styling.
+                          sx: {opacity: 1},
+                      }
+                    : {}),
+            }),
+            renderRowActions: ({row}) => (
+                <LocationTableActions
+                    row={row}
+                    locations={locations}
+                    setLocationDialog={setLocationDialog}
+                    setObjektDialog={setObjektDialog}
+                    setDeleteTarget={setDeleteTarget}
+                />
+            ),
+            ...(showNoSearchResults
                 ? {
-                      // Standorte are drop targets only — not part of the drag preview styling.
-                      sx: {opacity: 1},
+                      muiTablePaperProps: {elevation: 0, className: mrt.tablePaper, sx: {display: "none"}},
                   }
                 : {}),
-        }),
-        renderRowActions: ({row}) => (
-            <LocationTableActions
-                row={row}
-                locations={locations}
-                setLocationDialog={setLocationDialog}
-                setObjektDialog={setObjektDialog}
-                setDeleteTarget={setDeleteTarget}
-            />
-        ),
-    })
+        }
+    }, [locations, searchQuery, showNoSearchResults, setLocations])
 
     return (
         <>
-            <div className={styles.tableToolbar}>
-                <div className={styles.tableToolbarSearch}>
-                    <MRT_GlobalFilterTextField table={table} fullWidth />
-                </div>
-                <div className={styles.toolbarActions}>
+            <SportamtMaterialReactTableBase
+                columns={columns}
+                data={tableData}
+                options={locationsTableOptions}
+                toolbarActionButtons={
                     <Button
                         variant="contained"
                         color="primary"
@@ -337,13 +280,9 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                     >
                         {t("stammdaten.objekte-table.add-location")}
                     </Button>
-                </div>
-            </div>
-            {locations.length > 0 && tableData.length === 0 && searchQuery.trim() ? (
-                <p className={styles.objekteSearchEmpty}>{t("common:no-search-results")}</p>
-            ) : (
-                <MaterialReactTable table={table} />
-            )}
+                }
+            />
+            {showNoSearchResults ? <p className={styles.objekteSearchEmpty}>{t("common:no-search-results")}</p> : null}
 
             {locationDialog?.mode === "create" ? (
                 <CreateLocationDialog

@@ -16,19 +16,13 @@ import {
     Snackbar,
     Tooltip,
 } from "@mui/material"
-import {type MRT_ColumnDef, MaterialReactTable, useMaterialReactTable} from "material-react-table"
-import {MRT_Localization_DE} from "material-react-table/locales/de"
+import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
 import {stammdatenSeedHolidays, stammdatenSeedLocations} from "../../dashboard/dummyData"
-import {
-    mrtSharedHeaderPaddingX,
-    mrtSharedMrtTheme,
-    mrtSharedTableBodyCellSx,
-    mrtSharedTableHeadCellSx,
-    mrtSharedTablePaperProps,
-} from "../../lib/material-react-table-styles"
+import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
+import mrt from "../../lib/material-react-table-styles.module.scss"
 import {formatDateSwiss} from "../../util/date"
 import {ensureHolidayClosure} from "./ferien-closure"
 import styles from "./ferien-table.module.scss"
@@ -121,113 +115,96 @@ export const FerienTable = () => {
         [t]
     )
 
-    const table = useMaterialReactTable({
-        columns,
-        data: tableData,
-        mrtTheme: mrtSharedMrtTheme,
-        getRowId: (row) => row.id,
-        localization: {...MRT_Localization_DE, language: "de-CH"},
-        layoutMode: "grid",
-        defaultColumn: {minSize: 60},
-        initialState: {
-            density: "comfortable",
-        },
-        enableExpanding: false,
-        enableSorting: false,
-        enablePagination: false,
-        enableGlobalFilter: false,
-        enableColumnActions: false,
-        enableColumnFilters: false,
-        enableDensityToggle: false,
-        enableHiding: false,
-        enableFullScreenToggle: false,
-        enableStickyHeader: true,
-        enableTopToolbar: false,
-        enableBottomToolbar: false,
-        positionToolbarAlertBanner: "none",
-        positionGlobalFilter: "none",
-        enableRowActions: true,
-        positionActionsColumn: "last",
-        displayColumnDefOptions: {
-            "mrt-row-actions": {
-                size: 96,
-                maxSize: 96,
-                minSize: 96,
-                grow: false,
-                muiTableHeadCellProps: {
-                    align: "right",
-                    sx: (theme) => ({
-                        ...mrtSharedTableHeadCellSx(theme),
-                        pl: mrtSharedHeaderPaddingX,
-                        pr: mrtSharedHeaderPaddingX,
-                        textAlign: "right",
-                    }),
-                },
-                muiTableBodyCellProps: {
-                    align: "right",
-                    sx: (theme) => ({
-                        ...mrtSharedTableBodyCellSx(theme),
-                        verticalAlign: "middle",
-                    }),
+    const ferienTableOptions = useMemo((): Partial<MRT_TableOptions<HolidayRowData>> => {
+        return {
+            getRowId: (row) => row.id,
+            initialState: {
+                density: "comfortable",
+            },
+            enableExpanding: false,
+            enableSorting: false,
+            enableGlobalFilter: false,
+            enableStickyHeader: true,
+            enableRowDragging: false,
+            enableRowOrdering: false,
+            positionToolbarAlertBanner: "none",
+            positionGlobalFilter: "none",
+            enableRowActions: true,
+            positionActionsColumn: "last",
+            displayColumnDefOptions: {
+                "mrt-row-actions": {
+                    size: 96,
+                    maxSize: 96,
+                    minSize: 96,
+                    grow: false,
+                    muiTableHeadCellProps: {
+                        align: "right",
+                        className: `${mrt.headCell} ${mrt.treeColumnPadding}`,
+                        sx: {textAlign: "right"},
+                    },
+                    muiTableBodyCellProps: {
+                        align: "right",
+                        className: mrt.bodyCell,
+                        sx: {verticalAlign: "middle"},
+                    },
                 },
             },
-        },
-        muiTablePaperProps: mrtSharedTablePaperProps,
-        muiTableContainerProps: {
-            sx: {maxHeight: "min(70vh, 560px)"},
-        },
-        muiTableHeadCellProps: {
-            sx: mrtSharedTableHeadCellSx,
-        },
-        muiTableBodyCellProps: {
-            sx: mrtSharedTableBodyCellSx,
-        },
-        muiTableBodyRowProps: {
-            hover: true,
-        },
-        renderRowActions: ({row}) => (
-            <Box className={styles.rowActions}>
-                <Tooltip title={t("stammdaten.ferien-table.edit")}>
-                    <IconButton
-                        size="small"
-                        aria-label={t("stammdaten.ferien-table.edit")}
-                        onClick={() => navigate(`/stammdaten/ferien/holiday/${row.original.id}/edit`)}
-                    >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={t("stammdaten.ferien-table.delete")}>
-                    <IconButton
-                        size="small"
-                        aria-label={t("stammdaten.ferien-table.delete")}
-                        onClick={() => setDeleteTargetId(row.original.id)}
-                    >
-                        <FontAwesomeIcon icon={faTrash} />
-                    </IconButton>
-                </Tooltip>
-            </Box>
-        ),
-    })
+            muiTableContainerProps: {
+                sx: {maxHeight: "min(70vh, 560px)"},
+            },
+            muiTableBodyRowProps: {
+                hover: true,
+            },
+            renderRowActions: ({row}) => (
+                <Box className={styles.rowActions}>
+                    <Tooltip title={t("stammdaten.ferien-table.edit")}>
+                        <IconButton
+                            size="small"
+                            aria-label={t("stammdaten.ferien-table.edit")}
+                            onClick={() => navigate(`/stammdaten/ferien/holiday/${row.original.id}/edit`)}
+                        >
+                            <FontAwesomeIcon icon={faPenToSquare} />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={t("stammdaten.ferien-table.delete")}>
+                        <IconButton
+                            size="small"
+                            aria-label={t("stammdaten.ferien-table.delete")}
+                            onClick={() => setDeleteTargetId(row.original.id)}
+                        >
+                            <FontAwesomeIcon icon={faTrash} />
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+            ),
+        }
+    }, [navigate, t])
 
     return (
         <>
-            <div className={styles.tableToolbar}>
-                <FormControl size="small" className={styles.toolbarYear}>
-                    <InputLabel id="ferien-year-label">{t("stammdaten.ferien-table.year-label")}</InputLabel>
-                    <Select<number>
-                        labelId="ferien-year-label"
-                        label={t("stammdaten.ferien-table.year-label")}
-                        value={selectedYear}
-                        onChange={(e) => setSelectedYear(Number(e.target.value))}
-                    >
-                        {MOCK_YEAR_OPTIONS.map((y) => (
-                            <MenuItem key={y} value={y}>
-                                {y}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <div className={styles.toolbarActions}>
+            <SportamtMaterialReactTableBase
+                columns={columns}
+                data={tableData}
+                options={ferienTableOptions}
+                disableSearch
+                toolbarStart={
+                    <FormControl size="small" className={styles.toolbarYear}>
+                        <InputLabel id="ferien-year-label">{t("stammdaten.ferien-table.year-label")}</InputLabel>
+                        <Select<number>
+                            labelId="ferien-year-label"
+                            label={t("stammdaten.ferien-table.year-label")}
+                            value={selectedYear}
+                            onChange={(e) => setSelectedYear(Number(e.target.value))}
+                        >
+                            {MOCK_YEAR_OPTIONS.map((y) => (
+                                <MenuItem key={y} value={y}>
+                                    {y}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                }
+                toolbarActionButtons={
                     <Button
                         variant="contained"
                         color="primary"
@@ -238,10 +215,8 @@ export const FerienTable = () => {
                     >
                         {t("stammdaten.ferien-table.add-holiday")}
                     </Button>
-                </div>
-            </div>
-
-            <MaterialReactTable table={table} />
+                }
+            />
 
             {createDialogOpen ? (
                 // TODO: Create dialog here:

@@ -1,20 +1,13 @@
 import {faPenToSquare, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import SearchIcon from "@mui/icons-material/Search"
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, InputAdornment, Snackbar, Tooltip} from "@mui/material"
-import {type MRT_ColumnDef, MRT_GlobalFilterTextField, MaterialReactTable, useMaterialReactTable} from "material-react-table"
-import {MRT_Localization_DE} from "material-react-table/locales/de"
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, Tooltip} from "@mui/material"
+import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
 import {stammdatenSeedVereine} from "../../dashboard/dummyData"
-import {
-    mrtSharedHeaderPaddingX,
-    mrtSharedMrtTheme,
-    mrtSharedTableBodyCellSx,
-    mrtSharedTableHeadCellSx,
-    mrtSharedTablePaperProps,
-} from "../../lib/material-react-table-styles"
+import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
+import mrt from "../../lib/material-react-table-styles.module.scss"
 import {CreateVereinDialog} from "./verein-list-dialogs"
 import styles from "./vereine-table.module.scss"
 import type {VereinRowData} from "./vereine-types"
@@ -81,118 +74,78 @@ export const VereineTable: React.FC = () => {
         [t]
     )
 
-    const table = useMaterialReactTable({
-        columns,
-        data: tableData,
-        mrtTheme: mrtSharedMrtTheme,
-        getRowId: (row) => row.id,
-        localization: {...MRT_Localization_DE, language: "de-CH"},
-        layoutMode: "grid",
-        defaultColumn: {minSize: 60},
-        initialState: {
-            density: "comfortable",
-            showGlobalFilter: true,
-        },
-        enableExpanding: false,
-        enableSorting: false,
-        enablePagination: false,
-        manualFiltering: true,
-        enableGlobalFilter: true,
-        globalFilterFn: "contains",
-        enableColumnActions: false,
-        enableColumnFilters: false,
-        enableDensityToggle: false,
-        enableHiding: false,
-        enableFullScreenToggle: false,
-        enableStickyHeader: true,
-        enableTopToolbar: false,
-        enableBottomToolbar: false,
-        enableRowDragging: false,
-        enableRowOrdering: false,
-        positionToolbarAlertBanner: "none",
-        positionGlobalFilter: "none",
-        state: {globalFilter: searchQuery},
-        onGlobalFilterChange: (updater) => {
-            setSearchQuery((prev) => {
-                const resolved = typeof updater === "function" ? updater(prev) : updater
-                return resolved ?? ""
-            })
-        },
-        muiSearchTextFieldProps: {
-            placeholder: t("common:actions.search"),
-            size: "small",
-            slotProps: {
-                input: {
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon fontSize="small" color="action" aria-hidden />
-                        </InputAdornment>
-                    ),
-                },
-                htmlInput: {
-                    "aria-label": t("common:actions.search"),
-                    style: {
-                        paddingTop: "4px",
-                        paddingBottom: "4px",
+    const showNoSearchResults = vereine.length > 0 && tableData.length === 0 && Boolean(searchQuery.trim())
+
+    const vereineTableOptions = useMemo((): Partial<MRT_TableOptions<VereinRowData>> => {
+        return {
+            getRowId: (row) => row.id,
+            initialState: {
+                density: "comfortable",
+                showGlobalFilter: true,
+            },
+            enableExpanding: false,
+            enableSorting: false,
+            manualFiltering: true,
+            enableStickyHeader: true,
+            enableRowDragging: false,
+            enableRowOrdering: false,
+            positionToolbarAlertBanner: "none",
+            positionGlobalFilter: "none",
+            state: {globalFilter: searchQuery},
+            onGlobalFilterChange: (updater) => {
+                setSearchQuery((prev) => {
+                    const resolved = typeof updater === "function" ? updater(prev) : updater
+                    return resolved ?? ""
+                })
+            },
+            enableRowActions: true,
+            positionActionsColumn: "last",
+            displayColumnDefOptions: {
+                "mrt-row-actions": {
+                    size: 88,
+                    maxSize: 88,
+                    minSize: 88,
+                    grow: false,
+                    muiTableHeadCellProps: {
+                        align: "right",
+                        className: `${mrt.headCell} ${mrt.treeColumnPadding}`,
+                        sx: {textAlign: "right"},
+                    },
+                    muiTableBodyCellProps: {
+                        align: "right",
+                        className: mrt.bodyCell,
+                        sx: {verticalAlign: "middle"},
                     },
                 },
             },
-        },
-        enableRowActions: true,
-        positionActionsColumn: "last",
-        displayColumnDefOptions: {
-            "mrt-row-actions": {
-                size: 88,
-                maxSize: 88,
-                minSize: 88,
-                grow: false,
-                muiTableHeadCellProps: {
-                    align: "right",
-                    sx: (theme) => ({
-                        ...mrtSharedTableHeadCellSx(theme),
-                        pl: mrtSharedHeaderPaddingX,
-                        pr: mrtSharedHeaderPaddingX,
-                        textAlign: "right",
-                    }),
-                },
-                muiTableBodyCellProps: {
-                    align: "right",
-                    sx: (theme) => ({
-                        ...mrtSharedTableBodyCellSx(theme),
-                        verticalAlign: "middle",
-                    }),
-                },
+            muiTableContainerProps: {
+                sx: {maxHeight: "min(70vh, 560px)"},
+                "aria-label": t("stammdaten.vereine-table.list-aria-label"),
             },
-        },
-        muiTablePaperProps: mrtSharedTablePaperProps,
-        muiTableContainerProps: {
-            sx: {maxHeight: "min(70vh, 560px)"},
-            "aria-label": t("stammdaten.vereine-table.list-aria-label"),
-        },
-        muiTableHeadCellProps: {
-            sx: mrtSharedTableHeadCellSx,
-        },
-        muiTableBodyCellProps: {
-            sx: mrtSharedTableBodyCellSx,
-        },
-        muiTableBodyRowProps: {
-            hover: true,
-        },
-        renderRowActions: ({row}) => (
-            <VereineTableActions
-                onEdit={() => navigate(`/stammdaten/vereine/${row.original.id}/edit`)}
-                onDelete={() => setDeleteVereinId(row.original.id)}
-            />
-        ),
-    })
+            muiTableBodyRowProps: {
+                hover: true,
+            },
+            renderRowActions: ({row}) => (
+                <VereineTableActions
+                    onEdit={() => navigate(`/stammdaten/vereine/${row.original.id}/edit`)}
+                    onDelete={() => setDeleteVereinId(row.original.id)}
+                />
+            ),
+            ...(showNoSearchResults
+                ? {
+                      muiTablePaperProps: {elevation: 0, className: mrt.tablePaper, sx: {display: "none"}},
+                  }
+                : {}),
+        }
+    }, [searchQuery, showNoSearchResults, navigate, t])
 
     return (
         <>
-            <div className={styles.tableToolbar}>
-                <div className={styles.tableToolbarSearch}>
-                    <MRT_GlobalFilterTextField table={table} fullWidth />
-                </div>
-                <div className={styles.toolbarActions}>
+            <SportamtMaterialReactTableBase
+                columns={columns}
+                data={tableData}
+                options={vereineTableOptions}
+                toolbarActionButtons={
                     <Button
                         variant="contained"
                         color="primary"
@@ -204,13 +157,9 @@ export const VereineTable: React.FC = () => {
                     >
                         {t("stammdaten.vereine-table.add-verein")}
                     </Button>
-                </div>
-            </div>
-            {vereine.length > 0 && tableData.length === 0 && searchQuery.trim() ? (
-                <p className={styles.vereineSearchEmpty}>{t("common:no-search-results")}</p>
-            ) : (
-                <MaterialReactTable table={table} />
-            )}
+                }
+            />
+            {showNoSearchResults ? <p className={styles.vereineSearchEmpty}>{t("common:no-search-results")}</p> : null}
 
             {vereinDialog?.mode === "create" ? (
                 <CreateVereinDialog

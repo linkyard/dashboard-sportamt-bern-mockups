@@ -1,22 +1,13 @@
-import SearchIcon from "@mui/icons-material/Search"
-import { InputAdornment } from "@mui/material"
-import { MaterialReactTable, type MRT_ColumnDef, MRT_GlobalFilterTextField, useMaterialReactTable } from "material-react-table"
-import { MRT_Localization_DE } from "material-react-table/locales/de"
-import { useMemo } from "react"
-import { useTranslation } from "react-i18next"
-import { useNavigate } from "react-router"
-import { allDummyOrganisations } from "../dashboard/dummyData"
-import {
-    mrtDetailPanelRailSx,
-    mrtSharedHeaderPaddingX,
-    mrtSharedMrtTheme,
-    mrtSharedTableBodyCellSx,
-    mrtSharedTableHeadCellSx,
-    mrtSharedTablePaperProps,
-} from "../lib/material-react-table-styles"
+import {type MRT_ColumnDef, type MRT_DensityState} from "material-react-table"
+import {useMemo} from "react"
+import {useTranslation} from "react-i18next"
+import {useNavigate} from "react-router"
+import {allDummyOrganisations} from "../dashboard/dummyData"
+import {SportamtMaterialReactTableBase} from "../lib/material-react-table-base"
+import mrt from "../lib/material-react-table-styles.module.scss"
 import styles from "./board-detail.module.scss"
-import { AnlassInlineRow } from "./components/anlass-inline-row"
-import type { Organisation } from "./organisation"
+import {AnlassInlineRow} from "./components/anlass-inline-row"
+import type {Organisation} from "./organisation"
 
 export interface OrganisationTableProps {
     selectedFileName: string
@@ -71,35 +62,18 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
         [t]
     )
 
-    const organisationsTable = useMaterialReactTable({
-        columns: organisationColumns,
-        mrtTheme: mrtSharedMrtTheme,
-        layoutMode: "grid",
+    const organisationsTable = {
         defaultColumn: {
             grow: false,
             minSize: 0,
         },
-        localization: {...MRT_Localization_DE, language: "de-CH"},
-        enablePagination: false,
-        data: allDummyOrganisations,
-        enableColumnActions: false,
-        enableGlobalFilter: true,
-        globalFilterFn: "contains",
         enableSorting: true,
-        enableColumnFilters: false,
-        enableDensityToggle: false,
-        enableHiding: false,
-        enableFullScreenToggle: false,
-        enableTopToolbar: false,
-        enableBottomToolbar: false,
         enableExpanding: true,
         enableExpandAll: false,
         muiDetailPanelProps: {
-            sx: (theme) => ({
-                ...mrtDetailPanelRailSx(theme),
-            }),
+            className: mrt.detailPanelRail,
         },
-        muiTableBodyRowProps: ({row, isDetailPanel}) => ({
+        muiTableBodyRowProps: ({row, isDetailPanel = false}) => ({
             onClick: isDetailPanel ? undefined : () => navigate(`/organisation-admin/${row.original.id}`),
             hover: !isDetailPanel,
             sx: {
@@ -115,46 +89,15 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
                 header: "",
                 Header: () => "",
                 muiTableHeadCellProps: {
-                    sx: (theme) => ({
-                        ...mrtSharedTableHeadCellSx(theme),
-                        pl: mrtSharedHeaderPaddingX,
-                        pr: mrtSharedHeaderPaddingX,
-                    }),
+                    className: `${mrt.headCell} ${mrt.treeColumnPadding}`,
                 },
             },
         },
         initialState: {
-            density: "comfortable",
+            density: "comfortable" as MRT_DensityState,
             showGlobalFilter: true,
             sorting: [{id: "organisation", desc: false}],
         },
-        muiSearchTextFieldProps: {
-            placeholder: t("common:actions.search"),
-            size: "small",
-            slotProps: {
-                input: {
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon fontSize="small" color="action" aria-hidden />
-                        </InputAdornment>
-                    ),
-                },
-                htmlInput: {
-                    "aria-label": t("common:actions.search"),
-                    style: {
-                        paddingTop: "4px",
-                        paddingBottom: "4px",
-                    },
-                },
-            },
-        },
-        muiTableHeadCellProps: {
-            sx: mrtSharedTableHeadCellSx,
-        },
-        muiTableBodyCellProps: {
-            sx: mrtSharedTableBodyCellSx,
-        },
-        muiTablePaperProps: mrtSharedTablePaperProps,
         muiTableContainerProps: {
             sx: {
                 maxHeight: {xs: "none", sm: "calc(100vh - 575px)"},
@@ -169,17 +112,11 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
                 ))}
             </div>
         ),
-    })
+    }
+
     return (
         <>
-            <div className={styles.tableToolbar}>
-                <div className={styles.tableToolbarSearch}>
-                    <MRT_GlobalFilterTextField table={organisationsTable} fullWidth />
-                </div>
-            </div>
-            <div className={styles.organisationsTableWrapper}>
-                <MaterialReactTable table={organisationsTable} />
-            </div>
+            <SportamtMaterialReactTableBase columns={organisationColumns} data={allDummyOrganisations} options={organisationsTable} />
         </>
     )
 }

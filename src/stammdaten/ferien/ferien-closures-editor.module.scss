@@ -2,7 +2,7 @@
 @use "../../variables.module.scss" as *;
 @use "../../mixins.module.scss" as *;
 
-// Match `mrtNestedRowRailSx` in material-react-table-styles (nested objekt rows).
+// Match `.nestedRowRail` in material-react-table-styles.module.scss (nested objekt rows).
 $nestedRowRailColor: color.change($sportamtGreen, $alpha: 0.5);
 
 .page {

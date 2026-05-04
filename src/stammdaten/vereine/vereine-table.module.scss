@@ -64,24 +64,12 @@
     padding-right: 4px;
 }
 
-.trainersToolbar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
 .trainersHeading {
     margin: 0;
+    flex-shrink: 0;
+    min-width: 0;
     font-size: 1rem;
     font-weight: 600;
-}
-
-.trainersEmpty {
-    margin: 0;
-    padding: 12px 0;
-    color: rgba(0, 0, 0, 0.55);
-    font-size: 0.875rem;
+    line-height: 1.5;
+    align-self: center;
 }
