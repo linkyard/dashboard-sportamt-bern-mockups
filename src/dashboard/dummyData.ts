@@ -142,10 +142,32 @@ const demoTrainer = (id: string, firstName: string, lastName: string, phone: str
     email,
 })
 
+export const DEMO_ORG_ID = {
+    linkyardSports: "demo-id-linkyard-sports",
+    turnvereinNord: "demo-id-turnverein-nord",
+    fcBernOst: "demo-id-fc-bern-ost",
+    schwimmclubMitte: "demo-id-schwimmclub-mitte",
+} as const
+
 /** Demo Vereine / Trainer for Stammdaten (global master data). */
 export const stammdatenSeedVereine: VereinRowData[] = [
     {
-        id: "st-verein-1",
+        id: DEMO_ORG_ID.linkyardSports,
+        rowKind: "verein",
+        name: "Linkyard Sports",
+        contact: {
+            organisationName: "Linkyard Sports",
+            contactPerson: "Roman Frey",
+            street: "Junkergasse 39",
+            postalCode: "3011",
+            city: "Bern",
+            email: "roman.frey@linkyard.ch",
+            phone: "+41 79 512 26 11",
+        },
+        subRows: [],
+    },
+    {
+        id: DEMO_ORG_ID.turnvereinNord,
         rowKind: "verein",
         name: "Turnverein Nord",
         contact: {
@@ -163,7 +185,7 @@ export const stammdatenSeedVereine: VereinRowData[] = [
         ],
     },
     {
-        id: "st-verein-2",
+        id: DEMO_ORG_ID.fcBernOst,
         rowKind: "verein",
         name: "FC Bern Ost",
         contact: {
@@ -187,7 +209,7 @@ export const stammdatenSeedVereine: VereinRowData[] = [
         subRows: [demoTrainer("st-tr-3", "Sandra", "Frei", "+41 77 888 99 00", "sandra.frei@example.ch")],
     },
     {
-        id: "st-verein-3",
+        id: DEMO_ORG_ID.schwimmclubMitte,
         rowKind: "verein",
         name: "Schwimmclub Mitte",
         contact: {
@@ -263,14 +285,6 @@ export const stammdatenSeedVereine: VereinRowData[] = [
         subRows: [],
     },
 ]
-
-/** Demo organisation ids (slug-style, stable for routing and fixtures). */
-export const DEMO_ORG_ID = {
-    linkyardSports: "demo-id-linkyard-sports",
-    turnvereinNord: "demo-id-turnverein-nord",
-    fcBernOst: "demo-id-fc-bern-ost",
-    schwimmclubMitte: "demo-id-schwimmclub-mitte",
-} as const
 
 /** Seed shape before each `anlass.id` is set (`${org.id}-anlass-${index}`). */
 type OrganisationSeed = Omit<Organisation, "anlaesse"> & {
@@ -650,4 +664,20 @@ export const allDummyOrganisations: Organisation[] = [dummyOrganisation, ...dumm
 
 export function getOrganisationById(organisationId: string): Organisation | undefined {
     return allDummyOrganisations.find((o) => o.id === organisationId)
+}
+
+/** Older Stammdaten-only ids still found in bookmarks or docs. */
+const LEGACY_PUBLIC_VEREIN_ROUTE_IDS: Record<string, string> = {
+    "st-verein-1": DEMO_ORG_ID.turnvereinNord,
+    "st-verein-2": DEMO_ORG_ID.fcBernOst,
+    "st-verein-3": DEMO_ORG_ID.schwimmclubMitte,
+}
+
+/** Resolve board/org payload for `/vereine/:organisationId` (direct id or legacy Stammdaten row id). */
+export function getOrganisationForPublicVereinPage(routeParam: string | undefined): Organisation | undefined {
+    if (!routeParam) return undefined
+    const direct = getOrganisationById(routeParam)
+    if (direct) return direct
+    const mapped = LEGACY_PUBLIC_VEREIN_ROUTE_IDS[routeParam]
+    return mapped ? getOrganisationById(mapped) : undefined
 }

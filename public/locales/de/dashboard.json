@@ -211,5 +211,18 @@
             "history-title": "Verlaufsprotokoll",
             "history-empty": "Noch keine Einträge im Verlauf."
         }
+    },
+    "verein-public": {
+        "general-info": {
+            "title": "Allgemeine Informationen",
+            "body": "Die Reservationen für die nächsten Perioden wurde freigeschalten. Bitte überprüfen Sie die Kontakt- und Rechnungsadresse und erneuern bzw. stornieren Sie Ihre Reservationen.",
+            "dismiss-aria": "Hinweis schliessen"
+        },
+        "not-found-title": "Verein",
+        "not-found-body": "Diese Seite existiert nicht oder der Vereinsname ist unbekannt.",
+        "fallback-title": "Verein",
+        "anlass": {
+            "not-found-title": "Anlass"
+        }
     }
 }

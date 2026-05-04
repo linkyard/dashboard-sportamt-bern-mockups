@@ -12,12 +12,25 @@ import styles from "./anlaesse.module.scss"
 import {AnlassStatusPill} from "./components/anlass-status-pill"
 import {type Anlass, type Organisation} from "./organisation"
 
+export type AnlaesseCardListDetailHref = "organisation-admin" | "verein-public"
+
+function anlassDetailPath(kind: AnlaesseCardListDetailHref, organisation: Organisation, anlass: Anlass): string {
+    switch (kind) {
+        case "verein-public":
+            return `/vereine/${organisation.id}/anlass/${anlass.id}`
+        default:
+            return `/organisation-admin/${organisation.id}/anlass/${anlass.id}`
+    }
+}
+
 interface AnlaesseCardListProps {
     anlaesse: Anlass[]
     organisation?: Organisation
+    /** Target route when an Anlass card row is clicked from AnlaesseCardList. */
+    anlassDetailHref?: AnlaesseCardListDetailHref
 }
 
-export const AnlaesseCardList: React.FC<AnlaesseCardListProps> = ({anlaesse, organisation}) => {
+export const AnlaesseCardList: React.FC<AnlaesseCardListProps> = ({anlaesse, organisation, anlassDetailHref = "organisation-admin"}) => {
     const {t} = useTranslation("dashboard")
     const [query, setQuery] = useState("")
 
@@ -63,7 +76,7 @@ export const AnlaesseCardList: React.FC<AnlaesseCardListProps> = ({anlaesse, org
 
             <div className={styles.cards}>
                 {filteredAnlaesse.map((anlass) => (
-                    <AnlaessCard key={anlass.id} anlass={anlass} organisation={organisation} />
+                    <AnlaessCard key={anlass.id} anlass={anlass} organisation={organisation} anlassDetailHref={anlassDetailHref} />
                 ))}
             </div>
         </div>
@@ -75,14 +88,15 @@ export default AnlaesseCardList
 interface AnlaessCardProps {
     anlass: Anlass
     organisation?: Organisation
+    anlassDetailHref: AnlaesseCardListDetailHref
 }
 
-const AnlaessCard: React.FC<AnlaessCardProps> = ({anlass, organisation}) => {
+const AnlaessCard: React.FC<AnlaessCardProps> = ({anlass, organisation, anlassDetailHref}) => {
     const navigate = useNavigate()
 
     const openDetail = () => {
         if (!organisation?.id) return
-        navigate(`/organisation-admin/${organisation.id}/anlass/${anlass.id}`)
+        navigate(anlassDetailPath(anlassDetailHref, organisation, anlass))
     }
 
     return (
