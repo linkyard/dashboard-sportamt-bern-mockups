@@ -1,5 +1,5 @@
 import {faCalendar, faClock} from "@fortawesome/free-regular-svg-icons"
-import {faLocationDot} from "@fortawesome/free-solid-svg-icons"
+import {faLocationDot} from "@fortawesome/pro-regular-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import SearchIcon from "@mui/icons-material/Search"
 import {TextField} from "@mui/material"

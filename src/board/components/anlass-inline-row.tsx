@@ -1,5 +1,5 @@
 import {faCalendar, faClock} from "@fortawesome/free-regular-svg-icons"
-import {faLocationDot} from "@fortawesome/free-solid-svg-icons"
+import {faLocationDot} from "@fortawesome/pro-regular-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {useNavigate} from "react-router"
 import type {Anlass} from "../organisation"

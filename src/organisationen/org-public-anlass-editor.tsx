@@ -1,9 +1,9 @@
 import {faCalendar} from "@fortawesome/free-regular-svg-icons"
+import {faLocationDot} from "@fortawesome/pro-regular-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {Button} from "@mui/material"
 import {useTranslation} from "react-i18next"
 import {useParams} from "react-router"
-
 import anlassDetailStyles from "../board/anlass-detail.module.scss"
 import {resolveAnlassFromOrganisation} from "../board/organisation"
 import {AppBreadcrumbs} from "../components/breadcrumbs"
@@ -24,7 +24,7 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
     const anlassInfo = anlassClicked ? resolveAnlassFromOrganisation(anlassClicked, organisation) : undefined
     const {t} = useTranslation("dashboard")
 
-    const title = anlassInfo ? `${anlassInfo.name} - ${anlassInfo.location ?? "-"}` : t("organisation-public.anlass.not-found-title")
+    const title = anlassInfo ? anlassInfo.name : t("organisation-public.anlass.not-found-title")
 
     if (!organisation || !anlassInfo) {
         const badge =
@@ -45,7 +45,7 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
                     </div>
                     {badge}
                 </div>
-                <PageTitle title={title} editable />
+                <PageTitle title={title} />
                 <p>{t("organisation-public.anlass.not-found-body")}</p>
             </>
         )
@@ -64,7 +64,11 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
 
             <div className={styles.titleBand}>
                 <div className={styles.titleBandMain}>
-                    <PageTitle title={title} editable />
+                    <PageTitle title={title} />
+                    <div className={styles.periodRow}>
+                        <FontAwesomeIcon icon={faLocationDot} className={styles.periodIcon} aria-hidden />
+                        <span>{anlassInfo.location}</span>
+                    </div>
                     <div className={styles.periodRow}>
                         <FontAwesomeIcon icon={faCalendar} className={styles.periodIcon} aria-hidden />
                         <span>{periodLabel}</span>
@@ -83,7 +87,11 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
 
             <section className={styles.sectionCard}>
                 <div className={styles.sectionHeading}>
-                    <PageTitle title={t("organisation-public.anlass.teilnehmerliste-title")} isSubTitle toolTipContent={t("organisation-public.anlass.section-info-tooltip")} />
+                    <PageTitle
+                        title={t("organisation-public.anlass.teilnehmerliste-title")}
+                        isSubTitle
+                        toolTipContent={t("organisation-public.anlass.section-info-tooltip")}
+                    />
                 </div>
                 <UploadSection onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
             </section>
