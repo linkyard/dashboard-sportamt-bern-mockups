@@ -1,6 +1,6 @@
 import {faPenToSquare, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, Tooltip} from "@mui/material"
+import {Box, Button, IconButton, Snackbar, Tooltip} from "@mui/material"
 import {
     type MRT_ColumnDef,
     MRT_ExpandButton,
@@ -10,6 +10,7 @@ import {
 } from "material-react-table"
 import {type ReactNode, useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
+import {ConfirmDeleteDialog} from "../../components/confirm-delete-dialog"
 import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
 import mrt from "../../lib/material-react-table-styles.module.scss"
 import {CreateLocationDialog, EditLocationDialog, ObjektDialog} from "./location-table-dialogs"
@@ -337,47 +338,20 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
             ) : null}
 
             {deleteTarget ? (
-                <Dialog open onClose={() => setDeleteTarget(null)}>
-                    <DialogTitle>
-                        {deleteTarget.kind === "location"
+                <ConfirmDeleteDialog
+                    open
+                    onClose={() => setDeleteTarget(null)}
+                    onConfirm={() => setDeleteTarget(null)}
+                    title={
+                        deleteTarget.kind === "location"
                             ? t("stammdaten.objekte-table.delete-location-title")
-                            : t("stammdaten.objekte-table.delete-objekt-title")}
-                    </DialogTitle>
-                    <DialogContent>
-                        {deleteTarget.kind === "location"
-                            ? t("stammdaten.objekte-table.delete-location-body")
-                            : t("stammdaten.objekte-table.delete-objekt-body")}
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => setDeleteTarget(null)}>{t("stammdaten.objekte-table.cancel")}</Button>
-                        <Button
-                            color="error"
-                            variant="contained"
-                            onClick={() => {
-                                if (deleteTarget.kind === "location") {
-                                    setLocations((prev) => prev.filter((l) => l.id !== deleteTarget.id))
-                                } else {
-                                    const loc = locations.find((l) => l.id === deleteTarget.locationId)
-                                    if (loc && loc.subRows.length <= 1) {
-                                        showError(t("stammdaten.objekte-table.last-objekt-error"))
-                                        setDeleteTarget(null)
-                                        return
-                                    }
-                                    setLocations((prev) =>
-                                        prev.map((l) =>
-                                            l.id === deleteTarget.locationId
-                                                ? {...l, subRows: l.subRows.filter((s) => s.id !== deleteTarget.id)}
-                                                : l
-                                        )
-                                    )
-                                }
-                                setDeleteTarget(null)
-                            }}
-                        >
-                            {t("stammdaten.objekte-table.delete")}
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                            : t("stammdaten.objekte-table.delete-objekt-title")
+                    }
+                >
+                    {deleteTarget.kind === "location"
+                        ? t("stammdaten.objekte-table.delete-location-body")
+                        : t("stammdaten.objekte-table.delete-objekt-body")}
+                </ConfirmDeleteDialog>
             ) : null}
 
             <Snackbar open={Boolean(snackbar)} autoHideDuration={5000} onClose={() => setSnackbar(null)} message={snackbar} />

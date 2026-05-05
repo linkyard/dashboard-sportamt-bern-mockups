@@ -4,6 +4,7 @@ import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButt
 import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useMemo, useState, type ReactElement} from "react"
 import {useTranslation} from "react-i18next"
+import {ConfirmDeleteDialog} from "../../components/confirm-delete-dialog"
 import {PageTitle} from "../../components/page-title"
 import {organisationPublicSeedAusfalltage, type AusfalltagRowData} from "../../dummyData"
 import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
@@ -175,25 +176,14 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
                 </Dialog>
             ) : null}
 
-            {deleteId ? (
-                <Dialog open onClose={() => setDeleteId(null)}>
-                    <DialogTitle>{t("organisation-public.anlass.ausfalltage.delete-title")}</DialogTitle>
-                    <DialogContent>{t("organisation-public.anlass.ausfalltage.delete-body")}</DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => setDeleteId(null)}>{t("common:actions.cancel")}</Button>
-                        <Button
-                            color="error"
-                            variant="contained"
-                            onClick={() => {
-                                setRows((prev) => prev.filter((r) => r.id !== deleteId))
-                                setDeleteId(null)
-                            }}
-                        >
-                            {t("common:actions.delete")}
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            ) : null}
+            <ConfirmDeleteDialog
+                open={Boolean(deleteId)}
+                onClose={() => setDeleteId(null)}
+                onConfirm={() => setDeleteId(null)}
+                title={t("organisation-public.anlass.ausfalltage.delete-title")}
+            >
+                {t("organisation-public.anlass.ausfalltage.delete-body")}
+            </ConfirmDeleteDialog>
         </>
     )
 }

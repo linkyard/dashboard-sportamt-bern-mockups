@@ -1,11 +1,12 @@
 import {faPenToSquare, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, Tooltip} from "@mui/material"
+import {Box, Button, IconButton, Snackbar, Tooltip} from "@mui/material"
 import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
 import {stammdatenSeedOrganisationen} from "../../dummyData"
+import {ConfirmDeleteDialog} from "../../components/confirm-delete-dialog"
 import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
 import mrt from "../../lib/material-react-table-styles.module.scss"
 import {CreateOrgDialog} from "./orgs-list-dialogs"
@@ -174,25 +175,14 @@ export const OrganisationenTable: React.FC = () => {
                 />
             ) : null}
 
-            {deleteOrgId ? (
-                <Dialog open onClose={() => setDeleteOrgId(null)}>
-                    <DialogTitle>{t("stammdaten.organisationen-table.delete-organisation-title")}</DialogTitle>
-                    <DialogContent>{t("stammdaten.organisationen-table.delete-organisation-body")}</DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => setDeleteOrgId(null)}>{t("stammdaten.organisationen-table.cancel")}</Button>
-                        <Button
-                            color="error"
-                            variant="contained"
-                            onClick={() => {
-                                setOrganisationen((prev) => prev.filter((v) => v.id !== deleteOrgId))
-                                setDeleteOrgId(null)
-                            }}
-                        >
-                            {t("stammdaten.organisationen-table.delete")}
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            ) : null}
+            <ConfirmDeleteDialog
+                open={Boolean(deleteOrgId)}
+                onClose={() => setDeleteOrgId(null)}
+                onConfirm={() => setDeleteOrgId(null)}
+                title={t("stammdaten.organisationen-table.delete-organisation-title")}
+            >
+                {t("stammdaten.organisationen-table.delete-organisation-body")}
+            </ConfirmDeleteDialog>
 
             <Snackbar open={Boolean(snackbar)} autoHideDuration={5000} onClose={() => setSnackbar(null)} message={snackbar} />
         </>

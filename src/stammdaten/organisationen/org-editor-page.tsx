@@ -1,6 +1,6 @@
 import {faPenToSquare, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, Tooltip} from "@mui/material"
+import {Box, Button, IconButton, Snackbar, Tooltip} from "@mui/material"
 import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
@@ -8,6 +8,7 @@ import {Navigate, useParams} from "react-router"
 import {ContactDetails} from "../../board/components/contact-box"
 import orgStyles from "../../board/organisation-admin.module.scss"
 import {AppBreadcrumbs} from "../../components/breadcrumbs"
+import {ConfirmDeleteDialog} from "../../components/confirm-delete-dialog"
 import {PageTitle} from "../../components/page-title"
 import {stammdatenSeedOrganisationen} from "../../dummyData"
 import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
@@ -181,25 +182,14 @@ function OrganisationEditorBody({initialOrg}: OrganisationEditorBodyProps) {
                 />
             ) : null}
 
-            {deleteTrainerId ? (
-                <Dialog open onClose={() => setDeleteTrainerId(null)}>
-                    <DialogTitle>{t("dashboard:stammdaten.organisationen-table.delete-trainer-title")}</DialogTitle>
-                    <DialogContent>{t("dashboard:stammdaten.organisationen-table.delete-trainer-body")}</DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => setDeleteTrainerId(null)}>{t("dashboard:stammdaten.organisationen-table.cancel")}</Button>
-                        <Button
-                            color="error"
-                            variant="contained"
-                            onClick={() => {
-                                patchOrganisation((v) => ({...v, subRows: v.subRows.filter((s) => s.id !== deleteTrainerId)}))
-                                setDeleteTrainerId(null)
-                            }}
-                        >
-                            {t("dashboard:stammdaten.organisationen-table.delete")}
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            ) : null}
+            <ConfirmDeleteDialog
+                open={Boolean(deleteTrainerId)}
+                onClose={() => setDeleteTrainerId(null)}
+                onConfirm={() => setDeleteTrainerId(null)}
+                title={t("stammdaten.organisationen-table.delete-trainer-title")}
+            >
+                {t("stammdaten.organisationen-table.delete-trainer-body")}
+            </ConfirmDeleteDialog>
 
             <Snackbar open={Boolean(snackbar)} autoHideDuration={5000} onClose={() => setSnackbar(null)} message={snackbar} />
         </div>

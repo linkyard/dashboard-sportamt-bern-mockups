@@ -4,10 +4,6 @@ import DomainIcon from "@mui/icons-material/Domain"
 import {
     Box,
     Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
     FormControl,
     IconButton,
     InputLabel,
@@ -20,6 +16,7 @@ import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
+import {ConfirmDeleteDialog} from "../../components/confirm-delete-dialog"
 import {stammdatenSeedHolidays, stammdatenSeedLocations} from "../../dummyData"
 import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
 import mrt from "../../lib/material-react-table-styles.module.scss"
@@ -221,24 +218,16 @@ export const FerienTable = () => {
                 <></>
             ) : null}
 
-            {deleteTargetId ? (
-                <Dialog open onClose={() => setDeleteTargetId(null)}>
-                    <DialogTitle>{t("stammdaten.ferien-table.delete-title")}</DialogTitle>
-                    <DialogContent>{t("stammdaten.ferien-table.delete-body")}</DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => setDeleteTargetId(null)}>{t("stammdaten.ferien-table.cancel")}</Button>
-                        <Button
-                            color="error"
-                            variant="contained"
-                            onClick={() => {
-                                setDeleteTargetId(null)
-                            }}
-                        >
-                            {t("stammdaten.ferien-table.delete")}
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            ) : null}
+            <ConfirmDeleteDialog
+                open={Boolean(deleteTargetId)}
+                onClose={() => setDeleteTargetId(null)}
+                onConfirm={() => {
+                    setDeleteTargetId(null)
+                }}
+                title={t("stammdaten.ferien-table.delete-title")}
+            >
+                {t("stammdaten.ferien-table.delete-body")}
+            </ConfirmDeleteDialog>
 
             <Snackbar open={Boolean(snackbar)} autoHideDuration={5000} onClose={() => setSnackbar(null)} message={snackbar} />
         </>
