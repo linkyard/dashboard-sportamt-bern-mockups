@@ -7,10 +7,10 @@ import {
     faPersonSwimming,
     faVolleyball,
 } from "@fortawesome/free-solid-svg-icons"
-import type {Anlass, AnlassHistoryEntry, Organisation} from "../board/organisation"
-import type {HolidayRowData} from "../stammdaten/ferien/ferien-types"
-import type {LocationRowData, ObjektRowData} from "../stammdaten/locations/locations-types"
-import type {TrainerRowData, VereinRowData} from "../stammdaten/vereine/vereine-types"
+import type {Anlass, AnlassHistoryEntry, Organisation} from "./board/organisation"
+import type {HolidayRowData} from "./stammdaten/ferien/ferien-types"
+import type {LocationRowData, ObjektRowData} from "./stammdaten/locations/locations-types"
+import type {TrainerRowData, VereinRowData} from "./stammdaten/vereine/vereine-types"
 
 const demoObjekt = (id: string, name: string, sportIcon?: ObjektRowData["sportIcon"]): ObjektRowData => ({
     id,
@@ -681,3 +681,56 @@ export function getOrganisationForPublicVereinPage(routeParam: string | undefine
     const mapped = LEGACY_PUBLIC_VEREIN_ROUTE_IDS[routeParam]
     return mapped ? getOrganisationById(mapped) : undefined
 }
+
+/** --- Verein-public Anlass editor--- */
+
+export type AusfalltagRowData = {
+    id: string
+    grund: string
+    vonDate: string
+    bisDate: string
+}
+
+export const vereinPublicSeedAusfalltage: AusfalltagRowData[] = [
+    {
+        id: "demo-trainingslager",
+        grund: "Trainingslager",
+        vonDate: "2026-08-10",
+        bisDate: "2026-08-17",
+    },
+]
+
+export type KursSlotSeed = {
+    id: string
+    weekdayKey: "weekdays.tuesday" | "weekdays.friday"
+    timeRange: string
+}
+
+export type TrainerOptionSeed = {
+    id: string
+    name: string
+    phone: string
+    email: string
+}
+
+export const vereinPublicObjekteCatalog = ["Bahn 1", "Bahn 2", "Bahn 3", "Halle A"] as const
+
+export const vereinPublicKursSlots: KursSlotSeed[] = [
+    {id: "kurs-1", weekdayKey: "weekdays.tuesday", timeRange: "16:30 – 17:30"},
+    {id: "kurs-2", weekdayKey: "weekdays.friday", timeRange: "11:30 – 12:30"},
+]
+
+export const vereinPublicTrainerOptions: TrainerOptionSeed[] = [
+    {
+        id: "roman-frey",
+        name: "Roman Frey",
+        phone: "+41 79 512 26 11",
+        email: "roman.frey@linkyard.ch",
+    },
+    {
+        id: "mia-keller",
+        name: "Mia Keller",
+        phone: "+41 79 000 00 00",
+        email: "mia.keller@example.ch",
+    },
+]

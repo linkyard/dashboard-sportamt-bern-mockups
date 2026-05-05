@@ -9,7 +9,7 @@ import {PageTitle} from "../components/page-title"
 import {SportamtMaterialReactTableBase} from "../lib/material-react-table-base"
 import {formatDateSwiss} from "../util/date"
 import styles from "./dashboard.module.scss"
-import {type Board, boardLabelDateRanges, type BoardStatus, dummyBoards} from "./dummyData"
+import {type Board, boardLabelDateRanges, type BoardStatus, dummyBoards} from "../dummyData"
 
 const dashboardBoardStatusIcons = {
     erstellt: faCheck,

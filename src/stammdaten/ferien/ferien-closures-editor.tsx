@@ -8,7 +8,7 @@ import {Navigate, useParams} from "react-router"
 import {AppBreadcrumbs} from "../../components/breadcrumbs"
 import {FieldLabel} from "../../components/field-label"
 import {PageTitle} from "../../components/page-title"
-import {stammdatenSeedHolidays, stammdatenSeedLocations} from "../../dashboard/dummyData"
+import {stammdatenSeedHolidays, stammdatenSeedLocations} from "../../dummyData"
 import {parseIsoToDayjs} from "../../util/date"
 import {
     aggregateWeekColumnForAllEntities,

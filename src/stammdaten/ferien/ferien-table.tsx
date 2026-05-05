@@ -20,7 +20,7 @@ import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
-import {stammdatenSeedHolidays, stammdatenSeedLocations} from "../../dashboard/dummyData"
+import {stammdatenSeedHolidays, stammdatenSeedLocations} from "../../dummyData"
 import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
 import mrt from "../../lib/material-react-table-styles.module.scss"
 import {formatDateSwiss} from "../../util/date"
@@ -28,10 +28,8 @@ import {ensureHolidayClosure} from "./ferien-closure"
 import styles from "./ferien-table.module.scss"
 import type {HolidayRowData} from "./ferien-types"
 
-/** Placeholder until API provides selectable years — descending (latest first). */
 const MOCK_YEAR_OPTIONS = [2030, 2029, 2028, 2027, 2026, 2025, 2024]
 
-/** Matches `dummyData` Stammdaten ferien spans so rows show on initial load — change when demos change. */
 const DEFAULT_YEAR = 2027
 
 function holidayOverlapsYear(h: HolidayRowData, year: number): boolean {

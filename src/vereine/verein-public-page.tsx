@@ -4,7 +4,7 @@ import AnlaesseCardList from "../board/anlaesse"
 import {ContactDetails} from "../board/components/contact-box"
 import orgStyles from "../board/organisation-admin.module.scss"
 import {PageTitle} from "../components/page-title"
-import {getOrganisationForPublicVereinPage} from "../dashboard/dummyData"
+import {getOrganisationForPublicVereinPage} from "../dummyData"
 import {GeneralInformationBanner} from "./general-information-banner/general-information-banner"
 
 export const VereinPublicPage: React.FC = () => {

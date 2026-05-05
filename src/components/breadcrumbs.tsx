@@ -6,7 +6,7 @@ import type {TFunction} from "i18next"
 import {useTranslation} from "react-i18next"
 import {Link as RouterLink} from "react-router"
 import {resolveAnlassFromOrganisation, type Anlass, type Organisation} from "../board/organisation"
-import {getBoardById} from "../dashboard/dummyData"
+import {getBoardById} from "../dummyData"
 import styles from "./breadcrumbs.module.scss"
 
 type Crumb = {label: string; to?: string}

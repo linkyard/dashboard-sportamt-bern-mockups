@@ -1,6 +1,6 @@
 import {useTranslation} from "react-i18next"
 import {useParams} from "react-router"
-import {getOrganisationById} from "../dashboard/dummyData"
+import {getOrganisationById} from "../dummyData"
 import {AppBreadcrumbs} from "../components/breadcrumbs"
 import {PageTitle} from "../components/page-title"
 import AnlaesseCardList from "./anlaesse"
