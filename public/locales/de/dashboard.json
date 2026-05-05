@@ -248,6 +248,39 @@
                 },
                 "benutzung-ferien-aria": "Benützung für {{name}} (alle Wochen)",
                 "benutzung-week-aria": "Benützung {{name}}"
+            },
+            "ausfalltage": {
+                "title": "Zusätzliche Ausfalltage",
+                "add-button": "Ausfalltag erfassen",
+                "columns": {
+                    "grund": "Grund",
+                    "von": "Von",
+                    "bis": "Bis"
+                },
+                "list-aria-label": "Zusätzliche Ausfalltage",
+                "edit-title": "Ausfalltag bearbeiten",
+                "delete-title": "Ausfalltag löschen?",
+                "delete-body": "Dieser Eintrag wird unwiderruflich entfernt.",
+                "grund-label": "Grund",
+                "von-label": "Von",
+                "bis-label": "Bis"
+            },
+            "kurse": {
+                "title": "Kurse",
+                "tabs-aria": "Kurse nach Zeitfenster",
+                "trainer-label": "Trainer",
+                "trainer-placeholder": "Trainer auswählen…",
+                "trainer-add": "Trainer erfassen",
+                "objekte-label": "Objekte",
+                "objekte-helper": "Welche Plätze oder Objekte nutzt dieser Kurs? Über das Feld unten können Sie weitere Objekte hinzufügen.",
+                "objekt-add-placeholder": "Objekt hinzufügen…",
+                "objekte-all-assigned": "Alle verfügbaren Objekte sind bereits zugewiesen.",
+                "objekte-none-available": "Es sind keine Objekte zum Zuweisen verfügbar.",
+                "objekt-remove-aria": "{{label}} entfernen",
+                "weekdays": {
+                    "tuesday": "Dienstag",
+                    "friday": "Freitag"
+                }
             }
         }
     }

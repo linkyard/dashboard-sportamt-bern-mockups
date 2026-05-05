@@ -1,0 +1,125 @@
+@use "../../variables.module.scss" as *;
+
+.tabs {
+    margin-bottom: 4px;
+
+    :global(.MuiTabs-indicator) {
+        height: 3px;
+        background-color: $sportamtGreen;
+    }
+
+    :global(.MuiTab-root) {
+        align-items: flex-start;
+        text-transform: none;
+        min-height: 56px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+
+.tabDay {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.25;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.tabTime {
+    margin-top: 2px;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    color: rgba(0, 0, 0, 0.55);
+}
+
+.panel {
+    padding-top: 20px;
+}
+
+.fieldBlock {
+    margin-bottom: 22px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.fieldLabel {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.fieldHint {
+    margin: 0 0 10px;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: rgba(0, 0, 0, 0.55);
+}
+
+.trainerRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.trainerSelectWrap {
+    flex: 1;
+    min-width: min(100%, 260px);
+}
+
+.objekteChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.objektChip {
+    border-color: $sportamtGreen;
+    color: rgba(0, 0, 0, 0.87);
+
+    :global(.MuiChip-deleteIcon) {
+        color: rgba(0, 0, 0, 0.45);
+
+        &:hover {
+            color: rgba(0, 0, 0, 0.65);
+        }
+    }
+}
+
+.objectAddControl {
+    min-width: min(100%, 220px);
+    max-width: 280px;
+}
+
+.tabLabelWrap {
+    text-align: left;
+}
+
+.mutedText {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.selectValueWrap {
+    padding: 2px 0;
+}
+
+.selectTrainerName {
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.43;
+}
+
+.selectTrainerMeta {
+    margin-top: 2px;
+    margin-left: 10px;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.6);
+}

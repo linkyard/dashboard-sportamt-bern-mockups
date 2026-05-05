@@ -10,8 +10,11 @@ import {AppBreadcrumbs} from "../components/breadcrumbs"
 import {PageTitle} from "../components/page-title"
 import {SportIconBadge} from "../components/sport-icon-badge"
 import {UploadSection} from "../components/upload-section"
-import {getOrganisationForPublicVereinPage} from "../dashboard/dummyData"
+import {getOrganisationForPublicVereinPage} from "../dummyData"
+import {FerienBenutzungTable} from "./anlass-sections/ferien-benutzung-table"
+import {KurseSection} from "./anlass-sections/kurse-section"
 import {TeilnehmendeInputs} from "./anlass-sections/teilnehmende-inputs"
+import {ZusatzlicheAusfalltageTable} from "./anlass-sections/zusatzliche-ausfalltage-table"
 import styles from "./verein-public-anlass-editor.module.scss"
 
 export const VereinPublicAnlassEditor: React.FC = () => {
@@ -89,6 +92,9 @@ export const VereinPublicAnlassEditor: React.FC = () => {
                 </div>
                 <UploadSection onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
             </section>
+            <FerienBenutzungTable periodLabel={periodLabel} />
+            <ZusatzlicheAusfalltageTable />
+            <KurseSection />
         </>
     )
 }

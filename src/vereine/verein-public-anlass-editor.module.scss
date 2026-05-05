@@ -51,6 +51,20 @@
     margin-bottom: 16px;
 }
 
+.sectionHeadingRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 16px;
+
+    .sectionHeadingTitle {
+        flex: 1;
+        min-width: min(100%, 220px);
+        margin-bottom: 0;
+    }
+}
+
 .teilnehmerFields {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
