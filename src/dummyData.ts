@@ -700,7 +700,7 @@ export const organisationPublicSeedAusfalltage: AusfalltagRowData[] = [
     },
 ]
 
-export type KursSlotSeed = {
+export type KursTimeBlock = {
     id: string
     weekdayKey: "weekdays.tuesday" | "weekdays.friday"
     timeRange: string
@@ -715,7 +715,20 @@ export type TrainerOptionSeed = {
 
 export const organisationPublicObjekteCatalog = ["Bahn 1", "Bahn 2", "Bahn 3", "Halle A"] as const
 
-export const organisationPublicKursSlots: KursSlotSeed[] = [
+export type OrganisationPublicKursObjektAssignment = {
+    id: string
+    label: string
+}
+
+export const organisationPublicKursObjekteByTimeBlockSeed: Record<string, OrganisationPublicKursObjektAssignment[]> = {
+    "kurs-1": [
+        {id: "kurs-zuweisung-1", label: "Bahn 1"},
+        {id: "kurs-zuweisung-2", label: "Bahn 2"},
+    ],
+    "kurs-2": [],
+}
+
+export const organisationPublicKursTimeBlocks: KursTimeBlock[] = [
     {id: "kurs-1", weekdayKey: "weekdays.tuesday", timeRange: "16:30 – 17:30"},
     {id: "kurs-2", weekdayKey: "weekdays.friday", timeRange: "11:30 – 12:30"},
 ]
