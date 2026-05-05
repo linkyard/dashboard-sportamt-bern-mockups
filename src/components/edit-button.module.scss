@@ -1,5 +1,14 @@
 .editButton {
+    box-sizing: border-box;
     color: #777;
+    width: 1.75rem;
+    height: 1.75rem;
+    min-width: 1.75rem !important;
+    padding: 0;
+
+    svg {
+        display: block;
+    }
 
     &.editButtonActive {
         color: #26323b;
@@ -18,4 +27,5 @@
 
 .editIcon {
     font-size: 0.75em;
+    vertical-align: middle;
 }

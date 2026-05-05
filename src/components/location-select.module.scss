@@ -1,0 +1,113 @@
+@use "../variables.module.scss" as *;
+
+$rowFontSize: 0.9375rem;
+$rowLineHeight: 1.4;
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-top: 6px;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.icon {
+    flex-shrink: 0;
+    color: #757575;
+    font-size: 0.9rem;
+}
+
+.readText {
+    font-size: $rowFontSize;
+    line-height: $rowLineHeight;
+    color: #757575;
+}
+
+.valueSlot {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+.valueLayer {
+    transition: opacity 0.15s ease;
+    opacity: 0;
+    pointer-events: none;
+
+    &:not(.valueLayerVisible) {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: max-content;
+        max-width: 100%;
+        z-index: 0;
+    }
+
+    &.valueLayerVisible {
+        position: relative;
+        opacity: 1;
+        pointer-events: auto;
+        z-index: 1;
+        transform: none;
+        max-width: 100%;
+    }
+}
+
+.selectWrap {
+    width: fit-content;
+    max-width: 100%;
+
+    :global(.MuiInputBase-root) {
+        width: fit-content;
+        max-width: 100%;
+        min-height: 0;
+        background-color: $inputBackgroundColor;
+        border-radius: 5px;
+        font-size: $rowFontSize;
+        line-height: $rowLineHeight;
+    }
+
+    :global(.MuiSelect-select) {
+        min-width: 2ch;
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-left: 6px;
+        padding-right: 28px;
+        display: flex;
+        align-items: center;
+        line-height: $rowLineHeight;
+        color: #757575;
+    }
+
+    :global(.MuiOutlinedInput-notchedOutline) {
+        border: 0;
+    }
+
+    :global(.MuiSvgIcon-root) {
+        color: #757575;
+    }
+}
+
+.placeholderValue {
+    color: rgba(0, 0, 0, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .valueLayer {
+        transition: none;
+    }
+}
