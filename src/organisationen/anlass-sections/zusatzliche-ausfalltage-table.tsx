@@ -9,7 +9,7 @@ import {organisationPublicSeedAusfalltage, type AusfalltagRowData} from "../../d
 import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
 import mrt from "../../lib/material-react-table-styles.module.scss"
 import organisationenTableStyles from "../../stammdaten/organisationen/orgs-table.module.scss"
-import {formatDateSwissLongWeekday} from "../../util/date"
+import {formatDateSwiss} from "../../util/date"
 import styles from "../org-public-anlass-editor.module.scss"
 
 function AusfalltageTableActions({onEdit, onDelete}: {onEdit: () => void; onDelete: () => void}) {
@@ -58,7 +58,7 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
                 enableSorting: false,
                 muiTableHeadCellProps: {align: "left"},
                 muiTableBodyCellProps: {align: "left"},
-                Cell: ({row}) => formatDateSwissLongWeekday(row.original.vonDate),
+                Cell: ({row}) => formatDateSwiss(row.original.vonDate),
             },
             {
                 accessorKey: "bisDate",
@@ -68,7 +68,7 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
                 enableSorting: false,
                 muiTableHeadCellProps: {align: "left"},
                 muiTableBodyCellProps: {align: "left"},
-                Cell: ({row}) => formatDateSwissLongWeekday(row.original.bisDate),
+                Cell: ({row}) => formatDateSwiss(row.original.bisDate),
             },
         ],
         [t]

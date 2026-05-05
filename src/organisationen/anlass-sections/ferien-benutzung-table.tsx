@@ -9,7 +9,7 @@ import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-bas
 import mrt from "../../lib/material-react-table-styles.module.scss"
 import {splitIntoFerienwochen} from "../../stammdaten/ferien/ferien-closure"
 import type {HolidayRowData} from "../../stammdaten/ferien/ferien-types"
-import {formatDateSwissLongWeekday} from "../../util/date"
+import {formatDateSwiss} from "../../util/date"
 import styles from "../org-public-anlass-editor.module.scss"
 
 function parseYearFromPeriod(period: string | undefined): number {
@@ -129,7 +129,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
                 size: 200,
                 grow: false,
                 enableSorting: false,
-                Cell: ({row}) => formatDateSwissLongWeekday(row.original.startDate),
+                Cell: ({row}) => formatDateSwiss(row.original.startDate),
             },
             {
                 accessorKey: "endDate",
@@ -137,7 +137,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
                 size: 200,
                 grow: false,
                 enableSorting: false,
-                Cell: ({row}) => formatDateSwissLongWeekday(row.original.endDate),
+                Cell: ({row}) => formatDateSwiss(row.original.endDate),
             },
             {
                 id: "benutzung",

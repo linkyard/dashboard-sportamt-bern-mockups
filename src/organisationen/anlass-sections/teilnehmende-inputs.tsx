@@ -69,7 +69,9 @@ export const TeilnehmendeInputs: React.FC<TeilnehmendeInputsProps> = ({
                     />
                 </div>
                 <div className={styles.fieldGroup}>
-                    <FieldLabel htmlFor="public-anlass-total">{t("organisation-public.anlass.teilnehmende-fields.total-persons")}</FieldLabel>
+                    <FieldLabel htmlFor="public-anlass-total">
+                        {t("organisation-public.anlass.teilnehmende-fields.total-persons")}
+                    </FieldLabel>
                     <DetailsNumberInput
                         readOnly
                         id="public-anlass-total"
