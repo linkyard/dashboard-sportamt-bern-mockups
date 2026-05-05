@@ -113,13 +113,13 @@
 
     :global {
         .MuiInputBase-root {
-            background-color: #f3f3f3;
+            background-color: $inputBackgroundColor;
             border-radius: 5px;
         }
 
         .MuiPickersOutlinedInput-root,
         .MuiOutlinedInput-root {
-            background-color: #f3f3f3 !important;
+            background-color: $inputBackgroundColor !important;
             border-radius: 5px !important;
         }
 

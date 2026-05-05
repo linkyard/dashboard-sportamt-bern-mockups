@@ -2,6 +2,7 @@ import {faCircleInfo} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {TextField, Tooltip} from "@mui/material"
 import {useEffect, useState, type ReactNode} from "react"
+import {useTranslation} from "react-i18next"
 import {EditButton} from "./edit-button"
 import styles from "./page-title.module.scss"
 
@@ -29,6 +30,7 @@ interface PageTitleProps {
 }
 
 export const PageTitle = ({title, editable = false, onTitleChange, isSubTitle = false, toolTipContent, placeholder}: PageTitleProps) => {
+    const {t} = useTranslation("common")
     const [isEditing, setIsEditing] = useState(false)
     const [draftTitle, setDraftTitle] = useState(title)
 
@@ -41,40 +43,63 @@ export const PageTitle = ({title, editable = false, onTitleChange, isSubTitle = 
         onTitleChange?.(value)
     }
 
-    const titleContent = (value: string) => (
-        <>
-            <h2 className={getPageTitleHeadingClassName(isSubTitle, !value.trim() && !!placeholder)}>
-                {value.trim() ? value : (placeholder ?? "")}
-            </h2>
-            {toolTipContent ? (
-                <Tooltip title={toolTipContent} placement="top-start">
-                    <span>
-                        <FontAwesomeIcon icon={faCircleInfo} className={styles.infoIcon} />
-                    </span>
-                </Tooltip>
-            ) : null}
-        </>
+    const tooltipNode = toolTipContent ? (
+        <Tooltip title={toolTipContent} placement="top-start">
+            <span>
+                <FontAwesomeIcon icon={faCircleInfo} className={styles.infoIcon} />
+            </span>
+        </Tooltip>
+    ) : null
+
+    const titleHeading = (value: string) => (
+        <h2 className={getPageTitleHeadingClassName(isSubTitle, !value && !!placeholder)}>{value.trim() ? value : (placeholder ?? "")}</h2>
     )
 
+    const titleGroupClass = `${styles.titleGroup} ${isSubTitle ? styles.titleGroupSub : styles.titleGroupMain}`
+
+    const fieldClass = [
+        styles.titleInput,
+        isSubTitle ? styles.titleInputSub : styles.titleInputMain,
+        isSubTitle ? styles.subTitleInput : "",
+        styles.titleInputEditing,
+    ]
+        .filter(Boolean)
+        .join(" ")
+
     if (!editable) {
-        return <div className={styles.titleRow}>{titleContent(title)}</div>
+        return (
+            <div className={styles.titleRow}>
+                <div className={titleGroupClass}>
+                    {titleHeading(title)}
+                    {tooltipNode}
+                </div>
+            </div>
+        )
     }
 
     return (
         <div className={styles.titleRow}>
-            {isEditing ? (
-                <TextField
-                    variant="standard"
-                    size="small"
-                    className={isSubTitle ? `${styles.subTitleInput} ${styles.titleInput}` : styles.titleInput}
-                    value={draftTitle}
-                    onChange={(event) => handleTitleChange(event.target.value)}
-                    placeholder={placeholder}
-                />
-            ) : (
-                titleContent(draftTitle)
-            )}
-            <EditButton onClick={() => setIsEditing((previous) => !previous)} />
+            <div className={titleGroupClass}>
+                {isEditing ? (
+                    <TextField
+                        variant="standard"
+                        className={fieldClass}
+                        value={draftTitle}
+                        onChange={(event) => handleTitleChange(event.target.value)}
+                        placeholder={placeholder}
+                        autoFocus
+                        slotProps={{input: {disableUnderline: true}}}
+                    />
+                ) : (
+                    titleHeading(draftTitle)
+                )}
+                {tooltipNode}
+            </div>
+            <Tooltip title={isEditing ? t("actions.finish-editing") : t("actions.edit")}>
+                <span>
+                    <EditButton isActive={isEditing} onClick={() => setIsEditing((previous) => !previous)} />
+                </span>
+            </Tooltip>
         </div>
     )
 }

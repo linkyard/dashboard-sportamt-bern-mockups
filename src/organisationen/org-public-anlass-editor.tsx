@@ -64,7 +64,7 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
 
             <div className={styles.titleBand}>
                 <div className={styles.titleBandMain}>
-                    <PageTitle title={title} />
+                    <PageTitle title={title} editable />
                     <div className={styles.periodRow}>
                         <FontAwesomeIcon icon={faLocationDot} className={styles.periodIcon} aria-hidden />
                         <span>{anlassInfo.location}</span>

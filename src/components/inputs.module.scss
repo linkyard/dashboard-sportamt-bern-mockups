@@ -1,9 +1,11 @@
+@use "../variables.module.scss" as *;
+
 .detailsInput {
     width: 100%;
 
     :global {
         .MuiInputBase-root {
-            background-color: #f3f3f3;
+            background-color: $inputBackgroundColor;
             border-radius: 5px;
         }
 

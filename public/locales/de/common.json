@@ -6,6 +6,7 @@
     "no-search-results": "Keine Treffer für diese Suche.",
     "actions": {
         "edit": "Bearbeiten",
+        "finish-editing": "Bearbeitung beenden",
         "delete": "Löschen",
         "save": "Speichern",
         "cancel": "Abbrechen",
