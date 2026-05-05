@@ -1,6 +1,7 @@
 import {faCalendar} from "@fortawesome/free-regular-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {Button} from "@mui/material"
+import {useState} from "react"
 import {useTranslation} from "react-i18next"
 import {useParams} from "react-router"
 import anlassDetailStyles from "../board/anlass-detail.module.scss"
@@ -17,12 +18,21 @@ import {TeilnehmendeInputs} from "./anlass-sections/teilnehmende-inputs"
 import {ZusatzlicheAusfalltageTable} from "./anlass-sections/zusatzliche-ausfalltage-table"
 import styles from "./org-public-anlass-editor.module.scss"
 
+function teilnehmendeTotals(male: string, female: string, under20: string) {
+    const total = +male + +female + +under20
+    return {totalStr: String(total), showUpload: +under20 * 100 >= total * 90}
+}
+
 export const OrganisationPublicAnlassEditor: React.FC = () => {
     const {orgId, anlassId} = useParams<{orgId: string; anlassId: string}>()
     const organisation = getOrganisationForPublicPage(orgId)
     const anlassClicked = organisation && anlassId ? organisation.anlaesse.find((a) => a.id === anlassId) : undefined
     const anlassInfo = anlassClicked ? resolveAnlassFromOrganisation(anlassClicked, organisation) : undefined
     const {t} = useTranslation("dashboard")
+
+    const [maleTeilnehmerCount, setMaleTeilnehmerCount] = useState("")
+    const [femaleTeilnehmerCount, setFemaleTeilnehmerCount] = useState("")
+    const [under20TeilnehmerCount, setUnder20TeilnehmerCount] = useState("")
 
     const title = anlassInfo ? anlassInfo.name : t("organisation-public.anlass.not-found-title")
 
@@ -56,6 +66,7 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
     }
 
     const periodLabel = anlassInfo.period ?? "—"
+    const teilnehmer = teilnehmendeTotals(maleTeilnehmerCount, femaleTeilnehmerCount, under20TeilnehmerCount)
 
     return (
         <>
@@ -84,18 +95,28 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
                     </Button>
                 </div>
             </div>
-            <TeilnehmendeInputs />
+            <TeilnehmendeInputs
+                maleCount={maleTeilnehmerCount}
+                femaleCount={femaleTeilnehmerCount}
+                under20Count={under20TeilnehmerCount}
+                totalPersonsDisplay={teilnehmer.totalStr}
+                onMaleCountChange={setMaleTeilnehmerCount}
+                onFemaleCountChange={setFemaleTeilnehmerCount}
+                onUnder20CountChange={setUnder20TeilnehmerCount}
+            />
 
-            <section className={styles.sectionCard}>
-                <div className={styles.sectionHeading}>
-                    <PageTitle
-                        title={t("organisation-public.anlass.teilnehmerliste-title")}
-                        isSubTitle
-                        toolTipContent={t("organisation-public.anlass.section-info-tooltip")}
-                    />
-                </div>
-                <UploadSection variant="pdf" onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
-            </section>
+            {teilnehmer.showUpload ? (
+                <section className={styles.sectionCard}>
+                    <div className={styles.sectionHeading}>
+                        <PageTitle
+                            title={t("organisation-public.anlass.teilnehmerliste-title")}
+                            isSubTitle
+                            toolTipContent={t("organisation-public.anlass.section-info-tooltip")}
+                        />
+                    </div>
+                    <UploadSection variant="pdf" onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
+                </section>
+            ) : null}
             <FerienBenutzungTable periodLabel={periodLabel} />
             <ZusatzlicheAusfalltageTable />
             <KurseSection />
