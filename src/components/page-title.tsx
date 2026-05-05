@@ -66,7 +66,7 @@ export const PageTitle = ({title, editable = false, onTitleChange, isSubTitle = 
                 <TextField
                     variant="standard"
                     size="small"
-                    className={`${styles.titleInput} ${isSubTitle ? styles.subTitleInput : ""}`}
+                    className={isSubTitle ? `${styles.subTitleInput} ${styles.titleInput}` : styles.titleInput}
                     value={draftTitle}
                     onChange={(event) => handleTitleChange(event.target.value)}
                     placeholder={placeholder}

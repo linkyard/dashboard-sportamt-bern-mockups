@@ -97,7 +97,7 @@ export function SportamtMaterialReactTableBase<R extends MRT_RowData>({
         },
         muiTableBodyCellProps: (args) => {
             const base = typeof callerCellOpts === "function" ? callerCellOpts(args) : callerCellOpts
-            const mergedClassName = `${mrt.bodyCell}${base?.className ? ` ${base.className}` : ""}`
+            const mergedClassName = base?.className ? `${base.className} ${mrt.bodyCell}` : mrt.bodyCell
             return {...(base ?? {}), className: mergedClassName || undefined}
         },
         muiTableBodyRowProps: (args) => ({

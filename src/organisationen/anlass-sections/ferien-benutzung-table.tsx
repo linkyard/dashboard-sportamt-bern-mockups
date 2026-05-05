@@ -221,7 +221,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
                     },
                     muiTableBodyCellProps: ({row}) => ({
                         align: "center",
-                        className: `${mrt.bodyCell}${row.depth > 0 ? ` ${mrt.nestedRowRail}` : ""}`,
+                        className: row.depth > 0 ? `${mrt.nestedRowRail} ${mrt.bodyCell}` : mrt.bodyCell,
                         sx: {verticalAlign: "middle"},
                     }),
                     Cell: ({row, staticRowIndex, table}) =>

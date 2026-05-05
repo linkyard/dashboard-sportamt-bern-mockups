@@ -12,11 +12,9 @@ interface UploadSectionProps {
     isUploadSuccess: boolean
     /** Omits default top margin when the block sits below a section heading inside a card. */
     flushTop?: boolean
-    /** Merged onto the root wrapper. */
-    className?: string
 }
 
-export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, flushTop, className}: UploadSectionProps) => {
+export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, flushTop}: UploadSectionProps) => {
     const {t} = useTranslation("dashboard")
     const [isDragging, setIsDragging] = useState(false)
     const [isDragInvalid, setIsDragInvalid] = useState(false)
@@ -42,11 +40,21 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, f
         return fileName.toLowerCase().endsWith(".xls")
     }
 
+    let dropzoneClassName = styles.uploadDropzone
+    if (isDragging && !isDragInvalid) {
+        dropzoneClassName = `${styles.uploadDropzoneActive} ${dropzoneClassName}`
+    }
+    if (isDragInvalid) {
+        dropzoneClassName = `${styles.uploadDropzoneInvalid} ${dropzoneClassName}`
+    }
+    if (isUploadSuccess) {
+        dropzoneClassName = `${styles.uploadDropzoneSuccess} ${dropzoneClassName}`
+    }
+
     return (
-        <div className={[styles.uploadSection, flushTop && styles.uploadSectionFlush, className].filter(Boolean).join(" ")}>
+        <div className={flushTop ? `${styles.uploadSectionFlush} ${styles.uploadSection}` : styles.uploadSection}>
             <input ref={fileInputRef} type="file" accept=".xls" hidden onChange={(event) => handleFileList(event.target.files)} />
-            <div
-                className={`${styles.uploadDropzone} ${isDragging && !isDragInvalid ? styles.uploadDropzoneActive : ""} ${isDragInvalid ? styles.uploadDropzoneInvalid : ""} ${isUploadSuccess ? styles.uploadDropzoneSuccess : ""}`}
+            <div className={dropzoneClassName}
                 onClick={() => fileInputRef.current?.click()}
                 onDragOver={(event) => {
                     event.preventDefault()

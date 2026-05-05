@@ -152,7 +152,7 @@ export function FerienClosuresEditorWeekColumnGrid({
                                     const inactive = closure.weekIncluded[w.id] === false
                                     const locWeekAgg = aggregateLocationWeekForObjects(closure, loc, w.id)
                                     return (
-                                        <div key={w.id} className={`${styles.weekCell} ${inactive ? styles.inactiveCell : ""}`} role="cell">
+                                        <div key={w.id} className={inactive ? `${styles.inactiveCell} ${styles.weekCell}` : styles.weekCell} role="cell">
                                             <Checkbox
                                                 size="small"
                                                 checked={!inactive && locWeekAgg.checked}
@@ -194,7 +194,7 @@ export function FerienClosuresEditorWeekColumnGrid({
                                           return (
                                               <div
                                                   key={`${obj.id}-${w.id}`}
-                                                  className={`${styles.weekCell} ${inactive ? styles.inactiveCell : ""}`}
+                                                  className={inactive ? `${styles.inactiveCell} ${styles.weekCell}` : styles.weekCell}
                                                   role="cell"
                                               >
                                                   <Checkbox
