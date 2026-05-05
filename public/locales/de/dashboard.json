@@ -44,6 +44,7 @@
             "upload-text": "Ziehen Sie I-Web hierher oder",
             "browse-link": "klicken Sie zum Auswählen",
             "file-meta": "XLS",
+            "error-file-type": "Ungültiger Dateityp. Bitte laden Sie eine Excel-Datei (.xls) hoch.",
             "selected-file": "Ausgewählte Datei",
             "success-message": "Board wurde erstellt und mit den hochgeladenen Daten befüllt."
         },
@@ -230,6 +231,12 @@
             },
             "teilnehmende-title": "Teilnehmende",
             "teilnehmerliste-title": "Teilnehmerliste",
+            "teilnehmerliste-upload": {
+                "upload-title": "PDF hochladen",
+                "upload-text": "Ziehen Sie eine PDF-Datei hierher oder",
+                "file-meta": "pdf",
+                "error-file-type": "Ungültiger Dateityp. Bitte laden Sie eine PDF-Datei (.pdf) hoch."
+            },
             "section-info-tooltip": "hier angezeigte Informationen",
             "location-select-placeholder": "Standort auswählen",
             "teilnehmende-fields": {

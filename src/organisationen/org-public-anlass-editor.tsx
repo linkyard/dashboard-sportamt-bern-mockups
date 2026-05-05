@@ -94,7 +94,7 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
                         toolTipContent={t("organisation-public.anlass.section-info-tooltip")}
                     />
                 </div>
-                <UploadSection onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
+                <UploadSection variant="pdf" onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
             </section>
             <FerienBenutzungTable periodLabel={periodLabel} />
             <ZusatzlicheAusfalltageTable />

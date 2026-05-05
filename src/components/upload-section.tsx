@@ -12,20 +12,45 @@ interface UploadSectionProps {
     isUploadSuccess: boolean
     /** Omits default top margin when the block sits below a section heading inside a card. */
     flushTop?: boolean
+    variant?: "excel" | "pdf"
 }
 
-export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, flushTop}: UploadSectionProps) => {
+export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, flushTop, variant = "excel"}: UploadSectionProps) => {
     const {t} = useTranslation("dashboard")
     const [isDragging, setIsDragging] = useState(false)
     const [isDragInvalid, setIsDragInvalid] = useState(false)
     const [uploadError, setUploadError] = useState<string | null>(null)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
+    const inputAccept = variant === "pdf" ? ".pdf,application/pdf" : ".xls"
+
+    const fileNameAccepted = (name: string): boolean => {
+        const lower = name.toLowerCase()
+        return variant === "pdf" ? lower.endsWith(".pdf") : lower.endsWith(".xls")
+    }
+
+    const uploadTitleKey =
+        variant === "pdf"
+            ? ("organisation-public.anlass.teilnehmerliste-upload.upload-title" as const)
+            : ("board-detail.upload.upload-title" as const)
+    const uploadTextKey =
+        variant === "pdf"
+            ? ("organisation-public.anlass.teilnehmerliste-upload.upload-text" as const)
+            : ("board-detail.upload.upload-text" as const)
+    const fileMetaKey =
+        variant === "pdf"
+            ? ("organisation-public.anlass.teilnehmerliste-upload.file-meta" as const)
+            : ("board-detail.upload.file-meta" as const)
+    const errorFileTypeKey =
+        variant === "pdf"
+            ? ("organisation-public.anlass.teilnehmerliste-upload.error-file-type" as const)
+            : ("board-detail.upload.error-file-type" as const)
+
     const handleFileList = (fileList: FileList | null) => {
         if (!fileList?.length) return
         const file = fileList[0]
-        if (!file.name.toLowerCase().endsWith(".xls")) {
-            setUploadError("Unsupported file type. Please upload an Excel file (.xls).")
+        if (!fileNameAccepted(file.name)) {
+            setUploadError(t(errorFileTypeKey))
             return
         }
         setUploadError(null)
@@ -37,7 +62,7 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, f
         if (!draggedItem || draggedItem.kind !== "file") return null
         const fileName = draggedItem.getAsFile()?.name
         if (!fileName) return null
-        return fileName.toLowerCase().endsWith(".xls")
+        return fileNameAccepted(fileName)
     }
 
     let dropzoneClassName = styles.uploadDropzone
@@ -53,8 +78,9 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, f
 
     return (
         <div className={flushTop ? `${styles.uploadSectionFlush} ${styles.uploadSection}` : styles.uploadSection}>
-            <input ref={fileInputRef} type="file" accept=".xls" hidden onChange={(event) => handleFileList(event.target.files)} />
-            <div className={dropzoneClassName}
+            <input ref={fileInputRef} type="file" accept={inputAccept} hidden onChange={(event) => handleFileList(event.target.files)} />
+            <div
+                className={dropzoneClassName}
                 onClick={() => fileInputRef.current?.click()}
                 onDragOver={(event) => {
                     event.preventDefault()
@@ -77,9 +103,9 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, f
                     <div className={styles.iconCircle}>
                         <FontAwesomeIcon icon={faUpload} size="lg" className={styles.uploadIcon} />
                     </div>
-                    <p className={styles.uploadTitle}>{t("dashboard:board-detail.upload.upload-title")}</p>
+                    <p className={styles.uploadTitle}>{t(uploadTitleKey)}</p>
                     <p className={styles.uploadText}>
-                        {t("dashboard:board-detail.upload.upload-text")}{" "}
+                        {t(uploadTextKey)}{" "}
                         <button
                             type="button"
                             className={styles.browseLink}
@@ -88,10 +114,10 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, f
                                 fileInputRef.current?.click()
                             }}
                         >
-                            {t("dashboard:board-detail.upload.browse-link")}
+                            {t("board-detail.upload.browse-link")}
                         </button>
                     </p>
-                    <p className={styles.uploadMeta}>{t("dashboard:board-detail.upload.file-meta")}</p>
+                    <p className={styles.uploadMeta}>{t(fileMetaKey)}</p>
                 </div>
             </div>
             {uploadError ? (
