@@ -10,21 +10,21 @@ import {AppBreadcrumbs} from "../components/breadcrumbs"
 import {PageTitle} from "../components/page-title"
 import {SportIconBadge} from "../components/sport-icon-badge"
 import {UploadSection} from "../components/upload-section"
-import {getOrganisationForPublicVereinPage} from "../dummyData"
+import {getOrganisationForPublicPage} from "../dummyData"
 import {FerienBenutzungTable} from "./anlass-sections/ferien-benutzung-table"
 import {KurseSection} from "./anlass-sections/kurse-section"
 import {TeilnehmendeInputs} from "./anlass-sections/teilnehmende-inputs"
 import {ZusatzlicheAusfalltageTable} from "./anlass-sections/zusatzliche-ausfalltage-table"
-import styles from "./verein-public-anlass-editor.module.scss"
+import styles from "./org-public-anlass-editor.module.scss"
 
-export const VereinPublicAnlassEditor: React.FC = () => {
-    const {organisationId, anlassId} = useParams<{organisationId: string; anlassId: string}>()
-    const organisation = getOrganisationForPublicVereinPage(organisationId)
+export const OrganisationPublicAnlassEditor: React.FC = () => {
+    const {orgId, anlassId} = useParams<{orgId: string; anlassId: string}>()
+    const organisation = getOrganisationForPublicPage(orgId)
     const anlassClicked = organisation && anlassId ? organisation.anlaesse.find((a) => a.id === anlassId) : undefined
     const anlassInfo = anlassClicked ? resolveAnlassFromOrganisation(anlassClicked, organisation) : undefined
     const {t} = useTranslation("dashboard")
 
-    const title = anlassInfo ? `${anlassInfo.name} - ${anlassInfo.location ?? "-"}` : t("verein-public.anlass.not-found-title")
+    const title = anlassInfo ? `${anlassInfo.name} - ${anlassInfo.location ?? "-"}` : t("organisation-public.anlass.not-found-title")
 
     if (!organisation || !anlassInfo) {
         const badge =
@@ -37,8 +37,8 @@ export const VereinPublicAnlassEditor: React.FC = () => {
                 <div className={anlassDetailStyles.topBar}>
                     <div className={anlassDetailStyles.breadcrumbsWrapper}>
                         <AppBreadcrumbs
-                            variant="verein-public-anlass"
-                            organisationId={organisationId}
+                            variant="organisation-public-anlass"
+                            orgId={orgId}
                             organisation={organisation}
                             anlass={anlassClicked}
                         />
@@ -46,7 +46,7 @@ export const VereinPublicAnlassEditor: React.FC = () => {
                     {badge}
                 </div>
                 <PageTitle title={title} editable />
-                <p>{t("verein-public.anlass.not-found-body")}</p>
+                <p>{t("organisation-public.anlass.not-found-body")}</p>
             </>
         )
     }
@@ -57,12 +57,7 @@ export const VereinPublicAnlassEditor: React.FC = () => {
         <>
             <div className={anlassDetailStyles.topBar}>
                 <div className={anlassDetailStyles.breadcrumbsWrapper}>
-                    <AppBreadcrumbs
-                        variant="verein-public-anlass"
-                        organisationId={organisationId}
-                        organisation={organisation}
-                        anlass={anlassClicked}
-                    />
+                    <AppBreadcrumbs variant="organisation-public-anlass" orgId={orgId} organisation={organisation} anlass={anlassClicked} />
                 </div>
                 <SportIconBadge icon={anlassInfo.sportIcon} />
             </div>
@@ -77,10 +72,10 @@ export const VereinPublicAnlassEditor: React.FC = () => {
                 </div>
                 <div className={styles.titleBandActions}>
                     <Button variant="outlined" color="inherit" sx={{borderColor: "#c4c4c4", color: "#222"}}>
-                        {t("verein-public.anlass.actions.cancel-reservation")}
+                        {t("organisation-public.anlass.actions.cancel-reservation")}
                     </Button>
                     <Button variant="contained" color="primary">
-                        {t("verein-public.anlass.actions.confirm-reservation")}
+                        {t("organisation-public.anlass.actions.confirm-reservation")}
                     </Button>
                 </div>
             </div>
@@ -88,7 +83,7 @@ export const VereinPublicAnlassEditor: React.FC = () => {
 
             <section className={styles.sectionCard}>
                 <div className={styles.sectionHeading}>
-                    <PageTitle title={t("verein-public.anlass.teilnehmerliste-title")} isSubTitle hasInfoButton />
+                    <PageTitle title={t("organisation-public.anlass.teilnehmerliste-title")} isSubTitle hasInfoButton />
                 </div>
                 <UploadSection onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
             </section>

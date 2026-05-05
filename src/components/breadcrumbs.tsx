@@ -15,9 +15,9 @@ export type AppBreadcrumbsProps =
     | {variant: "board-detail"; boardName: string; isNew: boolean}
     | {variant: "organisation-admin"; organisation: Organisation}
     | {variant: "anlass-detail"; organisation: Organisation | undefined; anlass: Anlass | undefined}
-    | {variant: "verein-public-anlass"; organisationId: string | undefined; organisation: Organisation | undefined; anlass: Anlass | undefined}
+    | {variant: "organisation-public-anlass"; orgId: string | undefined; organisation: Organisation | undefined; anlass: Anlass | undefined}
     | {variant: "ferien-editor"; holidayName: string}
-    | {variant: "verein-editor"; vereinName: string}
+    | {variant: "organisation-editor"; organisationName: string}
 
 function dashboardAndBoard(organisation: Organisation | undefined, t: TFunction<"dashboard">): Crumb[] {
     const id = organisation?.boardId
@@ -102,15 +102,15 @@ export const AppBreadcrumbs: React.FC<AppBreadcrumbsProps> = (props) => {
                 />
             )
         }
-        case "verein-public-anlass": {
-            const {organisationId, organisation, anlass} = props
+        case "organisation-public-anlass": {
+            const {orgId, organisation, anlass} = props
             const anlassName =
                 (anlass ? resolveAnlassFromOrganisation(anlass, organisation) : undefined)?.name?.trim() ||
                 t("dashboard:organisation-admin.anlass-detail.fallback-title")
-            const vereinLabel = organisation?.organisation?.trim() || t("dashboard:verein-public.fallback-title")
+            const organisationLabel = organisation?.organisation?.trim() || t("dashboard:organisation-public.fallback-title")
             const items: Crumb[] = []
-            if (organisationId) {
-                items.push({to: `/vereine/${organisationId}`, label: vereinLabel})
+            if (orgId) {
+                items.push({to: `/organisationen/${orgId}`, label: organisationLabel})
             }
             items.push({label: anlassName})
             return <BreadcrumbsList items={items} />
@@ -128,14 +128,16 @@ export const AppBreadcrumbs: React.FC<AppBreadcrumbsProps> = (props) => {
                 />
             )
         }
-        case "verein-editor": {
-            const {vereinName} = props
+        case "organisation-editor": {
+            const {organisationName} = props
             return (
                 <BreadcrumbsList
                     items={[
-                        {to: "/admin/stammdaten/vereine", label: t("dashboard:stammdaten.tabs.vereine")},
+                        {to: "/admin/stammdaten/organisationen", label: t("dashboard:stammdaten.tabs.organisationen")},
                         {
-                            label: vereinName.trim() ? vereinName : t("dashboard:stammdaten.vereine-editor.breadcrumb-current"),
+                            label: organisationName.trim()
+                                ? organisationName
+                                : t("dashboard:stammdaten.organisationen-editor.breadcrumb-current"),
                         },
                     ]}
                 />

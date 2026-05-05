@@ -12,12 +12,12 @@ import styles from "./anlaesse.module.scss"
 import {AnlassStatusPill} from "./components/anlass-status-pill"
 import {type Anlass, type Organisation} from "./organisation"
 
-export type AnlaesseCardListDetailHref = "organisation-admin" | "verein-public"
+export type AnlaesseCardListDetailHref = "organisation-admin" | "organisation-public"
 
 function anlassDetailPath(kind: AnlaesseCardListDetailHref, organisation: Organisation, anlass: Anlass): string {
     switch (kind) {
-        case "verein-public":
-            return `/vereine/${organisation.id}/anlass/${anlass.id}`
+        case "organisation-public":
+            return `/organisationen/${organisation.id}/anlass/${anlass.id}`
         default:
             return `/organisation-admin/${organisation.id}/anlass/${anlass.id}`
     }

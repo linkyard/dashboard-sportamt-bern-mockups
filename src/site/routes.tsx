@@ -9,11 +9,11 @@ import {AnlassDetail} from "../board/anlass-detail"
 import {BoardDetail} from "../board/board-detail"
 import {OrganisationAdminPage} from "../board/organisation-admin"
 import {Dashboard} from "../dashboard/dashboard"
+import {OrganisationPublicAnlassEditor} from "../organisationen/org-public-anlass-editor"
+import {OrganisationPublicPage} from "../organisationen/org-public-page"
 import {HolidayEditorPage} from "../stammdaten/ferien/ferien-closures-editor"
+import {OrganisationEditorPage} from "../stammdaten/organisationen/org-editor-page"
 import {StammdatenEditor} from "../stammdaten/stammdaten"
-import {VereinEditorPage} from "../stammdaten/vereine/verein-editor-page"
-import {VereinPublicAnlassEditor} from "../vereine/verein-public-anlass-editor"
-import {VereinPublicPage} from "../vereine/verein-public-page"
 import {appTheme} from "../theme/app-theme"
 import {PageLayout} from "./layout"
 
@@ -43,15 +43,15 @@ export function RouteIndex() {
                 <Route index element={<Dashboard />} />
                 <Route path="/admin/stammdaten" element={<Outlet />}>
                     <Route index element={<Navigate to="/admin/stammdaten/objekte" replace />} />
-                    <Route path="vereine/:vereinId/edit" element={<VereinEditorPage />} />
+                    <Route path="organisationen/:orgId/edit" element={<OrganisationEditorPage />} />
                     <Route path="ferien/holiday/:holidayId/edit" element={<HolidayEditorPage />} />
                     <Route path=":tabId" element={<StammdatenEditor />} />
                 </Route>
-                <Route path="/vereine/:organisationId/anlass/:anlassId" element={<VereinPublicAnlassEditor />} />
-                <Route path="/vereine/:organisationId" element={<VereinPublicPage />} />
+                <Route path="/organisationen/:orgId/anlass/:anlassId" element={<OrganisationPublicAnlassEditor />} />
+                <Route path="/organisationen/:orgId" element={<OrganisationPublicPage />} />
                 <Route path="/organisation-admin" element={<Navigate to="/" replace />} />
-                <Route path="/organisation-admin/:organisationId/anlass/:anlassId" element={<AnlassDetail />} />
-                <Route path="/organisation-admin/:organisationId" element={<OrganisationAdminPage />} />
+                <Route path="/organisation-admin/:orgId/anlass/:anlassId" element={<AnlassDetail />} />
+                <Route path="/organisation-admin/:orgId" element={<OrganisationAdminPage />} />
                 <Route path="/board" element={<BoardDetail />} />
                 <Route path="/board/:boardId" element={<BoardDetail />} />
                 <Route path="/*" element={<NotFound />} />

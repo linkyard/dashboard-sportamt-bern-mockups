@@ -5,19 +5,19 @@ import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
-import {stammdatenSeedVereine} from "../../dummyData"
+import {stammdatenSeedOrganisationen} from "../../dummyData"
 import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
 import mrt from "../../lib/material-react-table-styles.module.scss"
-import {CreateVereinDialog} from "./verein-list-dialogs"
-import styles from "./vereine-table.module.scss"
-import type {VereinRowData} from "./vereine-types"
+import {CreateOrgDialog} from "./orgs-list-dialogs"
+import styles from "./orgs-table.module.scss"
+import type {OrganisationRowData} from "./orgs-types"
 
-function filterVereineForSearch(vereine: VereinRowData[], query: string): VereinRowData[] {
+function filterOrganisationenForSearch(organisationen: OrganisationRowData[], query: string): OrganisationRowData[] {
     const q = query.trim().toLowerCase()
     if (!q) {
-        return vereine
+        return organisationen
     }
-    return vereine.filter((v) => {
+    return organisationen.filter((v) => {
         if (v.name.toLowerCase().includes(q)) {
             return true
         }
@@ -33,25 +33,25 @@ function filterVereineForSearch(vereine: VereinRowData[], query: string): Verein
     })
 }
 
-export const VereineTable: React.FC = () => {
+export const OrganisationenTable: React.FC = () => {
     const {t} = useTranslation("dashboard")
     const navigate = useNavigate()
-    const [vereine, setVereine] = useState<VereinRowData[]>(() => structuredClone(stammdatenSeedVereine))
+    const [organisationen, setOrganisationen] = useState<OrganisationRowData[]>(() => structuredClone(stammdatenSeedOrganisationen))
     const [snackbar, setSnackbar] = useState<string | null>(null)
-    const [vereinDialog, setVereinDialog] = useState<null | {mode: "create"}>(null)
-    const [deleteVereinId, setDeleteVereinId] = useState<string | null>(null)
-    const [createVereinDialogKey, setCreateVereinDialogKey] = useState(0)
+    const [orgDialog, setOrgDialog] = useState<null | {mode: "create"}>(null)
+    const [deleteOrgId, setDeleteOrgId] = useState<string | null>(null)
+    const [createOrgDialogKey, setCreateOrgDialogKey] = useState(0)
     const [searchQuery, setSearchQuery] = useState("")
 
     const showError = useCallback((message: string) => setSnackbar(message), [])
 
-    const tableData = useMemo(() => filterVereineForSearch(vereine, searchQuery), [vereine, searchQuery])
+    const tableData = useMemo(() => filterOrganisationenForSearch(organisationen, searchQuery), [organisationen, searchQuery])
 
-    const columns = useMemo<MRT_ColumnDef<VereinRowData>[]>(
+    const columns = useMemo<MRT_ColumnDef<OrganisationRowData>[]>(
         () => [
             {
                 accessorKey: "name",
-                header: t("stammdaten.vereine-table.columns.name"),
+                header: t("stammdaten.organisationen-table.columns.name"),
                 grow: true,
                 size: 200,
                 minSize: 160,
@@ -62,7 +62,7 @@ export const VereineTable: React.FC = () => {
             {
                 id: "contactPerson",
                 accessorFn: (row) => row.contact.contactPerson.trim(),
-                header: t("stammdaten.vereine-table.columns.contact-person"),
+                header: t("stammdaten.organisationen-table.columns.contact-person"),
                 grow: true,
                 size: 180,
                 minSize: 140,
@@ -74,9 +74,9 @@ export const VereineTable: React.FC = () => {
         [t]
     )
 
-    const showNoSearchResults = vereine.length > 0 && tableData.length === 0 && Boolean(searchQuery.trim())
+    const showNoSearchResults = organisationen.length > 0 && tableData.length === 0 && Boolean(searchQuery.trim())
 
-    const vereineTableOptions = useMemo((): Partial<MRT_TableOptions<VereinRowData>> => {
+    const organisationenTableOptions = useMemo((): Partial<MRT_TableOptions<OrganisationRowData>> => {
         return {
             getRowId: (row) => row.id,
             initialState: {
@@ -120,15 +120,15 @@ export const VereineTable: React.FC = () => {
             },
             muiTableContainerProps: {
                 sx: {maxHeight: "min(70vh, 560px)"},
-                "aria-label": t("stammdaten.vereine-table.list-aria-label"),
+                "aria-label": t("stammdaten.organisationen-table.list-aria-label"),
             },
             muiTableBodyRowProps: {
                 hover: true,
             },
             renderRowActions: ({row}) => (
-                <VereineTableActions
-                    onEdit={() => navigate(`/admin/stammdaten/vereine/${row.original.id}/edit`)}
-                    onDelete={() => setDeleteVereinId(row.original.id)}
+                <OrganisationenTableActions
+                    onEdit={() => navigate(`/admin/stammdaten/organisationen/${row.original.id}/edit`)}
+                    onDelete={() => setDeleteOrgId(row.original.id)}
                 />
             ),
             ...(showNoSearchResults
@@ -144,51 +144,51 @@ export const VereineTable: React.FC = () => {
             <SportamtMaterialReactTableBase
                 columns={columns}
                 data={tableData}
-                options={vereineTableOptions}
+                options={organisationenTableOptions}
                 toolbarActionButtons={
                     <Button
                         variant="contained"
                         color="primary"
                         size="small"
                         onClick={() => {
-                            setCreateVereinDialogKey((k) => k + 1)
-                            setVereinDialog({mode: "create"})
+                            setCreateOrgDialogKey((k) => k + 1)
+                            setOrgDialog({mode: "create"})
                         }}
                     >
-                        {t("stammdaten.vereine-table.add-verein")}
+                        {t("stammdaten.organisationen-table.add-organisation")}
                     </Button>
                 }
             />
-            {showNoSearchResults ? <p className={styles.vereineSearchEmpty}>{t("common:no-search-results")}</p> : null}
+            {showNoSearchResults ? <p className={styles.organisationenSearchEmpty}>{t("common:no-search-results")}</p> : null}
 
-            {vereinDialog?.mode === "create" ? (
-                <CreateVereinDialog
-                    key={createVereinDialogKey}
+            {orgDialog?.mode === "create" ? (
+                <CreateOrgDialog
+                    key={createOrgDialogKey}
                     open
-                    onClose={() => setVereinDialog(null)}
+                    onClose={() => setOrgDialog(null)}
                     onSave={(v) => {
-                        setVereine((prev) => [...prev, v])
-                        setVereinDialog(null)
+                        setOrganisationen((prev) => [...prev, v])
+                        setOrgDialog(null)
                     }}
                     onValidationError={showError}
                 />
             ) : null}
 
-            {deleteVereinId ? (
-                <Dialog open onClose={() => setDeleteVereinId(null)}>
-                    <DialogTitle>{t("stammdaten.vereine-table.delete-verein-title")}</DialogTitle>
-                    <DialogContent>{t("stammdaten.vereine-table.delete-verein-body")}</DialogContent>
+            {deleteOrgId ? (
+                <Dialog open onClose={() => setDeleteOrgId(null)}>
+                    <DialogTitle>{t("stammdaten.organisationen-table.delete-organisation-title")}</DialogTitle>
+                    <DialogContent>{t("stammdaten.organisationen-table.delete-organisation-body")}</DialogContent>
                     <DialogActions>
-                        <Button onClick={() => setDeleteVereinId(null)}>{t("stammdaten.vereine-table.cancel")}</Button>
+                        <Button onClick={() => setDeleteOrgId(null)}>{t("stammdaten.organisationen-table.cancel")}</Button>
                         <Button
                             color="error"
                             variant="contained"
                             onClick={() => {
-                                setVereine((prev) => prev.filter((v) => v.id !== deleteVereinId))
-                                setDeleteVereinId(null)
+                                setOrganisationen((prev) => prev.filter((v) => v.id !== deleteOrgId))
+                                setDeleteOrgId(null)
                             }}
                         >
-                            {t("stammdaten.vereine-table.delete")}
+                            {t("stammdaten.organisationen-table.delete")}
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -199,23 +199,23 @@ export const VereineTable: React.FC = () => {
     )
 }
 
-interface VereineTableActionsProps {
+interface OrganisationenTableActionsProps {
     onEdit: () => void
     onDelete: () => void
 }
 
-function VereineTableActions({onEdit, onDelete}: VereineTableActionsProps) {
+function OrganisationenTableActions({onEdit, onDelete}: OrganisationenTableActionsProps) {
     const {t} = useTranslation("dashboard")
 
     return (
         <Box className={styles.rowActions}>
-            <Tooltip title={t("stammdaten.vereine-table.edit")}>
-                <IconButton size="small" aria-label={t("stammdaten.vereine-table.edit")} onClick={onEdit}>
+            <Tooltip title={t("stammdaten.organisationen-table.edit")}>
+                <IconButton size="small" aria-label={t("stammdaten.organisationen-table.edit")} onClick={onEdit}>
                     <FontAwesomeIcon icon={faPenToSquare} />
                 </IconButton>
             </Tooltip>
-            <Tooltip title={t("stammdaten.vereine-table.delete")}>
-                <IconButton size="small" aria-label={t("stammdaten.vereine-table.delete")} onClick={onDelete}>
+            <Tooltip title={t("stammdaten.organisationen-table.delete")}>
+                <IconButton size="small" aria-label={t("stammdaten.organisationen-table.delete")} onClick={onDelete}>
                     <FontAwesomeIcon icon={faTrash} />
                 </IconButton>
             </Tooltip>

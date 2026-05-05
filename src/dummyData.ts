@@ -10,7 +10,7 @@ import {
 import type {Anlass, AnlassHistoryEntry, Organisation} from "./board/organisation"
 import type {HolidayRowData} from "./stammdaten/ferien/ferien-types"
 import type {LocationRowData, ObjektRowData} from "./stammdaten/locations/locations-types"
-import type {TrainerRowData, VereinRowData} from "./stammdaten/vereine/vereine-types"
+import type {OrganisationRowData, TrainerRowData} from "./stammdaten/organisationen/orgs-types"
 
 const demoObjekt = (id: string, name: string, sportIcon?: ObjektRowData["sportIcon"]): ObjektRowData => ({
     id,
@@ -149,11 +149,11 @@ export const DEMO_ORG_ID = {
     schwimmclubMitte: "demo-id-schwimmclub-mitte",
 } as const
 
-/** Demo Vereine / Trainer for Stammdaten (global master data). */
-export const stammdatenSeedVereine: VereinRowData[] = [
+/** Demo Organisationen / Trainer for Stammdaten (global master data). */
+export const stammdatenSeedOrganisationen: OrganisationRowData[] = [
     {
         id: DEMO_ORG_ID.linkyardSports,
-        rowKind: "verein",
+        rowKind: "organisation",
         name: "Linkyard Sports",
         contact: {
             organisationName: "Linkyard Sports",
@@ -168,7 +168,7 @@ export const stammdatenSeedVereine: VereinRowData[] = [
     },
     {
         id: DEMO_ORG_ID.turnvereinNord,
-        rowKind: "verein",
+        rowKind: "organisation",
         name: "Turnverein Nord",
         contact: {
             organisationName: "Turnverein Nord",
@@ -186,7 +186,7 @@ export const stammdatenSeedVereine: VereinRowData[] = [
     },
     {
         id: DEMO_ORG_ID.fcBernOst,
-        rowKind: "verein",
+        rowKind: "organisation",
         name: "FC Bern Ost",
         contact: {
             organisationName: "FC Bern Ost",
@@ -210,7 +210,7 @@ export const stammdatenSeedVereine: VereinRowData[] = [
     },
     {
         id: DEMO_ORG_ID.schwimmclubMitte,
-        rowKind: "verein",
+        rowKind: "organisation",
         name: "Schwimmclub Mitte",
         contact: {
             organisationName: "Schwimmclub Mitte",
@@ -229,7 +229,7 @@ export const stammdatenSeedVereine: VereinRowData[] = [
     },
     {
         id: "st-verein-4",
-        rowKind: "verein",
+        rowKind: "organisation",
         name: "TV Länggasse",
         contact: {
             organisationName: "Turnverein Länggasse",
@@ -244,7 +244,7 @@ export const stammdatenSeedVereine: VereinRowData[] = [
     },
     {
         id: "st-verein-5",
-        rowKind: "verein",
+        rowKind: "organisation",
         name: "HV Region Bern",
         contact: {
             organisationName: "Handballverein Region Bern",
@@ -271,7 +271,7 @@ export const stammdatenSeedVereine: VereinRowData[] = [
     },
     {
         id: "st-verein-6",
-        rowKind: "verein",
+        rowKind: "organisation",
         name: "Berner Leichtathletik Club",
         contact: {
             organisationName: "Berner Leichtathletik Club",
@@ -337,7 +337,7 @@ export const dummyBoards: Board[] = [
     {
         id: "board-2",
         name: "Board 2",
-        bemerkung: "Jahresplanung mit mehreren Abstimmungen zwischen Vereinen und Schulsport.",
+        bemerkung: "Jahresplanung mit mehreren Abstimmungen zwischen Organisationen und Schulsport.",
         startDate: "2027-01-01",
         endDate: "2027-12-31",
         status: "versandBereit",
@@ -662,8 +662,8 @@ export const dummyOrganisations: Organisation[] = withAnlassHistory(dummyOrganis
 /** All demo orgs (table + default Linkyard) for ID lookup until GraphQL replaces this. */
 export const allDummyOrganisations: Organisation[] = [dummyOrganisation, ...dummyOrganisations]
 
-export function getOrganisationById(organisationId: string): Organisation | undefined {
-    return allDummyOrganisations.find((o) => o.id === organisationId)
+export function getOrganisationById(orgId: string): Organisation | undefined {
+    return allDummyOrganisations.find((o) => o.id === orgId)
 }
 
 /** Older Stammdaten-only ids still found in bookmarks or docs. */
@@ -673,8 +673,8 @@ const LEGACY_PUBLIC_VEREIN_ROUTE_IDS: Record<string, string> = {
     "st-verein-3": DEMO_ORG_ID.schwimmclubMitte,
 }
 
-/** Resolve board/org payload for `/vereine/:organisationId` (direct id or legacy Stammdaten row id). */
-export function getOrganisationForPublicVereinPage(routeParam: string | undefined): Organisation | undefined {
+/** Resolve board/org payload for `/organisationen/:orgId` (direct id or legacy Stammdaten row id). */
+export function getOrganisationForPublicPage(routeParam: string | undefined): Organisation | undefined {
     if (!routeParam) return undefined
     const direct = getOrganisationById(routeParam)
     if (direct) return direct
@@ -682,7 +682,7 @@ export function getOrganisationForPublicVereinPage(routeParam: string | undefine
     return mapped ? getOrganisationById(mapped) : undefined
 }
 
-/** --- Verein-public Anlass editor--- */
+/** --- Organisation-public Anlass editor (demo seeds) --- */
 
 export type AusfalltagRowData = {
     id: string
@@ -691,7 +691,7 @@ export type AusfalltagRowData = {
     bisDate: string
 }
 
-export const vereinPublicSeedAusfalltage: AusfalltagRowData[] = [
+export const organisationPublicSeedAusfalltage: AusfalltagRowData[] = [
     {
         id: "demo-trainingslager",
         grund: "Trainingslager",
@@ -713,14 +713,14 @@ export type TrainerOptionSeed = {
     email: string
 }
 
-export const vereinPublicObjekteCatalog = ["Bahn 1", "Bahn 2", "Bahn 3", "Halle A"] as const
+export const organisationPublicObjekteCatalog = ["Bahn 1", "Bahn 2", "Bahn 3", "Halle A"] as const
 
-export const vereinPublicKursSlots: KursSlotSeed[] = [
+export const organisationPublicKursSlots: KursSlotSeed[] = [
     {id: "kurs-1", weekdayKey: "weekdays.tuesday", timeRange: "16:30 – 17:30"},
     {id: "kurs-2", weekdayKey: "weekdays.friday", timeRange: "11:30 – 12:30"},
 ]
 
-export const vereinPublicTrainerOptions: TrainerOptionSeed[] = [
+export const organisationPublicTrainerOptions: TrainerOptionSeed[] = [
     {
         id: "roman-frey",
         name: "Roman Frey",

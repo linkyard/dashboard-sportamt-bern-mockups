@@ -60,7 +60,7 @@
         "tabs-aria-label": "Stammdaten-Bereiche",
         "tabs": {
             "objekte": "Objekte",
-            "vereine": "Organisationen",
+            "organisationen": "Organisationen",
             "ferien": "Ferien"
         },
         "objekte-table": {
@@ -93,17 +93,17 @@
             "validation-objekt-name": "Bitte für jedes Objekt einen Namen angeben.",
             "last-objekt-error": "Das letzte Objekt eines Standorts kann nicht gelöscht werden."
         },
-        "vereine-table": {
-            "add-verein": "Organisation hinzufügen",
+        "organisationen-table": {
+            "add-organisation": "Organisation hinzufügen",
             "add-trainer": "Trainer hinzufügen",
-            "list-aria-label": "Liste der Vereine",
+            "list-aria-label": "Liste der Organisationen",
             "trainers-section": "Trainer",
             "no-trainers": "Noch keine Trainer. Verwenden Sie «Trainer hinzufügen», um einen Eintrag anzulegen.",
             "trainer-no-contact": "Keine Telefonnummer oder E-Mail hinterlegt.",
-            "empty-vereine": "Noch keine Organisationen angelegt.",
+            "empty-organisationen": "Noch keine Organisationen angelegt.",
             "columns": {
                 "name": "Name",
-                "verein-name": "Organisation",
+                "organisation-name": "Organisation",
                 "contact-person": "Kontakt",
                 "first-name": "Vorname",
                 "last-name": "Nachname",
@@ -114,20 +114,20 @@
             "save": "Speichern",
             "edit": "Bearbeiten",
             "delete": "Löschen",
-            "create-verein-title": "Organisation anlegen",
-            "edit-verein-title": "Organisation bearbeiten",
+            "create-organisation-title": "Organisation anlegen",
+            "edit-organisation-title": "Organisation bearbeiten",
             "create-trainer-title": "Trainer anlegen",
             "edit-trainer-title": "Trainer bearbeiten",
-            "delete-verein-title": "Organisation löschen?",
+            "delete-organisation-title": "Organisation löschen?",
             "delete-trainer-title": "Trainer löschen?",
-            "delete-verein-body": "Der Organisation und alle zugehörigen Trainer werden entfernt.",
+            "delete-organisation-body": "Die Organisation und alle zugehörigen Trainer werden entfernt.",
             "delete-trainer-body": "Dieser Trainer wird unwiderruflich gelöscht.",
-            "validation-verein-name": "Bitte einen Vereinsnamen angeben.",
+            "validation-organisation-name": "Bitte einen Organisationsnamen angeben.",
             "validation-trainer-name": "Bitte Vorname und Nachname angeben."
         },
-        "vereine-editor": {
+        "organisationen-editor": {
             "breadcrumb-current": "Organisation bearbeiten",
-            "trainers-list-aria": "Trainer dieses Organisation"
+            "trainers-list-aria": "Trainer dieser Organisation"
         },
         "ferien-table": {
             "year-label": "Jahr",
@@ -212,18 +212,18 @@
             "history-empty": "Noch keine Einträge im Verlauf."
         }
     },
-    "verein-public": {
+    "organisation-public": {
         "general-info": {
             "title": "Allgemeine Informationen",
             "body": "Die Reservationen für die nächsten Perioden wurde freigeschalten. Bitte überprüfen Sie die Kontakt- und Rechnungsadresse und erneuern bzw. stornieren Sie Ihre Reservationen.",
             "dismiss-aria": "Hinweis schliessen"
         },
-        "not-found-title": "Verein",
-        "not-found-body": "Diese Seite existiert nicht oder der Vereinsname ist unbekannt.",
-        "fallback-title": "Verein",
+        "not-found-title": "Organisation",
+        "not-found-body": "Diese Seite existiert nicht oder der Organisationsname ist unbekannt.",
+        "fallback-title": "Organisation",
         "anlass": {
             "not-found-title": "Anlass",
-            "not-found-body": "Dieser Anlass oder Verein wurde nicht gefunden.",
+            "not-found-body": "Dieser Anlass oder diese Organisation wurde nicht gefunden.",
             "actions": {
                 "cancel-reservation": "Reservation Stornieren",
                 "confirm-reservation": "Reservation Bestätigen"

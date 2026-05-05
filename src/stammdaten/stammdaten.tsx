@@ -5,12 +5,12 @@ import {PageTitle} from "../components/page-title"
 import {stammdatenSeedLocations} from "../dummyData"
 import {FerienTable} from "./ferien/ferien-table"
 import {LocationsTable} from "./locations/locations-table"
+import {OrganisationenTable} from "./organisationen/orgs-list"
 import styles from "./stammdaten.module.scss"
-import {VereineTable} from "./vereine/vereine-list"
 
-type StammdatenTabId = "objekte" | "vereine" | "ferien"
+type StammdatenTabId = "objekte" | "organisationen" | "ferien"
 
-const STAMMDATEN_TAB_IDS: StammdatenTabId[] = ["objekte", "vereine", "ferien"]
+const STAMMDATEN_TAB_IDS: StammdatenTabId[] = ["objekte", "organisationen", "ferien"]
 
 function isStammdatenTabId(value: string): value is StammdatenTabId {
     return STAMMDATEN_TAB_IDS.includes(value as StammdatenTabId)
@@ -56,8 +56,8 @@ export const StammdatenEditor = () => {
                 >
                     {tabId === "objekte" ? (
                         <LocationsTable key="stammdaten-objekte" initialLocations={stammdatenSeedLocations} />
-                    ) : tabId === "vereine" ? (
-                        <VereineTable key="stammdaten-vereine" />
+                    ) : tabId === "organisationen" ? (
+                        <OrganisationenTable key="stammdaten-organisationen" />
                     ) : tabId === "ferien" ? (
                         <FerienTable key="stammdaten-ferien" />
                     ) : null}

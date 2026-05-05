@@ -8,15 +8,15 @@ import {AnlassStatusPill} from "./anlass-status-pill"
 
 type AnlassInlineRowProps = {
     anlass: Anlass
-    organisationId: string
+    orgId: string
 }
 
-export const AnlassInlineRow = ({anlass, organisationId}: AnlassInlineRowProps) => {
+export const AnlassInlineRow = ({anlass, orgId}: AnlassInlineRowProps) => {
     const navigate = useNavigate()
     const dates = (anlass.times ?? []).filter(Boolean).join(" · ")
 
     const openAnlass = () => {
-        navigate(`/organisation-admin/${organisationId}/anlass/${anlass.id}`)
+        navigate(`/organisation-admin/${orgId}/anlass/${anlass.id}`)
     }
 
     return (

@@ -27,14 +27,14 @@ export function GeneralInformationBanner() {
             icon={<FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} />}
             slotProps={{
                 closeButton: {
-                    "aria-label": t("verein-public.general-info.dismiss-aria"),
-                    title: t("verein-public.general-info.dismiss-aria"),
+                    "aria-label": t("organisation-public.general-info.dismiss-aria"),
+                    title: t("organisation-public.general-info.dismiss-aria"),
                 },
             }}
         >
-            <AlertTitle className={styles.alertTitle}>{t("verein-public.general-info.title")}</AlertTitle>
+            <AlertTitle className={styles.alertTitle}>{t("organisation-public.general-info.title")}</AlertTitle>
             <Box component="p" className={styles.body}>
-                {t("verein-public.general-info.body")}
+                {t("organisation-public.general-info.body")}
             </Box>
         </Alert>
     )

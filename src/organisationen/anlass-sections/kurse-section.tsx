@@ -4,11 +4,11 @@ import {useTranslation} from "react-i18next"
 import {PageTitle} from "../../components/page-title"
 import {
     type KursSlotSeed,
-    vereinPublicKursSlots,
-    vereinPublicObjekteCatalog,
-    vereinPublicTrainerOptions,
+    organisationPublicKursSlots,
+    organisationPublicObjekteCatalog,
+    organisationPublicTrainerOptions,
 } from "../../dummyData"
-import editorStyles from "../verein-public-anlass-editor.module.scss"
+import editorStyles from "../org-public-anlass-editor.module.scss"
 import styles from "./kurse-section.module.scss"
 
 function TabLabel({weekdayKey, timeRange}: {weekdayKey: KursSlotSeed["weekdayKey"]; timeRange: string}) {
@@ -16,7 +16,7 @@ function TabLabel({weekdayKey, timeRange}: {weekdayKey: KursSlotSeed["weekdayKey
 
     return (
         <div className={styles.tabLabelWrap}>
-            <div className={styles.tabDay}>{t(`verein-public.anlass.kurse.${weekdayKey}`)}</div>
+            <div className={styles.tabDay}>{t(`organisation-public.anlass.kurse.${weekdayKey}`)}</div>
             <div className={styles.tabTime}>{timeRange}</div>
         </div>
     )
@@ -24,7 +24,7 @@ function TabLabel({weekdayKey, timeRange}: {weekdayKey: KursSlotSeed["weekdayKey
 
 export function KurseSection(): ReactElement {
     const {t} = useTranslation("dashboard")
-    const [activeSlotId, setActiveSlotId] = useState(vereinPublicKursSlots[0]?.id ?? "")
+    const [activeSlotId, setActiveSlotId] = useState(organisationPublicKursSlots[0]?.id ?? "")
     const [trainerBySlot, setTrainerBySlot] = useState<Record<string, string>>(() => ({
         "kurs-1": "roman-frey",
         "kurs-2": "",
@@ -34,11 +34,11 @@ export function KurseSection(): ReactElement {
         "kurs-2": [],
     }))
 
-    const activeSlot = useMemo(() => vereinPublicKursSlots.find((s) => s.id === activeSlotId), [activeSlotId])
+    const activeSlot = useMemo(() => organisationPublicKursSlots.find((s) => s.id === activeSlotId), [activeSlotId])
 
     const selectedTrainerId = activeSlot ? (trainerBySlot[activeSlot.id] ?? "") : ""
     const selectedObjekte = activeSlot ? (objekteBySlot[activeSlot.id] ?? []) : []
-    const availableObjekte = vereinPublicObjekteCatalog.filter((o) => !selectedObjekte.includes(o))
+    const availableObjekte = organisationPublicObjekteCatalog.filter((o) => !selectedObjekte.includes(o))
 
     const setTrainerForActive = (trainerId: string) => {
         if (!activeSlot) {
@@ -73,7 +73,7 @@ export function KurseSection(): ReactElement {
     return (
         <section className={editorStyles.sectionCard}>
             <div className={editorStyles.sectionHeading}>
-                <PageTitle title={t("verein-public.anlass.kurse.title")} isSubTitle hasInfoButton />
+                <PageTitle title={t("organisation-public.anlass.kurse.title")} isSubTitle hasInfoButton />
             </div>
 
             <Tabs
@@ -83,14 +83,14 @@ export function KurseSection(): ReactElement {
                 variant="scrollable"
                 scrollButtons="auto"
                 allowScrollButtonsMobile
-                aria-label={t("verein-public.anlass.kurse.tabs-aria")}
+                aria-label={t("organisation-public.anlass.kurse.tabs-aria")}
             >
-                {vereinPublicKursSlots.map((slot) => (
+                {organisationPublicKursSlots.map((slot) => (
                     <Tab
                         key={slot.id}
                         value={slot.id}
-                        id={`verein-kurs-tab-${slot.id}`}
-                        aria-controls={`verein-kurs-panel-${slot.id}`}
+                        id={`organisation-kurs-tab-${slot.id}`}
+                        aria-controls={`organisation-kurs-panel-${slot.id}`}
                         label={<TabLabel weekdayKey={slot.weekdayKey} timeRange={slot.timeRange} />}
                     />
                 ))}
@@ -100,27 +100,27 @@ export function KurseSection(): ReactElement {
                 <div
                     className={styles.panel}
                     role="tabpanel"
-                    id={`verein-kurs-panel-${activeSlot.id}`}
-                    aria-labelledby={`verein-kurs-tab-${activeSlot.id}`}
+                    id={`organisation-kurs-panel-${activeSlot.id}`}
+                    aria-labelledby={`organisation-kurs-tab-${activeSlot.id}`}
                 >
                     <div className={styles.fieldBlock}>
-                        <span className={styles.fieldLabel}>{t("verein-public.anlass.kurse.trainer-label")}</span>
+                        <span className={styles.fieldLabel}>{t("organisation-public.anlass.kurse.trainer-label")}</span>
                         <div className={styles.trainerRow}>
                             <FormControl size="small" fullWidth className={styles.trainerSelectWrap}>
                                 <Select
                                     displayEmpty
                                     value={selectedTrainerId}
                                     onChange={(e) => setTrainerForActive(e.target.value)}
-                                    aria-label={t("verein-public.anlass.kurse.trainer-label")}
+                                    aria-label={t("organisation-public.anlass.kurse.trainer-label")}
                                     renderValue={(value) => {
                                         if (!value) {
                                             return (
                                                 <span className={styles.mutedText}>
-                                                    {t("verein-public.anlass.kurse.trainer-placeholder")}
+                                                    {t("organisation-public.anlass.kurse.trainer-placeholder")}
                                                 </span>
                                             )
                                         }
-                                        const opt = vereinPublicTrainerOptions.find((t) => t.id === value)
+                                        const opt = organisationPublicTrainerOptions.find((t) => t.id === value)
                                         if (!opt) {
                                             return value
                                         }
@@ -135,9 +135,9 @@ export function KurseSection(): ReactElement {
                                     }}
                                 >
                                     <MenuItem value="">
-                                        <em>{t("verein-public.anlass.kurse.trainer-placeholder")}</em>
+                                        <em>{t("organisation-public.anlass.kurse.trainer-placeholder")}</em>
                                     </MenuItem>
-                                    {vereinPublicTrainerOptions.map((opt) => (
+                                    {organisationPublicTrainerOptions.map((opt) => (
                                         <MenuItem key={opt.id} value={opt.id}>
                                             <span className={styles.menuItemInner}>
                                                 <span className={styles.selectTrainerName}>{opt.name}</span>
@@ -150,14 +150,14 @@ export function KurseSection(): ReactElement {
                                 </Select>
                             </FormControl>
                             <Button variant="contained" color="primary" size="medium" onClick={() => undefined}>
-                                {t("verein-public.anlass.kurse.trainer-add")}
+                                {t("organisation-public.anlass.kurse.trainer-add")}
                             </Button>
                         </div>
                     </div>
 
                     <div className={styles.fieldBlock}>
-                        <span className={styles.fieldLabel}>{t("verein-public.anlass.kurse.objekte-label")}</span>
-                        <p className={styles.fieldHint}>{t("verein-public.anlass.kurse.objekte-helper")}</p>
+                        <span className={styles.fieldLabel}>{t("organisation-public.anlass.kurse.objekte-label")}</span>
+                        <p className={styles.fieldHint}>{t("organisation-public.anlass.kurse.objekte-helper")}</p>
                         <div className={styles.objekteChips}>
                             {availableObjekte.length > 0 ? (
                                 <FormControl size="small" className={styles.objectAddControl}>
@@ -170,11 +170,11 @@ export function KurseSection(): ReactElement {
                                                 addObjekt(v)
                                             }
                                         }}
-                                        aria-label={t("verein-public.anlass.kurse.objekt-add-placeholder")}
+                                        aria-label={t("organisation-public.anlass.kurse.objekt-add-placeholder")}
                                     >
                                         <MenuItem value="" disabled>
                                             <span className={styles.mutedText}>
-                                                {t("verein-public.anlass.kurse.objekt-add-placeholder")}
+                                                {t("organisation-public.anlass.kurse.objekt-add-placeholder")}
                                             </span>
                                         </MenuItem>
                                         {availableObjekte.map((o) => (
@@ -185,9 +185,9 @@ export function KurseSection(): ReactElement {
                                     </Select>
                                 </FormControl>
                             ) : selectedObjekte.length > 0 ? (
-                                <p className={styles.mutedText}>{t("verein-public.anlass.kurse.objekte-all-assigned")}</p>
+                                <p className={styles.mutedText}>{t("organisation-public.anlass.kurse.objekte-all-assigned")}</p>
                             ) : (
-                                <p className={styles.mutedText}>{t("verein-public.anlass.kurse.objekte-none-available")}</p>
+                                <p className={styles.mutedText}>{t("organisation-public.anlass.kurse.objekte-none-available")}</p>
                             )}
                             {selectedObjekte.map((label) => (
                                 <Chip
@@ -196,7 +196,7 @@ export function KurseSection(): ReactElement {
                                     variant="outlined"
                                     onDelete={() => removeObjekt(label)}
                                     className={styles.objektChip}
-                                    aria-label={t("verein-public.anlass.kurse.objekt-remove-aria", {label})}
+                                    aria-label={t("organisation-public.anlass.kurse.objekt-remove-aria", {label})}
                                 />
                             ))}
                         </div>

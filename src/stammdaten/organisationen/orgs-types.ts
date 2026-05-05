@@ -12,9 +12,9 @@ export interface TrainerRowData {
     email: string
 }
 
-export interface VereinRowData {
+export interface OrganisationRowData {
     id: string
-    rowKind: "verein"
+    rowKind: "organisation"
     name: string
     contact: ContactAddress
     billingContact?: ContactAddress

@@ -1,35 +1,22 @@
 import {faPenToSquare, faTrash} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    IconButton,
-    TextField,
-    Tooltip,
-} from "@mui/material"
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Tooltip} from "@mui/material"
 import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useMemo, useState, type ReactElement} from "react"
 import {useTranslation} from "react-i18next"
 import {PageTitle} from "../../components/page-title"
+import {organisationPublicSeedAusfalltage, type AusfalltagRowData} from "../../dummyData"
 import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
 import mrt from "../../lib/material-react-table-styles.module.scss"
-import vereineTableStyles from "../../stammdaten/vereine/vereine-table.module.scss"
+import organisationenTableStyles from "../../stammdaten/organisationen/orgs-table.module.scss"
 import {formatDateSwissLongWeekday} from "../../util/date"
-import {
-    type AusfalltagRowData,
-    vereinPublicSeedAusfalltage,
-} from "../../dummyData"
-import styles from "../verein-public-anlass-editor.module.scss"
+import styles from "../org-public-anlass-editor.module.scss"
 
 function AusfalltageTableActions({onEdit, onDelete}: {onEdit: () => void; onDelete: () => void}) {
     const {t} = useTranslation(["dashboard", "common"])
 
     return (
-        <Box className={vereineTableStyles.rowActions}>
+        <Box className={organisationenTableStyles.rowActions}>
             <Tooltip title={t("common:actions.edit")}>
                 <IconButton size="small" aria-label={t("common:actions.edit")} onClick={onEdit}>
                     <FontAwesomeIcon icon={faPenToSquare} />
@@ -47,7 +34,7 @@ function AusfalltageTableActions({onEdit, onDelete}: {onEdit: () => void; onDele
 export function ZusatzlicheAusfalltageTable(): ReactElement {
     const {t} = useTranslation(["dashboard", "common"])
 
-    const [rows, setRows] = useState<AusfalltagRowData[]>(() => structuredClone(vereinPublicSeedAusfalltage))
+    const [rows, setRows] = useState<AusfalltagRowData[]>(() => structuredClone(organisationPublicSeedAusfalltage))
     const [deleteId, setDeleteId] = useState<string | null>(null)
     const [editDraft, setEditDraft] = useState<AusfalltagRowData | null>(null)
 
@@ -55,17 +42,17 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
         () => [
             {
                 accessorKey: "grund",
-                header: t("verein-public.anlass.ausfalltage.columns.grund"),
+                header: t("organisation-public.anlass.ausfalltage.columns.grund"),
                 grow: true,
                 size: 200,
                 minSize: 140,
                 muiTableHeadCellProps: {align: "left"},
                 muiTableBodyCellProps: {align: "left"},
-                Cell: ({renderedCellValue}) => <span className={vereineTableStyles.ellipsis}>{renderedCellValue}</span>,
+                Cell: ({renderedCellValue}) => <span className={organisationenTableStyles.ellipsis}>{renderedCellValue}</span>,
             },
             {
                 accessorKey: "vonDate",
-                header: t("verein-public.anlass.ausfalltage.columns.von"),
+                header: t("organisation-public.anlass.ausfalltage.columns.von"),
                 size: 220,
                 grow: false,
                 enableSorting: false,
@@ -75,7 +62,7 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
             },
             {
                 accessorKey: "bisDate",
-                header: t("verein-public.anlass.ausfalltage.columns.bis"),
+                header: t("organisation-public.anlass.ausfalltage.columns.bis"),
                 size: 220,
                 grow: false,
                 enableSorting: false,
@@ -120,14 +107,11 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
             },
             muiTableContainerProps: {
                 sx: {maxHeight: "min(70vh, 560px)"},
-                "aria-label": t("verein-public.anlass.ausfalltage.list-aria-label"),
+                "aria-label": t("organisation-public.anlass.ausfalltage.list-aria-label"),
             },
             muiTableBodyRowProps: {hover: true},
             renderRowActions: ({row}) => (
-                <AusfalltageTableActions
-                    onEdit={() => setEditDraft({...row.original})}
-                    onDelete={() => setDeleteId(row.original.id)}
-                />
+                <AusfalltageTableActions onEdit={() => setEditDraft({...row.original})} onDelete={() => setDeleteId(row.original.id)} />
             ),
         }
     }, [t])
@@ -137,10 +121,10 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
             <section className={styles.sectionCard}>
                 <div className={styles.sectionHeadingRow}>
                     <div className={`${styles.sectionHeading} ${styles.sectionHeadingTitle}`}>
-                        <PageTitle title={t("verein-public.anlass.ausfalltage.title")} isSubTitle hasInfoButton />
+                        <PageTitle title={t("organisation-public.anlass.ausfalltage.title")} isSubTitle hasInfoButton />
                     </div>
                     <Button variant="contained" color="primary" size="small" onClick={() => undefined}>
-                        {t("verein-public.anlass.ausfalltage.add-button")}
+                        {t("organisation-public.anlass.ausfalltage.add-button")}
                     </Button>
                 </div>
                 <SportamtMaterialReactTableBase columns={columns} data={rows} options={tableOptions} disableSearch />
@@ -148,17 +132,17 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
 
             {editDraft ? (
                 <Dialog open onClose={() => setEditDraft(null)} fullWidth maxWidth="sm">
-                    <DialogTitle>{t("verein-public.anlass.ausfalltage.edit-title")}</DialogTitle>
+                    <DialogTitle>{t("organisation-public.anlass.ausfalltage.edit-title")}</DialogTitle>
                     <DialogContent sx={{display: "flex", flexDirection: "column", gap: 2, pt: 1}}>
                         <TextField
-                            label={t("verein-public.anlass.ausfalltage.grund-label")}
+                            label={t("organisation-public.anlass.ausfalltage.grund-label")}
                             value={editDraft.grund}
                             onChange={(e) => setEditDraft((d) => (d ? {...d, grund: e.target.value} : d))}
                             fullWidth
                             margin="dense"
                         />
                         <TextField
-                            label={t("verein-public.anlass.ausfalltage.von-label")}
+                            label={t("organisation-public.anlass.ausfalltage.von-label")}
                             type="date"
                             value={editDraft.vonDate}
                             onChange={(e) => setEditDraft((d) => (d ? {...d, vonDate: e.target.value} : d))}
@@ -167,7 +151,7 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
                             slotProps={{inputLabel: {shrink: true}}}
                         />
                         <TextField
-                            label={t("verein-public.anlass.ausfalltage.bis-label")}
+                            label={t("organisation-public.anlass.ausfalltage.bis-label")}
                             type="date"
                             value={editDraft.bisDate}
                             onChange={(e) => setEditDraft((d) => (d ? {...d, bisDate: e.target.value} : d))}
@@ -193,8 +177,8 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
 
             {deleteId ? (
                 <Dialog open onClose={() => setDeleteId(null)}>
-                    <DialogTitle>{t("verein-public.anlass.ausfalltage.delete-title")}</DialogTitle>
-                    <DialogContent>{t("verein-public.anlass.ausfalltage.delete-body")}</DialogContent>
+                    <DialogTitle>{t("organisation-public.anlass.ausfalltage.delete-title")}</DialogTitle>
+                    <DialogContent>{t("organisation-public.anlass.ausfalltage.delete-body")}</DialogContent>
                     <DialogActions>
                         <Button onClick={() => setDeleteId(null)}>{t("common:actions.cancel")}</Button>
                         <Button

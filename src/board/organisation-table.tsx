@@ -108,7 +108,7 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
         renderDetailPanel: ({row}) => (
             <div className={styles.anlaesseList}>
                 {row.original.anlaesse.map((anlass) => (
-                    <AnlassInlineRow key={anlass.id} anlass={anlass} organisationId={row.original.id} />
+                    <AnlassInlineRow key={anlass.id} anlass={anlass} orgId={row.original.id} />
                 ))}
             </div>
         ),

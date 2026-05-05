@@ -1,15 +1,15 @@
 import {useTranslation} from "react-i18next"
 import {useParams} from "react-router"
-import {getOrganisationById} from "../dummyData"
 import {AppBreadcrumbs} from "../components/breadcrumbs"
 import {PageTitle} from "../components/page-title"
+import {getOrganisationById} from "../dummyData"
 import AnlaesseCardList from "./anlaesse"
 import {ContactDetails} from "./components/contact-box"
 import styles from "./organisation-admin.module.scss"
 
 export const OrganisationAdminPage: React.FC = () => {
-    const {organisationId} = useParams<{organisationId: string}>()
-    const organisation = organisationId ? getOrganisationById(organisationId) : undefined
+    const {orgId} = useParams<{orgId: string}>()
+    const organisation = orgId ? getOrganisationById(orgId) : undefined
     const {t} = useTranslation("dashboard")
 
     if (!organisation) {
@@ -29,10 +29,7 @@ export const OrganisationAdminPage: React.FC = () => {
             <div className={styles.paperTop}>
                 <PageTitle title={title} editable />
                 <div className={styles.contactGrid}>
-                    <ContactDetails
-                        title={t("dashboard:organisation-admin.contact-address-title")}
-                        contact={organisation.contact}
-                    />
+                    <ContactDetails title={t("dashboard:organisation-admin.contact-address-title")} contact={organisation.contact} />
                     <ContactDetails
                         title={t("dashboard:organisation-admin.billing-address-title")}
                         contact={organisation.billingContact}
