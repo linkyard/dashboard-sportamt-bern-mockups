@@ -38,7 +38,6 @@
 
 .sectionCard {
     margin-top: 24px;
-    padding: 20px 22px;
     border-radius: 12px;
     background: #fff;
     // border: 1px solid #e8eaec;
@@ -88,12 +87,4 @@
     @include field-group-outlined-controls;
     min-width: 0;
     width: 100%;
-}
-
-.countInput {
-    width: 100%;
-
-    :global(.MuiInputBase-input) {
-        text-align: right;
-    }
 }
