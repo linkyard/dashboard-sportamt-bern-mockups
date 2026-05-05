@@ -73,7 +73,7 @@ export function KurseSection(): ReactElement {
     return (
         <section className={editorStyles.sectionCard}>
             <div className={editorStyles.sectionHeading}>
-                <PageTitle title={t("organisation-public.anlass.kurse.title")} isSubTitle hasInfoButton />
+                <PageTitle title={t("organisation-public.anlass.kurse.title")} isSubTitle toolTipContent={t("organisation-public.anlass.section-info-tooltip")} />
             </div>
 
             <Tabs

@@ -15,7 +15,7 @@ export const TeilnehmendeInputs: React.FC = () => {
     return (
         <section className={styles.sectionCard}>
             <div className={styles.sectionHeading}>
-                <PageTitle title={t("organisation-public.anlass.teilnehmende-title")} isSubTitle hasInfoButton />
+                <PageTitle title={t("organisation-public.anlass.teilnehmende-title")} isSubTitle toolTipContent={t("organisation-public.anlass.section-info-tooltip")} />
             </div>
             <div className={styles.teilnehmerFields}>
                 <div className={styles.fieldGroup}>

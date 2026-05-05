@@ -57,7 +57,7 @@ export const AnlaesseCardList: React.FC<AnlaesseCardListProps> = ({anlaesse, org
         <div className={styles.container}>
             <div className={styles.headerRow}>
                 <div className={styles.headerTitle}>
-                    <PageTitle title={t("organisation-admin.anlaesse.title")} isSubTitle hasInfoButton />
+                    <PageTitle title={t("organisation-admin.anlaesse.title")} isSubTitle />
                 </div>
                 <TextField
                     value={query}

@@ -230,6 +230,7 @@
             },
             "teilnehmende-title": "Teilnehmende",
             "teilnehmerliste-title": "Teilnehmerliste",
+            "section-info-tooltip": "hier angezeigte Informationen",
             "teilnehmende-fields": {
                 "total-persons": "Total Anzahl Personen",
                 "male": "Anzahl männliche Teilnehmende",

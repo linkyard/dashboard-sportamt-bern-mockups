@@ -83,7 +83,7 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
 
             <section className={styles.sectionCard}>
                 <div className={styles.sectionHeading}>
-                    <PageTitle title={t("organisation-public.anlass.teilnehmerliste-title")} isSubTitle hasInfoButton />
+                    <PageTitle title={t("organisation-public.anlass.teilnehmerliste-title")} isSubTitle toolTipContent={t("organisation-public.anlass.section-info-tooltip")} />
                 </div>
                 <UploadSection onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
             </section>

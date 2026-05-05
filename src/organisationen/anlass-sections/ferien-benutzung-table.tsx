@@ -245,7 +245,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
     return (
         <section className={styles.sectionCard}>
             <div className={styles.sectionHeading}>
-                <PageTitle title={t("organisation-public.anlass.ferien.title")} isSubTitle hasInfoButton />
+                <PageTitle title={t("organisation-public.anlass.ferien.title")} isSubTitle toolTipContent={t("organisation-public.anlass.section-info-tooltip")} />
             </div>
             {ferienHolidays.length === 0 ? (
                 <p>{t("organisation-public.anlass.ferien.empty-year", {year})}</p>

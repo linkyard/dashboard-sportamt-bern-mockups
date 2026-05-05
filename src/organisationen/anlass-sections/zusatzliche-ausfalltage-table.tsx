@@ -121,7 +121,7 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
             <section className={styles.sectionCard}>
                 <div className={styles.sectionHeadingRow}>
                     <div className={`${styles.sectionHeading} ${styles.sectionHeadingTitle}`}>
-                        <PageTitle title={t("organisation-public.anlass.ausfalltage.title")} isSubTitle hasInfoButton />
+                        <PageTitle title={t("organisation-public.anlass.ausfalltage.title")} isSubTitle toolTipContent={t("organisation-public.anlass.section-info-tooltip")} />
                     </div>
                     <Button variant="contained" color="primary" size="small" onClick={() => undefined}>
                         {t("organisation-public.anlass.ausfalltage.add-button")}
