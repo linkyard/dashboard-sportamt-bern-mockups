@@ -13,7 +13,7 @@ import {HolidayEditorPage} from "../admin/master-data/holiday/holiday-closures.e
 import {StammdatenEditor} from "../admin/master-data/master-data"
 import {OrganisationEditorPage} from "../admin/master-data/organisation/organisation.editor"
 import {OrganisationPublicPage} from "../organisation/organisation-detail"
-import {OrganisationPublicAnlassEditor} from "../organisation/reservation.editor"
+import {ReservationEditor} from "../organisation/reservation.editor"
 import {appTheme} from "../theme/app-theme"
 import {PageLayout} from "./layout"
 
@@ -47,7 +47,7 @@ export function RouteIndex() {
                     <Route path="ferien/holiday/:holidayId/edit" element={<HolidayEditorPage />} />
                     <Route path=":tabId" element={<StammdatenEditor />} />
                 </Route>
-                <Route path="/organisationen/:orgId/anlass/:anlassId" element={<OrganisationPublicAnlassEditor />} />
+                <Route path="/organisationen/:orgId/anlass/:anlassId" element={<ReservationEditor />} />
                 <Route path="/organisationen/:orgId" element={<OrganisationPublicPage />} />
                 <Route path="/organisation-admin" element={<Navigate to="/" replace />} />
                 <Route path="/organisation-admin/:orgId/anlass/:anlassId" element={<ReservationDetail />} />

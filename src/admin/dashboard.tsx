@@ -79,7 +79,7 @@ export const Dashboard = () => {
                     const detail = t("dashboard:dashboard.table.reservations-fraction-detail", {confirmed: c, total: n})
                     return (
                         <Tooltip title={detail} arrow>
-                            <span className={styles.bestaetigtFraction}>{label}</span>
+                            <span className={styles.confirmedFraction}>{label}</span>
                         </Tooltip>
                     )
                 },

@@ -6,15 +6,15 @@ import {useTranslation} from "react-i18next"
 import {ConfirmDeleteDialog} from "../../components/confirm-delete-dialog"
 import {PageTitle} from "../../components/page-title"
 import {
-    organisationPublicKursObjekteByTimeBlockSeed,
-    organisationPublicKursTimeBlocks,
-    organisationPublicTrainerOptions,
-    type KursTimeBlock,
+    trainingObjectsByTimeBlockSeed,
+    trainerOptions,
+    trainingTimeBlocks,
+    type TrainingTimeBlock,
 } from "../../dummyData"
 import editorStyles from "../reservation.editor.module.scss"
 import styles from "./training-section.module.scss"
 
-function TabLabel({weekdayKey, timeRange}: {weekdayKey: KursTimeBlock["weekdayKey"]; timeRange: string}) {
+function TabLabel({weekdayKey, timeRange}: {weekdayKey: TrainingTimeBlock["weekdayKey"]; timeRange: string}) {
     const {t} = useTranslation("dashboard")
 
     return (
@@ -25,29 +25,29 @@ function TabLabel({weekdayKey, timeRange}: {weekdayKey: KursTimeBlock["weekdayKe
     )
 }
 
-function TabPanel({kursTimeBlockId, tabsValue, children}: {kursTimeBlockId: string; tabsValue: string; children: ReactNode}) {
-    const active = tabsValue === kursTimeBlockId
+function TabPanel({trainingTimeBlockId, tabsValue, children}: {trainingTimeBlockId: string; tabsValue: string; children: ReactNode}) {
+    const active = tabsValue === trainingTimeBlockId
 
     return (
         <div
             role="tabpanel"
             hidden={!active}
-            id={`organisation-kurs-panel-${kursTimeBlockId}`}
-            aria-labelledby={`organisation-kurs-tab-${kursTimeBlockId}`}
+            id={`organisation-training-panel-${trainingTimeBlockId}`}
+            aria-labelledby={`organisation-training-tab-${trainingTimeBlockId}`}
         >
             {active ? children : null}
         </div>
     )
 }
 
-export function KurseSection(): ReactElement {
+export function TrainingSection(): ReactElement {
     const {t} = useTranslation("dashboard")
-    const [activeKursTabId, setActiveKursTabId] = useState(organisationPublicKursTimeBlocks[0]?.id ?? "")
-    const [trainersByKursTimeBlock, setTrainersByKursTimeBlock] = useState<Record<string, string>>(() => ({
-        "kurs-1": "roman-frey",
-        "kurs-2": "",
+    const [activeTrainingTabId, setActiveTrainingTabId] = useState(trainingTimeBlocks[0]?.id ?? "")
+    const [trainersByTrainingTimeBlock, setTrainersByTrainingTimeBlock] = useState<Record<string, string>>(() => ({
+        "training-1": "roman-frey",
+        "training-2": "",
     }))
-    const [objekteByKursTimeBlock] = useState(() => structuredClone(organisationPublicKursObjekteByTimeBlockSeed))
+    const [objectsByTrainingTimeBlock] = useState(() => structuredClone(trainingObjectsByTimeBlockSeed))
 
     const [deleteObjektId, setDeleteObjektId] = useState<string | null>(null)
 
@@ -56,14 +56,14 @@ export function KurseSection(): ReactElement {
         if (!deleteObjektId) {
             return undefined
         }
-        for (const blockObjekte of Object.values(objekteByKursTimeBlock)) {
-            const o = blockObjekte.find((z) => z.id === deleteObjektId)
+        for (const blockObjects of Object.values(objectsByTrainingTimeBlock)) {
+            const o = blockObjects.find((z) => z.id === deleteObjektId)
             if (o) {
                 return o
             }
         }
         return undefined
-    }, [deleteObjektId, objekteByKursTimeBlock])
+    }, [deleteObjektId, objectsByTrainingTimeBlock])
 
     return (
         <section className={editorStyles.sectionCard}>
@@ -77,30 +77,30 @@ export function KurseSection(): ReactElement {
 
             <Tabs
                 className={styles.tabs}
-                value={activeKursTabId}
-                onChange={(_, value: string) => setActiveKursTabId(value)}
+                value={activeTrainingTabId}
+                onChange={(_, value: string) => setActiveTrainingTabId(value)}
                 variant="scrollable"
                 scrollButtons="auto"
                 allowScrollButtonsMobile
                 aria-label={t("organisation-public.reservation.trainings.tabs-aria")}
             >
-                {organisationPublicKursTimeBlocks.map((kursTimeBlock) => (
+                {trainingTimeBlocks.map((trainingTimeBlock) => (
                     <Tab
-                        key={kursTimeBlock.id}
-                        value={kursTimeBlock.id}
-                        id={`organisation-kurs-tab-${kursTimeBlock.id}`}
-                        aria-controls={`organisation-kurs-panel-${kursTimeBlock.id}`}
-                        label={<TabLabel weekdayKey={kursTimeBlock.weekdayKey} timeRange={kursTimeBlock.timeRange} />}
+                        key={trainingTimeBlock.id}
+                        value={trainingTimeBlock.id}
+                        id={`organisation-training-tab-${trainingTimeBlock.id}`}
+                        aria-controls={`organisation-training-panel-${trainingTimeBlock.id}`}
+                        label={<TabLabel weekdayKey={trainingTimeBlock.weekdayKey} timeRange={trainingTimeBlock.timeRange} />}
                     />
                 ))}
             </Tabs>
 
-            {organisationPublicKursTimeBlocks.map((kursTimeBlock) => {
-                const trainerValue = trainersByKursTimeBlock[kursTimeBlock.id] ?? ""
-                const objekte = objekteByKursTimeBlock[kursTimeBlock.id] ?? []
+            {trainingTimeBlocks.map((trainingTimeBlock) => {
+                const trainerValue = trainersByTrainingTimeBlock[trainingTimeBlock.id] ?? ""
+                const objects = objectsByTrainingTimeBlock[trainingTimeBlock.id] ?? []
 
                 return (
-                    <TabPanel key={kursTimeBlock.id} kursTimeBlockId={kursTimeBlock.id} tabsValue={activeKursTabId}>
+                    <TabPanel key={trainingTimeBlock.id} trainingTimeBlockId={trainingTimeBlock.id} tabsValue={activeTrainingTabId}>
                         <div className={styles.panel}>
                             <div className={styles.fieldBlock}>
                                 <span className={styles.fieldLabel}>{t("organisation-public.reservation.trainings.trainer-label")}</span>
@@ -110,9 +110,9 @@ export function KurseSection(): ReactElement {
                                             displayEmpty
                                             value={trainerValue}
                                             onChange={(e) =>
-                                                setTrainersByKursTimeBlock((prev) => ({
+                                                setTrainersByTrainingTimeBlock((prev) => ({
                                                     ...prev,
-                                                    [kursTimeBlock.id]: e.target.value,
+                                                    [trainingTimeBlock.id]: e.target.value,
                                                 }))
                                             }
                                             aria-label={t("organisation-public.reservation.trainings.trainer-label")}
@@ -124,7 +124,7 @@ export function KurseSection(): ReactElement {
                                                         </span>
                                                     )
                                                 }
-                                                const opt = organisationPublicTrainerOptions.find((o) => o.id === value)
+                                                const opt = trainerOptions.find((o) => o.id === value)
                                                 if (!opt) {
                                                     return value
                                                 }
@@ -141,7 +141,7 @@ export function KurseSection(): ReactElement {
                                             <MenuItem value="">
                                                 <em>{t("organisation-public.reservation.trainings.trainer-placeholder")}</em>
                                             </MenuItem>
-                                            {organisationPublicTrainerOptions.map((opt) => (
+                                            {trainerOptions.map((opt) => (
                                                 <MenuItem key={opt.id} value={opt.id}>
                                                     <span className={styles.menuItemInner}>
                                                         <span className={styles.selectTrainerName}>{opt.name}</span>
@@ -162,7 +162,7 @@ export function KurseSection(): ReactElement {
                             <div className={styles.fieldBlock}>
                                 <span className={styles.fieldLabel}>{t("organisation-public.reservation.trainings.objects-label")}</span>
                                 <div className={styles.objekteChips}>
-                                    {objekte.map((o) => (
+                                    {objects.map((o) => (
                                         <Chip
                                             key={o.id}
                                             label={o.label}

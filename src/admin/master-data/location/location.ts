@@ -1,8 +1,8 @@
-import type {LocationRowData, ObjektRowData} from "./location-types"
+import type {LocationRowData, ObjectRowData} from "./location-types"
 
-export function findObjektParentAndIndex(locations: LocationRowData[], objektId: string): {locationId: string; index: number} | null {
+export function findObjectParentAndIndex(locations: LocationRowData[], objectId: string): {locationId: string; index: number} | null {
     for (const loc of locations) {
-        const index = loc.subRows.findIndex((o) => o.id === objektId)
+        const index = loc.subRows.findIndex((o) => o.id === objectId)
         if (index !== -1) {
             return {locationId: loc.id, index}
         }
@@ -10,26 +10,26 @@ export function findObjektParentAndIndex(locations: LocationRowData[], objektId:
     return null
 }
 
-export function removeObjektById(
+export function removeObjectById(
     locations: LocationRowData[],
-    objektId: string
-): {locations: LocationRowData[]; removed: ObjektRowData | null} {
-    let removed: ObjektRowData | null = null
+    objectId: string
+): {locations: LocationRowData[]; removed: ObjectRowData | null} {
+    let removed: ObjectRowData | null = null
     const next = locations.map((loc) => {
-        const idx = loc.subRows.findIndex((o) => o.id === objektId)
+        const idx = loc.subRows.findIndex((o) => o.id === objectId)
         if (idx === -1) {
             return loc
         }
         removed = loc.subRows[idx]
-        return {...loc, subRows: loc.subRows.filter((o) => o.id !== objektId)}
+        return {...loc, subRows: loc.subRows.filter((o) => o.id !== objectId)}
     })
     return {locations: next, removed}
 }
 
-export function insertObjektAt(
+export function insertObjectAt(
     locations: LocationRowData[],
     locationId: string,
-    objekt: ObjektRowData,
+    object: ObjectRowData,
     index: number | "append"
 ): LocationRowData[] {
     return locations.map((loc) => {
@@ -38,37 +38,37 @@ export function insertObjektAt(
         }
         const sub = [...loc.subRows]
         if (index === "append") {
-            sub.push(objekt)
+            sub.push(object)
         } else {
-            sub.splice(index, 0, objekt)
+            sub.splice(index, 0, object)
         }
         return {...loc, subRows: sub}
     })
 }
 
-export function moveObjektRelativeToHover(locations: LocationRowData[], draggedObjektId: string, hoverObjektId: string): LocationRowData[] {
-    if (draggedObjektId === hoverObjektId) {
+export function moveObjectRelativeToHover(locations: LocationRowData[], draggedObjectId: string, hoverObjectId: string): LocationRowData[] {
+    if (draggedObjectId === hoverObjectId) {
         return locations
     }
-    const {locations: without, removed} = removeObjektById(locations, draggedObjektId)
+    const {locations: without, removed} = removeObjectById(locations, draggedObjectId)
     if (!removed) {
         return locations
     }
-    const targetPos = findObjektParentAndIndex(without, hoverObjektId)
+    const targetPos = findObjectParentAndIndex(without, hoverObjectId)
     if (!targetPos) {
         return locations
     }
-    return insertObjektAt(without, targetPos.locationId, removed, targetPos.index)
+    return insertObjectAt(without, targetPos.locationId, removed, targetPos.index)
 }
 
-export function moveObjektToLocationEnd(
+export function moveObjectToLocationEnd(
     locations: LocationRowData[],
-    draggedObjektId: string,
+    draggedObjectId: string,
     targetLocationId: string
 ): LocationRowData[] {
-    const {locations: without, removed} = removeObjektById(locations, draggedObjektId)
+    const {locations: without, removed} = removeObjectById(locations, draggedObjectId)
     if (!removed) {
         return locations
     }
-    return insertObjektAt(without, targetLocationId, removed, "append")
+    return insertObjectAt(without, targetLocationId, removed, "append")
 }

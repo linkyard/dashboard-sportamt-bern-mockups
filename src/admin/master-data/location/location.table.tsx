@@ -7,9 +7,9 @@ import {useTranslation} from "react-i18next"
 import {ConfirmDeleteDialog} from "../../../components/confirm-delete-dialog"
 import {SportamtMaterialReactTableBase} from "../../../lib/material-react-table-base"
 import mrt from "../../../lib/material-react-table-styles.module.scss"
-import {type LocationRowData, type ObjektRowData, type StammdatenObjekteRow} from "./location-types"
-import {CreateLocationDialog, EditLocationDialog, ObjektDialog} from "./location.table.dialogs"
-import {moveObjektRelativeToHover, moveObjektToLocationEnd} from "./location"
+import {moveObjectRelativeToHover, moveObjectToLocationEnd} from "./location"
+import {type LocationRowData, type ObjectRowData, type StammdatenObjectsRow} from "./location-types"
+import {CreateLocationDialog, EditLocationDialog, ObjectDialog} from "./location.table.dialogs"
 import styles from "./location.table.module.scss"
 
 function filterLocationsForSearch(locations: LocationRowData[], query: string): LocationRowData[] {
@@ -28,10 +28,10 @@ function filterLocationsForSearch(locations: LocationRowData[], query: string): 
         .filter((row): row is LocationRowData => row != null)
 }
 
-function StammdatenNameCell({row, renderedCellValue}: {row: MRT_Row<StammdatenObjekteRow>; renderedCellValue: ReactNode}) {
+function StammdatenNameCell({row, renderedCellValue}: {row: MRT_Row<StammdatenObjectsRow>; renderedCellValue: ReactNode}) {
     return (
         <Box sx={{display: "flex", alignItems: "center", gap: 0.5, minWidth: 0, width: "100%"}}>
-            {row.original.rowKind === "objekt" && row.original.sportIcon ? (
+            {row.original.rowKind === "object" && row.original.sportIcon ? (
                 <span className={styles.sportIconWrap} aria-hidden>
                     <FontAwesomeIcon icon={row.original.sportIcon} className={styles.sportIcon} />
                 </span>
@@ -51,9 +51,9 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
     const [snackbar, setSnackbar] = useState<string | null>(null)
 
     const [locationDialog, setLocationDialog] = useState<null | {mode: "create" | "edit"; location?: LocationRowData}>(null)
-    const [objektDialog, setObjektDialog] = useState<null | {mode: "create" | "edit"; locationId: string; objekt?: ObjektRowData}>(null)
+    const [objectDialog, setObjectDialog] = useState<null | {mode: "create" | "edit"; locationId: string; object?: ObjectRowData}>(null)
     const [deleteTarget, setDeleteTarget] = useState<
-        null | {kind: "location"; id: string} | {kind: "objekt"; id: string; locationId: string}
+        null | {kind: "location"; id: string} | {kind: "object"; id: string; locationId: string}
     >(null)
     const [createLocationDialogKey, setCreateLocationDialogKey] = useState(0)
     const [searchQuery, setSearchQuery] = useState("")
@@ -62,7 +62,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
 
     const tableData = useMemo(() => filterLocationsForSearch(locations, searchQuery), [locations, searchQuery])
 
-    const columns = useMemo<MRT_ColumnDef<StammdatenObjekteRow>[]>(
+    const columns = useMemo<MRT_ColumnDef<StammdatenObjectsRow>[]>(
         () => [
             {
                 accessorKey: "name",
@@ -76,7 +76,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                 Cell: ({row, renderedCellValue}) => <StammdatenNameCell row={row} renderedCellValue={renderedCellValue} />,
             },
             {
-                id: "objekteCount",
+                id: "objectsCount",
                 accessorFn: (row) => (row.rowKind === "location" ? row.subRows.length : null),
                 header: t("master-data.objects-table.columns.object-count"),
                 size: 88,
@@ -104,7 +104,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
 
     const showNoSearchResults = locations.length > 0 && tableData.length === 0 && Boolean(searchQuery.trim())
 
-    const locationsTableOptions = useMemo((): Partial<MRT_TableOptions<StammdatenObjekteRow>> => {
+    const locationsTableOptions = useMemo((): Partial<MRT_TableOptions<StammdatenObjectsRow>> => {
         return {
             getRowId: (row) => row.id,
             getSubRows: (row) => (row.rowKind === "location" ? row.subRows : undefined),
@@ -159,7 +159,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                     Cell: ({row, rowRef, staticRowIndex, table}) =>
                         row.original.rowKind === "location" ? (
                             <MRT_ExpandButton row={row} staticRowIndex={staticRowIndex} table={table} />
-                        ) : row.original.rowKind === "objekt" && rowRef ? (
+                        ) : row.original.rowKind === "object" && rowRef ? (
                             <Box sx={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center"}}>
                                 <MRT_TableBodyRowGrabHandle row={row} rowRef={rowRef} table={table} />
                             </Box>
@@ -203,13 +203,13 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                     }
                     const drag = draggingRow.original
                     const hover = hoveredRow.original
-                    if (drag.rowKind !== "objekt") {
+                    if (drag.rowKind !== "object") {
                         return
                     }
                     if (hover.rowKind === "location") {
-                        setLocations((prev) => moveObjektToLocationEnd(prev, drag.id, hover.id))
+                        setLocations((prev) => moveObjectToLocationEnd(prev, drag.id, hover.id))
                     } else {
-                        setLocations((prev) => moveObjektRelativeToHover(prev, drag.id, hover.id))
+                        setLocations((prev) => moveObjectRelativeToHover(prev, drag.id, hover.id))
                     }
                 },
             }),
@@ -238,7 +238,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                     row={row}
                     locations={locations}
                     setLocationDialog={setLocationDialog}
-                    setObjektDialog={setObjektDialog}
+                    setObjectDialog={setObjectDialog}
                     setDeleteTarget={setDeleteTarget}
                 />
             ),
@@ -270,7 +270,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                     </Button>
                 }
             />
-            {showNoSearchResults ? <p className={styles.objekteSearchEmpty}>{t("common:no-search-results")}</p> : null}
+            {showNoSearchResults ? <p className={styles.objectsSearchEmpty}>{t("common:no-search-results")}</p> : null}
 
             {locationDialog?.mode === "create" ? (
                 <CreateLocationDialog
@@ -299,26 +299,26 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                 />
             ) : null}
 
-            {objektDialog ? (
-                <ObjektDialog
-                    key={objektDialog.mode === "edit" && objektDialog.objekt ? objektDialog.objekt.id : "new-objekt"}
+            {objectDialog ? (
+                <ObjectDialog
+                    key={objectDialog.mode === "edit" && objectDialog.object ? objectDialog.object.id : "new-object"}
                     open
-                    mode={objektDialog.mode}
-                    objekt={objektDialog.objekt}
-                    onClose={() => setObjektDialog(null)}
+                    mode={objectDialog.mode}
+                    object={objectDialog.object}
+                    onClose={() => setObjectDialog(null)}
                     onSave={(o) => {
-                        if (objektDialog.mode === "create") {
+                        if (objectDialog.mode === "create") {
                             setLocations((prev) =>
-                                prev.map((l) => (l.id === objektDialog.locationId ? {...l, subRows: [...l.subRows, o]} : l))
+                                prev.map((l) => (l.id === objectDialog.locationId ? {...l, subRows: [...l.subRows, o]} : l))
                             )
                         } else {
                             setLocations((prev) =>
                                 prev.map((l) =>
-                                    l.id === objektDialog.locationId ? {...l, subRows: l.subRows.map((s) => (s.id === o.id ? o : s))} : l
+                                    l.id === objectDialog.locationId ? {...l, subRows: l.subRows.map((s) => (s.id === o.id ? o : s))} : l
                                 )
                             )
                         }
-                        setObjektDialog(null)
+                        setObjectDialog(null)
                     }}
                     onValidationError={showError}
                 />
@@ -346,9 +346,9 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
     )
 }
 
-function findParentLocationId(locations: LocationRowData[], objektId: string): string | undefined {
+function findParentLocationId(locations: LocationRowData[], objectId: string): string | undefined {
     for (const loc of locations) {
-        if (loc.subRows.some((o) => o.id === objektId)) {
+        if (loc.subRows.some((o) => o.id === objectId)) {
             return loc.id
         }
     }
@@ -356,14 +356,14 @@ function findParentLocationId(locations: LocationRowData[], objektId: string): s
 }
 
 interface LocationTableActionsProps {
-    row: MRT_Row<StammdatenObjekteRow>
+    row: MRT_Row<StammdatenObjectsRow>
     locations: LocationRowData[]
     setLocationDialog: (dialog: null | {mode: "create" | "edit"; location?: LocationRowData}) => void
-    setObjektDialog: (dialog: null | {mode: "create" | "edit"; locationId: string; objekt?: ObjektRowData}) => void
-    setDeleteTarget: (target: null | {kind: "location"; id: string} | {kind: "objekt"; id: string; locationId: string}) => void
+    setObjectDialog: (dialog: null | {mode: "create" | "edit"; locationId: string; object?: ObjectRowData}) => void
+    setDeleteTarget: (target: null | {kind: "location"; id: string} | {kind: "object"; id: string; locationId: string}) => void
 }
 
-function LocationTableActions({row, locations, setLocationDialog, setObjektDialog, setDeleteTarget}: LocationTableActionsProps) {
+function LocationTableActions({row, locations, setLocationDialog, setObjectDialog, setDeleteTarget}: LocationTableActionsProps) {
     const {t} = useTranslation("dashboard")
 
     return (
@@ -374,7 +374,7 @@ function LocationTableActions({row, locations, setLocationDialog, setObjektDialo
                         <IconButton
                             size="small"
                             aria-label={t("master-data.objects-table.add-object")}
-                            onClick={() => setObjektDialog({mode: "create", locationId: row.original.id})}
+                            onClick={() => setObjectDialog({mode: "create", locationId: row.original.id})}
                         >
                             <FontAwesomeIcon icon={faPlus} />
                         </IconButton>
@@ -393,7 +393,7 @@ function LocationTableActions({row, locations, setLocationDialog, setObjektDialo
                         } else {
                             const parentId = findParentLocationId(locations, r.id)
                             if (parentId) {
-                                setObjektDialog({mode: "edit", locationId: parentId, objekt: r})
+                                setObjectDialog({mode: "edit", locationId: parentId, object: r})
                             }
                         }
                     }}
@@ -412,7 +412,7 @@ function LocationTableActions({row, locations, setLocationDialog, setObjektDialo
                         } else {
                             const parentId = findParentLocationId(locations, r.id)
                             if (parentId) {
-                                setDeleteTarget({kind: "objekt", id: r.id, locationId: parentId})
+                                setDeleteTarget({kind: "object", id: r.id, locationId: parentId})
                             }
                         }
                     }}

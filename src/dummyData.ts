@@ -9,17 +9,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import type {Organisation, Reservation, ReservationHistoryEntry} from "./admin/board/organisation"
 import type {HolidayRowData} from "./admin/master-data/holiday/holiday-types"
-import type {LocationRowData, ObjektRowData} from "./admin/master-data/location/location-types"
+import type {LocationRowData, ObjectRowData} from "./admin/master-data/location/location-types"
 import type {OrganisationRowData, TrainerRowData} from "./admin/master-data/organisation/organisation-types"
 
-const demoObjekt = (id: string, name: string, sportIcon?: ObjektRowData["sportIcon"]): ObjektRowData => ({
+const demoObjekt = (id: string, name: string, sportIcon?: ObjectRowData["sportIcon"]): ObjectRowData => ({
     id,
-    rowKind: "objekt",
+    rowKind: "object",
     name,
     ...(sportIcon ? {sportIcon} : {}),
 })
 
-const demoLocation = (id: string, name: string, subRows: ObjektRowData[]): LocationRowData => ({
+const demoLocation = (id: string, name: string, subRows: ObjectRowData[]): LocationRowData => ({
     id,
     rowKind: "location",
     name,
@@ -700,7 +700,7 @@ export const organisationPublicSeedAusfalltage: AusfalltagRowData[] = [
     },
 ]
 
-export type KursTimeBlock = {
+export type TrainingTimeBlock = {
     id: string
     weekdayKey: "weekdays.tuesday" | "weekdays.friday"
     timeRange: string
@@ -720,7 +720,7 @@ export type OrganisationPublicKursObjektAssignment = {
     label: string
 }
 
-export const organisationPublicKursObjekteByTimeBlockSeed: Record<string, OrganisationPublicKursObjektAssignment[]> = {
+export const trainingObjectsByTimeBlockSeed: Record<string, OrganisationPublicKursObjektAssignment[]> = {
     "kurs-1": [
         {id: "kurs-zuweisung-1", label: "Bahn 1"},
         {id: "kurs-zuweisung-2", label: "Bahn 2"},
@@ -728,12 +728,12 @@ export const organisationPublicKursObjekteByTimeBlockSeed: Record<string, Organi
     "kurs-2": [],
 }
 
-export const organisationPublicKursTimeBlocks: KursTimeBlock[] = [
+export const trainingTimeBlocks: TrainingTimeBlock[] = [
     {id: "kurs-1", weekdayKey: "weekdays.tuesday", timeRange: "16:30 – 17:30"},
     {id: "kurs-2", weekdayKey: "weekdays.friday", timeRange: "11:30 – 12:30"},
 ]
 
-export const organisationPublicTrainerOptions: TrainerOptionSeed[] = [
+export const trainerOptions: TrainerOptionSeed[] = [
     {
         id: "roman-frey",
         name: "Roman Frey",

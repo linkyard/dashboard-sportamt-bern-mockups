@@ -3,7 +3,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import {Checkbox, IconButton, Paper} from "@mui/material"
 import type {TFunction} from "i18next"
 import {type Dispatch, type SetStateAction, useMemo} from "react"
-import type {LocationRowData, ObjektRowData} from "../location/location-types"
+import type {LocationRowData, ObjectRowData} from "../location/location-types"
 import {aggregateLocationWeekForObjects, formatDeShort, toggleLocationWeekCascade, toggleObjectWeekClosure} from "./holiday-closure"
 import styles from "./holiday-closures.module.scss"
 import type {HolidayClosureState} from "./holiday-types"
@@ -64,7 +64,9 @@ export function FerienClosuresEditorWeekColumnGrid({
                     <div className={`${styles.tableRow} ${styles.headerRow}`} style={gridStyle} role="row">
                         <div className={styles.firstCell} role="columnheader">
                             <div className={styles.topLeft}>
-                                <span className={styles.topLeftTitle}>{t("dashboard:master-data.holidays-editor.column-location-only")}</span>
+                                <span className={styles.topLeftTitle}>
+                                    {t("dashboard:master-data.holidays-editor.column-location-only")}
+                                </span>
                                 <span className={styles.allWeeksHint}>
                                     <Checkbox
                                         size="small"
@@ -178,7 +180,7 @@ export function FerienClosuresEditorWeekColumnGrid({
                         )
 
                         const objRows = expanded
-                            ? loc.subRows.map((obj: ObjektRowData) => (
+                            ? loc.subRows.map((obj: ObjectRowData) => (
                                   <div key={obj.id} className={`${styles.tableRow} ${styles.rowObjekt}`} style={gridStyle} role="row">
                                       <div className={`${styles.firstCell} ${styles.objektFirstCell}`} role="rowheader">
                                           <span className={styles.objektIconWrap}>
@@ -207,10 +209,13 @@ export function FerienClosuresEditorWeekColumnGrid({
                                                       onChange={() => applyMutation((c) => toggleObjectWeekClosure(c, obj.id, w.id))}
                                                       slotProps={{
                                                           input: {
-                                                              "aria-label": t("dashboard:master-data.holidays-editor.cell-object-week-aria", {
-                                                                  objekt: obj.name,
-                                                                  range: `${formatDeShort(w.startDate)}–${formatDeShort(w.endDate)}`,
-                                                              }),
+                                                              "aria-label": t(
+                                                                  "dashboard:master-data.holidays-editor.cell-object-week-aria",
+                                                                  {
+                                                                      objekt: obj.name,
+                                                                      range: `${formatDeShort(w.startDate)}–${formatDeShort(w.endDate)}`,
+                                                                  }
+                                                              ),
                                                           },
                                                       }}
                                                   />

@@ -4,12 +4,12 @@ import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButt
 import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useMemo, useState, type ReactElement} from "react"
 import {useTranslation} from "react-i18next"
+import organisationenTableStyles from "../../admin/master-data/organisation/organisation.table.module.scss"
 import {ConfirmDeleteDialog} from "../../components/confirm-delete-dialog"
 import {PageTitle} from "../../components/page-title"
 import {organisationPublicSeedAusfalltage, type AusfalltagRowData} from "../../dummyData"
 import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
 import mrt from "../../lib/material-react-table-styles.module.scss"
-import organisationenTableStyles from "../../admin/master-data/organisation/organisation.table.module.scss"
 import {formatDateSwiss} from "../../util/date"
 import styles from "../reservation.editor.module.scss"
 
@@ -32,7 +32,7 @@ function AusfalltageTableActions({onEdit, onDelete}: {onEdit: () => void; onDele
     )
 }
 
-export function ZusatzlicheAusfalltageTable(): ReactElement {
+export function AdditionalDaysOffTable(): ReactElement {
     const {t} = useTranslation(["dashboard", "common"])
 
     const [rows, setRows] = useState<AusfalltagRowData[]>(() => structuredClone(organisationPublicSeedAusfalltage))
@@ -122,7 +122,11 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
             <section className={styles.sectionCard}>
                 <div className={styles.sectionHeadingRow}>
                     <div className={`${styles.sectionHeading} ${styles.sectionHeadingTitle}`}>
-                        <PageTitle title={t("organisation-public.reservation.additional-days-off.title")} isSubTitle toolTipContent={t("organisation-public.reservation.section-info-tooltip")} />
+                        <PageTitle
+                            title={t("organisation-public.reservation.additional-days-off.title")}
+                            isSubTitle
+                            toolTipContent={t("organisation-public.reservation.section-info-tooltip")}
+                        />
                     </div>
                     <Button variant="contained" color="primary" size="small" onClick={() => undefined}>
                         {t("organisation-public.reservation.additional-days-off.add-button")}

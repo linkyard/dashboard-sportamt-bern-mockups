@@ -20,7 +20,7 @@ function parseYearFromPeriod(period: string | undefined): number {
     return m ? Number(m[1]) : 2026
 }
 
-export type PublicFerienWeekRow = {
+export type HolidayWeekRow = {
     rowKind: "week"
     id: string
     parentFerienId: string
@@ -29,21 +29,21 @@ export type PublicFerienWeekRow = {
     endDate: string
 }
 
-export type PublicFerienParentRow = {
+export type HolidayParentRow = {
     rowKind: "ferien"
     id: string
     name: string
     startDate: string
     endDate: string
-    subRows: PublicFerienWeekRow[]
+    subRows: HolidayWeekRow[]
 }
 
-export type PublicFerienTableRow = PublicFerienParentRow | PublicFerienWeekRow
+export type HolidayUsageTableRow = HolidayParentRow | HolidayWeekRow
 
-function buildRows(holidays: HolidayRowData[]): PublicFerienParentRow[] {
+function buildRows(holidays: HolidayRowData[]): HolidayParentRow[] {
     return holidays.map((h) => {
         const weekMetas = splitIntoFerienwochen(h.startDate, h.endDate)
-        const subRows: PublicFerienWeekRow[] = weekMetas.map((w, i) => ({
+        const subRows: HolidayWeekRow[] = weekMetas.map((w, i) => ({
             rowKind: "week",
             id: `${h.id}-${w.id}`,
             parentFerienId: h.id,
@@ -63,21 +63,21 @@ function buildRows(holidays: HolidayRowData[]): PublicFerienParentRow[] {
     })
 }
 
-export interface FerienBenutzungTableProps {
+export interface HolidayUsageTableProps {
     periodLabel?: string
 }
 
-export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): ReactElement {
+export function HolidayUsageTable({periodLabel}: HolidayUsageTableProps): ReactElement {
     const {t} = useTranslation("dashboard")
     const year = parseYearFromPeriod(periodLabel)
 
-    const ferienHolidays = useMemo(
+    const holidays = useMemo(
         () =>
             stammdatenSeedHolidays.filter((h) => h.startDate.startsWith(`${year}-`)).sort((a, b) => a.startDate.localeCompare(b.startDate)),
         [year]
     )
 
-    const tableRows = useMemo(() => buildRows(ferienHolidays), [ferienHolidays])
+    const tableRows = useMemo(() => buildRows(holidays), [holidays])
 
     const [weekSelected, setWeekSelected] = useState<Record<string, boolean>>({})
 
@@ -85,7 +85,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
         setWeekSelected((prev) => ({...prev, [weekId]: !prev[weekId]}))
     }, [])
 
-    const toggleFerienWeeks = useCallback((parent: PublicFerienParentRow) => {
+    const toggleFerienWeeks = useCallback((parent: HolidayParentRow) => {
         const ids = parent.subRows.map((w) => w.id)
         setWeekSelected((prev) => {
             const allOn = ids.length > 0 && ids.every((id) => prev[id])
@@ -103,7 +103,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
         })
     }, [])
 
-    const columns = useMemo<MRT_ColumnDef<PublicFerienTableRow>[]>(
+    const columns = useMemo<MRT_ColumnDef<HolidayUsageTableRow>[]>(
         () => [
             {
                 id: "name",
@@ -190,7 +190,9 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
                                 toggleFerienWeeks(parent)
                             }}
                             slotProps={{
-                                input: {"aria-label": t("organisation-public.reservation.holidays.usage-holidays-aria", {name: parent.name})},
+                                input: {
+                                    "aria-label": t("organisation-public.reservation.holidays.usage-holidays-aria", {name: parent.name}),
+                                },
                             }}
                         />
                     )
@@ -200,7 +202,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
         [t, toggleFerienWeeks, toggleWeek, weekSelected]
     )
 
-    const tableOptions = useMemo((): Partial<MRT_TableOptions<PublicFerienTableRow>> => {
+    const tableOptions = useMemo((): Partial<MRT_TableOptions<HolidayUsageTableRow>> => {
         return {
             getRowId: (row) => row.id,
             getSubRows: (row) => (row.rowKind === "ferien" ? row.subRows : undefined),
@@ -252,7 +254,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
                     toolTipContent={t("organisation-public.reservation.section-info-tooltip")}
                 />
             </div>
-            {ferienHolidays.length === 0 ? (
+            {holidays.length === 0 ? (
                 <p>{t("organisation-public.reservation.holidays.empty-year", {year})}</p>
             ) : (
                 <SportamtMaterialReactTableBase data={tableRows} columns={columns} options={tableOptions} disableSearch />

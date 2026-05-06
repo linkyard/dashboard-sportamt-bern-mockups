@@ -4,7 +4,7 @@ import {DetailsNumberInput} from "../../components/inputs"
 import {PageTitle} from "../../components/page-title"
 import styles from "../reservation.editor.module.scss"
 
-export type TeilnehmendeInputsProps = {
+export type ParticipantsInputsProps = {
     maleCount: string
     femaleCount: string
     under20Count: string
@@ -14,7 +14,7 @@ export type TeilnehmendeInputsProps = {
     onUnder20CountChange: (value: string) => void
 }
 
-export const TeilnehmendeInputs: React.FC<TeilnehmendeInputsProps> = ({
+export const ParticipantsInputs: React.FC<ParticipantsInputsProps> = ({
     maleCount,
     femaleCount,
     under20Count,
@@ -88,3 +88,6 @@ export const TeilnehmendeInputs: React.FC<TeilnehmendeInputsProps> = ({
         </section>
     )
 }
+
+export {ParticipantsInputs as TeilnehmendeInputs}
+export type {ParticipantsInputsProps as TeilnehmendeInputsProps}

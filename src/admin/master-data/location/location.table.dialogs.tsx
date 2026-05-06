@@ -1,14 +1,14 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField} from "@mui/material"
 import {useState} from "react"
 import {useTranslation} from "react-i18next"
-import {type LocationRowData, type ObjektRowData, newId} from "./location-types"
+import {type LocationRowData, type ObjectRowData, newId} from "./location-types"
 import styles from "./location.table.module.scss"
 
-type ObjektDraft = {
+type ObjectDraft = {
     name: string
 }
 
-const emptyObjektDraft = (): ObjektDraft => ({name: ""})
+const emptyObjectDraft = (): ObjectDraft => ({name: ""})
 
 interface CreateLocationDialogProps {
     open: boolean
@@ -20,7 +20,7 @@ interface CreateLocationDialogProps {
 export const CreateLocationDialog = ({open, onClose, onSave, onValidationError}: CreateLocationDialogProps) => {
     const {t} = useTranslation("dashboard")
     const [name, setName] = useState("")
-    const [objekte, setObjekte] = useState<ObjektDraft[]>([emptyObjektDraft()])
+    const [objects, setObjects] = useState<ObjectDraft[]>([emptyObjectDraft()])
 
     const handleSave = () => {
         const editedValue = name.trim()
@@ -28,13 +28,13 @@ export const CreateLocationDialog = ({open, onClose, onSave, onValidationError}:
             onValidationError(t("master-data.objects-table.validation-location-name"))
             return
         }
-        if (objekte.some((o) => !o.name.trim())) {
+        if (objects.some((o) => !o.name.trim())) {
             onValidationError(t("master-data.objects-table.validation-object-name"))
             return
         }
-        const subRows: ObjektRowData[] = objekte.map((o) => ({
+        const subRows: ObjectRowData[] = objects.map((o) => ({
             id: newId(),
-            rowKind: "objekt",
+            rowKind: "object",
             name: o.name.trim(),
         }))
         onSave({
@@ -57,30 +57,30 @@ export const CreateLocationDialog = ({open, onClose, onSave, onValidationError}:
                         required
                         fullWidth
                     />
-                    <div className={styles.objekteSectionTitle}>{t("master-data.objects-table.objects-section")}</div>
-                    {objekte.map((draft, index) => (
-                        <Stack key={index} spacing={1} className={styles.objektDraftCard}>
+                    <div className={styles.objectsSectionTitle}>{t("master-data.objects-table.objects-section")}</div>
+                    {objects.map((draft, index) => (
+                        <Stack key={index} spacing={1} className={styles.objectDraftCard}>
                             <TextField
                                 label={t("master-data.objects-table.object-name-label")}
                                 value={draft.name}
                                 onChange={(e) => {
-                                    const next = [...objekte]
+                                    const next = [...objects]
                                     next[index] = {...next[index], name: e.target.value}
-                                    setObjekte(next)
+                                    setObjects(next)
                                 }}
                                 required
                                 fullWidth
                                 size="small"
                             />
 
-                            {objekte.length > 1 ? (
-                                <Button size="small" color="inherit" onClick={() => setObjekte(objekte.filter((_, i) => i !== index))}>
+                            {objects.length > 1 ? (
+                                <Button size="small" color="inherit" onClick={() => setObjects(objects.filter((_, i) => i !== index))}>
                                     {t("master-data.objects-table.remove-object-draft")}
                                 </Button>
                             ) : null}
                         </Stack>
                     ))}
-                    <Button size="small" variant="outlined" onClick={() => setObjekte([...objekte, emptyObjektDraft()])}>
+                    <Button size="small" variant="outlined" onClick={() => setObjects([...objects, emptyObjectDraft()])}>
                         {t("master-data.objects-table.add-another-object")}
                     </Button>
                 </Stack>
@@ -140,31 +140,31 @@ export const EditLocationDialog = ({open, location, onClose, onSave, onValidatio
     )
 }
 
-interface ObjektDialogProps {
+interface ObjectDialogProps {
     open: boolean
     mode: "create" | "edit"
-    objekt?: ObjektRowData
+    object?: ObjectRowData
     onClose: () => void
-    onSave: (o: ObjektRowData) => void
+    onSave: (o: ObjectRowData) => void
     onValidationError: (msg: string) => void
 }
-export const ObjektDialog: React.FC<ObjektDialogProps> = ({
+export const ObjectDialog: React.FC<ObjectDialogProps> = ({
     open,
     mode,
-    objekt,
+    object,
     onClose,
     onSave,
     onValidationError,
 }: {
     open: boolean
     mode: "create" | "edit"
-    objekt?: ObjektRowData
+    object?: ObjectRowData
     onClose: () => void
-    onSave: (o: ObjektRowData) => void
+    onSave: (o: ObjectRowData) => void
     onValidationError: (msg: string) => void
 }) => {
     const {t} = useTranslation("dashboard")
-    const [name, setName] = useState(objekt?.name ?? "")
+    const [name, setName] = useState(object?.name ?? "")
 
     const handleSave = () => {
         const editedValue = name.trim()
@@ -175,12 +175,12 @@ export const ObjektDialog: React.FC<ObjektDialogProps> = ({
         if (mode === "create") {
             onSave({
                 id: newId(),
-                rowKind: "objekt",
+                rowKind: "object",
                 name: editedValue,
             })
-        } else if (objekt) {
+        } else if (object) {
             onSave({
-                ...objekt,
+                ...object,
                 name: editedValue,
             })
         }

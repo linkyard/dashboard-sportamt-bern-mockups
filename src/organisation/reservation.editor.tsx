@@ -5,56 +5,56 @@ import {useState} from "react"
 import {useTranslation} from "react-i18next"
 import {useParams} from "react-router"
 import {resolveReservationFromOrganisation} from "../admin/board/organisation"
-import anlassDetailStyles from "../admin/board/reservation-detail.module.scss"
+import reservationDetailStyles from "../admin/board/reservation-detail.module.scss"
 import {AppBreadcrumbs} from "../components/breadcrumbs"
 import {LocationSelect} from "../components/location-select"
 import {PageTitle} from "../components/page-title"
 import {SportIconBadge} from "../components/sport-icon-badge"
 import {UploadSection} from "../components/upload-section"
 import {getOrganisationForPublicPage} from "../dummyData"
-import {ZusatzlicheAusfalltageTable} from "./reservation-sections/additional-days-off.table"
-import {FerienBenutzungTable} from "./reservation-sections/holiday-usage.table"
-import {TeilnehmendeInputs} from "./reservation-sections/participant-inputs"
-import {KurseSection} from "./reservation-sections/training-section"
+import {AdditionalDaysOffTable} from "./reservation-sections/additional-days-off.table"
+import {HolidayUsageTable} from "./reservation-sections/holiday-usage.table"
+import {ParticipantsInputs} from "./reservation-sections/participant-inputs"
+import {TrainingSection} from "./reservation-sections/training-section"
 import styles from "./reservation.editor.module.scss"
 
-function teilnehmendeTotals(male: string, female: string, under20: string) {
+function participantTotals(male: string, female: string, under20: string) {
     const total = +male + +female + +under20
     return {totalStr: String(total), showUpload: +under20 * 100 >= total * 90}
 }
 
-export const OrganisationPublicAnlassEditor: React.FC = () => {
+export const ReservationEditor: React.FC = () => {
     const {orgId, anlassId} = useParams<{orgId: string; anlassId: string}>()
     const organisation = getOrganisationForPublicPage(orgId)
-    const anlassClicked = organisation && anlassId ? organisation.reservations.find((a) => a.id === anlassId) : undefined
-    const anlassInfo = anlassClicked ? resolveReservationFromOrganisation(anlassClicked, organisation) : undefined
+    const reservationClicked = organisation && anlassId ? organisation.reservations.find((a) => a.id === anlassId) : undefined
+    const reservationInfo = reservationClicked ? resolveReservationFromOrganisation(reservationClicked, organisation) : undefined
     const {t} = useTranslation("dashboard")
 
-    const [maleTeilnehmerCount, setMaleTeilnehmerCount] = useState("")
-    const [femaleTeilnehmerCount, setFemaleTeilnehmerCount] = useState("")
-    const [under20TeilnehmerCount, setUnder20TeilnehmerCount] = useState("")
+    const [maleParticipantCount, setMaleParticipantCount] = useState("")
+    const [femaleParticipantCount, setFemaleParticipantCount] = useState("")
+    const [under20ParticipantCount, setUnder20ParticipantCount] = useState("")
 
-    const title = anlassInfo ? anlassInfo.name : t("organisation-public.reservation.not-found-title")
+    const title = reservationInfo ? reservationInfo.name : t("organisation-public.reservation.not-found-title")
 
     const organisationLocationOptions = [
         ...new Set((organisation?.reservations ?? []).flatMap(({location}) => (location ? [location] : []))),
     ].sort((a, b) => a.localeCompare(b, "de"))
 
-    if (!organisation || !anlassInfo) {
+    if (!organisation || !reservationInfo) {
         const badge =
-            organisation && anlassClicked ? (
-                <SportIconBadge icon={resolveReservationFromOrganisation(anlassClicked, organisation).sportIcon} />
+            organisation && reservationClicked ? (
+                <SportIconBadge icon={resolveReservationFromOrganisation(reservationClicked, organisation).sportIcon} />
             ) : null
 
         return (
             <>
-                <div className={anlassDetailStyles.topBar}>
-                    <div className={anlassDetailStyles.breadcrumbsWrapper}>
+                <div className={reservationDetailStyles.topBar}>
+                    <div className={reservationDetailStyles.breadcrumbsWrapper}>
                         <AppBreadcrumbs
-                            variant="organisation-public-anlass"
+                            variant="organisation-reservation"
                             orgId={orgId}
                             organisation={organisation}
-                            anlass={anlassClicked}
+                            reservation={reservationClicked}
                         />
                     </div>
                     {badge}
@@ -65,22 +65,27 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
         )
     }
 
-    const periodLabel = anlassInfo.period ?? "—"
-    const teilnehmer = teilnehmendeTotals(maleTeilnehmerCount, femaleTeilnehmerCount, under20TeilnehmerCount)
+    const periodLabel = reservationInfo.period ?? "—"
+    const participants = participantTotals(maleParticipantCount, femaleParticipantCount, under20ParticipantCount)
 
     return (
         <>
-            <div className={anlassDetailStyles.topBar}>
-                <div className={anlassDetailStyles.breadcrumbsWrapper}>
-                    <AppBreadcrumbs variant="organisation-public-anlass" orgId={orgId} organisation={organisation} anlass={anlassClicked} />
+            <div className={reservationDetailStyles.topBar}>
+                <div className={reservationDetailStyles.breadcrumbsWrapper}>
+                    <AppBreadcrumbs
+                        variant="organisation-reservation"
+                        orgId={orgId}
+                        organisation={organisation}
+                        reservation={reservationClicked}
+                    />
                 </div>
-                <SportIconBadge icon={anlassInfo.sportIcon} />
+                <SportIconBadge icon={reservationInfo.sportIcon} />
             </div>
 
             <div className={styles.titleBand}>
                 <div className={styles.titleBandMain}>
                     <PageTitle title={title} editable />
-                    <LocationSelect value={anlassInfo.location ?? ""} locationOptions={organisationLocationOptions} />
+                    <LocationSelect value={reservationInfo.location ?? ""} locationOptions={organisationLocationOptions} />
                     <div className={styles.periodRow}>
                         <FontAwesomeIcon icon={faCalendar} className={styles.periodIcon} aria-hidden />
                         <span>{periodLabel}</span>
@@ -95,17 +100,17 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
                     </Button>
                 </div>
             </div>
-            <TeilnehmendeInputs
-                maleCount={maleTeilnehmerCount}
-                femaleCount={femaleTeilnehmerCount}
-                under20Count={under20TeilnehmerCount}
-                totalPersonsDisplay={teilnehmer.totalStr}
-                onMaleCountChange={setMaleTeilnehmerCount}
-                onFemaleCountChange={setFemaleTeilnehmerCount}
-                onUnder20CountChange={setUnder20TeilnehmerCount}
+            <ParticipantsInputs
+                maleCount={maleParticipantCount}
+                femaleCount={femaleParticipantCount}
+                under20Count={under20ParticipantCount}
+                totalPersonsDisplay={participants.totalStr}
+                onMaleCountChange={setMaleParticipantCount}
+                onFemaleCountChange={setFemaleParticipantCount}
+                onUnder20CountChange={setUnder20ParticipantCount}
             />
 
-            {teilnehmer.showUpload ? (
+            {participants.showUpload ? (
                 <section className={styles.sectionCard}>
                     <div className={styles.sectionHeading}>
                         <PageTitle
@@ -117,9 +122,9 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
                     <UploadSection variant="pdf" onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
                 </section>
             ) : null}
-            <FerienBenutzungTable periodLabel={periodLabel} />
-            <ZusatzlicheAusfalltageTable />
-            <KurseSection />
+            <HolidayUsageTable periodLabel={periodLabel} />
+            <AdditionalDaysOffTable />
+            <TrainingSection />
         </>
     )
 }

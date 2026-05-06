@@ -16,10 +16,10 @@ export type AppBreadcrumbsProps =
     | {variant: "organisation-admin"; organisation: Organisation}
     | {variant: "reservation-detail"; organisation: Organisation | undefined; reservation: Reservation | undefined}
     | {
-          variant: "organisation-public-anlass"
+          variant: "organisation-reservation"
           orgId: string | undefined
           organisation: Organisation | undefined
-          anlass: Reservation | undefined
+          reservation: Reservation | undefined
       }
     | {variant: "holidays-editor"; holidayName: string}
     | {variant: "organisation-editor"; organisationName: string}
@@ -107,17 +107,17 @@ export const AppBreadcrumbs: React.FC<AppBreadcrumbsProps> = (props) => {
                 />
             )
         }
-        case "organisation-public-anlass": {
-            const {orgId, organisation, anlass} = props
-            const anlassName =
-                (anlass ? resolveReservationFromOrganisation(anlass, organisation) : undefined)?.name?.trim() ||
+        case "organisation-reservation": {
+            const {orgId, organisation, reservation} = props
+            const reservationName =
+                (reservation ? resolveReservationFromOrganisation(reservation, organisation) : undefined)?.name?.trim() ||
                 t("dashboard:organisation-admin.reservation-detail.fallback-title")
             const organisationLabel = organisation?.organisation?.trim() || t("dashboard:organisation-public.fallback-title")
             const items: Crumb[] = []
             if (orgId) {
                 items.push({to: `/organisationen/${orgId}`, label: organisationLabel})
             }
-            items.push({label: anlassName})
+            items.push({label: reservationName})
             return <BreadcrumbsList items={items} />
         }
         case "holidays-editor": {

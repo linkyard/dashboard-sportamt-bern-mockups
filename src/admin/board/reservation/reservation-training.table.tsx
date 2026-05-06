@@ -5,9 +5,10 @@ import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {
-    organisationPublicKursObjekteByTimeBlockSeed,
-    organisationPublicKursTimeBlocks,
-    organisationPublicTrainerOptions,
+    trainingObjectsByTimeBlockSeed,
+    trainingTimeBlocks,
+    trainerOptions,
+    type TrainerOptionSeed,
 } from "../../../dummyData"
 import {SportamtMaterialReactTableBase} from "../../../lib/material-react-table-base"
 import mrt from "../../../lib/material-react-table-styles.module.scss"
@@ -27,10 +28,10 @@ function buildTrainingsRows(t: (key: string, options?: Record<string, unknown>) 
         "kurs-2": [],
     }
 
-    return organisationPublicKursTimeBlocks.map((block) => {
-        const objekte = organisationPublicKursObjekteByTimeBlockSeed[block.id] ?? []
+    return trainingTimeBlocks.map((block) => {
+        const objekte = trainingObjectsByTimeBlockSeed[block.id] ?? []
         const trainerNames = (trainerByTimeBlockId[block.id] ?? [])
-            .map((trainerId) => organisationPublicTrainerOptions.find((option) => option.id === trainerId)?.name)
+            .map((trainerId) => trainerOptions.find((option: TrainerOptionSeed) => option.id === trainerId)?.name)
             .filter((name): name is string => Boolean(name))
 
         return {
