@@ -88,3 +88,26 @@
     min-width: 0;
     width: 100%;
 }
+
+.commentsBox {
+    width: 100%;
+    min-height: 160px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #f5f5f5;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    font: inherit;
+    line-height: 1.45;
+    color: #222;
+    resize: vertical;
+
+    &:focus {
+        outline: none;
+        // border-color: #6c6c6c;
+    }
+
+    &:read-only {
+        cursor: default;
+    }
+}

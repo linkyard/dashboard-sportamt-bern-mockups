@@ -258,6 +258,7 @@
                 "female": "Anzahl weibliche Teilnehmende",
                 "under-20": "Anzahl Teilnehmende unter 20-jährig"
             },
+            "comments-title": "Bemerkungen",
             "holidays": {
                 "title": "Ferien",
                 "empty-year": "Für {{year}} sind keine Ferien hinterlegt.",

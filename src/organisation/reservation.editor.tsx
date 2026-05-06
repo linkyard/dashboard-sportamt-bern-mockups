@@ -13,6 +13,7 @@ import {SportIconBadge} from "../components/sport-icon-badge"
 import {UploadSection} from "../components/upload-section"
 import {getOrganisationForPublicPage} from "../dummyData"
 import {AdditionalDaysOffTable} from "./reservation-sections/additional-days-off.table"
+import {CommentsSection} from "./reservation-sections/comments"
 import {HolidayUsageTable} from "./reservation-sections/holiday-usage.table"
 import {ParticipantsInputs} from "./reservation-sections/participant-inputs"
 import {TrainingSection} from "./reservation-sections/training-section"
@@ -124,6 +125,7 @@ export const ReservationEditor: React.FC = () => {
             <HolidayUsageTable periodLabel={periodLabel} />
             <AdditionalDaysOffTable />
             <TrainingSection />
+            <CommentsSection />
         </>
     )
 }
