@@ -230,6 +230,8 @@
             "body": "Die Reservationen für die nächsten Perioden wurde freigeschalten. Bitte überprüfen Sie die Kontakt- und Rechnungsadresse und erneuern bzw. stornieren Sie Ihre Reservationen.",
             "dismiss-aria": "Hinweis schliessen"
         },
+        "confirm-contact-address": "Ist diese Adresse noch die aktuelle Adresse Ihrer Organisation?",
+        "confirm-contact-address-button": "Adresse bestätigen",
         "not-found-title": "Organisation",
         "not-found-body": "Diese Seite existiert nicht oder der Organisationsname ist unbekannt.",
         "fallback-title": "Organisation",

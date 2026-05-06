@@ -5,6 +5,7 @@ import ReservationsCardList from "../admin/board/reservation.list"
 import {ContactDetails} from "../components/contact-box"
 import {PageTitle} from "../components/page-title"
 import {getOrganisationForPublicPage} from "../dummyData"
+import {ConfirmContactAddressBanner} from "./components/confirm-contact-address.banner"
 import {GeneralInformationBanner} from "./components/general-information.banner"
 
 export const OrganisationPublicPage: React.FC = () => {
@@ -26,7 +27,7 @@ export const OrganisationPublicPage: React.FC = () => {
     return (
         <div className={orgStyles.orgAdminPage}>
             <div className={orgStyles.paperTop}>
-                <PageTitle title={title} />
+                <PageTitle title={title} editable />
                 <GeneralInformationBanner key={`general-info-${orgId}`} />
                 <div className={orgStyles.contactGrid}>
                     <ContactDetails title={t("organisation-admin.contact-address-title")} contact={organisation.contact} />
@@ -36,6 +37,7 @@ export const OrganisationPublicPage: React.FC = () => {
                         billingAddressMode
                     />
                 </div>
+                <ConfirmContactAddressBanner key={`confirm-address-${orgId}`} />
             </div>
             <div className={orgStyles.anlaesseSection}>
                 <ReservationsCardList

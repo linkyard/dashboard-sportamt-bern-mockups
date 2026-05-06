@@ -3,6 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {useTranslation} from "react-i18next"
 import {useParams} from "react-router"
 import {AppBreadcrumbs} from "../../components/breadcrumbs"
+import {LocationSelect} from "../../components/location-select"
 import {PageTitle} from "../../components/page-title"
 import {SportIconBadge} from "../../components/sport-icon-badge"
 import {getOrganisationById} from "../../dummyData"
@@ -18,11 +19,13 @@ export const ReservationDetail: React.FC = () => {
     const {t} = useTranslation("dashboard")
     const reservationForDisplay = reservation ? resolveReservationFromOrganisation(reservation, organisation) : undefined
 
-    const title = reservationForDisplay
-        ? `${reservationForDisplay.name} - ${reservationForDisplay.location ?? "-"}`
-        : t("dashboard:organisation-admin.reservation-detail.fallback-title")
+    const title = reservationForDisplay ? reservationForDisplay.name : t("dashboard:organisation-admin.reservation-detail.fallback-title")
 
     const periodLabel = reservationForDisplay ? (reservationForDisplay.period ?? "—") : null
+
+    const organisationLocationOptions = [
+        ...new Set((organisation?.reservations ?? []).flatMap(({location}) => (location ? [location] : []))),
+    ].sort((a, b) => a.localeCompare(b, "de"))
 
     return (
         <>
@@ -32,13 +35,16 @@ export const ReservationDetail: React.FC = () => {
                 </div>
                 {reservationForDisplay ? <SportIconBadge icon={reservationForDisplay.sportIcon} /> : null}
             </div>
-            <PageTitle title={title} />
+            <PageTitle title={title} editable />
+            <LocationSelect value={reservationForDisplay.location ?? ""} locationOptions={organisationLocationOptions} />
+
             {periodLabel ? (
                 <div className={styles.periodRow}>
                     <FontAwesomeIcon icon={faCalendar} className={styles.periodIcon} />
                     <span>{periodLabel}</span>
                 </div>
             ) : null}
+
             {!reservationForDisplay ? <p>{t("dashboard:organisation-admin.reservation-detail.empty")}</p> : null}
             {reservationForDisplay ? (
                 <>

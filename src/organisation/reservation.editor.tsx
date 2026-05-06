@@ -1,4 +1,5 @@
 import {faCalendar} from "@fortawesome/free-regular-svg-icons"
+import {faLocationDot} from "@fortawesome/pro-regular-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {Button} from "@mui/material"
 import {useState} from "react"
@@ -7,7 +8,6 @@ import {useParams} from "react-router"
 import {resolveReservationFromOrganisation} from "../admin/board/organisation"
 import reservationDetailStyles from "../admin/board/reservation-detail.module.scss"
 import {AppBreadcrumbs} from "../components/breadcrumbs"
-import {LocationSelect} from "../components/location-select"
 import {PageTitle} from "../components/page-title"
 import {SportIconBadge} from "../components/sport-icon-badge"
 import {UploadSection} from "../components/upload-section"
@@ -35,10 +35,6 @@ export const ReservationEditor: React.FC = () => {
     const [under20ParticipantCount, setUnder20ParticipantCount] = useState("")
 
     const title = reservationInfo ? reservationInfo.name : t("organisation-public.reservation.not-found-title")
-
-    const organisationLocationOptions = [
-        ...new Set((organisation?.reservations ?? []).flatMap(({location}) => (location ? [location] : []))),
-    ].sort((a, b) => a.localeCompare(b, "de"))
 
     if (!organisation || !reservationInfo) {
         const badge =
@@ -85,7 +81,10 @@ export const ReservationEditor: React.FC = () => {
             <div className={styles.titleBand}>
                 <div className={styles.titleBandMain}>
                     <PageTitle title={title} editable />
-                    <LocationSelect value={reservationInfo.location ?? ""} locationOptions={organisationLocationOptions} />
+                    <div className={styles.periodRow}>
+                        <FontAwesomeIcon icon={faLocationDot} className={styles.periodIcon} aria-hidden />
+                        <span>{reservationInfo.location}</span>
+                    </div>
                     <div className={styles.periodRow}>
                         <FontAwesomeIcon icon={faCalendar} className={styles.periodIcon} aria-hidden />
                         <span>{periodLabel}</span>

@@ -61,7 +61,11 @@ export const ReservationsCardList: React.FC<ReservationsCardListProps> = ({
         <div className={styles.container}>
             <div className={styles.headerRow}>
                 <div className={styles.headerTitle}>
-                    <PageTitle title={t("organisation-admin.reservations.title")} isSubTitle />
+                    <PageTitle
+                        title={t("organisation-admin.reservations.title")}
+                        isSubTitle
+                        toolTipContent={t("organisation-public.reservations.section-info-tooltip")}
+                    />
                 </div>
                 <TextField
                     value={query}
