@@ -1,0 +1,84 @@
+@use "../../../variables.module.scss" as *;
+
+$pillLabelColor: #222;
+$statusPillCompactWidth: 11.75rem;
+
+.statusPill {
+    border-radius: 999px;
+    padding: 8px 10px 8px 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    min-width: 120px;
+    background-color: #fff;
+    border: 2px solid;
+    color: $pillLabelColor;
+}
+
+//Seen on org-admin organisation table rows.
+.statusPillCompact {
+    box-sizing: border-box;
+    max-width: 120px;
+    min-width: 120px;
+    padding: 4px 8px 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border-width: 2px;
+    border-radius: 999px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 8px;
+    background-color: #fff;
+    border-style: solid;
+    color: $pillLabelColor;
+    width: clamp(120px, #{$statusPillCompactWidth}, 100%);
+}
+
+.statusPillCompact > span:first-of-type {
+    text-align: left;
+    min-width: 0;
+}
+
+.iconDisc {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
+    font-size: 0.8125rem;
+    line-height: 0;
+
+    svg {
+        width: 1em;
+        height: 1em;
+        display: block;
+    }
+}
+
+.statusPillCompact .iconDisc {
+    font-size: 0.75rem;
+}
+
+.statuspending {
+    border-color: $statusPillOrange;
+
+    .iconDisc {
+        color: $statusPillOrange;
+    }
+}
+
+.statusconfirmed {
+    border-color: $sportamtGreen;
+
+    .iconDisc {
+        color: $sportamtGreen;
+    }
+}

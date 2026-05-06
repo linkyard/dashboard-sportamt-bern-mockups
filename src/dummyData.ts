@@ -7,10 +7,10 @@ import {
     faPersonSwimming,
     faVolleyball,
 } from "@fortawesome/free-solid-svg-icons"
-import type {Anlass, AnlassHistoryEntry, Organisation} from "./board/organisation"
-import type {HolidayRowData} from "./stammdaten/ferien/ferien-types"
-import type {LocationRowData, ObjektRowData} from "./stammdaten/locations/locations-types"
-import type {OrganisationRowData, TrainerRowData} from "./stammdaten/organisationen/orgs-types"
+import type {Anlass, AnlassHistoryEntry, Organisation} from "./admin/board/organisation"
+import type {HolidayRowData} from "./admin/master-data/holiday/holiday-types"
+import type {LocationRowData, ObjektRowData} from "./admin/master-data/location/location-types"
+import type {OrganisationRowData, TrainerRowData} from "./admin/master-data/organisation/organisation-types"
 
 const demoObjekt = (id: string, name: string, sportIcon?: ObjektRowData["sportIcon"]): ObjektRowData => ({
     id,

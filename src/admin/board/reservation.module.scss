@@ -1,0 +1,228 @@
+@use "../../variables.module.scss" as *;
+
+.container {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    margin-top: 28px;
+}
+
+.headerRow {
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.headerTitle {
+    flex: 1;
+    min-width: 0;
+}
+
+.searchInput {
+    flex-shrink: 0;
+    width: min(360px, 100%);
+
+    :global {
+        .MuiInputBase-root {
+            border-radius: 10px;
+            background-color: #f5f5f5;
+        }
+
+        .MuiOutlinedInput-notchedOutline {
+            border: 0;
+        }
+    }
+}
+
+.searchIcon {
+    color: #787878;
+    margin-right: 8px;
+}
+
+.cards {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-right: 4px;
+}
+
+.card {
+    border: 1px solid #c8c8c8;
+    border-radius: 10px;
+    padding: 18px 24px;
+    background-color: #fff;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        0 1px 2px rgba(0, 0, 0, 0.04);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1.55fr) minmax(0, 1fr) auto;
+    grid-template-rows: auto auto auto;
+    column-gap: 16px;
+    row-gap: 8px;
+    align-items: start;
+    cursor: pointer;
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+
+    &:hover {
+        border-color: #9e9e9e;
+        box-shadow:
+            0 4px 12px rgba(0, 0, 0, 0.08),
+            0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    &:focus-visible {
+        outline: 2px solid $sportamtGreen;
+        outline-offset: 2px;
+    }
+}
+
+// Grid cell that wraps `SportIconBadge` on an Anlass card.
+.sportBadgeCell {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    align-self: center;
+    justify-self: start;
+}
+
+.title {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    padding-bottom: 2px;
+    min-width: 0;
+    font-size: 1.15rem;
+    line-height: 1.25;
+    font-weight: 700;
+    color: #26323b;
+    letter-spacing: -0.01em;
+}
+
+.periodRow {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+}
+
+.locationRow {
+    grid-column: 2;
+    grid-row: 3;
+    min-width: 0;
+}
+
+.timesColumn {
+    grid-column: 3;
+    grid-row: 2 / -1;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 18px;
+    min-width: 0;
+}
+
+.statusCell {
+    grid-column: 4;
+    grid-row: 1 / -1;
+    align-self: center;
+    justify-self: end;
+}
+
+.infoRow {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #333;
+    font-size: 0.875rem;
+    line-height: 1.35;
+}
+
+.infoIconCell {
+    flex-shrink: 0;
+    width: 1.125rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+}
+
+.infoIcon {
+    color: #9a9a9a;
+    font-size: 0.8125rem !important;
+    opacity: 0.95;
+}
+
+@media (max-width: 900px) {
+    .headerRow {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .headerTitle {
+        flex: none;
+    }
+
+    .searchInput {
+        width: 100%;
+    }
+
+    .card {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        row-gap: 10px;
+    }
+
+    .sportBadgeCell {
+        grid-column: auto;
+        grid-row: auto;
+        justify-self: center;
+    }
+
+    .title {
+        grid-column: auto;
+        grid-row: auto;
+        text-align: center;
+    }
+
+    .periodRow,
+    .locationRow {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .timesColumn {
+        grid-column: auto;
+        grid-row: auto;
+        padding-left: 0;
+        border-left: 0;
+        padding-top: 2px;
+    }
+
+    .statusCell {
+        grid-column: auto;
+        grid-row: auto;
+        justify-self: start;
+        align-self: start;
+    }
+}
+
+// Match organisation-admin: short/narrow screens use outer Paper scroll instead of on the .cards
+@media (max-width: 900px), (max-height: 640px) {
+    .container {
+        flex: 0 1 auto;
+    }
+
+    .cards {
+        flex: none;
+        overflow: visible;
+    }
+}

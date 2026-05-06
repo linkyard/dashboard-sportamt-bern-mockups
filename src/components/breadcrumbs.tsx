@@ -5,7 +5,7 @@ import Link from "@mui/material/Link"
 import type {TFunction} from "i18next"
 import {useTranslation} from "react-i18next"
 import {Link as RouterLink} from "react-router"
-import {resolveAnlassFromOrganisation, type Anlass, type Organisation} from "../board/organisation"
+import {resolveAnlassFromOrganisation, type Anlass, type Organisation} from "../admin/board/organisation"
 import {getBoardById} from "../dummyData"
 import styles from "./breadcrumbs.module.scss"
 
