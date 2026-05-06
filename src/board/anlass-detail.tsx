@@ -8,6 +8,7 @@ import {SportIconBadge} from "../components/sport-icon-badge"
 import {getOrganisationById} from "../dummyData"
 import styles from "./anlass-detail.module.scss"
 import {AnlassHistoryLog} from "./components/anlass-history-log"
+import {AnlassKurseControlTable} from "./components/anlass-kurse-control-table"
 import {resolveAnlassFromOrganisation} from "./organisation"
 
 export const AnlassDetail: React.FC = () => {
@@ -40,12 +41,18 @@ export const AnlassDetail: React.FC = () => {
             ) : null}
             {!anlassForDisplay ? <p>{t("dashboard:organisation-admin.anlass-detail.empty")}</p> : null}
             {anlassForDisplay ? (
-                <AnlassHistoryLog
-                    title={t("dashboard:organisation-admin.anlass-detail.history-title")}
-                    emptyText={t("dashboard:organisation-admin.anlass-detail.history-empty")}
-                    entries={anlassForDisplay.history ?? []}
-                    status={anlassForDisplay.status}
-                />
+                <>
+                    <AnlassHistoryLog
+                        title={t("dashboard:organisation-admin.anlass-detail.history-title")}
+                        emptyText={t("dashboard:organisation-admin.anlass-detail.history-empty")}
+                        entries={anlassForDisplay.history ?? []}
+                        status={anlassForDisplay.status}
+                    />
+                    <div className={styles.kurseTableSection}>
+                        <PageTitle title={t("dashboard:organisation-admin.anlass-detail.kurse-table.title")} isSubTitle />
+                        <AnlassKurseControlTable />
+                    </div>
+                </>
             ) : null}
         </>
     )

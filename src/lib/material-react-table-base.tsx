@@ -94,6 +94,7 @@ export function SportamtMaterialReactTableBase<R extends MRT_RowData>({
         displayColumnDefOptions: {
             ...callerDisplayColumns,
             "mrt-row-expand": {...callerDisplayColumns?.["mrt-row-expand"], header: ""},
+            "mrt-row-actions": {...callerDisplayColumns?.["mrt-row-actions"], header: ""},
         },
         muiTableBodyCellProps: (args) => {
             const base = typeof callerCellOpts === "function" ? callerCellOpts(args) : callerCellOpts

@@ -1,0 +1,44 @@
+.rowActions {
+    flex-wrap: nowrap;
+    width: 100%;
+    min-width: 102px;
+    gap: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    svg {
+        font-size: 15px;
+    }
+}
+
+.objekteChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.objektChip:global(.MuiChip-root) {
+    flex-shrink: 0;
+    align-items: center;
+    border: 2px solid #d7e054;
+    border-radius: 5px;
+    background-color: #fff !important;
+    height: 28px;
+
+    &:hover {
+        background-color: #fff !important;
+        border-color: #d7e054;
+        box-shadow: none;
+    }
+
+    :global(.MuiChip-label) {
+        padding: 4px 10px;
+        font-weight: 700;
+        font-size: 0.8125rem;
+        line-height: 1.2;
+        color: rgba(0, 0, 0, 0.87);
+    }
+}

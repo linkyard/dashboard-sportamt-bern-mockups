@@ -210,7 +210,21 @@
             "breadcrumb-fallback": "Organisation",
             "back-aria-label": "Zurück zur Organisationsverwaltung",
             "history-title": "Verlaufsprotokoll",
-            "history-empty": "Noch keine Einträge im Verlauf."
+            "history-empty": "Noch keine Einträge im Verlauf.",
+            "kurse-table": {
+                "title": "Kurse",
+                "list-aria-label": "Kurse für öffentliche Anlassseite",
+                "add": "Kurs erfassen",
+                "edit": "Kurs bearbeiten",
+                "delete": "Kurs löschen",
+                "coming-soon": "Dialog folgt in einem nächsten Schritt.",
+                "columns": {
+                    "weekday": "Wochentag",
+                    "time": "Zeit",
+                    "objekte": "Objekte",
+                    "trainers": "Trainer"
+                }
+            }
         }
     },
     "organisation-public": {
