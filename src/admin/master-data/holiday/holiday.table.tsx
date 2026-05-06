@@ -43,7 +43,7 @@ export const FerienTable = () => {
         () => [
             {
                 accessorKey: "name",
-                header: t("stammdaten.ferien-table.columns.name"),
+                header: t("master-data.holidays-table.columns.name"),
                 grow: true,
                 size: 200,
                 minSize: 160,
@@ -54,7 +54,7 @@ export const FerienTable = () => {
             {
                 accessorKey: "startDate",
                 id: "startDate",
-                header: t("stammdaten.ferien-table.columns.start"),
+                header: t("master-data.holidays-table.columns.start"),
                 size: 120,
                 maxSize: 120,
                 minSize: 120,
@@ -68,7 +68,7 @@ export const FerienTable = () => {
             {
                 accessorKey: "endDate",
                 id: "endDate",
-                header: t("stammdaten.ferien-table.columns.end"),
+                header: t("master-data.holidays-table.columns.end"),
                 size: 120,
                 maxSize: 120,
                 minSize: 120,
@@ -82,7 +82,7 @@ export const FerienTable = () => {
             {
                 id: "closedObjekte",
                 accessorFn: (row) => row.closedObjekteCount,
-                header: t("stammdaten.ferien-table.columns.closedObjekte"),
+                header: t("master-data.holidays-table.columns.closed-objects"),
                 size: 200,
                 minSize: 180,
                 grow: true,
@@ -92,7 +92,7 @@ export const FerienTable = () => {
                 Cell: ({row}) => (
                     <div className={styles.closedObjekteCell}>
                         <DomainIcon fontSize="small" color="action" aria-hidden />
-                        <span>{t("stammdaten.ferien-table.closed-objekte-summary", {count: row.original.closedObjekteCount})}</span>
+                        <span>{t("master-data.holidays-table.closed-objects-summary", {count: row.original.closedObjekteCount})}</span>
                     </div>
                 ),
             },
@@ -142,19 +142,19 @@ export const FerienTable = () => {
             },
             renderRowActions: ({row}) => (
                 <Box className={styles.rowActions}>
-                    <Tooltip title={t("stammdaten.ferien-table.edit")}>
+                    <Tooltip title={t("master-data.holidays-table.edit")}>
                         <IconButton
                             size="small"
-                            aria-label={t("stammdaten.ferien-table.edit")}
+                            aria-label={t("master-data.holidays-table.edit")}
                             onClick={() => navigate(`/admin/stammdaten/ferien/holiday/${row.original.id}/edit`)}
                         >
                             <FontAwesomeIcon icon={faPenToSquare} />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title={t("stammdaten.ferien-table.delete")}>
+                    <Tooltip title={t("master-data.holidays-table.delete")}>
                         <IconButton
                             size="small"
-                            aria-label={t("stammdaten.ferien-table.delete")}
+                            aria-label={t("master-data.holidays-table.delete")}
                             onClick={() => setDeleteTargetId(row.original.id)}
                         >
                             <FontAwesomeIcon icon={faTrash} />
@@ -174,10 +174,10 @@ export const FerienTable = () => {
                 disableSearch
                 toolbarStart={
                     <FormControl size="small" className={styles.toolbarYear}>
-                        <InputLabel id="ferien-year-label">{t("stammdaten.ferien-table.year-label")}</InputLabel>
+                        <InputLabel id="ferien-year-label">{t("master-data.holidays-table.year-label")}</InputLabel>
                         <Select<number>
                             labelId="ferien-year-label"
-                            label={t("stammdaten.ferien-table.year-label")}
+                            label={t("master-data.holidays-table.year-label")}
                             value={selectedYear}
                             onChange={(e) => setSelectedYear(Number(e.target.value))}
                         >
@@ -198,7 +198,7 @@ export const FerienTable = () => {
                             setCreateDialogOpen(true)
                         }}
                     >
-                        {t("stammdaten.ferien-table.add-holiday")}
+                        {t("master-data.holidays-table.add-holiday")}
                     </Button>
                 }
             />
@@ -214,9 +214,9 @@ export const FerienTable = () => {
                 onConfirm={() => {
                     setDeleteTargetId(null)
                 }}
-                title={t("stammdaten.ferien-table.delete-title")}
+                title={t("master-data.holidays-table.delete-title")}
             >
-                {t("stammdaten.ferien-table.delete-body")}
+                {t("master-data.holidays-table.delete-body")}
             </ConfirmDeleteDialog>
 
             <Snackbar open={Boolean(snackbar)} autoHideDuration={5000} onClose={() => setSnackbar(null)} message={snackbar} />

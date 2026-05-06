@@ -31,19 +31,19 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, f
 
     const uploadTitleKey =
         variant === "pdf"
-            ? ("organisation-public.anlass.teilnehmerliste-upload.upload-title" as const)
+            ? ("organisation-public.reservation.participants-list-upload.upload-title" as const)
             : ("board-detail.upload.upload-title" as const)
     const uploadTextKey =
         variant === "pdf"
-            ? ("organisation-public.anlass.teilnehmerliste-upload.upload-text" as const)
+            ? ("organisation-public.reservation.participants-list-upload.upload-text" as const)
             : ("board-detail.upload.upload-text" as const)
     const fileMetaKey =
         variant === "pdf"
-            ? ("organisation-public.anlass.teilnehmerliste-upload.file-meta" as const)
+            ? ("organisation-public.reservation.participants-list-upload.file-meta" as const)
             : ("board-detail.upload.file-meta" as const)
     const errorFileTypeKey =
         variant === "pdf"
-            ? ("organisation-public.anlass.teilnehmerliste-upload.error-file-type" as const)
+            ? ("organisation-public.reservation.participants-list-upload.error-file-type" as const)
             : ("board-detail.upload.error-file-type" as const)
 
     const handleFileList = (fileList: FileList | null) => {

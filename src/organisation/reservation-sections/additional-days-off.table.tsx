@@ -43,7 +43,7 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
         () => [
             {
                 accessorKey: "grund",
-                header: t("organisation-public.anlass.ausfalltage.columns.grund"),
+                header: t("organisation-public.reservation.additional-days-off.columns.grund"),
                 grow: true,
                 size: 200,
                 minSize: 140,
@@ -53,7 +53,7 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
             },
             {
                 accessorKey: "vonDate",
-                header: t("organisation-public.anlass.ausfalltage.columns.von"),
+                header: t("organisation-public.reservation.additional-days-off.columns.from"),
                 size: 220,
                 grow: false,
                 enableSorting: false,
@@ -63,7 +63,7 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
             },
             {
                 accessorKey: "bisDate",
-                header: t("organisation-public.anlass.ausfalltage.columns.bis"),
+                header: t("organisation-public.reservation.additional-days-off.columns.to"),
                 size: 220,
                 grow: false,
                 enableSorting: false,
@@ -108,7 +108,7 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
             },
             muiTableContainerProps: {
                 sx: {maxHeight: "min(70vh, 560px)"},
-                "aria-label": t("organisation-public.anlass.ausfalltage.list-aria-label"),
+                "aria-label": t("organisation-public.reservation.additional-days-off.list-aria-label"),
             },
             muiTableBodyRowProps: {hover: true},
             renderRowActions: ({row}) => (
@@ -122,10 +122,10 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
             <section className={styles.sectionCard}>
                 <div className={styles.sectionHeadingRow}>
                     <div className={`${styles.sectionHeading} ${styles.sectionHeadingTitle}`}>
-                        <PageTitle title={t("organisation-public.anlass.ausfalltage.title")} isSubTitle toolTipContent={t("organisation-public.anlass.section-info-tooltip")} />
+                        <PageTitle title={t("organisation-public.reservation.additional-days-off.title")} isSubTitle toolTipContent={t("organisation-public.reservation.section-info-tooltip")} />
                     </div>
                     <Button variant="contained" color="primary" size="small" onClick={() => undefined}>
-                        {t("organisation-public.anlass.ausfalltage.add-button")}
+                        {t("organisation-public.reservation.additional-days-off.add-button")}
                     </Button>
                 </div>
                 <SportamtMaterialReactTableBase columns={columns} data={rows} options={tableOptions} disableSearch />
@@ -133,17 +133,17 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
 
             {editDraft ? (
                 <Dialog open onClose={() => setEditDraft(null)} fullWidth maxWidth="sm">
-                    <DialogTitle>{t("organisation-public.anlass.ausfalltage.edit-title")}</DialogTitle>
+                    <DialogTitle>{t("organisation-public.reservation.additional-days-off.edit-title")}</DialogTitle>
                     <DialogContent sx={{display: "flex", flexDirection: "column", gap: 2, pt: 1}}>
                         <TextField
-                            label={t("organisation-public.anlass.ausfalltage.grund-label")}
+                            label={t("organisation-public.reservation.additional-days-off.reason-label")}
                             value={editDraft.grund}
                             onChange={(e) => setEditDraft((d) => (d ? {...d, grund: e.target.value} : d))}
                             fullWidth
                             margin="dense"
                         />
                         <TextField
-                            label={t("organisation-public.anlass.ausfalltage.von-label")}
+                            label={t("organisation-public.reservation.additional-days-off.from-label")}
                             type="date"
                             value={editDraft.vonDate}
                             onChange={(e) => setEditDraft((d) => (d ? {...d, vonDate: e.target.value} : d))}
@@ -152,7 +152,7 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
                             slotProps={{inputLabel: {shrink: true}}}
                         />
                         <TextField
-                            label={t("organisation-public.anlass.ausfalltage.bis-label")}
+                            label={t("organisation-public.reservation.additional-days-off.to-label")}
                             type="date"
                             value={editDraft.bisDate}
                             onChange={(e) => setEditDraft((d) => (d ? {...d, bisDate: e.target.value} : d))}
@@ -180,9 +180,9 @@ export function ZusatzlicheAusfalltageTable(): ReactElement {
                 open={Boolean(deleteId)}
                 onClose={() => setDeleteId(null)}
                 onConfirm={() => setDeleteId(null)}
-                title={t("organisation-public.anlass.ausfalltage.delete-title")}
+                title={t("organisation-public.reservation.additional-days-off.delete-title")}
             >
-                {t("organisation-public.anlass.ausfalltage.delete-body")}
+                {t("organisation-public.reservation.additional-days-off.delete-body")}
             </ConfirmDeleteDialog>
         </>
     )

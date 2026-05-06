@@ -101,7 +101,7 @@ export const CreateOrgDialog = ({open, onClose, onSave, onValidationError}: Crea
     const handleSave = () => {
         const trimmedName = name.trim()
         if (!trimmedName) {
-            onValidationError(t("stammdaten.organisationen-table.validation-organisation-name"))
+            onValidationError(t("master-data.organisations-table.validation-organisation-name"))
             return
         }
         const contactDraft: ContactAddress = {
@@ -120,11 +120,11 @@ export const CreateOrgDialog = ({open, onClose, onSave, onValidationError}: Crea
 
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-            <DialogTitle>{t("stammdaten.organisationen-table.create-organisation-title")}</DialogTitle>
+            <DialogTitle>{t("master-data.organisations-table.create-organisation-title")}</DialogTitle>
             <DialogContent className={styles.dialogContent}>
                 <Stack spacing={2} sx={{mt: 1}}>
                     <TextField
-                        label={t("stammdaten.organisationen-table.columns.organisation-name")}
+                        label={t("master-data.organisations-table.columns.organisation-name")}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
@@ -141,9 +141,9 @@ export const CreateOrgDialog = ({open, onClose, onSave, onValidationError}: Crea
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose}>{t("stammdaten.organisationen-table.cancel")}</Button>
+                <Button onClick={onClose}>{t("master-data.organisations-table.cancel")}</Button>
                 <Button variant="contained" onClick={handleSave}>
-                    {t("stammdaten.organisationen-table.save")}
+                    {t("master-data.organisations-table.save")}
                 </Button>
             </DialogActions>
         </Dialog>
@@ -170,7 +170,7 @@ export const TrainerDialog = ({open, mode, trainer, onClose, onSave, onValidatio
         const fn = firstName.trim()
         const ln = lastName.trim()
         if (!fn || !ln) {
-            onValidationError(t("stammdaten.organisationen-table.validation-trainer-name"))
+            onValidationError(t("master-data.organisations-table.validation-trainer-name"))
             return
         }
         if (mode === "create") {
@@ -197,33 +197,33 @@ export const TrainerDialog = ({open, mode, trainer, onClose, onSave, onValidatio
         <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
             <DialogTitle>
                 {mode === "create"
-                    ? t("stammdaten.organisationen-table.create-trainer-title")
-                    : t("stammdaten.organisationen-table.edit-trainer-title")}
+                    ? t("master-data.organisations-table.create-trainer-title")
+                    : t("master-data.organisations-table.edit-trainer-title")}
             </DialogTitle>
             <DialogContent className={styles.dialogContent}>
                 <Stack spacing={2} sx={{mt: 1}}>
                     <TextField
-                        label={t("stammdaten.organisationen-table.columns.first-name")}
+                        label={t("master-data.organisations-table.columns.first-name")}
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         required
                         fullWidth
                     />
                     <TextField
-                        label={t("stammdaten.organisationen-table.columns.last-name")}
+                        label={t("master-data.organisations-table.columns.last-name")}
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         required
                         fullWidth
                     />
                     <TextField
-                        label={t("stammdaten.organisationen-table.columns.phone")}
+                        label={t("master-data.organisations-table.columns.phone")}
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         fullWidth
                     />
                     <TextField
-                        label={t("stammdaten.organisationen-table.columns.email")}
+                        label={t("master-data.organisations-table.columns.email")}
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -232,9 +232,9 @@ export const TrainerDialog = ({open, mode, trainer, onClose, onSave, onValidatio
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose}>{t("stammdaten.organisationen-table.cancel")}</Button>
+                <Button onClick={onClose}>{t("master-data.organisations-table.cancel")}</Button>
                 <Button variant="contained" onClick={handleSave}>
-                    {t("stammdaten.organisationen-table.save")}
+                    {t("master-data.organisations-table.save")}
                 </Button>
             </DialogActions>
         </Dialog>

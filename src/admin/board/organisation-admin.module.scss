@@ -10,7 +10,7 @@
     flex-shrink: 0;
 }
 
-.anlaesseSection {
+.reservationsSection {
     flex: 1;
     min-height: 0;
     display: flex;
@@ -38,7 +38,7 @@
         overflow: visible;
     }
 
-    .anlaesseSection {
+    .reservationsSection {
         flex: 0 1 auto;
         min-height: 0;
     }

@@ -5,7 +5,7 @@ import {ContactDetails} from "../../components/contact-box"
 import {PageTitle} from "../../components/page-title"
 import {getOrganisationById} from "../../dummyData"
 import styles from "./organisation-admin.module.scss"
-import AnlaesseCardList from "./reservation.list"
+import ReservationsCardList from "./reservation.list"
 
 export const OrganisationAdminPage: React.FC = () => {
     const {orgId} = useParams<{orgId: string}>()
@@ -37,8 +37,8 @@ export const OrganisationAdminPage: React.FC = () => {
                     />
                 </div>
             </div>
-            <div className={styles.anlaesseSection}>
-                <AnlaesseCardList anlaesse={organisation.anlaesse} organisation={organisation} />
+            <div className={styles.reservationsSection}>
+                <ReservationsCardList reservations={organisation.reservations} organisation={organisation} />
             </div>
         </div>
     )

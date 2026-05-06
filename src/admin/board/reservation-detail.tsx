@@ -6,31 +6,31 @@ import {AppBreadcrumbs} from "../../components/breadcrumbs"
 import {PageTitle} from "../../components/page-title"
 import {SportIconBadge} from "../../components/sport-icon-badge"
 import {getOrganisationById} from "../../dummyData"
-import {resolveAnlassFromOrganisation} from "./organisation"
+import {resolveReservationFromOrganisation} from "./organisation"
 import styles from "./reservation-detail.module.scss"
-import {AnlassHistoryLog} from "./reservation/reservation-history.log"
-import {AnlassKurseControlTable} from "./reservation/reservation-training.table"
+import {ReservationHistoryLog} from "./reservation/reservation-history.log"
+import {ReservationTrainingsTable} from "./reservation/reservation-training.table"
 
-export const AnlassDetail: React.FC = () => {
+export const ReservationDetail: React.FC = () => {
     const {orgId, anlassId} = useParams<{orgId: string; anlassId: string}>()
     const organisation = orgId ? getOrganisationById(orgId) : undefined
-    const anlass = organisation && anlassId ? organisation.anlaesse.find((a) => a.id === anlassId) : undefined
+    const reservation = organisation && anlassId ? organisation.reservations.find((r) => r.id === anlassId) : undefined
     const {t} = useTranslation("dashboard")
-    const anlassForDisplay = anlass ? resolveAnlassFromOrganisation(anlass, organisation) : undefined
+    const reservationForDisplay = reservation ? resolveReservationFromOrganisation(reservation, organisation) : undefined
 
-    const title = anlassForDisplay
-        ? `${anlassForDisplay.name} - ${anlassForDisplay.location ?? "-"}`
-        : t("dashboard:organisation-admin.anlass-detail.fallback-title")
+    const title = reservationForDisplay
+        ? `${reservationForDisplay.name} - ${reservationForDisplay.location ?? "-"}`
+        : t("dashboard:organisation-admin.reservation-detail.fallback-title")
 
-    const periodLabel = anlassForDisplay ? (anlassForDisplay.period ?? "—") : null
+    const periodLabel = reservationForDisplay ? (reservationForDisplay.period ?? "—") : null
 
     return (
         <>
             <div className={styles.topBar}>
                 <div className={styles.breadcrumbsWrapper}>
-                    <AppBreadcrumbs variant="anlass-detail" organisation={organisation} anlass={anlass} />
+                    <AppBreadcrumbs variant="reservation-detail" organisation={organisation} reservation={reservationForDisplay} />
                 </div>
-                {anlassForDisplay ? <SportIconBadge icon={anlassForDisplay.sportIcon} /> : null}
+                {reservationForDisplay ? <SportIconBadge icon={reservationForDisplay.sportIcon} /> : null}
             </div>
             <PageTitle title={title} />
             {periodLabel ? (
@@ -39,18 +39,18 @@ export const AnlassDetail: React.FC = () => {
                     <span>{periodLabel}</span>
                 </div>
             ) : null}
-            {!anlassForDisplay ? <p>{t("dashboard:organisation-admin.anlass-detail.empty")}</p> : null}
-            {anlassForDisplay ? (
+            {!reservationForDisplay ? <p>{t("dashboard:organisation-admin.reservation-detail.empty")}</p> : null}
+            {reservationForDisplay ? (
                 <>
-                    <AnlassHistoryLog
-                        title={t("dashboard:organisation-admin.anlass-detail.history-title")}
-                        emptyText={t("dashboard:organisation-admin.anlass-detail.history-empty")}
-                        entries={anlassForDisplay.history ?? []}
-                        status={anlassForDisplay.status}
+                    <ReservationHistoryLog
+                        title={t("dashboard:organisation-admin.reservation-detail.history-title")}
+                        emptyText={t("dashboard:organisation-admin.reservation-detail.history-empty")}
+                        entries={reservationForDisplay.history ?? []}
+                        status={reservationForDisplay.status}
                     />
-                    <div className={styles.kurseTableSection}>
-                        <PageTitle title={t("dashboard:organisation-admin.anlass-detail.kurse-table.title")} isSubTitle />
-                        <AnlassKurseControlTable />
+                    <div className={styles.trainingsTableSection}>
+                        <PageTitle title={t("dashboard:organisation-admin.reservation-detail.trainings-table.title")} isSubTitle />
+                        <ReservationTrainingsTable />
                     </div>
                 </>
             ) : null}

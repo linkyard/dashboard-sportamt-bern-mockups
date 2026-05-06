@@ -7,7 +7,7 @@ import {useTranslation} from "react-i18next"
 import {Navigate, Outlet, Route, Routes} from "react-router"
 import {BoardDetail} from "../admin/board/board-detail"
 import {OrganisationAdminPage} from "../admin/board/organisation.admin"
-import {AnlassDetail} from "../admin/board/reservation-detail"
+import {ReservationDetail} from "../admin/board/reservation-detail"
 import {Dashboard} from "../admin/dashboard"
 import {HolidayEditorPage} from "../admin/master-data/holiday/holiday-closures.editor"
 import {StammdatenEditor} from "../admin/master-data/master-data"
@@ -50,7 +50,7 @@ export function RouteIndex() {
                 <Route path="/organisationen/:orgId/anlass/:anlassId" element={<OrganisationPublicAnlassEditor />} />
                 <Route path="/organisationen/:orgId" element={<OrganisationPublicPage />} />
                 <Route path="/organisation-admin" element={<Navigate to="/" replace />} />
-                <Route path="/organisation-admin/:orgId/anlass/:anlassId" element={<AnlassDetail />} />
+                <Route path="/organisation-admin/:orgId/anlass/:anlassId" element={<ReservationDetail />} />
                 <Route path="/organisation-admin/:orgId" element={<OrganisationAdminPage />} />
                 <Route path="/board" element={<BoardDetail />} />
                 <Route path="/board/:boardId" element={<BoardDetail />} />

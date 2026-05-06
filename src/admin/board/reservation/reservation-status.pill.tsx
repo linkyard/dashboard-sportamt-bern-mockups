@@ -1,7 +1,7 @@
 import {faCheckCircle, faClock} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {useTranslation} from "react-i18next"
-import type {AnlassStatus} from "../organisation"
+import type {ReservationStatus} from "../organisation"
 import styles from "./reservation-status.pill.module.scss"
 
 const statusVariantByValue: Record<string, string> = {
@@ -9,17 +9,17 @@ const statusVariantByValue: Record<string, string> = {
     confirmed: "confirmed",
 }
 
-type AnlassStatusPillProps = {
-    status?: AnlassStatus
+type ReservationStatusPillProps = {
+    status?: ReservationStatus
     /** Single-line / table contexts */
     compact?: boolean
 }
 
-export const AnlassStatusPill = ({status, compact}: AnlassStatusPillProps) => {
+export const ReservationStatusPill = ({status, compact}: ReservationStatusPillProps) => {
     const {t} = useTranslation("dashboard")
     const statusValue = status ?? "pending"
     const statusVariant = statusVariantByValue[statusValue] ?? "pending"
-    const statusLabel = t(`organisation-admin.anlaesse.status.${statusValue}`)
+    const statusLabel = t(`organisation-admin.reservations.status.${statusValue}`)
 
     return (
         <div

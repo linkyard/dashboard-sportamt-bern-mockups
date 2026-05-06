@@ -75,8 +75,8 @@ export const Dashboard = () => {
                 Cell: ({row}) => {
                     const c = row.original.anlaesseConfirmed
                     const n = row.original.anlaesseTotal
-                    const label = t("dashboard:dashboard.table.anlaesse-fraction", {confirmed: c, total: n})
-                    const detail = t("dashboard:dashboard.table.anlaesse-fraction-detail", {confirmed: c, total: n})
+                    const label = t("dashboard:dashboard.table.reservations-fraction", {confirmed: c, total: n})
+                    const detail = t("dashboard:dashboard.table.reservations-fraction-detail", {confirmed: c, total: n})
                     return (
                         <Tooltip title={detail} arrow>
                             <span className={styles.bestaetigtFraction}>{label}</span>

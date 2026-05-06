@@ -5,7 +5,7 @@ import Link from "@mui/material/Link"
 import type {TFunction} from "i18next"
 import {useTranslation} from "react-i18next"
 import {Link as RouterLink} from "react-router"
-import {resolveAnlassFromOrganisation, type Anlass, type Organisation} from "../admin/board/organisation"
+import {resolveReservationFromOrganisation, type Organisation, type Reservation} from "../admin/board/organisation"
 import {getBoardById} from "../dummyData"
 import styles from "./breadcrumbs.module.scss"
 
@@ -14,9 +14,14 @@ type Crumb = {label: string; to?: string}
 export type AppBreadcrumbsProps =
     | {variant: "board-detail"; boardName: string; isNew: boolean}
     | {variant: "organisation-admin"; organisation: Organisation}
-    | {variant: "anlass-detail"; organisation: Organisation | undefined; anlass: Anlass | undefined}
-    | {variant: "organisation-public-anlass"; orgId: string | undefined; organisation: Organisation | undefined; anlass: Anlass | undefined}
-    | {variant: "ferien-editor"; holidayName: string}
+    | {variant: "reservation-detail"; organisation: Organisation | undefined; reservation: Reservation | undefined}
+    | {
+          variant: "organisation-public-anlass"
+          orgId: string | undefined
+          organisation: Organisation | undefined
+          anlass: Reservation | undefined
+      }
+    | {variant: "holidays-editor"; holidayName: string}
     | {variant: "organisation-editor"; organisationName: string}
 
 function dashboardAndBoard(organisation: Organisation | undefined, t: TFunction<"dashboard">): Crumb[] {
@@ -84,20 +89,20 @@ export const AppBreadcrumbs: React.FC<AppBreadcrumbsProps> = (props) => {
                 />
             )
         }
-        case "anlass-detail": {
-            const {organisation, anlass} = props
-            const anlassName =
-                (anlass ? resolveAnlassFromOrganisation(anlass, organisation) : undefined)?.name?.trim() ||
-                t("dashboard:organisation-admin.anlass-detail.fallback-title")
+        case "reservation-detail": {
+            const {organisation, reservation} = props
+            const reservationName =
+                (reservation ? resolveReservationFromOrganisation(reservation, organisation) : undefined)?.name?.trim() ||
+                t("dashboard:organisation-admin.reservation-detail.fallback-title")
             return (
                 <BreadcrumbsList
                     items={[
                         ...dashboardAndBoard(organisation, t),
                         {
                             to: organisation?.id ? `/organisation-admin/${organisation.id}` : "/",
-                            label: organisation?.organisation || t("dashboard:organisation-admin.anlass-detail.breadcrumb-fallback"),
+                            label: organisation?.organisation || t("dashboard:organisation-admin.reservation-detail.breadcrumb-fallback"),
                         },
-                        {label: anlassName},
+                        {label: reservationName},
                     ]}
                 />
             )
@@ -105,8 +110,8 @@ export const AppBreadcrumbs: React.FC<AppBreadcrumbsProps> = (props) => {
         case "organisation-public-anlass": {
             const {orgId, organisation, anlass} = props
             const anlassName =
-                (anlass ? resolveAnlassFromOrganisation(anlass, organisation) : undefined)?.name?.trim() ||
-                t("dashboard:organisation-admin.anlass-detail.fallback-title")
+                (anlass ? resolveReservationFromOrganisation(anlass, organisation) : undefined)?.name?.trim() ||
+                t("dashboard:organisation-admin.reservation-detail.fallback-title")
             const organisationLabel = organisation?.organisation?.trim() || t("dashboard:organisation-public.fallback-title")
             const items: Crumb[] = []
             if (orgId) {
@@ -115,14 +120,14 @@ export const AppBreadcrumbs: React.FC<AppBreadcrumbsProps> = (props) => {
             items.push({label: anlassName})
             return <BreadcrumbsList items={items} />
         }
-        case "ferien-editor": {
+        case "holidays-editor": {
             const {holidayName} = props
             return (
                 <BreadcrumbsList
                     items={[
-                        {to: "/admin/stammdaten/ferien", label: t("dashboard:stammdaten.tabs.ferien")},
+                        {to: "/admin/stammdaten/ferien", label: t("dashboard:master-data.tabs.holidays")},
                         {
-                            label: holidayName.trim() ? holidayName : t("dashboard:stammdaten.ferien-editor.breadcrumb-current"),
+                            label: holidayName.trim() ? holidayName : t("dashboard:master-data.holidays-editor.breadcrumb-current"),
                         },
                     ]}
                 />
@@ -133,11 +138,11 @@ export const AppBreadcrumbs: React.FC<AppBreadcrumbsProps> = (props) => {
             return (
                 <BreadcrumbsList
                     items={[
-                        {to: "/admin/stammdaten/organisationen", label: t("dashboard:stammdaten.tabs.organisationen")},
+                        {to: "/admin/stammdaten/organisationen", label: t("dashboard:master-data.tabs.organisations")},
                         {
                             label: organisationName.trim()
                                 ? organisationName
-                                : t("dashboard:stammdaten.organisationen-editor.breadcrumb-current"),
+                                : t("dashboard:master-data.organisation-editor.breadcrumb-current"),
                         },
                     ]}
                 />

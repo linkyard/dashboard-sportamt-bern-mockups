@@ -66,7 +66,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
         () => [
             {
                 accessorKey: "name",
-                header: t("stammdaten.objekte-table.columns.name"),
+                header: t("master-data.objects-table.columns.name"),
                 grow: true,
                 size: 200,
                 minSize: 200,
@@ -78,7 +78,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
             {
                 id: "objekteCount",
                 accessorFn: (row) => (row.rowKind === "location" ? row.subRows.length : null),
-                header: t("stammdaten.objekte-table.columns.objekteCount"),
+                header: t("master-data.objects-table.columns.object-count"),
                 size: 88,
                 maxSize: 88,
                 minSize: 88,
@@ -266,7 +266,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                             setLocationDialog({mode: "create"})
                         }}
                     >
-                        {t("stammdaten.objekte-table.add-location")}
+                        {t("master-data.objects-table.add-location")}
                     </Button>
                 }
             />
@@ -331,13 +331,13 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                     onConfirm={() => setDeleteTarget(null)}
                     title={
                         deleteTarget.kind === "location"
-                            ? t("stammdaten.objekte-table.delete-location-title")
-                            : t("stammdaten.objekte-table.delete-objekt-title")
+                            ? t("master-data.objects-table.delete-location-title")
+                            : t("master-data.objects-table.delete-object-title")
                     }
                 >
                     {deleteTarget.kind === "location"
-                        ? t("stammdaten.objekte-table.delete-location-body")
-                        : t("stammdaten.objekte-table.delete-objekt-body")}
+                        ? t("master-data.objects-table.delete-location-body")
+                        : t("master-data.objects-table.delete-object-body")}
                 </ConfirmDeleteDialog>
             ) : null}
 
@@ -370,10 +370,10 @@ function LocationTableActions({row, locations, setLocationDialog, setObjektDialo
         <Box className={styles.rowActions}>
             <Box className={styles.rowActionsAddWrapper}>
                 {row.original.rowKind === "location" ? (
-                    <Tooltip title={t("stammdaten.objekte-table.add-objekt")}>
+                    <Tooltip title={t("master-data.objects-table.add-object")}>
                         <IconButton
                             size="small"
-                            aria-label={t("stammdaten.objekte-table.add-objekt")}
+                            aria-label={t("master-data.objects-table.add-object")}
                             onClick={() => setObjektDialog({mode: "create", locationId: row.original.id})}
                         >
                             <FontAwesomeIcon icon={faPlus} />
@@ -381,10 +381,10 @@ function LocationTableActions({row, locations, setLocationDialog, setObjektDialo
                     </Tooltip>
                 ) : null}
             </Box>
-            <Tooltip title={t("stammdaten.objekte-table.edit")}>
+            <Tooltip title={t("master-data.objects-table.edit")}>
                 <IconButton
                     size="small"
-                    aria-label={t("stammdaten.objekte-table.edit")}
+                    aria-label={t("master-data.objects-table.edit")}
                     onClick={() => {
                         const r = row.original
                         if (r.rowKind === "location") {
@@ -401,10 +401,10 @@ function LocationTableActions({row, locations, setLocationDialog, setObjektDialo
                     <FontAwesomeIcon icon={faPenToSquare} />
                 </IconButton>
             </Tooltip>
-            <Tooltip title={t("stammdaten.objekte-table.delete")}>
+            <Tooltip title={t("master-data.objects-table.delete")}>
                 <IconButton
                     size="small"
-                    aria-label={t("stammdaten.objekte-table.delete")}
+                    aria-label={t("master-data.objects-table.delete")}
                     onClick={() => {
                         const r = row.original
                         if (r.rowKind === "location") {

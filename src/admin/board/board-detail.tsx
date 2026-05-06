@@ -146,12 +146,12 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
                     </div>
 
                     <div className={`${styles.fieldGroup} ${styles.comment}`}>
-                        <FieldLabel htmlFor="board-detail-bemerkung">{t("board-detail.fields.bemerkung")}</FieldLabel>
+                        <FieldLabel htmlFor="board-detail-bemerkung">{t("board-detail.fields.comment")}</FieldLabel>
                         <DetailsTextarea
                             id="board-detail-bemerkung"
                             value={bemerkung}
                             onChange={(event) => setBemerkung(event.target.value)}
-                            placeholder={t("board-detail.fields.bemerkung-placeholder")}
+                            placeholder={t("board-detail.fields.comment-placeholder")}
                         />
                     </div>
 

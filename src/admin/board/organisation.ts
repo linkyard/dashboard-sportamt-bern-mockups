@@ -16,31 +16,31 @@ export type Organisation = {
     organisation: string
     contact: ContactAddress
     billingContact?: ContactAddress
-    anlaesse: Anlass[]
+    reservations: Reservation[]
 }
 
-export type AnlassStatus = "pending" | "confirmed"
+export type ReservationStatus = "pending" | "confirmed"
 
-export type AnlassHistoryEntry = {
+export type ReservationHistoryEntry = {
     id: string
     title: string
     actorName: string
     atLabel: string
 }
 
-export type Anlass = {
+export type Reservation = {
     id: string
     name: string
     sportIcon: IconProp
     period?: string
     location?: string
     times?: string[]
-    status?: AnlassStatus
-    history?: AnlassHistoryEntry[]
+    status?: ReservationStatus
+    history?: ReservationHistoryEntry[]
 }
 
 // Wont be needed when graphql is set up:
-export function resolveAnlassFromOrganisation(anlass: Anlass, organisation: Organisation | undefined): Anlass {
-    if (!organisation?.anlaesse.length) return anlass
-    return organisation.anlaesse.find((row) => row.id === anlass.id) ?? anlass
+export function resolveReservationFromOrganisation(reservation: Reservation, organisation: Organisation | undefined): Reservation {
+    if (!organisation?.reservations.length) return reservation
+    return organisation.reservations.find((row) => row.id === reservation.id) ?? reservation
 }

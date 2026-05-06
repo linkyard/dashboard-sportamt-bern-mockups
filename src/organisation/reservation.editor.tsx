@@ -4,7 +4,7 @@ import {Button} from "@mui/material"
 import {useState} from "react"
 import {useTranslation} from "react-i18next"
 import {useParams} from "react-router"
-import {resolveAnlassFromOrganisation} from "../admin/board/organisation"
+import {resolveReservationFromOrganisation} from "../admin/board/organisation"
 import anlassDetailStyles from "../admin/board/reservation-detail.module.scss"
 import {AppBreadcrumbs} from "../components/breadcrumbs"
 import {LocationSelect} from "../components/location-select"
@@ -26,24 +26,24 @@ function teilnehmendeTotals(male: string, female: string, under20: string) {
 export const OrganisationPublicAnlassEditor: React.FC = () => {
     const {orgId, anlassId} = useParams<{orgId: string; anlassId: string}>()
     const organisation = getOrganisationForPublicPage(orgId)
-    const anlassClicked = organisation && anlassId ? organisation.anlaesse.find((a) => a.id === anlassId) : undefined
-    const anlassInfo = anlassClicked ? resolveAnlassFromOrganisation(anlassClicked, organisation) : undefined
+    const anlassClicked = organisation && anlassId ? organisation.reservations.find((a) => a.id === anlassId) : undefined
+    const anlassInfo = anlassClicked ? resolveReservationFromOrganisation(anlassClicked, organisation) : undefined
     const {t} = useTranslation("dashboard")
 
     const [maleTeilnehmerCount, setMaleTeilnehmerCount] = useState("")
     const [femaleTeilnehmerCount, setFemaleTeilnehmerCount] = useState("")
     const [under20TeilnehmerCount, setUnder20TeilnehmerCount] = useState("")
 
-    const title = anlassInfo ? anlassInfo.name : t("organisation-public.anlass.not-found-title")
+    const title = anlassInfo ? anlassInfo.name : t("organisation-public.reservation.not-found-title")
 
     const organisationLocationOptions = [
-        ...new Set((organisation?.anlaesse ?? []).flatMap(({location}) => (location ? [location] : []))),
+        ...new Set((organisation?.reservations ?? []).flatMap(({location}) => (location ? [location] : []))),
     ].sort((a, b) => a.localeCompare(b, "de"))
 
     if (!organisation || !anlassInfo) {
         const badge =
             organisation && anlassClicked ? (
-                <SportIconBadge icon={resolveAnlassFromOrganisation(anlassClicked, organisation).sportIcon} />
+                <SportIconBadge icon={resolveReservationFromOrganisation(anlassClicked, organisation).sportIcon} />
             ) : null
 
         return (
@@ -60,7 +60,7 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
                     {badge}
                 </div>
                 <PageTitle title={title} />
-                <p>{t("organisation-public.anlass.not-found-body")}</p>
+                <p>{t("organisation-public.reservation.not-found-body")}</p>
             </>
         )
     }
@@ -88,10 +88,10 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
                 </div>
                 <div className={styles.titleBandActions}>
                     <Button variant="outlined" color="inherit" sx={{borderColor: "#c4c4c4", color: "#222"}}>
-                        {t("organisation-public.anlass.actions.cancel-reservation")}
+                        {t("organisation-public.reservation.actions.cancel-reservation")}
                     </Button>
                     <Button variant="contained" color="primary">
-                        {t("organisation-public.anlass.actions.confirm-reservation")}
+                        {t("organisation-public.reservation.actions.confirm-reservation")}
                     </Button>
                 </div>
             </div>
@@ -109,9 +109,9 @@ export const OrganisationPublicAnlassEditor: React.FC = () => {
                 <section className={styles.sectionCard}>
                     <div className={styles.sectionHeading}>
                         <PageTitle
-                            title={t("organisation-public.anlass.teilnehmerliste-title")}
+                            title={t("organisation-public.reservation.participants-list-title")}
                             isSubTitle
-                            toolTipContent={t("organisation-public.anlass.section-info-tooltip")}
+                            toolTipContent={t("organisation-public.reservation.section-info-tooltip")}
                         />
                     </div>
                     <UploadSection variant="pdf" onFilesChange={() => undefined} isUploadSuccess={false} flushTop />

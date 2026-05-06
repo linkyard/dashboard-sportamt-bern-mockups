@@ -10,18 +10,18 @@ import {useState} from "react"
 import {useTranslation} from "react-i18next"
 import {FieldLabel} from "../../../components/field-label"
 import {DetailsTextarea} from "../../../components/inputs"
-import type {AnlassHistoryEntry, AnlassStatus} from "../organisation"
+import type {ReservationHistoryEntry, ReservationStatus} from "../organisation"
 import styles from "./reservation-history.log.module.scss"
-import {AnlassStatusPill} from "./reservation-status.pill"
+import {ReservationStatusPill} from "./reservation-status.pill"
 
-type AnlassHistoryLogProps = {
+type ReservationHistoryLogProps = {
     title: string
     emptyText: string
-    entries: AnlassHistoryEntry[]
-    status?: AnlassStatus
+    entries: ReservationHistoryEntry[]
+    status?: ReservationStatus
 }
 
-export const AnlassHistoryLog = ({title, emptyText, entries, status}: AnlassHistoryLogProps) => {
+export const ReservationHistoryLog = ({title, emptyText, entries, status}: ReservationHistoryLogProps) => {
     const {t} = useTranslation("dashboard")
     const [comment, setComment] = useState("")
 
@@ -29,7 +29,7 @@ export const AnlassHistoryLog = ({title, emptyText, entries, status}: AnlassHist
         <Box component="section" aria-label={title}>
             <div className={styles.historyHeader}>
                 <h2 className={styles.sectionTitle}>{title}</h2>
-                <AnlassStatusPill status={status} />
+                <ReservationStatusPill status={status} />
             </div>
             <div className={styles.panel}>
                 <div className={styles.timelineArea}>
@@ -59,12 +59,12 @@ export const AnlassHistoryLog = ({title, emptyText, entries, status}: AnlassHist
                     )}
                 </div>
                 <div className={styles.commentSection}>
-                    <FieldLabel htmlFor="anlass-history-comment">{t("board-detail.fields.bemerkung")}</FieldLabel>
+                    <FieldLabel htmlFor="anlass-history-comment">{t("board-detail.fields.comment")}</FieldLabel>
                     <DetailsTextarea
                         id="anlass-history-comment"
                         value={comment}
                         onChange={(event) => setComment(event.target.value)}
-                        placeholder={t("board-detail.fields.bemerkung-placeholder")}
+                        placeholder={t("board-detail.fields.comment-placeholder")}
                     />
                 </div>
             </div>

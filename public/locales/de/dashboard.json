@@ -3,7 +3,7 @@
         "title": "Dashboard",
         "topbar": {
             "top-bar-menu-aria-label": "Top-bar Menü öffnen",
-            "stammdaten": "Stammdaten",
+            "master-data": "Stammdaten",
             "user-menu-aria-label": "Benutzer Menü öffnen",
             "logout": "Abmelden",
             "profile": "Profil"
@@ -23,8 +23,8 @@
                 "erstellt": "Versendet",
                 "versandBereit": "Versandbereit"
             },
-            "anlaesse-fraction": "{{confirmed}} / {{total}}",
-            "anlaesse-fraction-detail": "{{confirmed}} von {{total}} Anlässen bestätigt"
+            "reservations-fraction": "{{confirmed}} / {{total}}",
+            "reservations-fraction-detail": "{{confirmed}} von {{total}} Anlässen bestätigt"
         }
     },
     "board-detail": {
@@ -32,10 +32,10 @@
         "status-erstellt": "Erstellt",
         "save-to-enable-upload": "Speichern Sie zuerst, um Organisationen hochzuladen.",
         "fields": {
-            "bemerkung": "Bemerkung",
+            "comment": "Bemerkung",
             "start-date": "Start",
             "end-date": "End",
-            "bemerkung-placeholder": "Bemerkung"
+            "comment-placeholder": "Bemerkung"
         },
         "upload": {
             "title": "Organisationen",
@@ -52,56 +52,56 @@
             "columns": {
                 "organisation": "Organisation",
                 "contact": "Kontakt",
-                "anlaesse-count": "Anlässe"
+                "reservations-count": "Anlässe"
             }
         }
     },
-    "stammdaten": {
+    "master-data": {
         "title": "Stammdaten",
         "tabs-aria-label": "Stammdaten-Bereiche",
         "tabs": {
-            "objekte": "Objekte",
-            "organisationen": "Organisationen",
-            "ferien": "Ferien"
+            "objects": "Objekte",
+            "organisations": "Organisationen",
+            "holidays": "Ferien"
         },
-        "objekte-table": {
+        "objects-table": {
             "add-location": "Standort hinzufügen",
-            "add-objekt": "Objekt hinzufügen",
-            "add-objekt-short": "+ Objekt",
-            "add-another-objekt": "Weiteres Objekt",
-            "remove-objekt-draft": "Dieses Objekt entfernen",
-            "objekte-section": "Objekte (mindestens eines erforderlich)",
-            "objekt-name-label": "Objektname",
+            "add-object": "Objekt hinzufügen",
+            "add-object-short": "+ Objekt",
+            "add-another-object": "Weiteres Objekt",
+            "remove-object-draft": "Dieses Objekt entfernen",
+            "objects-section": "Objekte (mindestens eines erforderlich)",
+            "object-name-label": "Objektname",
             "columns": {
                 "name": "Name",
-                "objekteCount": "Objekte"
+                "object-count": "Objekte"
             },
             "cancel": "Abbrechen",
             "save": "Speichern",
             "edit": "Bearbeiten",
             "delete": "Löschen",
-            "objekte-count": "{{count}} Objekte",
+            "object-count": "{{count}} Objekte",
             "create-location-title": "Standort anlegen",
             "edit-location-title": "Standort bearbeiten",
-            "create-objekt-title": "Objekt anlegen",
-            "edit-objekt-title": "Objekt bearbeiten",
+            "create-object-title": "Objekt anlegen",
+            "edit-object-title": "Objekt bearbeiten",
             "delete-location-title": "Standort löschen?",
-            "delete-objekt-title": "Objekt löschen?",
+            "delete-object-title": "Objekt löschen?",
             "delete-location-body": "Der Standort und alle zugehörigen Objekte werden entfernt.",
-            "delete-objekt-body": "Dieses Objekt wird unwiderruflich gelöscht.",
+            "delete-object-body": "Dieses Objekt wird unwiderruflich gelöscht.",
             "validation-location-name": "Bitte einen Standortnamen angeben.",
-            "validation-min-one-objekt": "Mindestens ein Objekt ist erforderlich.",
-            "validation-objekt-name": "Bitte für jedes Objekt einen Namen angeben.",
-            "last-objekt-error": "Das letzte Objekt eines Standorts kann nicht gelöscht werden."
+            "validation-min-one-object": "Mindestens ein Objekt ist erforderlich.",
+            "validation-object-name": "Bitte für jedes Objekt einen Namen angeben.",
+            "last-object-error": "Das letzte Objekt eines Standorts kann nicht gelöscht werden."
         },
-        "organisationen-table": {
+        "organisations-table": {
             "add-organisation": "Organisation hinzufügen",
             "add-trainer": "Trainer hinzufügen",
             "list-aria-label": "Liste der Organisationen",
             "trainers-section": "Trainer",
             "no-trainers": "Noch keine Trainer. Verwenden Sie «Trainer hinzufügen», um einen Eintrag anzulegen.",
             "trainer-no-contact": "Keine Telefonnummer oder E-Mail hinterlegt.",
-            "empty-organisationen": "Noch keine Organisationen angelegt.",
+            "empty-organisations": "Noch keine Organisationen angelegt.",
             "columns": {
                 "name": "Name",
                 "organisation-name": "Organisation",
@@ -126,20 +126,20 @@
             "validation-organisation-name": "Bitte einen Organisationsnamen angeben.",
             "validation-trainer-name": "Bitte Vorname und Nachname angeben."
         },
-        "organisationen-editor": {
+        "organisation-editor": {
             "breadcrumb-current": "Organisation bearbeiten",
             "trainers-list-aria": "Trainer dieser Organisation"
         },
-        "ferien-table": {
+        "holidays-table": {
             "year-label": "Jahr",
             "add-holiday": "Ferien hinzufügen",
             "columns": {
                 "name": "Name",
                 "start": "Start",
                 "end": "Ende",
-                "closedObjekte": "Objekte"
+                "closed-objects": "Objekte"
             },
-            "closed-objekte-summary": "{{count}} Objekte geschlossen",
+            "closed-objects-summary": "{{count}} Objekte geschlossen",
             "closed-count-label": "Anzahl geschlossener Objekte",
             "cancel": "Abbrechen",
             "save": "Speichern",
@@ -155,15 +155,12 @@
             "validation-range": "Das Enddatum darf nicht vor dem Startdatum liegen.",
             "validation-closed-count": "Bitte eine gültige Anzahl (0 oder grösser) angeben."
         },
-        "ferien-editor": {
-            "presentation-toggle-label": "Darstellung (Demo)",
-            "presentation-classic": "Wochen links",
-            "presentation-columns": "Wochen als Spalten",
+        "holidays-editor": {
             "column-location-only": "Standort / Objekt",
             "column-week-n": "Woche {{week}}",
             "weeks-short-label": "Ferienwochen",
             "cell-location-week-aria": "{{location}} für Zeitraum {{range}}",
-            "cell-objekt-week-aria": "{{objekt}} für Zeitraum {{range}}",
+            "cell-object-week-aria": "{{objekt}} für Zeitraum {{range}}",
             "breadcrumb-current": "Bearbeiten",
             "name-placeholder": "Name der Ferien",
             "name-aria": "Name der Ferien",
@@ -178,7 +175,7 @@
             "expand-aria": "{{name}} aufklappen",
             "collapse-aria": "{{name}} zuklappen",
             "location-closed-aria": "Standort {{name}} während der ausgewählten Ferienwochen schliessen",
-            "objekt-closed-aria": "Objekt {{name}} während der ausgewählten Ferienwochen schliessen"
+            "object-closed-aria": "Objekt {{name}} während der ausgewählten Ferienwochen schliessen"
         }
     },
     "organisation-admin": {
@@ -197,21 +194,21 @@
             "email": "E-Mail",
             "phone": "Telefon"
         },
-        "anlaesse": {
+        "reservations": {
             "title": "Anlässe",
             "status": {
                 "pending": "Ausstehend",
                 "confirmed": "Bestätigt"
             }
         },
-        "anlass-detail": {
+        "reservation-detail": {
             "fallback-title": "Anlass",
             "empty": "Kein Anlass ausgewählt.",
             "breadcrumb-fallback": "Organisation",
             "back-aria-label": "Zurück zur Organisationsverwaltung",
             "history-title": "Verlaufsprotokoll",
             "history-empty": "Noch keine Einträge im Verlauf.",
-            "kurse-table": {
+            "trainings-table": {
                 "title": "Kurse",
                 "list-aria-label": "Kurse für öffentliche Anlassseite",
                 "add": "Kurs erfassen",
@@ -221,7 +218,7 @@
                 "columns": {
                     "weekday": "Wochentag",
                     "time": "Zeit",
-                    "objekte": "Objekte",
+                    "objects": "Objekte",
                     "trainers": "Trainer"
                 }
             }
@@ -236,16 +233,16 @@
         "not-found-title": "Organisation",
         "not-found-body": "Diese Seite existiert nicht oder der Organisationsname ist unbekannt.",
         "fallback-title": "Organisation",
-        "anlass": {
+        "reservation": {
             "not-found-title": "Anlass",
             "not-found-body": "Dieser Anlass oder diese Organisation wurde nicht gefunden.",
             "actions": {
                 "cancel-reservation": "Reservation Stornieren",
                 "confirm-reservation": "Reservation Bestätigen"
             },
-            "teilnehmende-title": "Teilnehmende",
-            "teilnehmerliste-title": "Teilnehmerliste",
-            "teilnehmerliste-upload": {
+            "participants-title": "Teilnehmende",
+            "participants-list-title": "Teilnehmerliste",
+            "participants-list-upload": {
                 "upload-title": "PDF hochladen",
                 "upload-text": "Ziehen Sie eine PDF-Datei hierher oder",
                 "file-meta": "pdf",
@@ -253,51 +250,51 @@
             },
             "section-info-tooltip": "hier angezeigte Informationen",
             "location-select-placeholder": "Standort auswählen",
-            "teilnehmende-fields": {
+            "participants-fields": {
                 "total-persons": "Total Anzahl Personen",
                 "male": "Anzahl männliche Teilnehmende",
                 "female": "Anzahl weibliche Teilnehmende",
                 "under-20": "Anzahl Teilnehmende unter 20-jährig"
             },
-            "ferien": {
+            "holidays": {
                 "title": "Ferien",
                 "empty-year": "Für {{year}} sind keine Ferien hinterlegt.",
                 "week-label": "Woche {{n}}",
                 "columns": {
                     "name": "Ferien",
-                    "von": "Von",
-                    "bis": "Bis",
-                    "benutzung": "Benützung"
+                    "from": "Von",
+                    "to": "Bis",
+                    "usage": "Benützung"
                 },
-                "benutzung-ferien-aria": "Benützung für {{name}} (alle Wochen)",
-                "benutzung-week-aria": "Benützung {{name}}"
+                "usage-holidays-aria": "Benützung für {{name}} (alle Wochen)",
+                "usage-week-aria": "Benützung {{name}}"
             },
-            "ausfalltage": {
+            "additional-days-off": {
                 "title": "Zusätzliche Ausfalltage",
                 "add-button": "Ausfalltag erfassen",
                 "columns": {
                     "grund": "Grund",
-                    "von": "Von",
-                    "bis": "Bis"
+                    "from": "Von",
+                    "to": "Bis"
                 },
                 "list-aria-label": "Zusätzliche Ausfalltage",
                 "edit-title": "Ausfalltag bearbeiten",
                 "delete-title": "Ausfalltag löschen?",
                 "delete-body": "Dieser Eintrag wird unwiderruflich entfernt.",
-                "grund-label": "Grund",
-                "von-label": "Von",
-                "bis-label": "Bis"
+                "reason-label": "Grund",
+                "from-label": "Von",
+                "to-label": "Bis"
             },
-            "kurse": {
+            "trainings": {
                 "title": "Kurse",
                 "tabs-aria": "Kurse nach Wochentag und Uhrzeit",
                 "trainer-label": "Trainer",
                 "trainer-placeholder": "Trainer auswählen…",
                 "trainer-add": "Trainer erfassen",
-                "objekte-label": "Objekte",
-                "objekt-delete-title": "Objekt entfernen?",
-                "objekt-delete-body": "„{{label}}“ wird aus diesem Kurs entfernt.",
-                "objekt-remove-aria": "{{label}} entfernen",
+                "objects-label": "Objekte",
+                "object-delete-title": "Objekt entfernen?",
+                "object-delete-body": "„{{label}}“ wird aus diesem Kurs entfernt.",
+                "object-remove-aria": "{{label}} entfernen",
                 "weekdays": {
                     "tuesday": "Dienstag",
                     "friday": "Freitag"

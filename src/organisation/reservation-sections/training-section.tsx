@@ -19,7 +19,7 @@ function TabLabel({weekdayKey, timeRange}: {weekdayKey: KursTimeBlock["weekdayKe
 
     return (
         <div className={styles.tabLabelWrap}>
-            <div className={styles.tabDay}>{t(`organisation-public.anlass.kurse.${weekdayKey}`)}</div>
+            <div className={styles.tabDay}>{t(`organisation-public.reservation.trainings.${weekdayKey}`)}</div>
             <div className={styles.tabTime}>{timeRange}</div>
         </div>
     )
@@ -69,9 +69,9 @@ export function KurseSection(): ReactElement {
         <section className={editorStyles.sectionCard}>
             <div className={editorStyles.sectionHeading}>
                 <PageTitle
-                    title={t("organisation-public.anlass.kurse.title")}
+                    title={t("organisation-public.reservation.trainings.title")}
                     isSubTitle
-                    toolTipContent={t("organisation-public.anlass.section-info-tooltip")}
+                    toolTipContent={t("organisation-public.reservation.section-info-tooltip")}
                 />
             </div>
 
@@ -82,7 +82,7 @@ export function KurseSection(): ReactElement {
                 variant="scrollable"
                 scrollButtons="auto"
                 allowScrollButtonsMobile
-                aria-label={t("organisation-public.anlass.kurse.tabs-aria")}
+                aria-label={t("organisation-public.reservation.trainings.tabs-aria")}
             >
                 {organisationPublicKursTimeBlocks.map((kursTimeBlock) => (
                     <Tab
@@ -103,7 +103,7 @@ export function KurseSection(): ReactElement {
                     <TabPanel key={kursTimeBlock.id} kursTimeBlockId={kursTimeBlock.id} tabsValue={activeKursTabId}>
                         <div className={styles.panel}>
                             <div className={styles.fieldBlock}>
-                                <span className={styles.fieldLabel}>{t("organisation-public.anlass.kurse.trainer-label")}</span>
+                                <span className={styles.fieldLabel}>{t("organisation-public.reservation.trainings.trainer-label")}</span>
                                 <div className={styles.trainerRow}>
                                     <FormControl size="small" fullWidth className={styles.trainerSelectWrap}>
                                         <Select
@@ -115,12 +115,12 @@ export function KurseSection(): ReactElement {
                                                     [kursTimeBlock.id]: e.target.value,
                                                 }))
                                             }
-                                            aria-label={t("organisation-public.anlass.kurse.trainer-label")}
+                                            aria-label={t("organisation-public.reservation.trainings.trainer-label")}
                                             renderValue={(value) => {
                                                 if (!value) {
                                                     return (
                                                         <span className={styles.mutedText}>
-                                                            {t("organisation-public.anlass.kurse.trainer-placeholder")}
+                                                            {t("organisation-public.reservation.trainings.trainer-placeholder")}
                                                         </span>
                                                     )
                                                 }
@@ -139,7 +139,7 @@ export function KurseSection(): ReactElement {
                                             }}
                                         >
                                             <MenuItem value="">
-                                                <em>{t("organisation-public.anlass.kurse.trainer-placeholder")}</em>
+                                                <em>{t("organisation-public.reservation.trainings.trainer-placeholder")}</em>
                                             </MenuItem>
                                             {organisationPublicTrainerOptions.map((opt) => (
                                                 <MenuItem key={opt.id} value={opt.id}>
@@ -154,13 +154,13 @@ export function KurseSection(): ReactElement {
                                         </Select>
                                     </FormControl>
                                     <Button variant="contained" color="primary" size="small" onClick={() => undefined}>
-                                        {t("organisation-public.anlass.kurse.trainer-add")}
+                                        {t("organisation-public.reservation.trainings.trainer-add")}
                                     </Button>
                                 </div>
                             </div>
 
                             <div className={styles.fieldBlock}>
-                                <span className={styles.fieldLabel}>{t("organisation-public.anlass.kurse.objekte-label")}</span>
+                                <span className={styles.fieldLabel}>{t("organisation-public.reservation.trainings.objects-label")}</span>
                                 <div className={styles.objekteChips}>
                                     {objekte.map((o) => (
                                         <Chip
@@ -174,7 +174,7 @@ export function KurseSection(): ReactElement {
                                                     <FontAwesomeIcon icon={faXmark} className={styles.objektChipDeleteX} />
                                                 </span>
                                             }
-                                            aria-label={t("organisation-public.anlass.kurse.objekt-remove-aria", {
+                                            aria-label={t("organisation-public.reservation.trainings.object-remove-aria", {
                                                 label: o.label,
                                             })}
                                         />
@@ -190,10 +190,10 @@ export function KurseSection(): ReactElement {
                 open={deleteObjektId !== null}
                 onClose={() => setDeleteObjektId(null)}
                 onConfirm={() => setDeleteObjektId(null)}
-                title={t("organisation-public.anlass.kurse.objekt-delete-title")}
+                title={t("organisation-public.reservation.trainings.object-delete-title")}
             >
                 {objektPendingDeletion
-                    ? t("organisation-public.anlass.kurse.objekt-delete-body", {label: objektPendingDeletion.label})
+                    ? t("organisation-public.reservation.trainings.object-delete-body", {label: objektPendingDeletion.label})
                     : null}
             </ConfirmDeleteDialog>
         </section>

@@ -39,25 +39,25 @@ function OrganisationEditorBody({initialOrg}: OrganisationEditorBodyProps) {
         () => [
             {
                 accessorKey: "firstName",
-                header: t("dashboard:stammdaten.organisationen-table.columns.first-name"),
+                header: t("dashboard:master-data.organisations-table.columns.first-name"),
                 grow: true,
                 Cell: ({row}) => <span className={tableStyles.ellipsis}>{row.original.firstName}</span>,
             },
             {
                 accessorKey: "lastName",
-                header: t("dashboard:stammdaten.organisationen-table.columns.last-name"),
+                header: t("dashboard:master-data.organisations-table.columns.last-name"),
                 grow: true,
                 Cell: ({row}) => <span className={tableStyles.ellipsis}>{row.original.lastName}</span>,
             },
             {
                 accessorKey: "phone",
-                header: t("dashboard:stammdaten.organisationen-table.columns.phone"),
+                header: t("dashboard:master-data.organisations-table.columns.phone"),
                 grow: true,
                 Cell: ({row}) => <span className={tableStyles.ellipsis}>{row.original.phone}</span>,
             },
             {
                 accessorKey: "email",
-                header: t("dashboard:stammdaten.organisationen-table.columns.email"),
+                header: t("dashboard:master-data.organisations-table.columns.email"),
                 grow: true,
                 Cell: ({row}) => <span className={tableStyles.ellipsis}>{row.original.email}</span>,
             },
@@ -97,24 +97,24 @@ function OrganisationEditorBody({initialOrg}: OrganisationEditorBodyProps) {
             },
             muiTableContainerProps: {
                 sx: {maxHeight: "min(50vh, 420px)"},
-                "aria-label": t("dashboard:stammdaten.organisationen-editor.trainers-list-aria"),
+                "aria-label": t("dashboard:master-data.organisation-editor.trainers-list-aria"),
             },
             muiTableBodyRowProps: {hover: true},
             renderRowActions: ({row}) => (
                 <Box className={tableStyles.rowActions}>
-                    <Tooltip title={t("dashboard:stammdaten.organisationen-table.edit")}>
+                    <Tooltip title={t("dashboard:master-data.organisations-table.edit")}>
                         <IconButton
                             size="small"
-                            aria-label={t("dashboard:stammdaten.organisationen-table.edit")}
+                            aria-label={t("dashboard:master-data.organisations-table.edit")}
                             onClick={() => setTrainerDialog({mode: "edit", trainer: row.original})}
                         >
                             <FontAwesomeIcon icon={faPenToSquare} />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title={t("dashboard:stammdaten.organisationen-table.delete")}>
+                    <Tooltip title={t("dashboard:master-data.organisations-table.delete")}>
                         <IconButton
                             size="small"
-                            aria-label={t("dashboard:stammdaten.organisationen-table.delete")}
+                            aria-label={t("dashboard:master-data.organisations-table.delete")}
                             onClick={() => setDeleteTrainerId(row.original.id)}
                         >
                             <FontAwesomeIcon icon={faTrash} />
@@ -144,7 +144,7 @@ function OrganisationEditorBody({initialOrg}: OrganisationEditorBodyProps) {
                 <SportamtMaterialReactTableBase
                     disableSearch
                     toolbarStart={
-                        <h2 className={tableStyles.trainersHeading}>{t("dashboard:stammdaten.organisationen-table.trainers-section")}</h2>
+                        <h2 className={tableStyles.trainersHeading}>{t("dashboard:master-data.organisations-table.trainers-section")}</h2>
                     }
                     toolbarActionButtons={
                         <Button
@@ -154,7 +154,7 @@ function OrganisationEditorBody({initialOrg}: OrganisationEditorBodyProps) {
                             startIcon={<FontAwesomeIcon icon={faPlus} />}
                             onClick={() => setTrainerDialog({mode: "create"})}
                         >
-                            {t("dashboard:stammdaten.organisationen-table.add-trainer")}
+                            {t("dashboard:master-data.organisations-table.add-trainer")}
                         </Button>
                     }
                     columns={trainerColumns}
@@ -186,9 +186,9 @@ function OrganisationEditorBody({initialOrg}: OrganisationEditorBodyProps) {
                 open={Boolean(deleteTrainerId)}
                 onClose={() => setDeleteTrainerId(null)}
                 onConfirm={() => setDeleteTrainerId(null)}
-                title={t("stammdaten.organisationen-table.delete-trainer-title")}
+                title={t("master-data.organisations-table.delete-trainer-title")}
             >
-                {t("stammdaten.organisationen-table.delete-trainer-body")}
+                {t("master-data.organisations-table.delete-trainer-body")}
             </ConfirmDeleteDialog>
 
             <Snackbar open={Boolean(snackbar)} autoHideDuration={5000} onClose={() => setSnackbar(null)} message={snackbar} />

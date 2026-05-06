@@ -16,7 +16,7 @@ export const EditButton = ({onClick, isActive = false}: EditButtonProps) => {
             className={`${styles.editButton}${isActive ? ` ${styles.editButtonActive}` : ""}`}
             onClick={onClick}
             size="small"
-            aria-label={t("common:edit")}
+            aria-label={t("actions.edit")}
             aria-pressed={isActive}
         >
             <FontAwesomeIcon icon={isActive ? faCheck : faPen} className={styles.editIcon} aria-hidden />

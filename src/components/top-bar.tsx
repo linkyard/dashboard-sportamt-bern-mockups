@@ -66,7 +66,7 @@ export const TopBar = () => {
                                         selected={isStammdatenRoute}
                                         onClick={() => setNavMenuAnchorEl(null)}
                                     >
-                                        {t("dashboard:dashboard.topbar.stammdaten")}
+                                        {t("dashboard:dashboard.topbar.master-data")}
                                     </MenuItem>
                                 </Menu>
                             </div>
@@ -104,7 +104,7 @@ export const TopBar = () => {
                                     to="/admin/stammdaten"
                                     className={isStammdatenRoute ? styles.navButtonActive : styles.navButton}
                                 >
-                                    {t("dashboard:dashboard.topbar.stammdaten")}
+                                    {t("dashboard:dashboard.topbar.master-data")}
                                 </Button>
                             </div>
                         </div>

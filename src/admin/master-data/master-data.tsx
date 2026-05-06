@@ -8,39 +8,47 @@ import {LocationsTable} from "./location/location.table"
 import {OrganisationenTable} from "./organisation/organisation.list"
 import styles from "./master-data.module.scss"
 
-type StammdatenTabId = "objekte" | "organisationen" | "ferien"
+type StammdatenTabId = "objects" | "organisations" | "holidays"
 
-const STAMMDATEN_TAB_IDS: StammdatenTabId[] = ["objekte", "organisationen", "ferien"]
+const STAMMDATEN_TAB_IDS: StammdatenTabId[] = ["objects", "organisations", "holidays"]
 
-function isStammdatenTabId(value: string): value is StammdatenTabId {
-    return STAMMDATEN_TAB_IDS.includes(value as StammdatenTabId)
+function tabIdToRouteSegment(tabId: StammdatenTabId): "objekte" | "organisationen" | "ferien" {
+    if (tabId === "objects") return "objekte"
+    if (tabId === "organisations") return "organisationen"
+    return "ferien"
+}
+
+function routeSegmentToTabId(segment: string): StammdatenTabId | null {
+    if (segment === "objekte") return "objects"
+    if (segment === "organisationen") return "organisations"
+    if (segment === "ferien") return "holidays"
+    return null
 }
 
 export const StammdatenEditor = () => {
     const {t} = useTranslation("dashboard")
     const navigate = useNavigate()
-    const {tabId} = useParams<{tabId: string}>()
+    const {tabId: routeTabId} = useParams<{tabId: string}>()
 
-    if (!tabId || !isStammdatenTabId(tabId)) {
+    const activeTab = routeTabId ? routeSegmentToTabId(routeTabId) : null
+    if (!activeTab) {
         return <Navigate to="/admin/stammdaten/objekte" replace />
     }
 
-    const activeTab = tabId
-
     return (
         <>
-            <PageTitle title={t("dashboard:stammdaten.title")} />
+            <PageTitle title={t("dashboard:master-data.title")} />
             <Tabs
                 value={activeTab}
-                onChange={(_, newValue) => navigate(`/admin/stammdaten/${newValue}`)}
-                aria-label={t("dashboard:stammdaten.tabs-aria-label")}
+                onChange={(_, newValue: StammdatenTabId) => navigate(`/admin/stammdaten/${tabIdToRouteSegment(newValue)}`)}
+                aria-label={t("dashboard:master-data.tabs-aria-label")}
                 className={styles.tabsRoot}
             >
                 {STAMMDATEN_TAB_IDS.map((tabId) => (
                     <Tab
                         key={tabId}
                         value={tabId}
-                        label={t(`dashboard:stammdaten.tabs.${tabId}`)}
+                        label={t(`dashboard:master-data.tabs.${tabId}`)}
                         id={`stammdaten-tab-${tabId}`}
                         aria-controls={`stammdaten-panel-${tabId}`}
                     />
@@ -54,12 +62,12 @@ export const StammdatenEditor = () => {
                     hidden={activeTab !== tabId}
                     aria-labelledby={`stammdaten-tab-${tabId}`}
                 >
-                    {tabId === "objekte" ? (
-                        <LocationsTable key="stammdaten-objekte" initialLocations={stammdatenSeedLocations} />
-                    ) : tabId === "organisationen" ? (
-                        <OrganisationenTable key="stammdaten-organisationen" />
-                    ) : tabId === "ferien" ? (
-                        <FerienTable key="stammdaten-ferien" />
+                    {tabId === "objects" ? (
+                        <LocationsTable key="stammdaten-objects" initialLocations={stammdatenSeedLocations} />
+                    ) : tabId === "organisations" ? (
+                        <OrganisationenTable key="stammdaten-organisations" />
+                    ) : tabId === "holidays" ? (
+                        <FerienTable key="stammdaten-holidays" />
                     ) : null}
                 </div>
             ))}

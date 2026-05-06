@@ -53,19 +53,19 @@ export function LocationSelect({value, locationOptions, onLocationChange}: Locat
                                 displayEmpty
                                 value={draft}
                                 onChange={handleSelectChange}
-                                aria-label={t("organisation-public.anlass.location-select-aria")}
+                                aria-label={t("organisation-public.reservation.location-select-aria")}
                                 renderValue={(selected) =>
                                     selected ? (
                                         <span>{selected}</span>
                                     ) : (
                                         <span className={styles.placeholderValue}>
-                                            {t("organisation-public.anlass.location-select-placeholder")}
+                                            {t("organisation-public.reservation.location-select-placeholder")}
                                         </span>
                                     )
                                 }
                             >
                                 <MenuItem value="">
-                                    <em>{t("organisation-public.anlass.location-select-placeholder")}</em>
+                                    <em>{t("organisation-public.reservation.location-select-placeholder")}</em>
                                 </MenuItem>
                                 {options.map((loc) => (
                                     <MenuItem key={loc} value={loc}>

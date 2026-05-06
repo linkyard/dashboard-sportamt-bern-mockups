@@ -7,7 +7,7 @@ import {
     faPersonSwimming,
     faVolleyball,
 } from "@fortawesome/free-solid-svg-icons"
-import type {Anlass, AnlassHistoryEntry, Organisation} from "./admin/board/organisation"
+import type {Organisation, Reservation, ReservationHistoryEntry} from "./admin/board/organisation"
 import type {HolidayRowData} from "./admin/master-data/holiday/holiday-types"
 import type {LocationRowData, ObjektRowData} from "./admin/master-data/location/location-types"
 import type {OrganisationRowData, TrainerRowData} from "./admin/master-data/organisation/organisation-types"
@@ -287,14 +287,14 @@ export const stammdatenSeedOrganisationen: OrganisationRowData[] = [
 ]
 
 /** Seed shape before each `anlass.id` is set (`${org.id}-anlass-${index}`). */
-type OrganisationSeed = Omit<Organisation, "anlaesse"> & {
-    anlaesse: Omit<Anlass, "id">[]
+type OrganisationSeed = Omit<Organisation, "reservations"> & {
+    reservations: Omit<Reservation, "id">[]
 }
 
 function organisationWithAnlassIds(seed: OrganisationSeed): Organisation {
     return {
         ...seed,
-        anlaesse: seed.anlaesse.map((anlass, index) => ({
+        reservations: seed.reservations.map((anlass, index) => ({
             ...anlass,
             id: `${seed.id}-anlass-${index}`,
         })),
@@ -374,7 +374,7 @@ export function getBoardById(id: string): Board | undefined {
     return dummyBoards.find((b) => b.id === id)
 }
 
-const demoAnlassCommunicationHistory = (idBase: string): AnlassHistoryEntry[] => [
+const demoAnlassCommunicationHistory = (idBase: string): ReservationHistoryEntry[] => [
     {
         id: `${idBase}-a`,
         title: "Erneuerungsmail gesendet",
@@ -392,7 +392,7 @@ const demoAnlassCommunicationHistory = (idBase: string): AnlassHistoryEntry[] =>
 const withAnlassHistory = (organisations: Organisation[]): Organisation[] =>
     organisations.map((org) => ({
         ...org,
-        anlaesse: org.anlaesse.map((anlass, index) => ({
+        reservations: org.reservations.map((anlass, index) => ({
             ...anlass,
             history:
                 anlass.history != null && anlass.history.length > 0
@@ -414,7 +414,7 @@ export const dummyOrganisation: Organisation = organisationWithAnlassIds({
         email: "roman.frey@linkyard.ch",
         phone: "+41 79 512 26 11",
     },
-    anlaesse: [
+    reservations: [
         {
             name: "Schwimmen",
             sportIcon: faPersonSwimming,
@@ -492,7 +492,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             postalCode: "3013",
             city: "Bern",
         },
-        anlaesse: [
+        reservations: [
             {
                 name: "Turnen",
                 sportIcon: faChildReaching,
@@ -548,7 +548,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             postalCode: "3006",
             city: "Bern",
         },
-        anlaesse: [
+        reservations: [
             {
                 name: "Fussball",
                 sportIcon: faFutbol,
@@ -612,7 +612,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             postalCode: "3011",
             city: "Bern",
         },
-        anlaesse: [
+        reservations: [
             {
                 name: "Schwimmen",
                 sportIcon: faPersonSwimming,

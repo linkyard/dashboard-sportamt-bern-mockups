@@ -8,56 +8,60 @@ import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
 import {PageTitle} from "../../components/page-title"
 import {SportIconBadge} from "../../components/sport-icon-badge"
-import {type Anlass, type Organisation} from "./organisation"
+import {type Organisation, type Reservation} from "./organisation"
 import styles from "./reservation.module.scss"
-import {AnlassStatusPill} from "./reservation/reservation-status.pill"
+import {ReservationStatusPill} from "./reservation/reservation-status.pill"
 
-export type AnlaesseCardListDetailHref = "organisation-admin" | "organisation-public"
+export type ReservationsCardListDetailHref = "organisation-admin" | "organisation-public"
 
-function anlassDetailPath(kind: AnlaesseCardListDetailHref, organisation: Organisation, anlass: Anlass): string {
+function reservationDetailPath(kind: ReservationsCardListDetailHref, organisation: Organisation, reservation: Reservation): string {
     switch (kind) {
         case "organisation-public":
-            return `/organisationen/${organisation.id}/anlass/${anlass.id}`
+            return `/organisationen/${organisation.id}/anlass/${reservation.id}`
         default:
-            return `/organisation-admin/${organisation.id}/anlass/${anlass.id}`
+            return `/organisation-admin/${organisation.id}/anlass/${reservation.id}`
     }
 }
 
-interface AnlaesseCardListProps {
-    anlaesse: Anlass[]
+interface ReservationsCardListProps {
+    reservations: Reservation[]
     organisation?: Organisation
-    /** Target route when an Anlass card row is clicked from AnlaesseCardList. */
-    anlassDetailHref?: AnlaesseCardListDetailHref
+    /** Target route when a reservation card row is clicked from ReservationsCardList. */
+    reservationDetailHref?: ReservationsCardListDetailHref
 }
 
-export const AnlaesseCardList: React.FC<AnlaesseCardListProps> = ({anlaesse, organisation, anlassDetailHref = "organisation-admin"}) => {
+export const ReservationsCardList: React.FC<ReservationsCardListProps> = ({
+    reservations,
+    organisation,
+    reservationDetailHref = "organisation-admin",
+}) => {
     const {t} = useTranslation("dashboard")
     const [query, setQuery] = useState("")
 
-    const filteredAnlaesse = useMemo(() => {
+    const filteredReservations = useMemo(() => {
         const searchQuery = query.trim().toLowerCase()
-        if (!searchQuery) return anlaesse
+        if (!searchQuery) return reservations
 
-        return anlaesse.filter((anlass) => {
+        return reservations.filter((reservation) => {
             const searchableText = [
-                anlass.name,
-                anlass.period ?? "",
-                anlass.location ?? "",
-                (anlass.times ?? []).join(" "),
-                anlass.status ? t(`organisation-admin.anlaesse.status.${anlass.status}`) : "",
+                reservation.name,
+                reservation.period ?? "",
+                reservation.location ?? "",
+                (reservation.times ?? []).join(" "),
+                reservation.status ? t(`organisation-admin.reservations.status.${reservation.status}`) : "",
             ]
                 .join(" ")
                 .toLowerCase()
 
             return searchableText.includes(searchQuery)
         })
-    }, [anlaesse, query, t])
+    }, [reservations, query, t])
 
     return (
         <div className={styles.container}>
             <div className={styles.headerRow}>
                 <div className={styles.headerTitle}>
-                    <PageTitle title={t("organisation-admin.anlaesse.title")} isSubTitle />
+                    <PageTitle title={t("organisation-admin.reservations.title")} isSubTitle />
                 </div>
                 <TextField
                     value={query}
@@ -75,28 +79,33 @@ export const AnlaesseCardList: React.FC<AnlaesseCardListProps> = ({anlaesse, org
             </div>
 
             <div className={styles.cards}>
-                {filteredAnlaesse.map((anlass) => (
-                    <AnlaessCard key={anlass.id} anlass={anlass} organisation={organisation} anlassDetailHref={anlassDetailHref} />
+                {filteredReservations.map((reservation) => (
+                    <ReservationCard
+                        key={reservation.id}
+                        reservation={reservation}
+                        organisation={organisation}
+                        reservationDetailHref={reservationDetailHref}
+                    />
                 ))}
             </div>
         </div>
     )
 }
 
-export default AnlaesseCardList
+export default ReservationsCardList
 
-interface AnlaessCardProps {
-    anlass: Anlass
+interface ReservationCardProps {
+    reservation: Reservation
     organisation?: Organisation
-    anlassDetailHref: AnlaesseCardListDetailHref
+    reservationDetailHref: ReservationsCardListDetailHref
 }
 
-const AnlaessCard: React.FC<AnlaessCardProps> = ({anlass, organisation, anlassDetailHref}) => {
+const ReservationCard: React.FC<ReservationCardProps> = ({reservation, organisation, reservationDetailHref}) => {
     const navigate = useNavigate()
 
     const openDetail = () => {
         if (!organisation?.id) return
-        navigate(anlassDetailPath(anlassDetailHref, organisation, anlass))
+        navigate(reservationDetailPath(reservationDetailHref, organisation, reservation))
     }
 
     return (
@@ -113,28 +122,28 @@ const AnlaessCard: React.FC<AnlaessCardProps> = ({anlass, organisation, anlassDe
             }}
         >
             <span className={styles.sportBadgeCell}>
-                <SportIconBadge icon={anlass.sportIcon} />
+                <SportIconBadge icon={reservation.sportIcon} />
             </span>
 
-            <h3 className={styles.title}>{anlass.name}</h3>
+            <h3 className={styles.title}>{reservation.name}</h3>
 
             <div className={`${styles.infoRow} ${styles.periodRow}`}>
                 <span className={styles.infoIconCell}>
                     <FontAwesomeIcon icon={faCalendar} className={styles.infoIcon} />
                 </span>
-                <span>{anlass.period ?? "-"}</span>
+                <span>{reservation.period ?? "-"}</span>
             </div>
 
             <div className={`${styles.infoRow} ${styles.locationRow}`}>
                 <span className={styles.infoIconCell}>
                     <FontAwesomeIcon icon={faLocationDot} className={styles.infoIcon} />
                 </span>
-                <span>{anlass.location ?? "-"}</span>
+                <span>{reservation.location ?? "-"}</span>
             </div>
 
             <div className={styles.timesColumn}>
-                {(anlass.times ?? []).map((time) => (
-                    <div key={`${anlass.name}-${time}`} className={styles.infoRow}>
+                {(reservation.times ?? []).map((time) => (
+                    <div key={`${reservation.name}-${time}`} className={styles.infoRow}>
                         <span className={styles.infoIconCell}>
                             <FontAwesomeIcon icon={faClock} className={styles.infoIcon} />
                         </span>
@@ -144,7 +153,7 @@ const AnlaessCard: React.FC<AnlaessCardProps> = ({anlass, organisation, anlassDe
             </div>
 
             <div className={styles.statusCell}>
-                <AnlassStatusPill status={anlass.status} />
+                <ReservationStatusPill status={reservation.status} />
             </div>
         </article>
     )

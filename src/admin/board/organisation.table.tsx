@@ -1,4 +1,4 @@
-import {type MRT_ColumnDef, type MRT_DensityState} from "material-react-table"
+import {type MRT_ColumnDef, type MRT_DensityState, type MRT_TableOptions} from "material-react-table"
 import {useMemo} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
@@ -7,7 +7,7 @@ import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-bas
 import mrt from "../../lib/material-react-table-styles.module.scss"
 import styles from "./board-detail.module.scss"
 import type {Organisation} from "./organisation"
-import {AnlassInlineRow} from "./reservation/reservation-inline.row"
+import {ReservationInlineRow} from "./reservation/reservation-inline.row"
 
 export interface OrganisationTableProps {
     selectedFileName: string
@@ -51,9 +51,9 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
                 minSize: 300,
             },
             {
-                accessorFn: (row) => row.anlaesse.length,
-                id: "anlaesseCount",
-                header: t("dashboard:board-detail.organisation-table.columns.anlaesse-count") as string,
+                accessorFn: (row) => row.reservations.length,
+                id: "reservationsCount",
+                header: t("dashboard:board-detail.organisation-table.columns.reservations-count") as string,
                 grow: true,
                 minSize: 80,
                 size: 120,
@@ -62,7 +62,7 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
         [t]
     )
 
-    const organisationsTable = {
+    const organisationsTable: Partial<MRT_TableOptions<Organisation>> = {
         defaultColumn: {
             grow: false,
             minSize: 0,
@@ -106,9 +106,9 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
             },
         },
         renderDetailPanel: ({row}) => (
-            <div className={styles.anlaesseList}>
-                {row.original.anlaesse.map((anlass) => (
-                    <AnlassInlineRow key={anlass.id} anlass={anlass} orgId={row.original.id} />
+            <div className={styles.reservationsList}>
+                {row.original.reservations.map((reservation) => (
+                    <ReservationInlineRow key={reservation.id} reservation={reservation} orgId={row.original.id} />
                 ))}
             </div>
         ),

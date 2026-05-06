@@ -52,7 +52,7 @@ export const OrganisationenTable: React.FC = () => {
         () => [
             {
                 accessorKey: "name",
-                header: t("stammdaten.organisationen-table.columns.name"),
+                header: t("master-data.organisations-table.columns.name"),
                 grow: true,
                 size: 200,
                 minSize: 160,
@@ -63,7 +63,7 @@ export const OrganisationenTable: React.FC = () => {
             {
                 id: "contactPerson",
                 accessorFn: (row) => row.contact.contactPerson.trim(),
-                header: t("stammdaten.organisationen-table.columns.contact-person"),
+                header: t("master-data.organisations-table.columns.contact-person"),
                 grow: true,
                 size: 180,
                 minSize: 140,
@@ -121,7 +121,7 @@ export const OrganisationenTable: React.FC = () => {
             },
             muiTableContainerProps: {
                 sx: {maxHeight: "min(70vh, 560px)"},
-                "aria-label": t("stammdaten.organisationen-table.list-aria-label"),
+                "aria-label": t("master-data.organisations-table.list-aria-label"),
             },
             muiTableBodyRowProps: {
                 hover: true,
@@ -156,7 +156,7 @@ export const OrganisationenTable: React.FC = () => {
                             setOrgDialog({mode: "create"})
                         }}
                     >
-                        {t("stammdaten.organisationen-table.add-organisation")}
+                        {t("master-data.organisations-table.add-organisation")}
                     </Button>
                 }
             />
@@ -179,9 +179,9 @@ export const OrganisationenTable: React.FC = () => {
                 open={Boolean(deleteOrgId)}
                 onClose={() => setDeleteOrgId(null)}
                 onConfirm={() => setDeleteOrgId(null)}
-                title={t("stammdaten.organisationen-table.delete-organisation-title")}
+                title={t("master-data.organisations-table.delete-organisation-title")}
             >
-                {t("stammdaten.organisationen-table.delete-organisation-body")}
+                {t("master-data.organisations-table.delete-organisation-body")}
             </ConfirmDeleteDialog>
 
             <Snackbar open={Boolean(snackbar)} autoHideDuration={5000} onClose={() => setSnackbar(null)} message={snackbar} />
@@ -199,13 +199,13 @@ function OrganisationenTableActions({onEdit, onDelete}: OrganisationenTableActio
 
     return (
         <Box className={styles.rowActions}>
-            <Tooltip title={t("stammdaten.organisationen-table.edit")}>
-                <IconButton size="small" aria-label={t("stammdaten.organisationen-table.edit")} onClick={onEdit}>
+            <Tooltip title={t("master-data.organisations-table.edit")}>
+                <IconButton size="small" aria-label={t("master-data.organisations-table.edit")} onClick={onEdit}>
                     <FontAwesomeIcon icon={faPenToSquare} />
                 </IconButton>
             </Tooltip>
-            <Tooltip title={t("stammdaten.organisationen-table.delete")}>
-                <IconButton size="small" aria-label={t("stammdaten.organisationen-table.delete")} onClick={onDelete}>
+            <Tooltip title={t("master-data.organisations-table.delete")}>
+                <IconButton size="small" aria-label={t("master-data.organisations-table.delete")} onClick={onDelete}>
                     <FontAwesomeIcon icon={faTrash} />
                 </IconButton>
             </Tooltip>

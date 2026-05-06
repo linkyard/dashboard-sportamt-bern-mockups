@@ -2,21 +2,21 @@ import {faCalendar, faClock} from "@fortawesome/free-regular-svg-icons"
 import {faLocationDot} from "@fortawesome/pro-regular-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {useNavigate} from "react-router"
-import type {Anlass} from "../organisation"
+import type {Reservation} from "../organisation"
 import styles from "./reservation-inline.row.module.scss"
-import {AnlassStatusPill} from "./reservation-status.pill"
+import {ReservationStatusPill} from "./reservation-status.pill"
 
-type AnlassInlineRowProps = {
-    anlass: Anlass
+type ReservationInlineRowProps = {
+    reservation: Reservation
     orgId: string
 }
 
-export const AnlassInlineRow = ({anlass, orgId}: AnlassInlineRowProps) => {
+export const ReservationInlineRow = ({reservation, orgId}: ReservationInlineRowProps) => {
     const navigate = useNavigate()
-    const dates = (anlass.times ?? []).filter(Boolean).join(" · ")
+    const dates = (reservation.times ?? []).filter(Boolean).join(" · ")
 
-    const openAnlass = () => {
-        navigate(`/organisation-admin/${orgId}/anlass/${anlass.id}`)
+    const openReservation = () => {
+        navigate(`/organisation-admin/${orgId}/anlass/${reservation.id}`)
     }
 
     return (
@@ -26,28 +26,28 @@ export const AnlassInlineRow = ({anlass, orgId}: AnlassInlineRowProps) => {
             tabIndex={0}
             onClick={(e) => {
                 e.stopPropagation()
-                openAnlass()
+                openReservation()
             }}
         >
             <div className={styles.nameCol}>
                 <span className={styles.sportIconWrap} aria-hidden>
-                    <FontAwesomeIcon icon={anlass.sportIcon} className={styles.sportIcon} />
+                    <FontAwesomeIcon icon={reservation.sportIcon} className={styles.sportIcon} />
                 </span>
-                <span className={styles.nameText}>{anlass.name}</span>
+                <span className={styles.nameText}>{reservation.name}</span>
             </div>
 
             <div className={styles.cell}>
                 <span className={styles.iconWrapper}>
                     <FontAwesomeIcon icon={faCalendar} className={styles.icon} />
                 </span>
-                <span className={styles.cellValue}>{anlass.period ?? "-"}</span>
+                <span className={styles.cellValue}>{reservation.period ?? "-"}</span>
             </div>
 
             <div className={styles.cell}>
                 <span className={styles.iconWrapper}>
                     <FontAwesomeIcon icon={faLocationDot} className={styles.icon} />
                 </span>
-                <span className={styles.cellValue}>{anlass.location ?? "-"}</span>
+                <span className={styles.cellValue}>{reservation.location ?? "-"}</span>
             </div>
 
             <div className={styles.cell}>
@@ -58,7 +58,7 @@ export const AnlassInlineRow = ({anlass, orgId}: AnlassInlineRowProps) => {
             </div>
 
             <div className={styles.pill}>
-                <AnlassStatusPill status={anlass.status} compact />
+                <ReservationStatusPill status={reservation.status} compact />
             </div>
         </div>
     )

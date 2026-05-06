@@ -108,7 +108,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
             {
                 id: "name",
                 accessorFn: (row) => (row.rowKind === "ferien" ? row.name : row.weekIndex),
-                header: t("organisation-public.anlass.ferien.columns.name"),
+                header: t("organisation-public.reservation.holidays.columns.name"),
                 grow: true,
                 minSize: 160,
                 size: 220,
@@ -118,7 +118,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
                         <span>{row.original.name}</span>
                     ) : (
                         <span>
-                            {t("organisation-public.anlass.ferien.week-label", {
+                            {t("organisation-public.reservation.holidays.week-label", {
                                 n: row.original.weekIndex,
                             })}
                         </span>
@@ -126,7 +126,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
             },
             {
                 accessorKey: "startDate",
-                header: t("organisation-public.anlass.ferien.columns.von"),
+                header: t("organisation-public.reservation.holidays.columns.from"),
                 size: 200,
                 grow: false,
                 enableSorting: false,
@@ -134,7 +134,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
             },
             {
                 accessorKey: "endDate",
-                header: t("organisation-public.anlass.ferien.columns.bis"),
+                header: t("organisation-public.reservation.holidays.columns.to"),
                 size: 200,
                 grow: false,
                 enableSorting: false,
@@ -142,7 +142,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
             },
             {
                 id: "benutzung",
-                header: t("organisation-public.anlass.ferien.columns.benutzung"),
+                header: t("organisation-public.reservation.holidays.columns.usage"),
                 size: 120,
                 maxSize: 120,
                 minSize: 120,
@@ -164,8 +164,8 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
                                 }}
                                 slotProps={{
                                     input: {
-                                        "aria-label": t("organisation-public.anlass.ferien.benutzung-week-aria", {
-                                            name: t("organisation-public.anlass.ferien.week-label", {n: row.original.weekIndex}),
+                                        "aria-label": t("organisation-public.reservation.holidays.usage-week-aria", {
+                                            name: t("organisation-public.reservation.holidays.week-label", {n: row.original.weekIndex}),
                                         }),
                                     },
                                 }}
@@ -190,7 +190,7 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
                                 toggleFerienWeeks(parent)
                             }}
                             slotProps={{
-                                input: {"aria-label": t("organisation-public.anlass.ferien.benutzung-ferien-aria", {name: parent.name})},
+                                input: {"aria-label": t("organisation-public.reservation.holidays.usage-holidays-aria", {name: parent.name})},
                             }}
                         />
                     )
@@ -247,13 +247,13 @@ export function FerienBenutzungTable({periodLabel}: FerienBenutzungTableProps): 
         <section className={styles.sectionCard}>
             <div className={styles.sectionHeading}>
                 <PageTitle
-                    title={t("organisation-public.anlass.ferien.title")}
+                    title={t("organisation-public.reservation.holidays.title")}
                     isSubTitle
-                    toolTipContent={t("organisation-public.anlass.section-info-tooltip")}
+                    toolTipContent={t("organisation-public.reservation.section-info-tooltip")}
                 />
             </div>
             {ferienHolidays.length === 0 ? (
-                <p>{t("organisation-public.anlass.ferien.empty-year", {year})}</p>
+                <p>{t("organisation-public.reservation.holidays.empty-year", {year})}</p>
             ) : (
                 <SportamtMaterialReactTableBase data={tableRows} columns={columns} options={tableOptions} disableSearch />
             )}

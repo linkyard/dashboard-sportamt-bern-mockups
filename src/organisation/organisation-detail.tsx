@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next"
 import {useParams} from "react-router"
 import orgStyles from "../admin/board/organisation-admin.module.scss"
-import AnlaesseCardList from "../admin/board/reservation.list"
+import ReservationsCardList from "../admin/board/reservation.list"
 import {ContactDetails} from "../components/contact-box"
 import {PageTitle} from "../components/page-title"
 import {getOrganisationForPublicPage} from "../dummyData"
@@ -38,7 +38,11 @@ export const OrganisationPublicPage: React.FC = () => {
                 </div>
             </div>
             <div className={orgStyles.anlaesseSection}>
-                <AnlaesseCardList anlaesse={organisation.anlaesse} organisation={organisation} anlassDetailHref="organisation-public" />
+                <ReservationsCardList
+                    reservations={organisation.reservations}
+                    organisation={organisation}
+                    reservationDetailHref="organisation-public"
+                />
             </div>
         </div>
     )

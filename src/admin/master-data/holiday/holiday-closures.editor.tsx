@@ -169,7 +169,7 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
 
     return (
         <div className={styles.page}>
-            <AppBreadcrumbs variant="ferien-editor" holidayName={holiday.name} />
+            <AppBreadcrumbs variant="holidays-editor" holidayName={holiday.name} />
             <PageTitle title={holiday.name} editable onTitleChange={(value) => patchHoliday((h) => ({...h, name: value}))} />
 
             <div className={styles.formSection}>
@@ -177,7 +177,7 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
                     <div className={styles.dateRangeRow}>
                         <div className={styles.fieldGroup}>
                             <FieldLabel htmlFor="ferien-editor-start-date">
-                                {t("dashboard:stammdaten.ferien-editor.start-label")}
+                                {t("dashboard:master-data.holidays-editor.start-label")}
                             </FieldLabel>
                             <DatePicker
                                 value={parseIsoToDayjs(holiday.startDate)}
@@ -193,7 +193,7 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
                             />
                         </div>
                         <div className={styles.fieldGroup}>
-                            <FieldLabel htmlFor="ferien-editor-end-date">{t("dashboard:stammdaten.ferien-editor.end-label")}</FieldLabel>
+                            <FieldLabel htmlFor="ferien-editor-end-date">{t("dashboard:master-data.holidays-editor.end-label")}</FieldLabel>
                             <DatePicker
                                 value={parseIsoToDayjs(holiday.endDate)}
                                 onChange={(date) => onDatePickerChange("endDate", date ? dayjs(date) : null)}

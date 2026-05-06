@@ -10,7 +10,6 @@ import type {HolidayClosureState} from "./holiday-types"
 
 type WeekMeta = {id: string; startDate: string; endDate: string}
 
-/** Location × Ferien weeks as table columns (presentation alternative). */
 export function FerienClosuresEditorWeekColumnGrid({
     t,
     weekMetas,
@@ -53,28 +52,28 @@ export function FerienClosuresEditorWeekColumnGrid({
     return (
         <Paper className={styles.tableCard} elevation={0}>
             <div className={styles.tableScroll}>
-                <div className={styles.weekTable} role="table" aria-label={t("dashboard:stammdaten.ferien-editor.column-location-only")}>
+                <div className={styles.weekTable} role="table" aria-label={t("dashboard:master-data.holidays-editor.column-location-only")}>
                     {weekMetas.length > 0 ? (
                         <div className={`${styles.tableRow} ${styles.closedGroupHeaderRow}`} style={gridStyle} role="row">
                             <div className={`${styles.firstCell} ${styles.closedGroupCorner}`} role="presentation" />
                             <div className={styles.closedGroupHeader} style={{gridColumn: "2 / -1"}} role="columnheader">
-                                {t("dashboard:stammdaten.ferien-editor.column-closed")}
+                                {t("dashboard:master-data.holidays-editor.column-closed")}
                             </div>
                         </div>
                     ) : null}
                     <div className={`${styles.tableRow} ${styles.headerRow}`} style={gridStyle} role="row">
                         <div className={styles.firstCell} role="columnheader">
                             <div className={styles.topLeft}>
-                                <span className={styles.topLeftTitle}>{t("dashboard:stammdaten.ferien-editor.column-location-only")}</span>
+                                <span className={styles.topLeftTitle}>{t("dashboard:master-data.holidays-editor.column-location-only")}</span>
                                 <span className={styles.allWeeksHint}>
                                     <Checkbox
                                         size="small"
                                         checked={allWeeksIncluded}
                                         indeterminate={masterWeekIndeterminate}
                                         onChange={toggleAllWeeksIncluded}
-                                        slotProps={{input: {"aria-label": t("dashboard:stammdaten.ferien-editor.weeks-master-aria")}}}
+                                        slotProps={{input: {"aria-label": t("dashboard:master-data.holidays-editor.weeks-master-aria")}}}
                                     />
-                                    <span>{t("dashboard:stammdaten.ferien-editor.weeks-short-label")}</span>
+                                    <span>{t("dashboard:master-data.holidays-editor.weeks-short-label")}</span>
                                 </span>
                             </div>
                         </div>
@@ -90,7 +89,7 @@ export function FerienClosuresEditorWeekColumnGrid({
                                             onChange={() => toggleOneWeek(w.id)}
                                             slotProps={{
                                                 input: {
-                                                    "aria-label": t("dashboard:stammdaten.ferien-editor.week-aria", {
+                                                    "aria-label": t("dashboard:master-data.holidays-editor.week-aria", {
                                                         week: wi + 1,
                                                         range: `${formatDeShort(w.startDate)}–${formatDeShort(w.endDate)}`,
                                                     }),
@@ -98,7 +97,7 @@ export function FerienClosuresEditorWeekColumnGrid({
                                             }}
                                         />
                                         <div className={styles.weekHeadTitle}>
-                                            <span>{t("dashboard:stammdaten.ferien-editor.column-week-n", {week: wi + 1})}</span>
+                                            <span>{t("dashboard:master-data.holidays-editor.column-week-n", {week: wi + 1})}</span>
                                             <span className={styles.weekHeadSub}>
                                                 {`${formatDeShort(w.startDate)}–${formatDeShort(w.endDate)}`}
                                             </span>
@@ -125,8 +124,8 @@ export function FerienClosuresEditorWeekColumnGrid({
                                             aria-expanded={expanded}
                                             aria-label={
                                                 expanded
-                                                    ? t("dashboard:stammdaten.ferien-editor.collapse-aria", {name: loc.name})
-                                                    : t("dashboard:stammdaten.ferien-editor.expand-aria", {name: loc.name})
+                                                    ? t("dashboard:master-data.holidays-editor.collapse-aria", {name: loc.name})
+                                                    : t("dashboard:master-data.holidays-editor.expand-aria", {name: loc.name})
                                             }
                                             onClick={() =>
                                                 setExpandedLocIds((prev) => {
@@ -165,7 +164,7 @@ export function FerienClosuresEditorWeekColumnGrid({
                                                 onChange={() => applyMutation((c) => toggleLocationWeekCascade(c, locations, loc.id, w.id))}
                                                 slotProps={{
                                                     input: {
-                                                        "aria-label": t("dashboard:stammdaten.ferien-editor.cell-location-week-aria", {
+                                                        "aria-label": t("dashboard:master-data.holidays-editor.cell-location-week-aria", {
                                                             location: loc.name,
                                                             range: `${formatDeShort(w.startDate)}–${formatDeShort(w.endDate)}`,
                                                         }),
@@ -208,7 +207,7 @@ export function FerienClosuresEditorWeekColumnGrid({
                                                       onChange={() => applyMutation((c) => toggleObjectWeekClosure(c, obj.id, w.id))}
                                                       slotProps={{
                                                           input: {
-                                                              "aria-label": t("dashboard:stammdaten.ferien-editor.cell-objekt-week-aria", {
+                                                              "aria-label": t("dashboard:master-data.holidays-editor.cell-object-week-aria", {
                                                                   objekt: obj.name,
                                                                   range: `${formatDeShort(w.startDate)}–${formatDeShort(w.endDate)}`,
                                                               }),

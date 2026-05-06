@@ -13,7 +13,7 @@ import {SportamtMaterialReactTableBase} from "../../../lib/material-react-table-
 import mrt from "../../../lib/material-react-table-styles.module.scss"
 import styles from "./reservation-training.table.module.scss"
 
-type KursControlRow = {
+type TrainingsControlRow = {
     id: string
     weekdayLabel: string
     timeRange: string
@@ -21,7 +21,7 @@ type KursControlRow = {
     trainersLabel: string
 }
 
-function buildKurseRows(t: (key: string, options?: Record<string, unknown>) => string): KursControlRow[] {
+function buildTrainingsRows(t: (key: string, options?: Record<string, unknown>) => string): TrainingsControlRow[] {
     const trainerByTimeBlockId: Record<string, string[]> = {
         "kurs-1": ["roman-frey"],
         "kurs-2": [],
@@ -35,7 +35,7 @@ function buildKurseRows(t: (key: string, options?: Record<string, unknown>) => s
 
         return {
             id: block.id,
-            weekdayLabel: t(`organisation-public.anlass.kurse.${block.weekdayKey}`),
+            weekdayLabel: t(`organisation-public.reservation.trainings.${block.weekdayKey}`),
             timeRange: block.timeRange,
             objekte: objekte.map((objekt) => objekt.label),
             trainersLabel: trainerNames.length > 0 ? trainerNames.join(", ") : "—",
@@ -43,16 +43,16 @@ function buildKurseRows(t: (key: string, options?: Record<string, unknown>) => s
     })
 }
 
-export const AnlassKurseControlTable: React.FC = () => {
+export const ReservationTrainingsTable: React.FC = () => {
     const {t} = useTranslation("dashboard")
     const [snackbar, setSnackbar] = useState<string | null>(null)
-    const data = useMemo(() => buildKurseRows(t), [t])
+    const data = useMemo(() => buildTrainingsRows(t), [t])
 
-    const columns = useMemo<MRT_ColumnDef<KursControlRow>[]>(
+    const columns = useMemo<MRT_ColumnDef<TrainingsControlRow>[]>(
         () => [
             {
                 accessorKey: "weekdayLabel",
-                header: t("organisation-admin.anlass-detail.kurse-table.columns.weekday"),
+                header: t("organisation-admin.reservation-detail.trainings-table.columns.weekday"),
                 size: 130,
                 minSize: 120,
                 muiTableHeadCellProps: {align: "left"},
@@ -60,7 +60,7 @@ export const AnlassKurseControlTable: React.FC = () => {
             },
             {
                 accessorKey: "timeRange",
-                header: t("organisation-admin.anlass-detail.kurse-table.columns.time"),
+                header: t("organisation-admin.reservation-detail.trainings-table.columns.time"),
                 size: 150,
                 minSize: 130,
                 muiTableHeadCellProps: {align: "left"},
@@ -68,7 +68,7 @@ export const AnlassKurseControlTable: React.FC = () => {
             },
             {
                 accessorKey: "trainersLabel",
-                header: t("organisation-admin.anlass-detail.kurse-table.columns.trainers"),
+                header: t("organisation-admin.reservation-detail.trainings-table.columns.trainers"),
                 grow: true,
                 minSize: 240,
                 muiTableHeadCellProps: {align: "left"},
@@ -77,7 +77,7 @@ export const AnlassKurseControlTable: React.FC = () => {
             {
                 id: "objekte",
                 accessorFn: (row) => row.objekte.join(" "),
-                header: t("organisation-admin.anlass-detail.kurse-table.columns.objekte"),
+                header: t("organisation-admin.reservation-detail.trainings-table.columns.objects"),
                 grow: true,
                 minSize: 220,
                 muiTableHeadCellProps: {align: "left"},
@@ -98,7 +98,7 @@ export const AnlassKurseControlTable: React.FC = () => {
     )
 
     const options = useMemo(
-        (): Partial<MRT_TableOptions<KursControlRow>> => ({
+        (): Partial<MRT_TableOptions<TrainingsControlRow>> => ({
             getRowId: (row) => row.id,
             initialState: {density: "comfortable", showGlobalFilter: true},
             enableExpanding: false,
@@ -131,18 +131,24 @@ export const AnlassKurseControlTable: React.FC = () => {
             },
             muiTableContainerProps: {
                 sx: {maxHeight: "min(70vh, 560px)"},
-                "aria-label": t("organisation-admin.anlass-detail.kurse-table.list-aria-label"),
+                "aria-label": t("organisation-admin.reservation-detail.trainings-table.list-aria-label"),
             },
             muiTableBodyRowProps: {hover: true},
             renderRowActions: () => (
                 <Box className={styles.rowActions}>
-                    <Tooltip title={t("organisation-admin.anlass-detail.kurse-table.edit")}>
-                        <IconButton size="small" onClick={() => setSnackbar(t("organisation-admin.anlass-detail.kurse-table.coming-soon"))}>
+                    <Tooltip title={t("organisation-admin.reservation-detail.trainings-table.edit")}>
+                        <IconButton
+                            size="small"
+                            onClick={() => setSnackbar(t("organisation-admin.reservation-detail.trainings-table.coming-soon"))}
+                        >
                             <FontAwesomeIcon icon={faPenToSquare} />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title={t("organisation-admin.anlass-detail.kurse-table.delete")}>
-                        <IconButton size="small" onClick={() => setSnackbar(t("organisation-admin.anlass-detail.kurse-table.coming-soon"))}>
+                    <Tooltip title={t("organisation-admin.reservation-detail.trainings-table.delete")}>
+                        <IconButton
+                            size="small"
+                            onClick={() => setSnackbar(t("organisation-admin.reservation-detail.trainings-table.coming-soon"))}
+                        >
                             <FontAwesomeIcon icon={faTrash} />
                         </IconButton>
                     </Tooltip>
@@ -164,9 +170,9 @@ export const AnlassKurseControlTable: React.FC = () => {
                         color="primary"
                         size="small"
                         startIcon={<FontAwesomeIcon icon={faPlus} />}
-                        onClick={() => setSnackbar(t("organisation-admin.anlass-detail.kurse-table.coming-soon"))}
+                        onClick={() => setSnackbar(t("organisation-admin.reservation-detail.trainings-table.coming-soon"))}
                     >
-                        {t("organisation-admin.anlass-detail.kurse-table.add")}
+                        {t("organisation-admin.reservation-detail.trainings-table.add")}
                     </Button>
                 }
             />
