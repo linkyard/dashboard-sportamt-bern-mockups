@@ -44,7 +44,7 @@ export const ReservationEditor: React.FC = () => {
             ) : null
 
         return (
-            <>
+            <div className={styles.reservationEditorPage}>
                 <div className={reservationDetailStyles.topBar}>
                     <div className={reservationDetailStyles.breadcrumbsWrapper}>
                         <AppBreadcrumbs
@@ -58,7 +58,7 @@ export const ReservationEditor: React.FC = () => {
                 </div>
                 <PageTitle title={title} />
                 <p>{t("organisation-public.reservation.not-found-body")}</p>
-            </>
+            </div>
         )
     }
 
@@ -66,7 +66,7 @@ export const ReservationEditor: React.FC = () => {
     const participants = participantTotals(maleParticipantCount, femaleParticipantCount, under20ParticipantCount)
 
     return (
-        <>
+        <div className={styles.reservationEditorPage}>
             <div className={reservationDetailStyles.topBar}>
                 <div className={reservationDetailStyles.breadcrumbsWrapper}>
                     <AppBreadcrumbs
@@ -100,35 +100,36 @@ export const ReservationEditor: React.FC = () => {
                     </Button>
                 </div>
             </div>
+            <div className={styles.reservationEditorContent}>
+                <TrainingSection />
+                <HolidayUsageTable periodLabel={periodLabel} />
+                <AdditionalDaysOffTable />
 
-            <TrainingSection />
-            <HolidayUsageTable periodLabel={periodLabel} />
-            <AdditionalDaysOffTable />
+                <ParticipantsInputs
+                    maleCount={maleParticipantCount}
+                    femaleCount={femaleParticipantCount}
+                    under20Count={under20ParticipantCount}
+                    totalPersonsDisplay={participants.totalStr}
+                    onMaleCountChange={setMaleParticipantCount}
+                    onFemaleCountChange={setFemaleParticipantCount}
+                    onUnder20CountChange={setUnder20ParticipantCount}
+                />
 
-            <ParticipantsInputs
-                maleCount={maleParticipantCount}
-                femaleCount={femaleParticipantCount}
-                under20Count={under20ParticipantCount}
-                totalPersonsDisplay={participants.totalStr}
-                onMaleCountChange={setMaleParticipantCount}
-                onFemaleCountChange={setFemaleParticipantCount}
-                onUnder20CountChange={setUnder20ParticipantCount}
-            />
+                {participants.showUpload ? (
+                    <section className={styles.sectionCard}>
+                        <div className={styles.sectionHeading}>
+                            <PageTitle
+                                title={t("organisation-public.reservation.participants-list-title")}
+                                isSubTitle
+                                toolTipContent={t("organisation-public.reservation.section-info-tooltip")}
+                            />
+                        </div>
+                        <UploadSection variant="organisation" onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
+                    </section>
+                ) : null}
 
-            {participants.showUpload ? (
-                <section className={styles.sectionCard}>
-                    <div className={styles.sectionHeading}>
-                        <PageTitle
-                            title={t("organisation-public.reservation.participants-list-title")}
-                            isSubTitle
-                            toolTipContent={t("organisation-public.reservation.section-info-tooltip")}
-                        />
-                    </div>
-                    <UploadSection variant="organisation" onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
-                </section>
-            ) : null}
-
-            <CommentsSection />
-        </>
+                <CommentsSection />
+            </div>
+        </div>
     )
 }
