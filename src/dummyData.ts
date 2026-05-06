@@ -377,7 +377,7 @@ export function getBoardById(id: string): Board | undefined {
 const demoAnlassCommunicationHistory = (idBase: string): AnlassHistoryEntry[] => [
     {
         id: `${idBase}-a`,
-        title: "Erneuerungs mail gesendet",
+        title: "Erneuerungsmail gesendet",
         actorName: "Sportamt Bern",
         atLabel: "18. Apr. 2026, 09:14",
     },
@@ -425,7 +425,7 @@ export const dummyOrganisation: Organisation = organisationWithAnlassIds({
             history: [
                 {
                     id: "sw-1",
-                    title: "Erneuerungs mail gesendet",
+                    title: "Erneuerungsmail gesendet",
                     actorName: "Sportamt Bern",
                     atLabel: "18. Apr. 2026, 09:14",
                 },
@@ -453,7 +453,7 @@ export const dummyOrganisation: Organisation = organisationWithAnlassIds({
             history: [
                 {
                     id: "bd-1",
-                    title: "Erneuerungs mail gesendet",
+                    title: "Erneuerungsmail gesendet",
                     actorName: "Sportamt Bern",
                     atLabel: "10. Apr. 2026, 11:05",
                 },

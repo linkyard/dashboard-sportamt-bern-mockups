@@ -1,3 +1,5 @@
+import {faXmark} from "@fortawesome/free-solid-svg-icons"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {Button, Chip, FormControl, MenuItem, Select, Tab, Tabs} from "@mui/material"
 import {useMemo, useState, type ReactElement, type ReactNode} from "react"
 import {useTranslation} from "react-i18next"
@@ -151,7 +153,7 @@ export function KurseSection(): ReactElement {
                                             ))}
                                         </Select>
                                     </FormControl>
-                                    <Button variant="contained" color="primary" size="medium" onClick={() => undefined}>
+                                    <Button variant="contained" color="primary" size="small" onClick={() => undefined}>
                                         {t("organisation-public.anlass.kurse.trainer-add")}
                                     </Button>
                                 </div>
@@ -167,6 +169,11 @@ export function KurseSection(): ReactElement {
                                             variant="outlined"
                                             onDelete={() => setDeleteObjektId(o.id)}
                                             className={styles.objektChip}
+                                            deleteIcon={
+                                                <span className={styles.objektChipDelete} aria-hidden>
+                                                    <FontAwesomeIcon icon={faXmark} className={styles.objektChipDeleteX} />
+                                                </span>
+                                            }
                                             aria-label={t("organisation-public.anlass.kurse.objekt-remove-aria", {
                                                 label: o.label,
                                             })}

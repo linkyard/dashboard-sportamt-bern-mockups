@@ -32,7 +32,11 @@
 }
 
 .panel {
-    padding-top: 20px;
+    margin-top: 12px;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    background-color: #f8f8f8;
 }
 
 .fieldBlock {
@@ -56,11 +60,28 @@
     flex-wrap: wrap;
     gap: 12px;
     align-items: flex-start;
+    width: 50%;
 }
 
 .trainerSelectWrap {
     flex: 1;
     min-width: min(100%, 260px);
+
+    :global(.MuiOutlinedInput-root) {
+        background-color: #fff !important;
+        height: 30.75px;
+        min-height: 30.75px;
+    }
+
+    :global(.MuiSelect-select) {
+        display: flex;
+        align-items: center;
+        min-height: unset;
+        height: 30.75px;
+        box-sizing: border-box;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
 }
 
 .objekteChips {
@@ -70,17 +91,57 @@
     align-items: center;
 }
 
-.objektChip {
-    border-color: $sportamtGreen;
-    color: rgba(0, 0, 0, 0.87);
+.objektChip:global(.MuiChip-root) {
+    flex-shrink: 0;
+    align-items: center;
+    padding: 2px;
+    padding-left: 0;
+    border: 2px solid $sportamtGreen;
+    border-radius: 5px;
+    background-color: #fff !important;
+
+    &:hover {
+        background-color: #fff !important;
+        border-color: $sportamtGreen;
+        box-shadow: none;
+    }
+
+    :global(.MuiChip-label) {
+        padding: 8px 4px 8px 14px;
+        font-weight: 700;
+        font-size: 0.875rem;
+        line-height: 1.2;
+        color: rgba(0, 0, 0, 0.87);
+    }
 
     :global(.MuiChip-deleteIcon) {
-        color: rgba(0, 0, 0, 0.45);
-
-        &:hover {
-            color: rgba(0, 0, 0, 0.65);
-        }
+        margin: 0 6px 0 2px;
+        cursor: pointer;
+        color: inherit;
+        font-size: 0;
     }
+}
+
+.objektChipDelete {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: $sportamtGreen;
+    transition: background-color 0.18s ease;
+}
+
+.objektChipDelete:hover {
+    background-color: #9e9e9e;
+}
+
+.objektChipDeleteX {
+    width: 0.5rem !important;
+    height: 0.5rem !important;
+    color: #fff;
 }
 
 .tabLabelWrap {
