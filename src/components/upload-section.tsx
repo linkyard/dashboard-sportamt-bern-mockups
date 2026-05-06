@@ -12,39 +12,36 @@ interface UploadSectionProps {
     isUploadSuccess: boolean
     /** Omits default top margin when the block sits below a section heading inside a card. */
     flushTop?: boolean
-    variant?: "excel" | "pdf"
+    variant?: "admin" | "organisation"
 }
 
-export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, flushTop, variant = "excel"}: UploadSectionProps) => {
-    const {t} = useTranslation("dashboard")
+export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, flushTop, variant = "admin"}: UploadSectionProps) => {
+    const {t} = useTranslation("common")
     const [isDragging, setIsDragging] = useState(false)
     const [isDragInvalid, setIsDragInvalid] = useState(false)
     const [uploadError, setUploadError] = useState<string | null>(null)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
-    const inputAccept = variant === "pdf" ? ".pdf,application/pdf" : ".xls"
+    const inputAccept = variant === "organisation" ? ".pdf,.xls" : ".xls"
 
     const fileNameAccepted = (name: string): boolean => {
         const lower = name.toLowerCase()
-        return variant === "pdf" ? lower.endsWith(".pdf") : lower.endsWith(".xls")
+        if (variant === "organisation") {
+            return lower.endsWith(".pdf") || lower.endsWith(".xls")
+        }
+        return lower.endsWith(".xls")
     }
 
     const uploadTitleKey =
-        variant === "pdf"
-            ? ("organisation-public.reservation.participants-list-upload.upload-title" as const)
-            : ("board-detail.upload.upload-title" as const)
+        variant === "organisation" ? ("upload.organisation.upload-title" as const) : ("upload.admin.upload-title" as const)
     const uploadTextKey =
-        variant === "pdf"
-            ? ("organisation-public.reservation.participants-list-upload.upload-text" as const)
-            : ("board-detail.upload.upload-text" as const)
+        variant === "organisation" ? ("upload.organisation.upload-text" as const) : ("upload.admin.upload-text" as const)
     const fileMetaKey =
-        variant === "pdf"
-            ? ("organisation-public.reservation.participants-list-upload.file-meta" as const)
-            : ("board-detail.upload.file-meta" as const)
+        variant === "organisation" ? ("upload.organisation.file-meta" as const) : ("upload.admin.file-meta" as const)
     const errorFileTypeKey =
-        variant === "pdf"
-            ? ("organisation-public.reservation.participants-list-upload.error-file-type" as const)
-            : ("board-detail.upload.error-file-type" as const)
+        variant === "organisation"
+            ? ("upload.organisation.error-file-type" as const)
+            : ("upload.admin.error-file-type" as const)
 
     const handleFileList = (fileList: FileList | null) => {
         if (!fileList?.length) return
@@ -114,7 +111,7 @@ export const UploadSection = ({onFilesChange, onLoadTestData, isUploadSuccess, f
                                 fileInputRef.current?.click()
                             }}
                         >
-                            {t("board-detail.upload.browse-link")}
+                            {t("upload.browse-link")}
                         </button>
                     </p>
                     <p className={styles.uploadMeta}>{t(fileMetaKey)}</p>

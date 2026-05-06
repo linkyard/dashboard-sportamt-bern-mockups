@@ -100,6 +100,11 @@ export const ReservationEditor: React.FC = () => {
                     </Button>
                 </div>
             </div>
+
+            <TrainingSection />
+            <HolidayUsageTable periodLabel={periodLabel} />
+            <AdditionalDaysOffTable />
+
             <ParticipantsInputs
                 maleCount={maleParticipantCount}
                 femaleCount={femaleParticipantCount}
@@ -119,12 +124,10 @@ export const ReservationEditor: React.FC = () => {
                             toolTipContent={t("organisation-public.reservation.section-info-tooltip")}
                         />
                     </div>
-                    <UploadSection variant="pdf" onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
+                    <UploadSection variant="organisation" onFilesChange={() => undefined} isUploadSuccess={false} flushTop />
                 </section>
             ) : null}
-            <HolidayUsageTable periodLabel={periodLabel} />
-            <AdditionalDaysOffTable />
-            <TrainingSection />
+
             <CommentsSection />
         </>
     )

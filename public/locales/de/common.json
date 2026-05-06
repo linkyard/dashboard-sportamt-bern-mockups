@@ -11,5 +11,20 @@
         "save": "Speichern",
         "cancel": "Abbrechen",
         "search": "durchsuchen…"
+    },
+    "upload": {
+        "browse-link": "klicken Sie zum Auswählen",
+        "admin": {
+            "upload-title": "Excel-Datei hochladen",
+            "upload-text": "Ziehen Sie I-Web hierher oder",
+            "file-meta": "XLS",
+            "error-file-type": "Ungültiger Dateityp. Bitte laden Sie eine Excel-Datei (.xls) hoch."
+        },
+        "organisation": {
+            "upload-title": "PDF oder Excel-Datei hochladen",
+            "upload-text": "Ziehen Sie eine PDF- oder Excel-Datei hierher oder",
+            "file-meta": "PDF, XLS",
+            "error-file-type": "Ungültiger Dateityp. Bitte laden Sie eine PDF- (.pdf) oder Excel-Datei (.xls) hoch."
+        }
     }
 }

@@ -246,9 +246,9 @@
             "participants-list-title": "Teilnehmerliste",
             "participants-list-upload": {
                 "upload-title": "PDF hochladen",
-                "upload-text": "Ziehen Sie eine PDF-Datei hierher oder",
-                "file-meta": "pdf",
-                "error-file-type": "Ungültiger Dateityp. Bitte laden Sie eine PDF-Datei (.pdf) hoch."
+                "upload-text": "Ziehen Sie eine PDF- oder Excel-Datei hierher oder",
+                "file-meta": "PDF, XLS",
+                "error-file-type": "Ungültiger Dateityp. Bitte laden Sie eine PDF- (.pdf) oder Excel-Datei (.xls) hoch."
             },
             "section-info-tooltip": "hier angezeigte Informationen",
             "location-select-placeholder": "Standort auswählen",
@@ -289,8 +289,8 @@
                 "to-label": "Bis"
             },
             "trainings": {
-                "title": "Kurse",
-                "tabs-aria": "Kurse nach Wochentag und Uhrzeit",
+                "title": "Angaben zum Training / Kurse",
+                "tabs-aria": "Training / Kurse nach Wochentag und Uhrzeit",
                 "trainer-label": "Trainer",
                 "trainer-placeholder": "Trainer auswählen…",
                 "trainer-add": "Trainer erfassen",
