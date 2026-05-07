@@ -7,7 +7,7 @@ import {useTranslation} from "react-i18next"
 import {NavLink, useNavigate} from "react-router"
 import {PageTitle} from "../components/page-title"
 import {type Board, boardLabelDateRanges, type BoardStatus, dummyBoards} from "../dummyData"
-import {SportamtMaterialReactTableBase} from "../lib/material-react-table-base"
+import {MaterialReactTableBase} from "../lib/material-react-table-base"
 import {formatDateSwiss} from "../util/date"
 import styles from "./dashboard.module.scss"
 
@@ -106,7 +106,7 @@ export const Dashboard = () => {
         <>
             <PageTitle title={t("dashboard:dashboard.title")} />
 
-            <SportamtMaterialReactTableBase
+            <MaterialReactTableBase
                 columns={columns}
                 data={dummyBoards}
                 options={{

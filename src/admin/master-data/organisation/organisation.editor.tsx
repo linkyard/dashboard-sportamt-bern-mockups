@@ -10,7 +10,7 @@ import {ConfirmDeleteDialog} from "../../../components/confirm-delete-dialog"
 import {ContactDetails} from "../../../components/contact-box"
 import {PageTitle} from "../../../components/page-title"
 import {stammdatenSeedOrganisationen} from "../../../dummyData"
-import {SportamtMaterialReactTableBase} from "../../../lib/material-react-table-base"
+import {MaterialReactTableBase} from "../../../lib/material-react-table-base"
 import mrt from "../../../lib/material-react-table-styles.module.scss"
 import orgStyles from "../../board/organisation-admin.module.scss"
 import type {OrganisationRowData, TrainerRowData} from "./organisation-types"
@@ -141,7 +141,7 @@ function OrganisationEditorBody({initialOrg}: OrganisationEditorBodyProps) {
             </div>
 
             <div className={tableStyles.trainersSection}>
-                <SportamtMaterialReactTableBase
+                <MaterialReactTableBase
                     disableSearch
                     toolbarStart={
                         <h2 className={tableStyles.trainersHeading}>{t("dashboard:master-data.organisations-table.trainers-section")}</h2>

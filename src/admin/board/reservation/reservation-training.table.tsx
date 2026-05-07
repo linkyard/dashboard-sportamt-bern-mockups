@@ -6,7 +6,7 @@ import {useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {PageTitle} from "../../../components/page-title"
 import {trainerOptions, trainingObjectsByTimeBlockSeed, trainingTimeBlocks, type TrainerOptionSeed} from "../../../dummyData"
-import {SportamtMaterialReactTableBase} from "../../../lib/material-react-table-base"
+import {MaterialReactTableBase} from "../../../lib/material-react-table-base"
 import mrt from "../../../lib/material-react-table-styles.module.scss"
 import styles from "./reservation-training.table.module.scss"
 
@@ -157,7 +157,7 @@ export const ReservationTrainingsTable: React.FC = () => {
 
     return (
         <>
-            <SportamtMaterialReactTableBase
+            <MaterialReactTableBase
                 columns={columns}
                 data={data}
                 options={options}

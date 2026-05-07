@@ -8,7 +8,7 @@ import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
 import {ConfirmDeleteDialog} from "../../../components/confirm-delete-dialog"
 import {stammdatenSeedHolidays, stammdatenSeedLocations} from "../../../dummyData"
-import {SportamtMaterialReactTableBase} from "../../../lib/material-react-table-base"
+import {MaterialReactTableBase} from "../../../lib/material-react-table-base"
 import mrt from "../../../lib/material-react-table-styles.module.scss"
 import {formatDateSwiss} from "../../../util/date"
 import {ensureHolidayClosure} from "./holiday-closure"
@@ -167,7 +167,7 @@ export const FerienTable = () => {
 
     return (
         <>
-            <SportamtMaterialReactTableBase
+            <MaterialReactTableBase
                 columns={columns}
                 data={tableData}
                 options={ferienTableOptions}

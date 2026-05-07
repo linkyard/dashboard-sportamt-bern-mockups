@@ -28,7 +28,7 @@ interface Props<R extends MRT_RowData> {
     disableSearch?: boolean
 }
 
-export function SportamtMaterialReactTableBase<R extends MRT_RowData>({
+export function MaterialReactTableBase<R extends MRT_RowData>({
     data: tableData,
     columns,
     options,

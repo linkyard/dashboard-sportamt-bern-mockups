@@ -8,7 +8,7 @@ import organisationenTableStyles from "../../admin/master-data/organisation/orga
 import {ConfirmDeleteDialog} from "../../components/confirm-delete-dialog"
 import {PageTitle} from "../../components/page-title"
 import {organisationPublicSeedAusfalltage, type AusfalltagRowData} from "../../dummyData"
-import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
+import {MaterialReactTableBase} from "../../lib/material-react-table-base"
 import mrt from "../../lib/material-react-table-styles.module.scss"
 import {formatDateSwiss} from "../../util/date"
 import styles from "../reservation.editor.module.scss"
@@ -132,7 +132,7 @@ export function AdditionalDaysOffTable(): ReactElement {
                         {t("organisation-public.reservation.additional-days-off.add-button")}
                     </Button>
                 </div>
-                <SportamtMaterialReactTableBase columns={columns} data={rows} options={tableOptions} disableSearch />
+                <MaterialReactTableBase columns={columns} data={rows} options={tableOptions} disableSearch />
             </section>
 
             {editDraft ? (

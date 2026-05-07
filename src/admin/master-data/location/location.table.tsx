@@ -5,7 +5,7 @@ import {type MRT_ColumnDef, MRT_ExpandButton, type MRT_Row, MRT_TableBodyRowGrab
 import {type ReactNode, useCallback, useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
 import {ConfirmDeleteDialog} from "../../../components/confirm-delete-dialog"
-import {SportamtMaterialReactTableBase} from "../../../lib/material-react-table-base"
+import {MaterialReactTableBase} from "../../../lib/material-react-table-base"
 import mrt from "../../../lib/material-react-table-styles.module.scss"
 import {moveObjectRelativeToHover, moveObjectToLocationEnd} from "./location"
 import {type LocationRowData, type ObjectRowData, type StammdatenObjectsRow} from "./location-types"
@@ -252,7 +252,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
 
     return (
         <>
-            <SportamtMaterialReactTableBase
+            <MaterialReactTableBase
                 columns={columns}
                 data={tableData}
                 options={locationsTableOptions}

@@ -7,7 +7,7 @@ import {splitIntoFerienwochen} from "../../admin/master-data/holiday/holiday-clo
 import type {HolidayRowData} from "../../admin/master-data/holiday/holiday-types"
 import {PageTitle} from "../../components/page-title"
 import {stammdatenSeedHolidays} from "../../dummyData"
-import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
+import {MaterialReactTableBase} from "../../lib/material-react-table-base"
 import mrt from "../../lib/material-react-table-styles.module.scss"
 import {formatDateSwiss} from "../../util/date"
 import styles from "../reservation.editor.module.scss"
@@ -257,7 +257,7 @@ export function HolidayUsageTable({periodLabel}: HolidayUsageTableProps): ReactE
             {holidays.length === 0 ? (
                 <p>{t("organisation-public.reservation.holidays.empty-year", {year})}</p>
             ) : (
-                <SportamtMaterialReactTableBase data={tableRows} columns={columns} options={tableOptions} disableSearch />
+                <MaterialReactTableBase data={tableRows} columns={columns} options={tableOptions} disableSearch />
             )}
         </section>
     )
