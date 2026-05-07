@@ -39,7 +39,7 @@ export function HolidayEditorWeekColumnGrid({tableState, tableActions}: {tableSt
         if (weekMetas.length === 0) {
             return "minmax(220px, 1.4fr)"
         }
-        return `minmax(220px, 1.4fr) ${weekMetas.map(() => "minmax(72px, 1fr)").join(" ")}`
+        return `minmax(220px, 1.4fr) ${weekMetas.map(() => "minmax(150px, 200px)").join(" ")}`
     }, [weekMetas])
 
     const gridStyle = useMemo(() => ({gridTemplateColumns}), [gridTemplateColumns])
