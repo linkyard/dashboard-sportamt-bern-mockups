@@ -5,7 +5,7 @@ import {ContactDetails} from "../../components/contact-box"
 import {PageTitle} from "../../components/page-title"
 import {getOrganisationById} from "../../dummyData"
 import styles from "./organisation-admin.module.scss"
-import ReservationsCardList from "./reservation.list"
+import ReservationsCardList from "./reservation/reservation.list"
 
 export const OrganisationAdminPage: React.FC = () => {
     const {orgId} = useParams<{orgId: string}>()
