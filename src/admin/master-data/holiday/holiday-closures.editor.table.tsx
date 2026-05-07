@@ -1,44 +1,39 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import {Checkbox, IconButton, Paper} from "@mui/material"
-import type {TFunction} from "i18next"
-import {type Dispatch, type SetStateAction, useMemo} from "react"
+import {useMemo} from "react"
+import {useTranslation} from "react-i18next"
+import {formatDateDeShort} from "../../../util/date"
 import type {LocationRowData, ObjectRowData} from "../location/location-types"
-import {aggregateLocationWeekForObjects, formatDeShort, toggleLocationWeekCascade, toggleObjectWeekClosure} from "./holiday-closure"
+import {aggregateLocationWeekForObjects} from "./holiday-closure"
 import styles from "./holiday-closures.module.scss"
 import type {HolidayClosureState} from "./holiday-types"
 
 type WeekMeta = {id: string; startDate: string; endDate: string}
-
-export function FerienClosuresEditorWeekColumnGrid({
-    t,
-    weekMetas,
-    closure,
-    visibleLocations,
-    expandedLocIds,
-    setExpandedLocIds,
-    allWeeksIncluded,
-    masterWeekIndeterminate,
-    toggleAllWeeksIncluded,
-    toggleOneWeek,
-    weekColumnHeaderAgg,
-    applyMutation,
-    locations,
-}: {
-    t: TFunction
+type WeekHeaderState = Record<string, {checked: boolean; indeterminate: boolean}>
+type TableState = {
     weekMetas: WeekMeta[]
     closure: HolidayClosureState
     visibleLocations: LocationRowData[]
     expandedLocIds: Set<string>
-    setExpandedLocIds: Dispatch<SetStateAction<Set<string>>>
     allWeeksIncluded: boolean
     masterWeekIndeterminate: boolean
+    weekColumnHeaderAgg: WeekHeaderState
+}
+type TableActions = {
     toggleAllWeeksIncluded: () => void
     toggleOneWeek: (weekId: string) => void
-    weekColumnHeaderAgg: Record<string, {checked: boolean; indeterminate: boolean}>
-    applyMutation: (recipe: (prev: HolidayClosureState) => HolidayClosureState) => void
-    locations: LocationRowData[]
-}) {
+    toggleLocationExpanded: (locationId: string) => void
+    toggleLocationWeek: (locationId: string, weekId: string) => void
+    toggleObjectWeek: (objectId: string, weekId: string) => void
+}
+
+export function HolidayEditorWeekColumnGrid({tableState, tableActions}: {tableState: TableState; tableActions: TableActions}) {
+    const {t} = useTranslation("dashboard")
+    const {weekMetas, closure, visibleLocations, expandedLocIds, allWeeksIncluded, masterWeekIndeterminate, weekColumnHeaderAgg} =
+        tableState
+    const {toggleAllWeeksIncluded, toggleOneWeek, toggleLocationExpanded, toggleLocationWeek, toggleObjectWeek} = tableActions
+
     /** Explicit grid columns so week headers don’t collapse (HTML tables were sizing to a single label column). */
     const gridTemplateColumns = useMemo(() => {
         if (weekMetas.length === 0) {
@@ -93,7 +88,7 @@ export function FerienClosuresEditorWeekColumnGrid({
                                                 input: {
                                                     "aria-label": t("dashboard:master-data.holidays-editor.week-aria", {
                                                         week: wi + 1,
-                                                        range: `${formatDeShort(w.startDate)}–${formatDeShort(w.endDate)}`,
+                                                        range: `${formatDateDeShort(w.startDate)}–${formatDateDeShort(w.endDate)}`,
                                                     }),
                                                 },
                                             }}
@@ -101,7 +96,7 @@ export function FerienClosuresEditorWeekColumnGrid({
                                         <div className={styles.weekHeadTitle}>
                                             <span>{t("dashboard:master-data.holidays-editor.column-week-n", {week: wi + 1})}</span>
                                             <span className={styles.weekHeadSub}>
-                                                {`${formatDeShort(w.startDate)}–${formatDeShort(w.endDate)}`}
+                                                {`${formatDateDeShort(w.startDate)}–${formatDateDeShort(w.endDate)}`}
                                             </span>
                                         </div>
                                     </div>
@@ -129,17 +124,7 @@ export function FerienClosuresEditorWeekColumnGrid({
                                                     ? t("dashboard:master-data.holidays-editor.collapse-aria", {name: loc.name})
                                                     : t("dashboard:master-data.holidays-editor.expand-aria", {name: loc.name})
                                             }
-                                            onClick={() =>
-                                                setExpandedLocIds((prev) => {
-                                                    const next = new Set(prev)
-                                                    if (next.has(loc.id)) {
-                                                        next.delete(loc.id)
-                                                    } else {
-                                                        next.add(loc.id)
-                                                    }
-                                                    return next
-                                                })
-                                            }
+                                            onClick={() => toggleLocationExpanded(loc.id)}
                                         >
                                             <ExpandMoreIcon
                                                 fontSize="small"
@@ -163,12 +148,12 @@ export function FerienClosuresEditorWeekColumnGrid({
                                                 checked={!inactive && locWeekAgg.checked}
                                                 indeterminate={!inactive && locWeekAgg.indeterminate}
                                                 disabled={inactive}
-                                                onChange={() => applyMutation((c) => toggleLocationWeekCascade(c, locations, loc.id, w.id))}
+                                                onChange={() => toggleLocationWeek(loc.id, w.id)}
                                                 slotProps={{
                                                     input: {
                                                         "aria-label": t("dashboard:master-data.holidays-editor.cell-location-week-aria", {
                                                             location: loc.name,
-                                                            range: `${formatDeShort(w.startDate)}–${formatDeShort(w.endDate)}`,
+                                                            range: `${formatDateDeShort(w.startDate)}–${formatDateDeShort(w.endDate)}`,
                                                         }),
                                                     },
                                                 }}
@@ -206,14 +191,14 @@ export function FerienClosuresEditorWeekColumnGrid({
                                                       size="small"
                                                       checked={!inactive && checked}
                                                       disabled={inactive}
-                                                      onChange={() => applyMutation((c) => toggleObjectWeekClosure(c, obj.id, w.id))}
+                                                      onChange={() => toggleObjectWeek(obj.id, w.id)}
                                                       slotProps={{
                                                           input: {
                                                               "aria-label": t(
                                                                   "dashboard:master-data.holidays-editor.cell-object-week-aria",
                                                                   {
                                                                       objekt: obj.name,
-                                                                      range: `${formatDeShort(w.startDate)}–${formatDeShort(w.endDate)}`,
+                                                                      range: `${formatDateDeShort(w.startDate)}–${formatDateDeShort(w.endDate)}`,
                                                                   }
                                                               ),
                                                           },

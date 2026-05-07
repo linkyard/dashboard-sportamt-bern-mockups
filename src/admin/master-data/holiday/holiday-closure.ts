@@ -1,79 +1,45 @@
 import type {LocationRowData} from "../location/location-types"
+import {formatIsoDateLocal, parseIsoDateParts} from "../../../util/date"
 import type {HolidayClosureState, HolidayRowData} from "./holiday-types"
 
 const SPORTAMT_ACCENT = "#d7e054"
 
 export {SPORTAMT_ACCENT}
 
-export function parseIsoDateParts(iso: string): {y: number; m: number; d: number} | null {
-    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso.trim())
-    if (!m) {
-        return null
-    }
-    const y = Number(m[1])
-    const mo = Number(m[2])
-    const d = Number(m[3])
-    if (!y || mo < 1 || mo > 12 || d < 1 || d > 31) {
-        return null
-    }
-    return {y, m: mo, d}
-}
-
-function toIsoLocal(d: Date): string {
-    const y = d.getFullYear()
-    const mo = String(d.getMonth() + 1).padStart(2, "0")
-    const day = String(d.getDate()).padStart(2, "0")
-    return `${y}-${mo}-${day}`
-}
-
 /** Seven-day blocks from holiday start through end (matches “Woche 1 (06.07–12.07)” style). */
 export function splitIntoFerienwochen(startIso: string, endIso: string): {id: string; startDate: string; endDate: string}[] {
-    const ps = parseIsoDateParts(startIso)
-    const pe = parseIsoDateParts(endIso)
-    if (!ps || !pe) {
+    const start = parseIsoDateParts(startIso)
+    const end = parseIsoDateParts(endIso)
+    if (!start || !end) {
         return []
     }
-    const holidayEnd = new Date(pe.y, pe.m - 1, pe.d)
-    const weeks: {id: string; startDate: string; endDate: string}[] = []
-    let weekStart = new Date(ps.y, ps.m - 1, ps.d)
-    let i = 0
-    while (weekStart <= holidayEnd) {
+    const holidayStart = new Date(start.y, start.m - 1, start.d)
+    const holidayEnd = new Date(end.y, end.m - 1, end.d)
+    const millisPerDay = 24 * 60 * 60 * 1000
+    const totalDays = Math.floor((holidayEnd.getTime() - holidayStart.getTime()) / millisPerDay) + 1
+    const weekCount = Math.max(0, Math.ceil(totalDays / 7))
+
+    return Array.from({length: weekCount}, (_, index) => {
+        const weekStart = new Date(holidayStart)
+        weekStart.setDate(weekStart.getDate() + index * 7)
+
         const weekEnd = new Date(weekStart)
         weekEnd.setDate(weekEnd.getDate() + 6)
         if (weekEnd > holidayEnd) {
             weekEnd.setTime(holidayEnd.getTime())
         }
-        weeks.push({
-            id: `w-${i}`,
-            startDate: toIsoLocal(weekStart),
-            endDate: toIsoLocal(weekEnd),
-        })
-        weekStart = new Date(weekStart)
-        weekStart.setDate(weekStart.getDate() + 7)
-        i++
-    }
-    return weeks
-}
 
-export function formatDeShort(iso: string): string {
-    const p = parseIsoDateParts(iso)
-    if (!p) {
-        return iso
-    }
-    return `${String(p.d).padStart(2, "0")}.${String(p.m).padStart(2, "0")}.`
-}
-
-export function formatDeDateFull(iso: string): string {
-    const p = parseIsoDateParts(iso)
-    if (!p) {
-        return iso
-    }
-    return `${String(p.d).padStart(2, "0")}.${String(p.m).padStart(2, "0")}.${p.y}`
+        return {
+            id: `w-${index}`,
+            startDate: formatIsoDateLocal(weekStart),
+            endDate: formatIsoDateLocal(weekEnd),
+        }
+    })
 }
 
 function activeWeekIds(closure: HolidayClosureState): string[] {
     return Object.entries(closure.weekIncluded)
-        .filter(([, inc]) => inc)
+        .filter(([, included]) => included)
         .map(([id]) => id)
 }
 
@@ -82,43 +48,29 @@ export function computeClosedObjekteCount(locations: LocationRowData[], closure:
     if (weeks.length === 0) {
         return 0
     }
-    let n = 0
-    for (const loc of locations) {
-        for (const obj of loc.subRows) {
-            const byW = closure.objectClosedByWeek[obj.id] ?? {}
-            if (weeks.every((w) => byW[w] === true)) {
-                n++
-            }
-        }
-    }
-    return n
+
+    return locations
+        .flatMap((location) => location.subRows)
+        .reduce((count, objectRow) => {
+            const closedByWeek = closure.objectClosedByWeek[objectRow.id] ?? {}
+            return weeks.every((weekId) => closedByWeek[weekId] === true) ? count + 1 : count
+        }, 0)
 }
 
 function emptyWeekMap(weekIds: string[], value: boolean): Record<string, boolean> {
-    const o: Record<string, boolean> = {}
-    for (const id of weekIds) {
-        o[id] = value
-    }
-    return o
+    return Object.fromEntries(weekIds.map((weekId) => [weekId, value]))
 }
 
 export function buildDefaultClosure(locations: LocationRowData[], startIso: string, endIso: string): HolidayClosureState {
     const weekMetas = splitIntoFerienwochen(startIso, endIso)
     const weekIds = weekMetas.map((w) => w.id)
-    const weekIncluded: Record<string, boolean> = {}
-    for (const id of weekIds) {
-        weekIncluded[id] = false
-    }
-
-    const locationClosedByWeek: Record<string, Record<string, boolean>> = {}
-    const objectClosedByWeek: Record<string, Record<string, boolean>> = {}
-
-    for (const loc of locations) {
-        locationClosedByWeek[loc.id] = emptyWeekMap(weekIds, false)
-        for (const obj of loc.subRows) {
-            objectClosedByWeek[obj.id] = emptyWeekMap(weekIds, false)
-        }
-    }
+    const weekIncluded = emptyWeekMap(weekIds, false)
+    const locationClosedByWeek = Object.fromEntries(locations.map((location) => [location.id, emptyWeekMap(weekIds, false)]))
+    const objectClosedByWeek = Object.fromEntries(
+        locations
+            .flatMap((location) => location.subRows)
+            .map((objectRow) => [objectRow.id, emptyWeekMap(weekIds, false)])
+    )
 
     return {
         weekIncluded,
@@ -134,22 +86,23 @@ export function setWeekIncludedWithColumnCascade(
     weekId: string,
     included: boolean
 ): HolidayClosureState {
-    const geschlossen = included
-    let locationClosedByWeek = {...closure.locationClosedByWeek}
-    let objectClosedByWeek = {...closure.objectClosedByWeek}
+    const locationClosedByWeek = locations.reduce<Record<string, Record<string, boolean>>>(
+        (acc, location) => ({
+            ...acc,
+            [location.id]: {...(acc[location.id] ?? {}), [weekId]: included},
+        }),
+        {...closure.locationClosedByWeek}
+    )
 
-    for (const loc of locations) {
-        locationClosedByWeek = {
-            ...locationClosedByWeek,
-            [loc.id]: {...(locationClosedByWeek[loc.id] ?? {}), [weekId]: geschlossen},
-        }
-        for (const obj of loc.subRows) {
-            objectClosedByWeek = {
-                ...objectClosedByWeek,
-                [obj.id]: {...(objectClosedByWeek[obj.id] ?? {}), [weekId]: geschlossen},
-            }
-        }
-    }
+    const objectClosedByWeek = locations
+        .flatMap((location) => location.subRows)
+        .reduce<Record<string, Record<string, boolean>>>(
+            (acc, objectRow) => ({
+                ...acc,
+                [objectRow.id]: {...(acc[objectRow.id] ?? {}), [weekId]: included},
+            }),
+            {...closure.objectClosedByWeek}
+        )
 
     return {
         ...closure,
@@ -161,14 +114,10 @@ export function setWeekIncludedWithColumnCascade(
 
 /** Every geschlossen cell in the Ferien-week column (Standort rows + Objekte). */
 function gatherWeekColumnClosedValues(closure: HolidayClosureState, locations: LocationRowData[], weekId: string): boolean[] {
-    const vals: boolean[] = []
-    for (const loc of locations) {
-        vals.push(closure.locationClosedByWeek[loc.id]?.[weekId] ?? false)
-        for (const obj of loc.subRows) {
-            vals.push(closure.objectClosedByWeek[obj.id]?.[weekId] ?? false)
-        }
-    }
-    return vals
+    return locations.flatMap((location) => [
+        closure.locationClosedByWeek[location.id]?.[weekId] ?? false,
+        ...location.subRows.map((objectRow) => closure.objectClosedByWeek[objectRow.id]?.[weekId] ?? false),
+    ])
 }
 
 /**
@@ -242,40 +191,45 @@ export function rebuildClosureForNewRange(
     const weekMetas = splitIntoFerienwochen(startIso, endIso)
     const weekIds = weekMetas.map((w) => w.id)
     const oldIds = Object.keys(prev.weekIncluded).sort()
-
-    const weekIncluded: Record<string, boolean> = {}
-    for (let i = 0; i < weekIds.length; i++) {
-        const oid = oldIds[i]
-        weekIncluded[weekIds[i]] = oid !== undefined ? (prev.weekIncluded[oid] ?? false) : false
-    }
+    const weekIncluded = Object.fromEntries(
+        weekIds.map((weekId, index) => {
+            const oldWeekId = oldIds[index]
+            return [weekId, oldWeekId !== undefined ? (prev.weekIncluded[oldWeekId] ?? false) : false]
+        })
+    )
 
     const migrateMap = (oldMap: Record<string, Record<string, boolean>>): Record<string, Record<string, boolean>> => {
-        const next: Record<string, Record<string, boolean>> = {}
-        for (const entityId of Object.keys(oldMap)) {
-            const row: Record<string, boolean> = {}
-            for (let i = 0; i < weekIds.length; i++) {
-                const oid = oldIds[i]
-                const prevVal = oid !== undefined ? oldMap[entityId]?.[oid] : undefined
-                row[weekIds[i]] = prevVal !== undefined ? prevVal : false
-            }
-            next[entityId] = row
-        }
-        return next
+        return Object.fromEntries(
+            Object.keys(oldMap).map((entityId) => [
+                entityId,
+                Object.fromEntries(
+                    weekIds.map((weekId, index) => {
+                        const oldWeekId = oldIds[index]
+                        const previousValue = oldWeekId !== undefined ? oldMap[entityId]?.[oldWeekId] : undefined
+                        return [weekId, previousValue !== undefined ? previousValue : false]
+                    })
+                ),
+            ])
+        )
     }
 
-    const locationClosedByWeek = migrateMap(prev.locationClosedByWeek)
-    const objectClosedByWeek = migrateMap(prev.objectClosedByWeek)
+    const locationClosedByWeek = locations.reduce<Record<string, Record<string, boolean>>>(
+        (acc, location) => ({
+            ...acc,
+            [location.id]: acc[location.id] ?? emptyWeekMap(weekIds, false),
+        }),
+        migrateMap(prev.locationClosedByWeek)
+    )
 
-    for (const loc of locations) {
-        if (!locationClosedByWeek[loc.id]) {
-            locationClosedByWeek[loc.id] = emptyWeekMap(weekIds, false)
-        }
-        for (const obj of loc.subRows) {
-            if (!objectClosedByWeek[obj.id]) {
-                objectClosedByWeek[obj.id] = emptyWeekMap(weekIds, false)
-            }
-        }
-    }
+    const objectClosedByWeek = locations
+        .flatMap((location) => location.subRows)
+        .reduce<Record<string, Record<string, boolean>>>(
+            (acc, objectRow) => ({
+                ...acc,
+                [objectRow.id]: acc[objectRow.id] ?? emptyWeekMap(weekIds, false),
+            }),
+            migrateMap(prev.objectClosedByWeek)
+        )
 
     return {
         weekIncluded,
@@ -364,10 +318,7 @@ export function setEntityAllActiveWeeks(
 ): HolidayClosureState {
     const weeks = activeWeekIds(closure)
     const map = {...closure[entityKey]}
-    const row = {...(map[entityId] ?? {})}
-    for (const w of weeks) {
-        row[w] = value
-    }
+    const row = weeks.reduce<Record<string, boolean>>((acc, weekId) => ({...acc, [weekId]: value}), {...(map[entityId] ?? {})})
     map[entityId] = row
     return {...closure, [entityKey]: map}
 }
@@ -387,15 +338,15 @@ export function setLocationClosedCascade(
     locationId: string,
     value: boolean
 ): HolidayClosureState {
-    let next = setEntityAllActiveWeeks(closure, "locationClosedByWeek", locationId, value)
+    const next = setEntityAllActiveWeeks(closure, "locationClosedByWeek", locationId, value)
     const loc = locations.find((l) => l.id === locationId)
     if (!loc) {
         return next
     }
-    for (const obj of loc.subRows) {
-        next = setEntityAllActiveWeeks(next, "objectClosedByWeek", obj.id, value)
-    }
-    return next
+    return loc.subRows.reduce(
+        (state, objectRow) => setEntityAllActiveWeeks(state, "objectClosedByWeek", objectRow.id, value),
+        next
+    )
 }
 
 /** Toggle closure for one Ferien week for one Objekt (`objectClosedByWeek[objId][weekId]`). */
@@ -435,22 +386,22 @@ export function toggleLocationWeekCascade(
         nextVal = !allClosed
     }
 
-    let next: HolidayClosureState = {
+    const objectClosedByWeek = loc.subRows.reduce<Record<string, Record<string, boolean>>>(
+        (acc, objectRow) => ({
+            ...acc,
+            [objectRow.id]: {...(acc[objectRow.id] ?? {}), [weekId]: nextVal},
+        }),
+        {...closure.objectClosedByWeek}
+    )
+
+    return {
         ...closure,
         locationClosedByWeek: {
             ...closure.locationClosedByWeek,
             [locationId]: {...(closure.locationClosedByWeek[locationId] ?? {}), [weekId]: nextVal},
         },
-        objectClosedByWeek: {...closure.objectClosedByWeek},
+        objectClosedByWeek,
     }
-
-    for (const obj of loc.subRows) {
-        const oRow = {...(next.objectClosedByWeek[obj.id] ?? {})}
-        oRow[weekId] = nextVal
-        next = {...next, objectClosedByWeek: {...next.objectClosedByWeek, [obj.id]: oRow}}
-    }
-
-    return next
 }
 
 export function toggleLocationClosedCascade(

@@ -9,53 +9,50 @@ import {AppBreadcrumbs} from "../../../components/breadcrumbs"
 import {FieldLabel} from "../../../components/field-label"
 import {PageTitle} from "../../../components/page-title"
 import {stammdatenSeedHolidays, stammdatenSeedLocations} from "../../../dummyData"
-import {parseIsoToDayjs} from "../../../util/date"
+import {parseIsoDateParts, parseIsoToDayjs} from "../../../util/date"
 import {
     aggregateWeekColumnForAllEntities,
     computeClosedObjekteCount,
     cycleWeekColumnHeader,
     ensureHolidayClosure,
-    parseIsoDateParts,
     rebuildClosureForNewRange,
     setWeekIncludedWithColumnCascade,
     splitIntoFerienwochen,
+    toggleLocationWeekCascade,
+    toggleObjectWeekClosure,
 } from "./holiday-closure"
-import {FerienClosuresEditorWeekColumnGrid} from "./holiday-closures.editor.table"
+import {HolidayEditorWeekColumnGrid} from "./holiday-closures.editor.table"
 import styles from "./holiday-closures.module.scss"
 import type {HolidayClosureState, HolidayRowData} from "./holiday-types"
 
 const LOCATIONS = stammdatenSeedLocations
 
-/** Ephemeral editor state keyed by holiday — resets when `holidayId` changes; not persisted. */
-function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData}) {
+function HolidayEditor({initialHoliday}: {initialHoliday: HolidayRowData}) {
     const {t} = useTranslation(["dashboard", "common"])
     const [search, setSearch] = useState("")
     const [expandedLocIds, setExpandedLocIds] = useState<Set<string>>(() => new Set(LOCATIONS.map((l) => l.id)))
     const [holiday, setHoliday] = useState(() => structuredClone(initialHoliday))
 
-    const patchHoliday = useCallback((updater: (h: HolidayRowData) => HolidayRowData) => {
+    const updateHolidayState = useCallback((updater: (holidayRow: HolidayRowData) => HolidayRowData) => {
         setHoliday((prev) => updater(prev))
     }, [])
 
-    const applyMutation = useCallback(
-        (recipe: (prev: HolidayClosureState) => HolidayClosureState) => {
-            patchHoliday((h) => {
-                const cur = h.closure!
-                const nextClosure = recipe(cur)
+    const updateClosure = useCallback(
+        (updateClosureState: (prevClosure: HolidayClosureState) => HolidayClosureState) => {
+            updateHolidayState((holidayRow) => {
+                const currentClosure = holidayRow.closure!
+                const nextClosure = updateClosureState(currentClosure)
                 return {
-                    ...h,
+                    ...holidayRow,
                     closure: nextClosure,
                     closedObjekteCount: computeClosedObjekteCount(LOCATIONS, nextClosure),
                 }
             })
         },
-        [patchHoliday]
+        [updateHolidayState]
     )
 
     const weekMetas = useMemo(() => {
-        if (!holiday) {
-            return []
-        }
         return splitIntoFerienwochen(holiday.startDate, holiday.endDate)
     }, [holiday])
 
@@ -101,8 +98,8 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
 
     const toggleAllWeeksIncluded = () => {
         const nextVal = !allWeeksIncluded
-        applyMutation((c) => {
-            let next = c
+        updateClosure((closureState) => {
+            let next = closureState
             for (const id of weekIds) {
                 next = setWeekIncludedWithColumnCascade(next, LOCATIONS, id, nextVal)
             }
@@ -111,10 +108,30 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
     }
 
     const toggleOneWeek = (weekId: string) => {
-        applyMutation((c) => cycleWeekColumnHeader(c, LOCATIONS, weekId))
+        updateClosure((closureState) => cycleWeekColumnHeader(closureState, LOCATIONS, weekId))
     }
 
-    const compareIso = (a: string, b: string): number => {
+    const toggleLocationExpanded = (locationId: string) => {
+        setExpandedLocIds((prev) => {
+            const next = new Set(prev)
+            if (next.has(locationId)) {
+                next.delete(locationId)
+            } else {
+                next.add(locationId)
+            }
+            return next
+        })
+    }
+
+    const toggleLocationWeek = (locationId: string, weekId: string) => {
+        updateClosure((closureState) => toggleLocationWeekCascade(closureState, LOCATIONS, locationId, weekId))
+    }
+
+    const toggleObjectWeek = (objectId: string, weekId: string) => {
+        updateClosure((closureState) => toggleObjectWeekClosure(closureState, objectId, weekId))
+    }
+
+    const compareIsoDate = (a: string, b: string): number => {
         const pa = parseIsoDateParts(a)
         const pb = parseIsoDateParts(b)
         if (!pa || !pb) {
@@ -129,21 +146,21 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
         return pa.d - pb.d
     }
 
-    const onDatePickerChange = (field: "startDate" | "endDate", date: Dayjs | null) => {
+    const handleDateChange = (field: "startDate" | "endDate", date: Dayjs | null) => {
         const value = date && date.isValid() ? date.format("YYYY-MM-DD") : ""
         const start = field === "startDate" ? value : holiday.startDate
         const end = field === "endDate" ? value : holiday.endDate
         if (!parseIsoDateParts(start) || !parseIsoDateParts(end)) {
-            patchHoliday((h) => ({...h, [field]: value}))
+            updateHolidayState((holidayRow) => ({...holidayRow, [field]: value}))
             return
         }
-        if (compareIso(end, start) < 0) {
-            patchHoliday((h) => ({...h, [field]: value}))
+        if (compareIsoDate(end, start) < 0) {
+            updateHolidayState((holidayRow) => ({...holidayRow, [field]: value}))
             return
         }
         const nextClosure = rebuildClosureForNewRange(closure, LOCATIONS, start, end)
-        patchHoliday((h) => ({
-            ...h,
+        updateHolidayState((holidayRow) => ({
+            ...holidayRow,
             startDate: start,
             endDate: end,
             closure: nextClosure,
@@ -151,26 +168,32 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
         }))
     }
 
-    const layoutProps = {
-        t,
+    const tableState = {
         weekMetas,
         closure,
         visibleLocations,
         expandedLocIds,
-        setExpandedLocIds,
         allWeeksIncluded,
         masterWeekIndeterminate,
+        weekColumnHeaderAgg,
+    }
+
+    const tableActions = {
         toggleAllWeeksIncluded,
         toggleOneWeek,
-        weekColumnHeaderAgg,
-        applyMutation,
-        locations: LOCATIONS,
+        toggleLocationExpanded,
+        toggleLocationWeek,
+        toggleObjectWeek,
     }
 
     return (
         <div className={styles.page}>
             <AppBreadcrumbs variant="holidays-editor" holidayName={holiday.name} />
-            <PageTitle title={holiday.name} editable onTitleChange={(value) => patchHoliday((h) => ({...h, name: value}))} />
+            <PageTitle
+                title={holiday.name}
+                editable
+                onTitleChange={(value) => updateHolidayState((holidayRow) => ({...holidayRow, name: value}))}
+            />
 
             <div className={styles.formSection}>
                 <div className={`${styles.detailsCard} ${styles.controlsRow}`}>
@@ -181,7 +204,7 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
                             </FieldLabel>
                             <DatePicker
                                 value={parseIsoToDayjs(holiday.startDate)}
-                                onChange={(date) => onDatePickerChange("startDate", date ? dayjs(date) : null)}
+                                onChange={(date) => handleDateChange("startDate", date ? dayjs(date) : null)}
                                 slotProps={{
                                     textField: {
                                         id: "ferien-editor-start-date",
@@ -196,7 +219,7 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
                             <FieldLabel htmlFor="ferien-editor-end-date">{t("dashboard:master-data.holidays-editor.end-label")}</FieldLabel>
                             <DatePicker
                                 value={parseIsoToDayjs(holiday.endDate)}
-                                onChange={(date) => onDatePickerChange("endDate", date ? dayjs(date) : null)}
+                                onChange={(date) => handleDateChange("endDate", date ? dayjs(date) : null)}
                                 slotProps={{
                                     textField: {
                                         id: "ferien-editor-end-date",
@@ -231,7 +254,7 @@ function HolidayEditorMockBody({initialHoliday}: {initialHoliday: HolidayRowData
                 </div>
             </div>
 
-            <FerienClosuresEditorWeekColumnGrid {...layoutProps} />
+            <HolidayEditorWeekColumnGrid tableState={tableState} tableActions={tableActions} />
         </div>
     )
 }
@@ -251,5 +274,5 @@ export const HolidayEditorPage = () => {
         return <Navigate to="/admin/stammdaten/ferien" replace />
     }
 
-    return <HolidayEditorMockBody key={holidayId} initialHoliday={fromSeed} />
+    return <HolidayEditor key={holidayId} initialHoliday={fromSeed} />
 }
