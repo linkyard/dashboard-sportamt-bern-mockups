@@ -11,13 +11,18 @@ $nestedRowBackground: #fff;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 12px;
     margin-bottom: 12px;
 }
 
+.tableToolbarStart > * {
+    margin: 0;
+}
+
 .tableToolbarSearch {
-    flex: 1 1 220px;
+    margin-left: auto;
+    flex: 0 1 220px;
     max-width: fit-content;
     min-width: 0;
 }

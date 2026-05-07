@@ -2,6 +2,7 @@ import {type MRT_ColumnDef, type MRT_DensityState, type MRT_TableOptions} from "
 import {useMemo} from "react"
 import {useTranslation} from "react-i18next"
 import {useNavigate} from "react-router"
+import {PageTitle} from "../../components/page-title"
 import {allDummyOrganisations} from "../../dummyData"
 import {SportamtMaterialReactTableBase} from "../../lib/material-react-table-base"
 import mrt from "../../lib/material-react-table-styles.module.scss"
@@ -116,7 +117,12 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
 
     return (
         <>
-            <SportamtMaterialReactTableBase columns={organisationColumns} data={allDummyOrganisations} options={organisationsTable} />
+            <SportamtMaterialReactTableBase
+                columns={organisationColumns}
+                data={allDummyOrganisations}
+                options={organisationsTable}
+                toolbarStart={<PageTitle title={t("board-detail.upload.title")} isSubTitle />}
+            />
         </>
     )
 }

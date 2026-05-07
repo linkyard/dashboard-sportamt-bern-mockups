@@ -4,12 +4,8 @@ import {Box, Button, Chip, IconButton, Snackbar, Tooltip} from "@mui/material"
 import {type MRT_ColumnDef, type MRT_TableOptions} from "material-react-table"
 import {useMemo, useState} from "react"
 import {useTranslation} from "react-i18next"
-import {
-    trainingObjectsByTimeBlockSeed,
-    trainingTimeBlocks,
-    trainerOptions,
-    type TrainerOptionSeed,
-} from "../../../dummyData"
+import {PageTitle} from "../../../components/page-title"
+import {trainerOptions, trainingObjectsByTimeBlockSeed, trainingTimeBlocks, type TrainerOptionSeed} from "../../../dummyData"
 import {SportamtMaterialReactTableBase} from "../../../lib/material-react-table-base"
 import mrt from "../../../lib/material-react-table-styles.module.scss"
 import styles from "./reservation-training.table.module.scss"
@@ -176,6 +172,7 @@ export const ReservationTrainingsTable: React.FC = () => {
                         {t("organisation-admin.reservation-detail.trainings-table.add")}
                     </Button>
                 }
+                toolbarStart={<PageTitle title={t("dashboard:organisation-admin.reservation-detail.trainings-table.title")} isSubTitle />}
             />
             <Snackbar open={Boolean(snackbar)} autoHideDuration={2500} onClose={() => setSnackbar(null)} message={snackbar} />
         </>

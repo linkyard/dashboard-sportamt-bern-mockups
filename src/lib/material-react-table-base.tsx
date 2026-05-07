@@ -109,8 +109,8 @@ export function SportamtMaterialReactTableBase<R extends MRT_RowData>({
 
     return (
         <>
-            <div className={mrt.tableToolbar} style={toolbarStart ? {justifyContent: "space-between"} : {justifyContent: "flex-end"}}>
-                {toolbarStart}
+            <div className={mrt.tableToolbar}>
+                {toolbarStart ? <div className={mrt.tableToolbarStart}>{toolbarStart}</div> : null}
 
                 <div className={mrt.tableToolbarSearch}>
                     {!disableSearch ? <MRT_GlobalFilterTextField table={table} fullWidth /> : null}

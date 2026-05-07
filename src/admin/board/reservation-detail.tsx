@@ -55,7 +55,6 @@ export const ReservationDetail: React.FC = () => {
                         status={reservationForDisplay.status}
                     />
                     <div className={styles.trainingsTableSection}>
-                        <PageTitle title={t("dashboard:organisation-admin.reservation-detail.trainings-table.title")} isSubTitle />
                         <ReservationTrainingsTable />
                     </div>
                 </>

@@ -170,9 +170,8 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
                     ) : null}
                 </div>
             </div>
-
-            <PageTitle title={t("board-detail.upload.title")} isSubTitle />
             {uploadLocked ? <p className={styles.uploadLockHint}>{t("board-detail.save-to-enable-upload")}</p> : null}
+
             {selectedFileName ? (
                 <OrganisationTable selectedFileName={selectedFileName} />
             ) : uploadLocked ? (

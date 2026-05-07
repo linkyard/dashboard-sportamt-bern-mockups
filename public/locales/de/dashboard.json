@@ -209,7 +209,7 @@
             "history-title": "Verlaufsprotokoll",
             "history-empty": "Noch keine Einträge im Verlauf.",
             "trainings-table": {
-                "title": "Kurse",
+                "title": "Training / Kurse",
                 "list-aria-label": "Kurse für öffentliche Anlassseite",
                 "add": "Kurs erfassen",
                 "edit": "Kurs bearbeiten",
