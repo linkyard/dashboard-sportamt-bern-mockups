@@ -17,17 +17,62 @@
     font-size: 1.28rem !important;
 }
 
-//--- Sportamt-color version ---
-//.badge {
-//    flex-shrink: 0;
-//    width: 48px;
-//    height: 48px;
-//    border-radius: 12px;
-//    display: inline-flex;
-//    align-items: center;
-//    justify-content: center;
-//    background: #f0f2ef;
-//    color: color.mix($sportamtGreen, #1e2822, 38%);
-//    border: 1px solid color-mix(in srgb, $sportamtGreen 45%, rgba(38, 50, 59, 0.1));
-//    box-sizing: border-box;
-//}
+.pickerButton {
+    appearance: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    color: inherit;
+    transition:
+        box-shadow 0.15s ease,
+        background-color 0.15s ease;
+
+    &:hover {
+        background: #f6f7f5;
+        box-shadow:
+            0 2px 8px rgba(0, 0, 0, 0.16),
+            0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+}
+
+.iconsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.popoverContent {
+    width: 240px;
+    padding: 12px;
+    max-height: 360px;
+    overflow: auto;
+}
+
+.searchInput {
+    width: 100%;
+}
+
+.iconOption {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+}
+
+.emptyState {
+    margin: 0;
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.iconSection {
+    margin-top: 12px;
+}
+
+.sectionTitle {
+    margin: 0 0 8px;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.55);
+}

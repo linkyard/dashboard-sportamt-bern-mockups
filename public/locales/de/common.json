@@ -26,5 +26,29 @@
             "file-meta": "PDF, XLS",
             "error-file-type": "Ungültiger Dateityp. Bitte laden Sie eine PDF- (.pdf) oder Excel-Datei (.xls) hoch."
         }
+    },
+    "sport-icon-picker": {
+        "sections": {
+            "american-football": "American Football",
+            "archery": "Bogensport",
+            "baseball-and-softball": "Baseball & Softball",
+            "basketball": "Basketball",
+            "combat-sports": "Kampfsport",
+            "cricket": "Cricket",
+            "cycling": "Radsport",
+            "fitness": "Fitness",
+            "football": "Fussball",
+            "generic": "Allgemein",
+            "golf": "Golf",
+            "hockey": "Hockey",
+            "lacrosse": "Lacrosse",
+            "quidditch": "Quidditch",
+            "rugby": "Rugby",
+            "running": "Laufen",
+            "skating": "Skaten",
+            "tennis-and-racket-sports": "Tennis & Racketsport",
+            "volleyball": "Volleyball",
+            "water-sports": "Wassersport"
+        }
     }
 }
