@@ -5,12 +5,7 @@ import {useMemo, useState, type ReactElement, type ReactNode} from "react"
 import {useTranslation} from "react-i18next"
 import {ConfirmDeleteDialog} from "../../components/confirm-delete-dialog"
 import {PageTitle} from "../../components/page-title"
-import {
-    trainingObjectsByTimeBlockSeed,
-    trainerOptions,
-    trainingTimeBlocks,
-    type TrainingTimeBlock,
-} from "../../dummyData"
+import {trainerOptions, trainingObjectsByTimeBlockSeed, trainingTimeBlocks, type TrainingTimeBlock} from "../../dummyData"
 import editorStyles from "../reservation.editor.module.scss"
 import styles from "./training-section.module.scss"
 
@@ -102,6 +97,7 @@ export function TrainingSection(): ReactElement {
                 return (
                     <TabPanel key={trainingTimeBlock.id} trainingTimeBlockId={trainingTimeBlock.id} tabsValue={activeTrainingTabId}>
                         <div className={styles.panel}>
+                            <p className={styles.startDate}>Startdatum: 18.08.2026</p>
                             <div className={styles.fieldBlock}>
                                 <span className={styles.fieldLabel}>{t("organisation-public.reservation.trainings.trainer-label")}</span>
                                 <div className={styles.trainerRow}>
