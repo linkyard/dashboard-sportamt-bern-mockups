@@ -1,8 +1,23 @@
+@use "../../variables.module.scss" as *;
+
+.sendEmailsDialogPaper {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.sendEmailsDialogTitle {
+    padding: 16px 24px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    background: $inputBackgroundColor;
+}
+
 .sendEmailsDialogContent {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding-top: 8px;
+    gap: 14px;
+    padding-top: 14px;
     overflow-x: hidden;
 }
 
@@ -18,12 +33,61 @@
     color: rgba(0, 0, 0, 0.72);
 }
 
+.tableToolbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 15px 0px 0px;
+}
+
+.emailTypeSelect {
+    width: 260px;
+
+    :global(.MuiInputBase-root) {
+        height: 33px;
+    }
+
+    :global(.MuiSelect-select) {
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+}
+
+.searchField {
+    width: 220px;
+    margin-left: auto;
+}
+
 .sendEmailsOrganisationTable {
     box-sizing: border-box;
     width: 100%;
+    background-color: $inputBackgroundColor;
     border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 8px;
-    max-height: 320px;
+    max-height: 520px;
     overflow-x: hidden;
+
+    :global(thead .MuiTableCell-root) {
+        background-color: #f5f5f5;
+        font-weight: 700;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    :global(tbody .MuiTableCell-root) {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 }
 
+.sendEmailsDialogActions {
+    padding: 12px 24px 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    background-color: #fff;
+}

@@ -1,3 +1,4 @@
+import SearchIcon from "@mui/icons-material/Search"
 import {
     Button,
     Checkbox,
@@ -5,8 +6,11 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    FormControl,
     FormLabel,
+    InputAdornment,
     MenuItem,
+    Select,
     Table,
     TableBody,
     TableCell,
@@ -37,8 +41,12 @@ interface SendEmailsDialogProps {
 export function SendEmailsDialog({open, onClose}: SendEmailsDialogProps) {
     const {t} = useTranslation("dashboard")
     const [selectedEmailType, setSelectedEmailType] = useState<BoardEmailType>(BOARD_EMAIL_TYPES[0])
+    const [searchQuery, setSearchQuery] = useState("")
     const [selectedOrganisationIds, setSelectedOrganisationIds] = useState<Set<string>>(
         () => new Set(allDummyOrganisations.map((o) => o.id))
+    )
+    const filteredOrganisations = allDummyOrganisations.filter((organisation) =>
+        organisation.organisation.toLowerCase().includes(searchQuery.trim().toLowerCase())
     )
 
     const toggleOrganisationSelection = (organisationId: string) => {
@@ -54,29 +62,50 @@ export function SendEmailsDialog({open, onClose}: SendEmailsDialogProps) {
     }
 
     return (
-        <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-            <DialogTitle>{t("board-detail.send-emails.dialog-title")}</DialogTitle>
+        <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth slotProps={{paper: {className: styles.sendEmailsDialogPaper}}}>
+            <DialogTitle className={styles.sendEmailsDialogTitle}>{t("board-detail.send-emails.dialog-title")}</DialogTitle>
             <DialogContent className={styles.sendEmailsDialogContent}>
-                <div className={styles.emailTypeField}>
-                    <FormLabel className={styles.emailTypeLabel}>{t("board-detail.send-emails.email-type-label")}</FormLabel>
+                <div className={styles.tableToolbar}>
+                    <div className={styles.emailTypeField}>
+                        <FormLabel className={styles.emailTypeLabel}>{t("board-detail.send-emails.email-type-label")}</FormLabel>
+                        <FormControl size="small" className={styles.emailTypeSelect}>
+                            <Select
+                                aria-label={t("board-detail.send-emails.email-type-label")}
+                                value={selectedEmailType}
+                                onChange={(event) => setSelectedEmailType(event.target.value as BoardEmailType)}
+                                size="small"
+                            >
+                                {BOARD_EMAIL_TYPES.map((emailType) => (
+                                    <MenuItem key={emailType} value={emailType}>
+                                        {emailType}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </div>
                     <TextField
-                        select
-                        fullWidth
+                        value={searchQuery}
+                        onChange={(event) => setSearchQuery(event.target.value)}
+                        placeholder={t("common:actions.search")}
                         size="small"
+                        className={styles.searchField}
                         slotProps={{
                             input: {
-                                "aria-label": t("board-detail.send-emails.email-type-label"),
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon fontSize="small" color="action" aria-hidden />
+                                    </InputAdornment>
+                                ),
+                            },
+                            htmlInput: {
+                                "aria-label": t("common:actions.search"),
+                                style: {
+                                    paddingTop: "4px",
+                                    paddingBottom: "4px",
+                                },
                             },
                         }}
-                        value={selectedEmailType}
-                        onChange={(event) => setSelectedEmailType(event.target.value as BoardEmailType)}
-                    >
-                        {BOARD_EMAIL_TYPES.map((emailType) => (
-                            <MenuItem key={emailType} value={emailType}>
-                                {emailType}
-                            </MenuItem>
-                        ))}
-                    </TextField>
+                    />
                 </div>
 
                 <TableContainer className={styles.sendEmailsOrganisationTable}>
@@ -88,7 +117,7 @@ export function SendEmailsDialog({open, onClose}: SendEmailsDialogProps) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {allDummyOrganisations.map((organisation) => (
+                            {filteredOrganisations.map((organisation) => (
                                 <TableRow key={organisation.id} hover>
                                     <TableCell>{organisation.organisation}</TableCell>
                                     <TableCell align="center">
@@ -108,7 +137,7 @@ export function SendEmailsDialog({open, onClose}: SendEmailsDialogProps) {
                     </Table>
                 </TableContainer>
             </DialogContent>
-            <DialogActions>
+            <DialogActions className={styles.sendEmailsDialogActions}>
                 <Button size="small" onClick={onClose}>
                     {t("common:actions.cancel")}
                 </Button>
