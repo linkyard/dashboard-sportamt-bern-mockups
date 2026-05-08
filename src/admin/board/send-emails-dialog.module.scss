@@ -1,0 +1,29 @@
+.sendEmailsDialogContent {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 8px;
+    overflow-x: hidden;
+}
+
+.emailTypeField {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.emailTypeLabel {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.72);
+}
+
+.sendEmailsOrganisationTable {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    max-height: 320px;
+    overflow-x: hidden;
+}
+

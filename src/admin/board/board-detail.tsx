@@ -1,4 +1,4 @@
-import {faCheck} from "@fortawesome/free-solid-svg-icons"
+import {faCheck, faPaperPlane} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {Alert, Button, Snackbar} from "@mui/material"
 import {DatePicker} from "@mui/x-date-pickers/DatePicker"
@@ -15,6 +15,7 @@ import {getBoardById, type Board} from "../../dummyData"
 import {parseIsoToDayjs} from "../../util/date"
 import styles from "./board-detail.module.scss"
 import {OrganisationTable} from "./organisation.table"
+import {SendEmailsDialog} from "./send-emails-dialog"
 
 export const BoardDetail: React.FC = () => {
     const {boardId} = useParams<{boardId: string | undefined}>()
@@ -42,6 +43,7 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
     const [showUploadSuccessAlert, setShowUploadSuccessAlert] = useState(false)
     const [isUploadSuccess, setIsUploadSuccess] = useState(false)
     const [newBoardSaved, setNewBoardSaved] = useState(false)
+    const [sendEmailsDialogOpen, setSendEmailsDialogOpen] = useState(false)
     const uploadAnimationTimeoutRef = useRef<number | null>(null)
 
     const uploadEnabled = !isNew || newBoardSaved
@@ -94,6 +96,12 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
                         placeholder={isNew ? t("dashboard:board-detail.title") : undefined}
                     />
                 </div>
+                <div className={styles.boardHeaderStatus} role="status" aria-label={t("dashboard:board-detail.status-erstellt")}>
+                    <span>{t("dashboard:board-detail.status-erstellt")}</span>
+                    <span className={styles.boardDetailStatusIconDisc} aria-hidden>
+                        <FontAwesomeIcon icon={faCheck} />
+                    </span>
+                </div>
             </div>
 
             <div className={styles.formSection}>
@@ -131,17 +139,15 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
                                 />
                             </div>
                         </div>
-                        <div className={styles.dateRangePill}>
-                            <div
-                                className={styles.boardDetailStatusPill}
-                                role="status"
-                                aria-label={t("dashboard:board-detail.status-erstellt")}
+                        <div className={styles.dateRangeActions}>
+                            <Button
+                                variant="contained"
+                                size="small"
+                                startIcon={<FontAwesomeIcon icon={faPaperPlane} />}
+                                onClick={() => setSendEmailsDialogOpen(true)}
                             >
-                                <span>{t("dashboard:board-detail.status-erstellt")}</span>
-                                <span className={styles.boardDetailStatusIconDisc} aria-hidden>
-                                    <FontAwesomeIcon icon={faCheck} />
-                                </span>
-                            </div>
+                                {t("dashboard:board-detail.send-emails.button")}
+                            </Button>
                         </div>
                     </div>
 
@@ -196,6 +202,8 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
                     {t("board-detail.upload.success-message")}
                 </Alert>
             </Snackbar>
+
+            <SendEmailsDialog open={sendEmailsDialogOpen} onClose={() => setSendEmailsDialogOpen(false)} />
         </>
     )
 }

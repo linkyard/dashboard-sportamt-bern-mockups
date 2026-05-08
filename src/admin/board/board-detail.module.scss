@@ -14,6 +14,22 @@
     min-width: min(100%, 280px);
 }
 
+.boardHeaderStatus {
+    border-radius: 999px;
+    padding: 4px 10px 4px 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    background-color: #fff;
+    border: 2px solid $sportamtGreen;
+    color: #222;
+    flex-shrink: 0;
+}
+
 .fieldGroup {
     @include field-group;
     @include field-group-outlined-controls;
@@ -59,7 +75,7 @@
 .dateRangeRow {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
     gap: 16px 24px;
 }
@@ -70,24 +86,12 @@
     gap: 20px;
 }
 
-.dateRangePill {
+.dateRangeActions {
     flex-shrink: 0;
     margin-left: auto;
-}
-
-.boardDetailStatusPill {
-    border-radius: 999px;
-    padding: 4px 10px 4px 14px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.8125rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    white-space: nowrap;
-    background-color: #fff;
-    border: 2px solid $sportamtGreen;
-    color: #222;
+    svg {
+        font-size: 0.9rem !important;
+    }
 }
 
 .boardDetailStatusIconDisc {
@@ -187,7 +191,7 @@
         grid-template-columns: 1fr;
     }
 
-    .dateRangePill {
+    .dateRangeActions {
         margin-left: 0;
         width: 100%;
         display: flex;

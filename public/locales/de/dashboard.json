@@ -48,6 +48,18 @@
             "selected-file": "Ausgewählte Datei",
             "success-message": "Board wurde erstellt und mit den hochgeladenen Daten befüllt."
         },
+        "send-emails": {
+            "button": "E-Mails senden",
+            "send-button": "Senden",
+            "dialog-title": "E-Mails senden",
+            "email-type-label": "E-Mail-Typ",
+            "table": {
+                "headers": {
+                    "organisation": "Organisation",
+                    "send": "Senden"
+                }
+            }
+        },
         "organisation-table": {
             "columns": {
                 "organisation": "Organisation",
