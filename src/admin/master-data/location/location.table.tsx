@@ -214,7 +214,7 @@ export const LocationsTable = ({initialLocations}: LocationsTableProps) => {
                 },
             }),
             muiTableContainerProps: {
-                sx: {maxHeight: "min(70vh, 560px)"},
+                sx: {maxHeight: "calc(100vh - 350px)"},
             },
             muiTableBodyRowProps: ({row, table}) => ({
                 hover: true,

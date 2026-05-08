@@ -120,7 +120,7 @@ export const OrganisationenTable: React.FC = () => {
                 },
             },
             muiTableContainerProps: {
-                sx: {maxHeight: "min(70vh, 560px)"},
+                sx: {maxHeight: "calc(100vh - 350px)"},
                 "aria-label": t("master-data.organisations-table.list-aria-label"),
             },
             muiTableBodyRowProps: {

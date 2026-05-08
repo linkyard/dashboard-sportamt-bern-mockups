@@ -5,8 +5,8 @@ import {PageTitle} from "../../components/page-title"
 import {stammdatenSeedLocations} from "../../dummyData"
 import {FerienTable} from "./holiday/holiday.table"
 import {LocationsTable} from "./location/location.table"
-import {OrganisationenTable} from "./organisation/organisation.list"
 import styles from "./master-data.module.scss"
+import {OrganisationenTable} from "./organisation/organisation.list"
 
 type StammdatenTabId = "objects" | "organisations" | "holidays"
 

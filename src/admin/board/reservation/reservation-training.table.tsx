@@ -127,7 +127,7 @@ export const ReservationTrainingsTable: React.FC = () => {
                 },
             },
             muiTableContainerProps: {
-                sx: {maxHeight: "min(70vh, 560px)"},
+                sx: {maxHeight: "calc(100vh - 350px)"},
                 "aria-label": t("organisation-admin.reservation-detail.trainings-table.list-aria-label"),
             },
             muiTableBodyRowProps: {hover: true},

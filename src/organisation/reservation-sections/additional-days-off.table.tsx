@@ -107,7 +107,7 @@ export function AdditionalDaysOffTable(): ReactElement {
                 },
             },
             muiTableContainerProps: {
-                sx: {maxHeight: "min(70vh, 560px)"},
+                sx: {maxHeight: "calc(100vh - 350px)"},
                 "aria-label": t("organisation-public.reservation.additional-days-off.list-aria-label"),
             },
             muiTableBodyRowProps: {hover: true},
