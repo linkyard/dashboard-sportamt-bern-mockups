@@ -27,8 +27,9 @@ export const ConfirmContactAddressBanner = () => {
             icon={<FontAwesomeIcon icon={faExclamationTriangle} className={styles.warningIcon} />}
             slotProps={{
                 closeButton: {
-                    "aria-label": t("organisation-public.general-info.dismiss-aria"),
-                    title: t("organisation-public.general-info.dismiss-aria"),
+                    sx: {
+                        display: "none",
+                    },
                 },
             }}
         >
