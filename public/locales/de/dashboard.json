@@ -314,11 +314,12 @@
             },
             "trainings": {
                 "title": "Angaben zum Training / Kurse",
-                "tabs-aria": "Training / Kurse nach Wochentag und Uhrzeit",
                 "trainer-label": "Trainer",
                 "trainer-placeholder": "Trainer auswählen…",
                 "trainer-add": "Trainer erfassen",
+                "trainer-add-button": "Erfassen",
                 "objects-label": "Objekte",
+                "objects-empty": "Noch keine Objekte zugewiesen.",
                 "object-delete-title": "Objekt entfernen?",
                 "object-delete-body": "„{{label}}“ wird aus diesem Kurs entfernt.",
                 "object-remove-aria": "{{label}} entfernen",
