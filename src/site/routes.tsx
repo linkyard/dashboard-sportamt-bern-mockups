@@ -43,8 +43,8 @@ export function RouteIndex() {
                 <Route index element={<Dashboard />} />
                 <Route path="/admin/stammdaten" element={<Outlet />}>
                     <Route index element={<Navigate to="/admin/stammdaten/objekte" replace />} />
-                    <Route path="organisationen/:orgId/edit" element={<OrganisationEditorPage />} />
-                    <Route path="ferien/holiday/:holidayId/edit" element={<HolidayEditorPage />} />
+                    <Route path="organisationen/:orgId" element={<OrganisationEditorPage />} />
+                    <Route path="ferien/schliessungen/:holidayId" element={<HolidayEditorPage />} />
                     <Route path=":tabId" element={<StammdatenEditor />} />
                 </Route>
                 <Route path="/organisationen/:orgId/anlass/:anlassId" element={<ReservationEditor />} />

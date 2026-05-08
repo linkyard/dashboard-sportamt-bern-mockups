@@ -146,7 +146,7 @@ export const FerienTable = () => {
                         <IconButton
                             size="small"
                             aria-label={t("master-data.holidays-table.edit")}
-                            onClick={() => navigate(`/admin/stammdaten/ferien/holiday/${row.original.id}/edit`)}
+                            onClick={() => navigate(`/admin/stammdaten/ferien/schliessungen/${row.original.id}`)}
                         >
                             <FontAwesomeIcon icon={faPenToSquare} />
                         </IconButton>

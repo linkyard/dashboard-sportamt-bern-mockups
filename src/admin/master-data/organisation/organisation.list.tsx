@@ -128,7 +128,7 @@ export const OrganisationenTable: React.FC = () => {
             },
             renderRowActions: ({row}) => (
                 <OrganisationenTableActions
-                    onEdit={() => navigate(`/admin/stammdaten/organisationen/${row.original.id}/edit`)}
+                    onEdit={() => navigate(`/admin/stammdaten/organisationen/${row.original.id}`)}
                     onDelete={() => setDeleteOrgId(row.original.id)}
                 />
             ),
