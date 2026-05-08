@@ -301,11 +301,12 @@ function organisationWithAnlassIds(seed: OrganisationSeed): Organisation {
     }
 }
 
-export type BoardLabel = "Wintersaison" | "Jahresperiode"
+export type BoardLabel = "Sommerbelegung" | "Jahresbelegung" | "Winterbelegung"
 
 export const boardLabelDateRanges: Record<BoardLabel, string> = {
-    Wintersaison: "(31.10.2026 - 30.04.2027)",
-    Jahresperiode: "(01.01.2027 - 31.12.2027)",
+    Sommerbelegung: "(01.05.2026 - 30.09.2026)",
+    Jahresbelegung: "(01.01.2027 - 31.12.2027)",
+    Winterbelegung: "(31.10.2026 - 30.04.2027)",
 }
 
 export type BoardStatus = "erstellt" | "versandBereit"
@@ -332,7 +333,7 @@ export const dummyBoards: Board[] = [
         status: "erstellt",
         anlaesseConfirmed: 20,
         anlaesseTotal: 134,
-        labels: ["Wintersaison"],
+        labels: ["Jahresbelegung", "Winterbelegung"],
     },
     {
         id: "board-2",
@@ -343,7 +344,7 @@ export const dummyBoards: Board[] = [
         status: "versandBereit",
         anlaesseConfirmed: 134,
         anlaesseTotal: 134,
-        labels: ["Jahresperiode"],
+        labels: ["Sommerbelegung"],
     },
     {
         id: "board-3",
@@ -354,7 +355,7 @@ export const dummyBoards: Board[] = [
         status: "erstellt",
         anlaesseConfirmed: 0,
         anlaesseTotal: 89,
-        labels: ["Wintersaison", "Jahresperiode"],
+        labels: ["Jahresbelegung", "Winterbelegung"],
     },
     {
         id: "board-4",
@@ -366,7 +367,7 @@ export const dummyBoards: Board[] = [
         status: "versandBereit",
         anlaesseConfirmed: 12,
         anlaesseTotal: 12,
-        labels: ["Jahresperiode"],
+        labels: ["Sommerbelegung"],
     },
 ]
 
@@ -418,7 +419,7 @@ export const dummyOrganisation: Organisation = organisationWithAnlassIds({
         {
             name: "Schwimmen",
             sportIcon: faPersonSwimming,
-            period: "Sommerperiode (Mai - September)",
+            period: "Sommerbelegung",
             location: "Freibad Marzili",
             times: ["Dienstag, 16:30 - 17:30", "Freitag, 11:30 - 12:30"],
             status: "pending",
@@ -446,7 +447,7 @@ export const dummyOrganisation: Organisation = organisationWithAnlassIds({
         {
             name: "Badminton",
             sportIcon: faFeather,
-            period: "Jahresperiode (August - Juli)",
+            period: "Jahresbelegung",
             location: "Turnhalle Marzili",
             times: ["Donnerstag, 20:00 - 21:00"],
             status: "pending",
@@ -462,7 +463,7 @@ export const dummyOrganisation: Organisation = organisationWithAnlassIds({
         {
             name: "Luftakrobatik",
             sportIcon: faParachuteBox,
-            period: "Jahresperiode (August - Juli)",
+            period: "Jahresbelegung",
             location: "Turnhalle Matte",
             times: ["Mittwoch, 18:30 - 20:00"],
             status: "confirmed",
@@ -496,7 +497,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Turnen",
                 sportIcon: faChildReaching,
-                period: "Winterperiode (31.10.2026 - 30.04.2027)",
+                period: "Winterbelegung",
                 location: "Turnhalle Breitenrain",
                 times: ["Montag, 18:00 - 19:30"],
                 status: "pending",
@@ -504,7 +505,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Turnen",
                 sportIcon: faChildReaching,
-                period: "Jahresperiode (01.01.2027 - 31.12.2027)",
+                period: "Jahresbelegung",
                 location: "Turnhalle Breitenrain",
                 times: ["Samstag, 09:30 - 12:00"],
                 status: "confirmed",
@@ -512,7 +513,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Geräteturnen",
                 sportIcon: faDumbbell,
-                period: "Sommerperiode (01.05.2026 - 30.09.2026)",
+                period: "Sommerbelegung",
                 location: "Turnhalle Wankdorf",
                 times: ["Sonntag, 08:00 - 17:00"],
                 status: "pending",
@@ -520,7 +521,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Turnen",
                 sportIcon: faChildReaching,
-                period: "Übergangsperiode (Sept. - Okt. 2026)",
+                period: "Winterbelegung",
                 location: "Turnhalle Breitenrain",
                 times: ["Mittwoch, 15:00 - 16:00", "Mittwoch, 16:15 - 17:15"],
                 status: "confirmed",
@@ -528,7 +529,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Turnen",
                 sportIcon: faChildReaching,
-                period: "Winterperiode (31.10.2026 - 30.04.2027)",
+                period: "Winterbelegung",
                 location: "Gemeindesaal Breitenrain",
                 times: ["Freitag, 18:30 - 23:00"],
                 status: "pending",
@@ -552,7 +553,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Fussball",
                 sportIcon: faFutbol,
-                period: "Jahresperiode (01.01.2027 - 31.12.2027)",
+                period: "Jahresbelegung",
                 location: "Sportplatz Murifeld",
                 times: ["Samstag, 10:00 - 16:00"],
                 status: "confirmed",
@@ -560,7 +561,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Fussball",
                 sportIcon: faFutbol,
-                period: "Winterperiode (31.10.2026 - 30.04.2027)",
+                period: "Winterbelegung",
                 location: "Sportplatz Murifeld",
                 times: ["Samstag, 09:00 - 15:30"],
                 status: "pending",
@@ -568,7 +569,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Fussball",
                 sportIcon: faFutbol,
-                period: "Übergangsperiode (Sept. - Okt. 2026)",
+                period: "Winterbelegung",
                 location: "Sportplatz Murifeld",
                 times: ["Freitag, 19:30 - 21:00"],
                 status: "pending",
@@ -576,7 +577,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Fussball",
                 sportIcon: faFutbol,
-                period: "Sommerperiode (01.05.2026 - 30.09.2026)",
+                period: "Sommerbelegung",
                 location: "Sportplatz Murifeld",
                 times: ["Dienstag, 19:00 - 21:00", "Donnerstag, 19:00 - 21:00"],
                 status: "confirmed",
@@ -584,7 +585,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Fussball",
                 sportIcon: faFutbol,
-                period: "Jahresperiode (01.01.2027 - 31.12.2027)",
+                period: "Jahresbelegung",
                 location: "Stadion Wankdorf",
                 times: ["Samstag, 14:00 - 17:30"],
                 status: "pending",
@@ -592,7 +593,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Fussball",
                 sportIcon: faFutbol,
-                period: "Winterperiode (31.10.2026 - 30.04.2027)",
+                period: "Winterbelegung",
                 location: "Sportplatz Murifeld",
                 times: ["Sonntag, 10:00 - 14:00"],
                 status: "confirmed",
@@ -616,7 +617,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Schwimmen",
                 sportIcon: faPersonSwimming,
-                period: "Winterperiode (31.10.2026 - 30.04.2027)",
+                period: "Winterbelegung",
                 location: "Schwimmbad Aarebad",
                 times: ["Samstag, 08:00 - 13:00"],
                 status: "confirmed",
@@ -624,7 +625,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Schwimmen",
                 sportIcon: faPersonSwimming,
-                period: "Jahresperiode (01.01.2027 - 31.12.2027)",
+                period: "Jahresbelegung",
                 location: "Schwimmbad Aarebad",
                 times: ["Dienstag, 17:00 - 18:00", "Donnerstag, 17:00 - 18:00"],
                 status: "confirmed",
@@ -632,7 +633,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Schwimmen",
                 sportIcon: faPersonSwimming,
-                period: "Sommerperiode (01.05.2026 - 30.09.2026)",
+                period: "Sommerbelegung",
                 location: "Freibad Marzili",
                 times: ["Sonntag, 10:00 - 12:00"],
                 status: "pending",
@@ -640,7 +641,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Schwimmen",
                 sportIcon: faPersonSwimming,
-                period: "Übergangsperiode (Sept. - Okt. 2026)",
+                period: "Winterbelegung",
                 location: "Schwimmbad Aarebad",
                 times: ["Samstag, 07:30 - 16:00"],
                 status: "pending",
@@ -648,7 +649,7 @@ const dummyOrganisationSeeds: OrganisationSeed[] = [
             {
                 name: "Wasserball",
                 sportIcon: faVolleyball,
-                period: "Winterperiode (31.10.2026 - 30.04.2027)",
+                period: "Winterbelegung",
                 location: "Hallenbad City",
                 times: ["Sonntag, 18:00 - 20:00"],
                 status: "confirmed",

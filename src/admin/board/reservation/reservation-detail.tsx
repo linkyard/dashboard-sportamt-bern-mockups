@@ -10,6 +10,7 @@ import {getOrganisationById} from "../../../dummyData"
 import {resolveReservationFromOrganisation} from "../organisation"
 import styles from "./reservation-detail.module.scss"
 import {ReservationHistoryLog} from "./reservation-history.log"
+import {ReservationStatusPill} from "./reservation-status.pill"
 import {ReservationTrainingsTable} from "./reservation-training.table"
 
 export const ReservationDetail: React.FC = () => {
@@ -33,7 +34,12 @@ export const ReservationDetail: React.FC = () => {
                 <div className={styles.breadcrumbsWrapper}>
                     <AppBreadcrumbs variant="reservation-detail" organisation={organisation} reservation={reservationForDisplay} />
                 </div>
-                {reservationForDisplay ? <SportIconPicker icon={reservationForDisplay.sportIcon} /> : null}
+                {reservationForDisplay ? (
+                    <div className={styles.topBarActions}>
+                        <ReservationStatusPill status={reservationForDisplay.status} />
+                        <SportIconPicker icon={reservationForDisplay.sportIcon} />
+                    </div>
+                ) : null}
             </div>
             <PageTitle title={title} editable />
             <LocationSelect value={reservationForDisplay.location ?? ""} locationOptions={organisationLocationOptions} />
@@ -52,7 +58,6 @@ export const ReservationDetail: React.FC = () => {
                         title={t("dashboard:organisation-admin.reservation-detail.history-title")}
                         emptyText={t("dashboard:organisation-admin.reservation-detail.history-empty")}
                         entries={reservationForDisplay.history ?? []}
-                        status={reservationForDisplay.status}
                     />
                     <div className={styles.trainingsTableSection}>
                         <ReservationTrainingsTable />

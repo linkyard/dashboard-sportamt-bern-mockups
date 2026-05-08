@@ -89,4 +89,7 @@
     @include field-group;
     @include field-group-outlined-controls;
     padding-left: 16px;
+    :global(.MuiInputBase-root) {
+        background-color: white;
+    }
 }

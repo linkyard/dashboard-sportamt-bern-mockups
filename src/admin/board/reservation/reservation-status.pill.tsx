@@ -28,9 +28,11 @@ export const ReservationStatusPill = ({status, compact}: ReservationStatusPillPr
             aria-label={statusLabel}
         >
             <span>{statusLabel}</span>
-            <span className={styles.iconDisc} aria-hidden>
-                {statusValue === "confirmed" ? <FontAwesomeIcon icon={faCheckCircle} /> : <FontAwesomeIcon icon={faClock} />}
-            </span>
+            {statusValue === "confirmed" ? (
+                <FontAwesomeIcon icon={faCheckCircle} className={styles.icon} />
+            ) : (
+                <FontAwesomeIcon icon={faClock} className={styles.icon} />
+            )}
         </div>
     )
 }

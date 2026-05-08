@@ -108,6 +108,19 @@ export const OrganisationTable: React.FC<OrganisationTableProps> = () => {
         },
         renderDetailPanel: ({row}) => (
             <div className={styles.reservationsList}>
+                <div className={styles.reservationsHeaderRow} aria-hidden>
+                    <span className={styles.reservationsHeaderCell} />
+                    <span className={styles.reservationsHeaderCell}>
+                        {t("board-detail.organisation-table.inner-row.columns.reservation")}
+                    </span>
+                    <span className={styles.reservationsHeaderCell}>
+                        {t("board-detail.organisation-table.inner-row.columns.location")}
+                    </span>
+                    <span className={styles.reservationsHeaderCell}>{t("board-detail.organisation-table.inner-row.columns.time")}</span>
+                    <span className={`${styles.reservationsHeaderCell} ${styles.reservationsHeaderStatus}`}>
+                        {t("board-detail.organisation-table.inner-row.columns.status")}
+                    </span>
+                </div>
                 {row.original.reservations.map((reservation) => (
                     <ReservationInlineRow key={reservation.id} reservation={reservation} orgId={row.original.id} />
                 ))}

@@ -4,7 +4,8 @@
 .row {
     display: grid;
     background-color: $nestedRowBackground;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 12.5rem;
+    // Add leading spacer to align with parent expand-toggle column.
+    grid-template-columns: 50px minmax(0, 350px) minmax(0, 300px) minmax(0, 1fr) 12.5rem;
     align-items: center;
     column-gap: 14px;
     min-height: 0;
@@ -27,6 +28,10 @@
     &:hover {
         background-color: #f5f5f5;
     }
+}
+
+.spacerColumn {
+    grid-column: 1;
 }
 
 .nameCol {
@@ -93,4 +98,5 @@
     min-width: 0;
     width: 100%;
     box-sizing: border-box;
+    grid-column: 5;
 }

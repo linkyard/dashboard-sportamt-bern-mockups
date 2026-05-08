@@ -24,12 +24,16 @@
                 "versandBereit": "Versandbereit"
             },
             "reservations-fraction": "{{confirmed}} / {{total}}",
-            "reservations-fraction-detail": "{{confirmed}} von {{total}} Anlässen bestätigt"
+            "reservations-fraction-detail": "{{confirmed}} von {{total}} Reservationen bestätigt"
         }
     },
     "board-detail": {
         "title": "Neues Board",
         "status-erstellt": "Erstellt",
+        "belegungen": {
+            "title": "Belegungen",
+            "empty": "Keine Belegungen vorhanden."
+        },
         "save-to-enable-upload": "Speichern Sie zuerst, um Organisationen hochzuladen.",
         "fields": {
             "comment": "Bemerkung",
@@ -64,7 +68,15 @@
             "columns": {
                 "organisation": "Organisation",
                 "contact": "Kontakt",
-                "reservations-count": "Anlässe"
+                "reservations-count": "Reservationen"
+            },
+            "inner-row": {
+                "columns": {
+                    "reservation": "Reservation",
+                    "location": "Ort",
+                    "time": "Zeit",
+                    "status": "Status"
+                }
             }
         }
     },
@@ -207,22 +219,22 @@
             "phone": "Telefon"
         },
         "reservations": {
-            "title": "Anlässe",
+            "title": "Reservationen",
             "status": {
                 "pending": "Ausstehend",
                 "confirmed": "Bestätigt"
             }
         },
         "reservation-detail": {
-            "fallback-title": "Anlass",
-            "empty": "Kein Anlass ausgewählt.",
+            "fallback-title": "Reservation",
+            "empty": "Keine Reservation ausgewählt.",
             "breadcrumb-fallback": "Organisation",
             "back-aria-label": "Zurück zur Organisationsverwaltung",
             "history-title": "Verlaufsprotokoll",
             "history-empty": "Noch keine Einträge im Verlauf.",
             "trainings-table": {
                 "title": "Training / Kurse",
-                "list-aria-label": "Kurse für öffentliche Anlassseite",
+                "list-aria-label": "Kurse für öffentliche Reservationseite",
                 "add": "Kurs erfassen",
                 "edit": "Kurs bearbeiten",
                 "delete": "Kurs löschen",
@@ -248,8 +260,8 @@
         "not-found-body": "Diese Seite existiert nicht oder der Organisationsname ist unbekannt.",
         "fallback-title": "Organisation",
         "reservation": {
-            "not-found-title": "Anlass",
-            "not-found-body": "Dieser Anlass oder diese Organisation wurde nicht gefunden.",
+            "not-found-title": "Reservation",
+            "not-found-body": "Diese Reservation oder diese Organisation wurde nicht gefunden.",
             "actions": {
                 "cancel-reservation": "Reservation Stornieren",
                 "confirm-reservation": "Reservation Bestätigen"

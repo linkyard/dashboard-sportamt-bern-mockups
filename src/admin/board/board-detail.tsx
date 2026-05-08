@@ -1,4 +1,4 @@
-import {faCheck, faPaperPlane} from "@fortawesome/free-solid-svg-icons"
+import {faPaperPlane} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {Alert, Button, Snackbar} from "@mui/material"
 import {DatePicker} from "@mui/x-date-pickers/DatePicker"
@@ -11,10 +11,11 @@ import {FieldLabel} from "../../components/field-label"
 import {DetailsTextarea} from "../../components/inputs"
 import {PageTitle} from "../../components/page-title"
 import {UploadSection} from "../../components/upload-section"
-import {getBoardById, type Board} from "../../dummyData"
+import {boardLabelDateRanges, getBoardById, type Board} from "../../dummyData"
 import {parseIsoToDayjs} from "../../util/date"
 import styles from "./board-detail.module.scss"
 import {OrganisationTable} from "./organisation.table"
+import {ReservationStatusPill} from "./reservation/reservation-status.pill"
 import {SendEmailsDialog} from "./send-emails-dialog"
 
 export const BoardDetail: React.FC = () => {
@@ -50,6 +51,11 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
     const uploadLocked = isNew && !newBoardSaved && !selectedFileName
 
     const canSaveNewBoard = name.trim().length > 0 && startDate != null && endDate != null
+
+    const belegungen = (board?.labels ?? []).map((label) => ({
+        label,
+        dateRange: boardLabelDateRanges[label],
+    }))
 
     useEffect(() => {
         return () => {
@@ -96,12 +102,7 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
                         placeholder={isNew ? t("dashboard:board-detail.title") : undefined}
                     />
                 </div>
-                <div className={styles.boardHeaderStatus} role="status" aria-label={t("dashboard:board-detail.status-erstellt")}>
-                    <span>{t("dashboard:board-detail.status-erstellt")}</span>
-                    <span className={styles.boardDetailStatusIconDisc} aria-hidden>
-                        <FontAwesomeIcon icon={faCheck} />
-                    </span>
-                </div>
+                <ReservationStatusPill status="confirmed" label={t("dashboard:board-detail.status-erstellt")} />
             </div>
 
             <div className={styles.formSection}>
@@ -179,7 +180,27 @@ const BoardDetailContent: React.FC<BoardDetailContentProps> = ({board, isNew}) =
             {uploadLocked ? <p className={styles.uploadLockHint}>{t("board-detail.save-to-enable-upload")}</p> : null}
 
             {selectedFileName ? (
-                <OrganisationTable selectedFileName={selectedFileName} />
+                <>
+                    <section className={styles.belegungenSection} aria-label={t("dashboard:board-detail.belegungen.title")}>
+                        <div className={styles.belegungenHeaderRow}>
+                            <PageTitle title={t("dashboard:board-detail.belegungen.title")} isSubTitle />
+                        </div>
+
+                        {belegungen.length ? (
+                            <div className={styles.belegungenChips} role="list">
+                                {belegungen.map((belegung) => (
+                                    <span key={belegung.label} className={styles.belegungChip} role="listitem">
+                                        {belegung.label} {belegung.dateRange}
+                                    </span>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className={styles.belegungenEmpty}>{t("dashboard:board-detail.belegungen.empty")}</p>
+                        )}
+                    </section>
+
+                    <OrganisationTable selectedFileName={selectedFileName} />
+                </>
             ) : uploadLocked ? (
                 <div className={styles.uploadLockWrap} inert>
                     <UploadSection onFilesChange={handleFiles} onLoadTestData={handleLoadTestData} isUploadSuccess={isUploadSuccess} />
